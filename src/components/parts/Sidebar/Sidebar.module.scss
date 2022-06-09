@@ -1,0 +1,34 @@
+.Sidebar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 40px 0;
+  background-color: var(--white);
+}
+.flexContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.logContainer {
+  display: flex;
+  width: 70px;
+  height: 70px;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.flexContainer > *:not(:last-child),
+.flexContainer:not(:last-child) {
+  margin-bottom: 20px;
+}
+.button {
+  width: 70px;
+  height: 70px;
+}
+.button:hover path {
+  fill: var(--primary_blue);
+}

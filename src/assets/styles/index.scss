@@ -24,6 +24,17 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+* {
+  padding: 0;
+}
+
+button {
+  border: none;
+  background: none;
+  cursor: pointer;
+  outline: none;
+}
+
 h1 {
   font-size: 29px;
 }
@@ -36,6 +47,6 @@ h3 {
 h4 {
   font-size: 17px;
 }
-small {
+.small {
   font-size: 12px;
 }

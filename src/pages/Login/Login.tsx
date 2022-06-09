@@ -1,5 +1,5 @@
 import { FC, useState } from 'react'
-import { useHistory } from 'react-router-dom'
+import { Redirect, useHistory } from 'react-router-dom'
 
 import InputBase from 'components/parts/InputBase/InputBase'
 import { loginInputsData } from './loginData'
@@ -23,6 +23,8 @@ const Login: FC = () => {
   const history = useHistory()
   const { setUser } = useAuth()
 
+  const user = { email: sessionStorage.getItem('user') }
+
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value, name } = event.target
 
@@ -39,8 +41,6 @@ const Login: FC = () => {
 
   const loginUser = async (data: ILoginAnswer) => {
     const { userDB } = data
-
-    console.log(userDB)
 
     setUser && (await setUser(userDB))
 
@@ -63,11 +63,14 @@ const Login: FC = () => {
       setLoading(false)
     }
   }
+  if (user?.email) {
+    return <Redirect to={PagesData.AUDIENCE.link} />
+  }
 
   return (
     <div className={styles.login}>
       {isLoading ? (
-        <Loading color="#238afb" />
+        <Loading />
       ) : (
         <form className={styles.loginForm} onSubmit={onSubmitLogin}>
           <img className={styles.logo} src={logo} alt="logo" />

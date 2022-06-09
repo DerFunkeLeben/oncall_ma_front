@@ -10,9 +10,9 @@ interface ILoading {
 }
 const Loading: FC<ILoading> = ({
   classes,
-  width = '6.25rem',
-  height = '6.25rem',
-  color = '#00BFFF',
+  width = '87.5px',
+  height = '87.5px',
+  color = 'var(--primary_blue)',
   radius = 1,
 }) => {
   return (

@@ -1,5 +1,6 @@
 import React from 'react'
 import { Switch, Route } from 'react-router-dom'
+import { Redirect } from 'react-router'
 
 import PAGES from 'pages'
 
@@ -19,6 +20,7 @@ function App() {
             </Route>
           )
         })}
+        <Route render={() => <Redirect to="/" />} />
       </Switch>
     </div>
   )

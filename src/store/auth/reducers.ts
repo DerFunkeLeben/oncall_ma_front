@@ -3,7 +3,9 @@ import { IStoreAuth } from './_data-types'
 import { IActions } from './actions'
 
 const initialState: IStoreAuth = {
-  user: {},
+  user: {
+    email: '',
+  },
 }
 
 const reducer = (state = initialState, { type, payload }: IActions): IStoreAuth => {

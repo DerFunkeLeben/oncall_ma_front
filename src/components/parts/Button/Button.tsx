@@ -7,7 +7,6 @@ export interface IButton extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   text?: string
   modificator?: string | string[]
   textModificator?: string
-  type?: 'submit' | 'reset' | 'button' | undefined
 }
 
 const Button: FC<IButton> = ({ onClick, modificator, children, type, ...props }) => {

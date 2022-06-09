@@ -5,5 +5,5 @@ export enum StoreKeys {
 }
 
 export interface IStoreAuth {
-  user: IUser | Record<string, unknown>
+  user: IUser
 }

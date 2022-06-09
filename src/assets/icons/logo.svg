@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="30" height="30" viewBox="0 0 30 30">
+  <defs>
+    <linearGradient id="linear-gradient" x1="0.475" y1="0.5" x2="-0.139" y2="0.5" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#3d33a3"/>
+      <stop offset="1" stop-color="#8671fb"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient-2" x1="0.768" y1="0.355" x2="-0.524" y2="1.359" gradientUnits="objectBoundingBox">
+      <stop offset="0.122" stop-color="#3d33a3"/>
+      <stop offset="0.513" stop-color="#8671fb"/>
+    </linearGradient>
+  </defs>
+  <g id="logo" transform="translate(-774.179 -306.198)">
+    <circle id="Эллипс_1" data-name="Эллипс 1" cx="15" cy="15" r="15" transform="translate(774.179 306.198)" fill="url(#linear-gradient)"/>
+    <path id="Контур_1" data-name="Контур 1" d="M792.141,306.275v22.174H777.982a15,15,0,1,0,14.159-22.174Z" transform="translate(-1.957 -0.039)" fill="url(#linear-gradient-2)"/>
+    <rect id="Прямоугольник_3" data-name="Прямоугольник 3" width="17.308" height="14.423" rx="7.212" transform="translate(780.525 313.987)" fill="#fff"/>
+    <path id="Контур_2" data-name="Контур 2" d="M795.187,337.1l-7.933,7.211h7.933Z" transform="translate(-6.729 -15.906)" fill="#fff"/>
+  </g>
+</svg>

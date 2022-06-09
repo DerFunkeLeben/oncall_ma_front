@@ -14,6 +14,7 @@ const useAuth = () => {
 
   const setUser = useCallback(
     (useData: IStoreAuth[StoreKeys.user]) => {
+      sessionStorage.setItem('user', useData?.email)
       dispatch(ActionCreator.setUser(useData))
     },
     [dispatch]
