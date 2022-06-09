@@ -1,0 +1,11 @@
+{
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true, 
+    "source.fixAll.stylelint": true 
+  },
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "stylelint.validate": ["css", "scss"],
+  "[scss]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+}

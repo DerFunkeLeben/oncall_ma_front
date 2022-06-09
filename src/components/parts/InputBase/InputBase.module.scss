@@ -1,0 +1,40 @@
+/*.inputLabel {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: var(--black);
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.0625rem;
+}*/
+
+input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 1rem 1.43rem;
+  border: var(--primary_blue_light) 0.0714rem solid;
+  background: var(--white);
+  border-radius: 0.57rem;
+  font-family: 'Inter', sans-serif;
+
+  &:focus {
+    border: var(--primary_blue_light) 0.0714rem solid;
+    outline: none;
+  }
+}
+
+.inputError {
+  border-color: var(--error);
+}
+
+input::placeholder {
+  color: var(--primary_gray);
+}
+
+.wrapper {
+  position: relative;
+}
+
+.disabled {
+  filter: opacity(0.4);
+  pointer-events: none;
+}

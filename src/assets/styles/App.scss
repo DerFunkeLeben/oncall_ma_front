@@ -1,0 +1,12 @@
+.App {
+  display: grid;
+  width: 100%;
+  min-height: 100%;
+  background-color: var(--backgroud);
+}
+
+.App.noFocusHighlight :not(input) {
+  &:focus {
+    outline: none;
+  }
+}

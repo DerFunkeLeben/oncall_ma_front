@@ -1,0 +1,21 @@
+.theme_transparent {
+  border: none;
+  background: none;
+  box-shadow: none;
+  color: var(--primary_blue);
+  outline: none;
+  text-decoration: underline;
+
+  &:hover {
+    background: none;
+    color: var(--primary_blue_2);
+    transition: color 0.3s ease;
+  }
+
+  &:disabled {
+    border: none;
+    background: none;
+    box-shadow: none;
+    outline: none;
+  }
+}
