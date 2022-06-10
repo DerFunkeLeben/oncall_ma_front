@@ -1,4 +1,14 @@
-.audience {
+.page {
   display: grid;
   grid-template-columns: 70px auto;
+}
+.pageContent {
+  padding: 60px;
+}
+
+.head {
+  .title {
+    color: #37336e;
+    font-weight: 600;
+  }
 }

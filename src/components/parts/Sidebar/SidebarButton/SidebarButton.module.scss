@@ -1,0 +1,38 @@
+.Button {
+  display: flex;
+  width: 70px;
+  height: 70px;
+  align-items: center;
+  justify-content: center;
+}
+
+.Button:hover {
+  background-color: var(--primary_blue_light);
+}
+.Button:active path {
+  fill: var(--primary_blue_2);
+}
+
+.Button_active {
+  position: relative;
+  color: var(--black);
+
+  &::after {
+    position: absolute;
+    right: 0;
+    width: 3px;
+    height: 36px;
+    background-color: var(--primary_blue);
+    border-radius: 3px;
+    content: '';
+  }
+
+  path {
+    fill: var(--primary_blue);
+  }
+}
+
+.icon {
+  width: 30px;
+  height: 30px;
+}

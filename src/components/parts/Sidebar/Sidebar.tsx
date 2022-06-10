@@ -11,6 +11,43 @@ import {
   IconJourney,
   IconBell,
 } from 'assets/icons'
+import { PagesData } from 'constants/url'
+import SidebarButton from './SidebarButton/SidebarButton'
+
+const buttons = [
+  {
+    Icon: IconAudit,
+    name: PagesData.AUDIENCE.name,
+    path: PagesData.AUDIENCE.link,
+  },
+  {
+    Icon: IconFiles,
+    name: PagesData.CONTENT.name,
+    path: PagesData.CONTENT.link,
+  },
+  {
+    Icon: IconAnalytics,
+    name: PagesData.ANALYTICS.name,
+    path: PagesData.ANALYTICS.link,
+  },
+  {
+    Icon: IconJourney,
+    name: PagesData.SCENARIOS.name,
+    path: PagesData.SCENARIOS.link,
+  },
+]
+const buttonsBottomMenu = [
+  {
+    Icon: IconBell,
+    name: PagesData.AUDIENCE.name,
+    path: '/',
+  },
+  {
+    Icon: IconProfile,
+    name: PagesData.CONTENT.name,
+    path: '/',
+  },
+]
 
 const Sidebar: FC = () => {
   return (
@@ -19,26 +56,16 @@ const Sidebar: FC = () => {
         <IconLogo className={styles.icon} />
       </div>
       <div className={cx(styles.flexContainer)}>
-        <button className={styles.button}>
-          <IconAudit className={styles.icon} />
-        </button>
-        <button className={styles.button}>
-          <IconFiles className={styles.icon} />
-        </button>
-        <button className={styles.button}>
-          <IconJourney className={styles.icon} />
-        </button>
-        <button className={styles.button}>
-          <IconAnalytics className={styles.icon} />
-        </button>
+        {buttons.map((element) => {
+          const { name, Icon, path } = element
+          return <SidebarButton name={name} Icon={Icon} path={path} key={name} />
+        })}
       </div>
       <div className={cx(styles.flexContainer)}>
-        <button className={styles.button}>
-          <IconBell className={styles.icon} />
-        </button>
-        <button className={styles.button}>
-          <IconProfile className={styles.icon} />
-        </button>
+        {buttonsBottomMenu.map((element) => {
+          const { name, Icon, path } = element
+          return <SidebarButton name={name} Icon={Icon} path={path} key={name} />
+        })}
       </div>
     </div>
   )

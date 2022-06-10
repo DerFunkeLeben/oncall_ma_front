@@ -29,6 +29,6 @@
   width: 70px;
   height: 70px;
 }
-.button:hover path {
-  fill: var(--primary_blue);
+.button:hover {
+  background-color: var(--primary_blue_light);
 }
