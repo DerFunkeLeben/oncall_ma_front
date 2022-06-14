@@ -7,10 +7,10 @@
 }
 
 .Button:hover {
-  background-color: var(--primary_blue_light);
+  background-color: var(--blue_100);
 }
 .Button:active path {
-  fill: var(--primary_blue_2);
+  fill: var(--blue_500);
 }
 
 .Button_active {
@@ -22,13 +22,13 @@
     right: 0;
     width: 3px;
     height: 36px;
-    background-color: var(--primary_blue);
+    background-color: var(--blue_400);
     border-radius: 3px;
     content: '';
   }
 
   path {
-    fill: var(--primary_blue);
+    fill: var(--blue_400);
   }
 }
 

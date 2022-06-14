@@ -8,7 +8,11 @@
 
 .head {
   .title {
-    color: #37336e;
+    margin-bottom: 30px;
+    color: var(--blue_600);
     font-weight: 600;
+  }
+  .subTitle {
+    color: var(--blue_600);
   }
 }

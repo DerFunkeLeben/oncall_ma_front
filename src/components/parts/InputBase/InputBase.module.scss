@@ -2,13 +2,13 @@ input {
   width: 100%;
   box-sizing: border-box;
   padding: 14px 20px;
-  border: var(--primary_blue_light) 1px solid;
+  border: var(--blue_100) 1px solid;
   background: var(--white);
   border-radius: 8px;
   font-family: 'Inter', sans-serif;
 
   &:focus {
-    border: var(--primary_blue_light) 1px solid;
+    border: var(--blue_100) 1px solid;
     outline: none;
   }
 }
@@ -18,7 +18,7 @@ input {
 }
 
 input::placeholder {
-  color: var(--primary_gray);
+  color: var(--gray_400);
 }
 
 .wrapper {

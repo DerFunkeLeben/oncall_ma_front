@@ -5,7 +5,7 @@
   justify-content: center;
   padding: 13px 32px;
   border: none;
-  background: var(--primary_blue);
+  background: var(--blue_400);
   border-radius: 16px;
   color: var(--white);
   cursor: pointer;
@@ -16,12 +16,12 @@
   transition: background-color 0.3s ease;
 
   &:hover {
-    background-color: var(--primary_blue_2);
+    background-color: var(--blue_500);
     transition: background-color 0.3s ease;
   }
 
   &:disabled {
-    background-color: var(--primary_gray_light);
+    background-color: var(--gray_200);
     pointer-events: none;
   }
 }

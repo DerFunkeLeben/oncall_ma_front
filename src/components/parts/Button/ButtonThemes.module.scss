@@ -2,13 +2,13 @@
   border: none;
   background: none;
   box-shadow: none;
-  color: var(--primary_blue);
+  color: var(--blue_400);
   outline: none;
   text-decoration: underline;
 
   &:hover {
     background: none;
-    color: var(--primary_blue_2);
+    color: var(--blue_500);
     transition: color 0.3s ease;
   }
 
@@ -17,5 +17,21 @@
     background: none;
     box-shadow: none;
     outline: none;
+  }
+}
+.theme_secondary {
+  border: 1px solid var(--blue_300);
+  background: var(--white);
+  color: var(--blue_300);
+
+  &:hover {
+    background-color: var(--blue_300);
+    color: var(--white);
+    transition: background-color 0.3s ease;
+  }
+
+  &:disabled {
+    background-color: var(--gray_200);
+    pointer-events: none;
   }
 }

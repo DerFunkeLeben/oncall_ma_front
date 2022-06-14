@@ -5,7 +5,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: var(--backgroud);
+  background-color: var(--gray_100);
 }
 .logo {
   width: 308px;
@@ -30,6 +30,6 @@
   margin-top: 60px;
 }
 .btnForget {
-  color: var(--primary_blue);
+  color: var(--blue_400);
   text-decoration: underline;
 }
