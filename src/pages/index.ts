@@ -2,7 +2,7 @@
 import { PagesData } from 'constants/url'
 
 import Login from './Login/Login'
-import Audience from './Audience/Audience'
+import Audiences from './Audiences/Audiences'
 import Content from './Content/Content'
 import Analytics from './Analytics/Analytics'
 import Scenarios from './Scenarios/Scenarios'
@@ -14,8 +14,8 @@ const PAGES = [
     ...PagesData.LOGIN,
   },
   {
-    Component: Audience,
-    ...PagesData.AUDIENCE,
+    Component: Audiences,
+    ...PagesData.AUDIENCES,
   },
   {
     Component: Content,

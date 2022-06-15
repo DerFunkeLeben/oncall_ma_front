@@ -13,10 +13,10 @@ function App() {
     <div className="App">
       <Switch>
         {PAGES.map((page) => {
-          const { Component, link } = page
+          const { Component, link, route, ...rest } = page
           return (
-            <Route path={link} exact key={link}>
-              <Component />
+            <Route path={route} exact key={link}>
+              <Component {...rest} route={route} link={link} />
             </Route>
           )
         })}

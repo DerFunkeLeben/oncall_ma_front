@@ -17,8 +17,8 @@ import SidebarButton from './SidebarButton/SidebarButton'
 const buttons = [
   {
     Icon: IconAudit,
-    name: PagesData.AUDIENCE.name,
-    path: PagesData.AUDIENCE.link,
+    name: PagesData.AUDIENCES.name,
+    path: PagesData.AUDIENCES.link,
   },
   {
     Icon: IconFiles,
@@ -39,7 +39,7 @@ const buttons = [
 const buttonsBottomMenu = [
   {
     Icon: IconBell,
-    name: PagesData.AUDIENCE.name,
+    name: PagesData.AUDIENCES.name,
     path: '/',
   },
   {

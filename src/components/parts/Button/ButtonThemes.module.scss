@@ -9,7 +9,7 @@
   &:hover {
     background: none;
     color: var(--blue_500);
-    transition: color 0.3s ease;
+    transition: color 0.2s ease;
   }
 
   &:disabled {
@@ -20,14 +20,14 @@
   }
 }
 .theme_secondary {
-  border: 1px solid var(--blue_300);
+  padding: 11px 32px;
+  border: 2px solid var(--blue_300);
   background: var(--white);
   color: var(--blue_300);
 
   &:hover {
     background-color: var(--blue_300);
     color: var(--white);
-    transition: background-color 0.3s ease;
   }
 
   &:disabled {

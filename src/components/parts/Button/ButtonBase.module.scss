@@ -13,11 +13,11 @@
   font-size: 14px;
   font-weight: 500;
   text-align: center;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.2s ease;
 
   &:hover {
     background-color: var(--blue_500);
-    transition: background-color 0.3s ease;
+    transition: background-color 0.2s ease;
   }
 
   &:disabled {

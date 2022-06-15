@@ -44,7 +44,7 @@ const Login: FC = () => {
 
     setUser && (await setUser(userDB))
 
-    history.push(PagesData.AUDIENCE.link)
+    history.push(PagesData.AUDIENCES.link)
   }
 
   const onSubmitLogin = async (event: React.FormEvent) => {
@@ -64,7 +64,7 @@ const Login: FC = () => {
     }
   }
   if (user?.email) {
-    return <Redirect to={PagesData.AUDIENCE.link} />
+    return <Redirect to={PagesData.AUDIENCES.link} />
   }
 
   return (

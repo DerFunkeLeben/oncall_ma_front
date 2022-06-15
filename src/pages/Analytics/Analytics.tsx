@@ -1,13 +1,17 @@
 import { FC } from 'react'
+import cx from 'classnames'
 
 import styles from './Analytics.module.scss'
-import Sidebar from 'components/parts/Sidebar/Sidebar'
+import Sidebar from 'components/Sidebar/Sidebar'
+import PageHead from 'components/PageHead/PageHead'
 
 const Analytics: FC = () => {
   return (
     <div className={styles.page}>
       <Sidebar />
-      Analytics
+      <div className={styles.pageContent}>
+        <PageHead title="Аналитика" />
+      </div>
     </div>
   )
 }

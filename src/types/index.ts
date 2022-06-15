@@ -1,6 +1,7 @@
 export interface IPageData {
   link: string
   name: string
+  route: string[]
 }
 
 export interface IPagesData {

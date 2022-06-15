@@ -1,0 +1,23 @@
+.head {
+  display: flex;
+  min-height: 110px;
+  flex-direction: row;
+  justify-content: space-between;
+
+  .title {
+    margin-bottom: 30px;
+    color: var(--blue_600);
+    font-weight: 600;
+  }
+  .subTitle {
+    color: var(--blue_600);
+  }
+  .controlsBlock {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+  }
+  .controlsBlock > *:not(:last-child) {
+    margin-right: 30px;
+  }
+}
