@@ -15,9 +15,9 @@ const AllAudiences: FC<IPageData> = () => {
   const goToSubPage = (name: string) => () => history.push(`${url}/${name}`)
 
   const data = [
-    { name: 'Из CRM', action: goToSubPage('1') },
-    { name: 'Из готовой аудитории', action: goToSubPage('2') },
-    { name: 'Новая', action: goToSubPage('3') },
+    { name: 'Из CRM', action: goToSubPage('fakeID') },
+    { name: 'Из готовой аудитории', action: () => console.log('Попап из готовой') },
+    { name: 'Новая', action: goToSubPage('create_new') },
   ]
 
   return (

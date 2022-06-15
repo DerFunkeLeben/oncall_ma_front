@@ -1,6 +1,6 @@
 import { IPagesData } from 'types'
 
-export const audencesRoutes = ['/audences', '/audences/:audienceid']
+export const audencesRoutes = ['/audences', '/audences/:audienceid', '/audences/create_new']
 export const contentRoutes = ['/content']
 export const analyticsRoutes = ['/analytics']
 export const scenariosRoutes = ['/scenarios']
@@ -18,6 +18,11 @@ export const PagesData: IPagesData = {
   },
   AUDIENCE: {
     link: audencesRoutes[1],
+    route: audencesRoutes,
+    name: 'Аудитория',
+  },
+  CREATE_AUDIENCE: {
+    link: audencesRoutes[2],
     route: audencesRoutes,
     name: 'Аудитория',
   },

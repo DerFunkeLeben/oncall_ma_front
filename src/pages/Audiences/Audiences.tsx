@@ -8,12 +8,17 @@ import { IPageData } from 'types'
 
 import AllAudiences from './AllAudiences/AllAudiences'
 import OneAudience from './OneAudience/OneAudience'
+import CreateAudience from './CreateAudience/CreateAudience'
 import { PagesData } from 'constants/url'
 
 const AUDIENCE_PAGES = [
   {
     Component: AllAudiences,
     ...PagesData.AUDIENCES,
+  },
+  {
+    Component: CreateAudience,
+    ...PagesData.CREATE_AUDIENCE,
   },
   {
     Component: OneAudience,
