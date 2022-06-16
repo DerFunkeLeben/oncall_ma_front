@@ -2,13 +2,13 @@
   border: none;
   background: none;
   box-shadow: none;
-  color: var(--blue_400);
+  color: var(--blue_6);
   outline: none;
   text-decoration: underline;
 
   &:hover {
     background: none;
-    color: var(--blue_500);
+    color: var(--blue_7);
     transition: color 0.2s ease;
   }
 
@@ -21,17 +21,17 @@
 }
 .theme_secondary {
   padding: 11px 32px;
-  border: 2px solid var(--blue_300);
+  border: 2px solid var(--blue_5);
   background: var(--white);
-  color: var(--blue_300);
+  color: var(--blue_5);
 
   &:hover {
-    background-color: var(--blue_300);
+    background-color: var(--blue_5);
     color: var(--white);
   }
 
   &:disabled {
-    background-color: var(--gray_200);
+    background-color: var(--gray_2);
     pointer-events: none;
   }
 }

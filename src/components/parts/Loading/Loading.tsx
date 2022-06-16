@@ -12,7 +12,7 @@ const Loading: FC<ILoading> = ({
   classes,
   width = '87.5px',
   height = '87.5px',
-  color = 'var(--blue_400)',
+  color = 'var(--blue_6)',
   radius = 1,
 }) => {
   return (

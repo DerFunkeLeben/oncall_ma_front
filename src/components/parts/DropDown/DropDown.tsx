@@ -6,10 +6,10 @@ import useClickOutside from 'hooks/useClickOutside'
 
 interface IDropDown {
   name: string
-  data: { name: string; action: () => void }[]
+  config: { name: string; action: () => void }[]
 }
 
-const DropDown: FC<IDropDown> = ({ name, data }) => {
+const DropDown: FC<IDropDown> = ({ name, config }) => {
   const [isDropdownOpen, setDropdownState] = useState(false)
   const rootRef = useRef<HTMLDivElement>(null)
 
@@ -24,7 +24,7 @@ const DropDown: FC<IDropDown> = ({ name, data }) => {
       </Button>
       <div className={styles.dropContainer}>
         {isDropdownOpen &&
-          data.map((element) => (
+          config.map((element) => (
             <button className={styles.dropElement} key={element.name} onClick={element.action}>
               {element.name}
             </button>
