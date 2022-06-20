@@ -1,5 +1,4 @@
 import { FC } from 'react'
-import cx from 'classnames'
 
 import styles from './Analytics.module.scss'
 import Sidebar from 'components/Sidebar/Sidebar'

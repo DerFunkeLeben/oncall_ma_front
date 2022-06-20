@@ -1,33 +1,27 @@
-import { FC, useState } from 'react'
+import { FC, useState, RefObject } from 'react'
 import cx from 'classnames'
 
 import styles from './Table.module.scss'
+
+import { IconArrowDown } from 'assets/icons'
+
 import { ASCENDING, DESCENDING } from 'constants/dictionary'
-import Loading from 'components/parts/Loading/Loading'
 
-interface ITableColumnConfig {
-  id: string
-  name: string
-  type: string
+interface ITable {
+  headers: string[]
+  innerRef?: RefObject<HTMLDivElement>
+  children: React.ReactNode[] | React.ReactNode
 }
 
-interface ITableDataRow {
-  [key: string]: string
-}
-
-interface Table {
-  config: ITableColumnConfig[]
-  data?: ITableDataRow[]
-  getData: (query: string) => void
-}
-
-const Table: FC<Table> = ({ config, data }) => {
+const Table: FC<ITable> = ({ children, innerRef, headers }) => {
   const [sorting, setSorting] = useState({
-    columnNumber: 0,
-    direction: ASCENDING,
+    columnNumber: 4,
+    direction: DESCENDING,
   })
 
   const changeSorting = (index: number) => {
+    if (index === 0) return
+
     const { columnNumber, direction } = sorting
 
     const itIsSecondClick = columnNumber === index && direction === ASCENDING
@@ -41,23 +35,30 @@ const Table: FC<Table> = ({ config, data }) => {
 
   return (
     <div className={styles.table}>
-      <div className={cx(styles.head, styles.row)}>
-        {config.map((element, index) => {
-          const { id, name } = element
-          const sortDirection = index === sorting.columnNumber ? sorting.direction : null
-          return (
-            <button
-              key={id}
-              className={cx(styles.cell, sortDirection)}
-              onClick={() => changeSorting(index)}
-            >
-              {name}
-            </button>
-          )
-        })}
+      <div className={styles.head}>
+        <div className={styles.tableRow}>
+          {headers.map((column, index) => {
+            const sortDirection = index === sorting.columnNumber ? sorting.direction : null
+            return (
+              <div
+                key={column}
+                className={cx(styles.headCell, 'text_1_hl_1')}
+                onClick={() => changeSorting(index)}
+              >
+                {column}
+                {sortDirection && (
+                  <IconArrowDown className={cx(styles.iconArrow, styles[sortDirection])} />
+                )}
+              </div>
+            )
+          })}
+        </div>
       </div>
-      <div className={styles.body}>{data ? <div></div> : <Loading />}</div>
+      <div className={styles.tbody} ref={innerRef}>
+        {children}
+      </div>
     </div>
   )
 }
+
 export default Table

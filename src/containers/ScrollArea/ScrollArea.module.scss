@@ -1,0 +1,83 @@
+.scrollArea :global {
+  .simplebar-content {
+    &::-webkit-scrollbar {
+      display: none;
+      width: 0;
+      background: transparent;
+    }
+  }
+
+  .simplebar-content-wrapper {
+    outline: none;
+    &::-webkit-scrollbar {
+      display: none;
+      width: 0;
+      background: transparent;
+    }
+  }
+
+  .simplebar-scrollbar {
+    &::before {
+      right: 0;
+      left: 0;
+      background-color: #8a9fb1;
+    }
+  }
+
+  .simplebar-scrollbar.simplebar-visible::before {
+    opacity: 1;
+  }
+
+  .simplebar-track.simplebar-vertical {
+    z-index: 0;
+    right: 0.3rem;
+    width: 0.3rem;
+  }
+
+  .simplebar-track.simplebar-horizontal {
+    z-index: 0;
+    height: 0.56rem;
+    margin: 0 1.25rem;
+  }
+
+  .simplebar-track.simplebar-horizontal .simplebar-scrollbar {
+    height: 0.375rem;
+
+    &::before {
+      height: 100%;
+    }
+  }
+
+  .simplebar-track {
+    border-radius: 6.1875rem;
+  }
+
+  .simplebar-scrollbar {
+    &::before {
+      left: auto;
+      width: 0.3rem;
+      transform-origin: right center;
+      transition: width 0.3s, opacity 0.3s;
+    }
+  }
+
+  .simplebar-track.simplebar-vertical {
+    bottom: 1rem;
+    width: 1rem;
+    height: 100%;
+    padding-bottom: 0.2rem;
+    border-radius: 0;
+  }
+
+  .simplebar-hover {
+    .simplebar-scrollbar::before {
+      width: 62.5%;
+    }
+  }
+
+  @media (min-width: 375px) {
+    .simplebar-track.simplebar-horizontal {
+      margin: 0 1.5rem;
+    }
+  }
+}

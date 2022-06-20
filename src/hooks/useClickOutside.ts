@@ -23,7 +23,7 @@ const useClickOutside = (
     return () => {
       document.removeEventListener('click', onClick)
     }
-  }, [isOpen, handler])
+  }, [isOpen, handler, ref])
 }
 
 export default useClickOutside

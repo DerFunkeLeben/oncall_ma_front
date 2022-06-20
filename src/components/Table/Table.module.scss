@@ -1,18 +1,69 @@
-.table {
-  width: 100%;
+.wrapper {
+  display: flex;
+  overflow: hidden;
   height: 100%;
-  flex: 1;
+  flex-direction: column;
+  background: var(--white);
+  border-radius: 10px;
 }
-.row {
+
+.table {
+  display: table;
+  width: 100%;
+  min-width: 100%;
+}
+
+.head {
+  position: sticky;
+  top: 0;
+  display: table-header-group;
   height: 50px;
-}
-.head {
   background-color: var(--blue_3);
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
 }
-.head {
-  .cell:hover {
-    background-color: var(--blue_4);
+
+.tableRow {
+  display: table-row;
+}
+
+.headCell {
+  display: table-cell;
+  padding: 0 20px;
+  cursor: pointer;
+  user-select: none;
+  vertical-align: middle;
+}
+
+.headCell:hover {
+  background-color: var(--blue_4);
+}
+
+.iconArrow {
+  position: absolute;
+  top: 0;
+  height: 50px;
+  margin-left: 10px;
+}
+.ascending {
+  transform: scaleY(-1);
+}
+/*
+.descending::after {
+  display: block;
+  width: 10px;
+  height: 10px;
+  background-image: url('/assets/icons/arrow_down.svg');
+  background-repeat: no-repeat;
+  content: '';
+}
+*/
+
+.tbody {
+  display: table-row-group;
+}
+
+.scroll :global {
+  .simplebar-track.simplebar-vertical {
+    top: 50px;
+    height: calc(100% - 50px);
   }
 }
