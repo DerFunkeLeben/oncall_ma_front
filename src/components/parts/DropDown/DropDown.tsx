@@ -1,35 +1,52 @@
 import { FC, useState, useRef } from 'react'
+import cx from 'classnames'
+import { createPortal } from 'react-dom'
 
+import tableStyles from 'components/Table/TableBase.module.scss'
 import styles from './DropDown.module.scss'
-import Button from 'components/parts/Button/Button'
-import useClickOutside from 'hooks/useClickOutside'
 
-interface IDropDown {
-  name: string
-  config: { name: string; action: () => void }[]
+interface DropDown {
+  id: string
+  children: React.ReactNode
 }
 
-const DropDown: FC<IDropDown> = ({ name, config }) => {
-  const [isDropdownOpen, setDropdownState] = useState(false)
-  const rootRef = useRef<HTMLDivElement>(null)
+const DropDown: FC<DropDown> = ({ id, children }) => {
+  const [isMenuOpened, setMenuOpened] = useState(false)
+  const dotsRef = useRef(null)
 
-  const handleToggleDropdown = () => setDropdownState(!isDropdownOpen)
+  const togglePopup = () => setMenuOpened(!isMenuOpened)
+  const closePopup = () => setMenuOpened(false)
 
-  useClickOutside(isDropdownOpen, rootRef, handleToggleDropdown)
+  const rect = (dotsRef.current as any)?.getBoundingClientRect()
+
+  const handleClick = async (e: any) => {
+    const actionLabel = e.target?.closest('[data-label]')?.dataset?.label
+
+    if (!actionLabel) return
+    setMenuOpened(false)
+  }
 
   return (
-    <div className={styles.dropdown} ref={rootRef}>
-      <Button onClick={handleToggleDropdown}>
-        <p>{name}</p>
-      </Button>
-      <div className={styles.dropContainer}>
-        {isDropdownOpen &&
-          config.map((element) => (
-            <button className={styles.dropElement} key={element.name} onClick={element.action}>
-              {element.name}
-            </button>
-          ))}
-      </div>
+    <div
+      className={cx(tableStyles.cell, styles.dotsCell)}
+      onMouseLeave={closePopup}
+      onClick={handleClick}
+    >
+      <div onClick={togglePopup}>{/* <DotsIcon ref={dotsRef} /> */}</div>
+      {isMenuOpened &&
+        createPortal(
+          <div
+            className={styles.taskHoverBlock}
+            style={{
+              top: rect?.top,
+              left: rect?.left,
+            }}
+            data-id={id}
+          >
+            {children}
+          </div>,
+          document.body
+        )}
     </div>
   )
 }

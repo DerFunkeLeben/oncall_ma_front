@@ -1,0 +1,24 @@
+.dropdown {
+  position: relative;
+}
+.dropContainer {
+  position: absolute;
+  z-index: 10000;
+  top: calc(100% + 10px);
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 10px 0;
+  background-color: var(--white);
+  border-radius: 10px;
+}
+.dropElement {
+  padding: 10px 22px;
+  text-align: left;
+  &:hover {
+    background-color: var(--blue_1);
+  }
+  &:active {
+    background-color: var(--blue_2);
+  }
+}
