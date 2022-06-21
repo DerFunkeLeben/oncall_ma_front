@@ -1,53 +1,42 @@
 import { FC, useState, useRef } from 'react'
-import cx from 'classnames'
 import { createPortal } from 'react-dom'
 
-import tableStyles from 'components/Table/TableBase.module.scss'
 import styles from './DropDown.module.scss'
 
 interface DropDown {
-  id: string
   children: React.ReactNode
+  triggerNode: React.ReactNode
 }
 
-const DropDown: FC<DropDown> = ({ id, children }) => {
+const DropDown: FC<DropDown> = ({ children, triggerNode }) => {
   const [isMenuOpened, setMenuOpened] = useState(false)
-  const dotsRef = useRef(null)
+  const dotsRef = useRef<HTMLElement>(null)
 
   const togglePopup = () => setMenuOpened(!isMenuOpened)
   const closePopup = () => setMenuOpened(false)
 
-  const rect = (dotsRef.current as any)?.getBoundingClientRect()
-
-  const handleClick = async (e: any) => {
-    const actionLabel = e.target?.closest('[data-label]')?.dataset?.label
-
-    if (!actionLabel) return
-    setMenuOpened(false)
+  const rect = dotsRef.current?.getBoundingClientRect()
+  const gap = 10
+  const ddStyle = rect && {
+    top: rect.top,
+    left: rect.left,
+    width: rect.width,
+    paddingTop: rect.height + gap,
   }
 
   return (
-    <div
-      className={cx(tableStyles.cell, styles.dotsCell)}
-      onMouseLeave={closePopup}
-      onClick={handleClick}
-    >
-      <div onClick={togglePopup}>{/* <DotsIcon ref={dotsRef} /> */}</div>
+    <>
+      <div onClick={togglePopup} ref={dotsRef as React.RefObject<HTMLDivElement>}>
+        {triggerNode}
+      </div>
       {isMenuOpened &&
         createPortal(
-          <div
-            className={styles.taskHoverBlock}
-            style={{
-              top: rect?.top,
-              left: rect?.left,
-            }}
-            data-id={id}
-          >
+          <div onMouseLeave={closePopup} className={styles.taskHoverBlock} style={ddStyle}>
             {children}
           </div>,
           document.body
         )}
-    </div>
+    </>
   )
 }
 
