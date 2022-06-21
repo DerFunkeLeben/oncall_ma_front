@@ -6,6 +6,7 @@ import { ReactComponent as IconJourney } from './journey.svg'
 import { ReactComponent as IconLogo } from './logo.svg'
 import { ReactComponent as IconProfile } from './profile.svg'
 import { ReactComponent as IconArrowDown } from './arrow_down.svg'
+import { ReactComponent as IconCheck } from './check.svg'
 
 export {
   IconAnalytics,
@@ -16,4 +17,5 @@ export {
   IconLogo,
   IconProfile,
   IconArrowDown,
+  IconCheck,
 }

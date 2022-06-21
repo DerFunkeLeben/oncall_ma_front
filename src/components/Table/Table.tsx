@@ -6,7 +6,6 @@ import styles from './Table.module.scss'
 import { IconArrowDown } from 'assets/icons'
 
 import { ASCENDING, DESCENDING } from 'constants/dictionary'
-
 interface ITable {
   headers: string[]
   innerRef?: RefObject<HTMLDivElement>

@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { useHistory, useRouteMatch } from 'react-router-dom'
 import cx from 'classnames'
 
@@ -8,11 +8,13 @@ import DropDown from 'components/parts/DropDown/DropDown'
 import ScrollTable from 'components/Table/ScrollTable'
 
 import styles from './AllAudiences.module.scss'
-import buttonStyles from '../../../components/parts/Button/ButtonThemes.module.scss'
+import buttonStyles from 'components/parts/Button/ButtonThemes.module.scss'
 import tableStyles from 'components/Table/TableBase.module.scss'
 import ddStyles from 'components/parts/DropDown/DropDown.module.scss'
 
 import { IPageData } from 'types'
+
+import { IconCheck } from 'assets/icons'
 
 const header = ['', 'ID', 'Название', 'Количество контактов', 'Дата создания', 'Дата изменения']
 const data = [
@@ -541,6 +543,21 @@ const AllAudiences: FC<IPageData> = () => {
     console.log('asd')
   }
 
+  const [checkedList, setCheckedList] = useState<number[]>([])
+
+  const isItChecked = (id: number) => {
+    return checkedList.includes(id)
+  }
+
+  const checkMenuIsOpen = () => checkedList.length > 0
+
+  const toggleCheck = (id: number) => {
+    if (isItChecked(id)) {
+      const newChecked = checkedList.filter((el) => el !== id)
+      setCheckedList(newChecked)
+    } else setCheckedList([...checkedList, id])
+  }
+
   return (
     <div className={styles.pageContent}>
       <PageHead title="Аудитории" subtitle="Вы можете создать или редактировать аудиторию">
@@ -570,9 +587,14 @@ const AllAudiences: FC<IPageData> = () => {
       <ScrollTable headers={header} handleScrollLimit={() => console.log('handleScrollLimit')}>
         {data.map((dataRow, index) => {
           const { id, name, contact_count, create_date, last_update_date } = dataRow
+          const checked = isItChecked(index)
           return (
-            <div className={tableStyles.row} key={id + index}>
-              <div className="check"></div>
+            <div className={tableStyles.row} key={id + index} onClick={() => toggleCheck(index)}>
+              <div className="checkContainer">
+                <div className={cx(tableStyles.check, { [tableStyles.checked]: checked })}>
+                  {checked && <IconCheck />}
+                </div>
+              </div>
               <p className={cx(tableStyles.cell, 'text_1')}>{id}</p>
               <p className={cx(tableStyles.cell)}>
                 <button className={'text_1_hl_2'} onClick={openAudience}>
