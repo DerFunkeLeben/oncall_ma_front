@@ -10,6 +10,7 @@ interface ITable {
   headers: string[]
   innerRef?: RefObject<HTMLDivElement>
   children: React.ReactNode[] | React.ReactNode
+  checkMenu?: React.ReactNode
 }
 
 const Table: FC<ITable> = ({ children, innerRef, headers }) => {

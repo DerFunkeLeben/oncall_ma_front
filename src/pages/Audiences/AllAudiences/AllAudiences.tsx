@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react'
+import { FC, useEffect, useState, useRef } from 'react'
 import { useHistory, useRouteMatch } from 'react-router-dom'
 import cx from 'classnames'
 
@@ -15,535 +15,21 @@ import ddStyles from 'components/parts/DropDown/DropDown.module.scss'
 import { IPageData } from 'types'
 
 import { IconCheck } from 'assets/icons'
+import { data } from './data'
 
 const header = ['', 'ID', 'Название', 'Количество контактов', 'Дата создания', 'Дата изменения']
-const data = [
-  {
-    id: 2145,
-    name: 'Терапевты март 2022',
-    contact_count: '540',
-    create_date: '26.02.2022',
-    last_update_date: '27.02.2022',
-  },
-  {
-    id: 2145,
-    name: 'Терапевты март 2022',
-    contact_count: '540',
-    create_date: '26.02.2022',
-    last_update_date: '27.02.2022',
-  },
-  {
-    id: 2145,
-    name: 'Терапевты март 2022',
-    contact_count: '540',
-    create_date: '26.02.2022',
-    last_update_date: '27.02.2022',
-  },
-  {
-    id: 2145,
-    name: 'Терапевты март 2022',
-    contact_count: '540',
-    create_date: '26.02.2022',
-    last_update_date: '27.02.2022',
-  },
-  {
-    id: 2145,
-    name: 'Терапевты март 2022',
-    contact_count: '540',
-    create_date: '26.02.2022',
-    last_update_date: '27.02.2022',
-  },
-  {
-    id: 2145,
-    name: 'Терапевты март 2022',
-    contact_count: '540',
-    create_date: '26.02.2022',
-    last_update_date: '27.02.2022',
-  },
-  {
-    id: 2145,
-    name: 'Терапевты март 2022',
-    contact_count: '540',
-    create_date: '26.02.2022',
-    last_update_date: '27.02.2022',
-  },
-  {
-    id: 2145,
-    name: 'Терапевты март 2022',
-    contact_count: '540',
-    create_date: '26.02.2022',
-    last_update_date: '27.02.2022',
-  },
-  {
-    id: 2145,
-    name: 'Терапевты март 2022',
-    contact_count: '540',
-    create_date: '26.02.2022',
-    last_update_date: '27.02.2022',
-  },
-  {
-    id: 2145,
-    name: 'Терапевты март 2022',
-    contact_count: '540',
-    create_date: '26.02.2022',
-    last_update_date: '27.02.2022',
-  },
-  {
-    id: 2145,
-    name: 'Терапевты март 2022',
-    contact_count: '540',
-    create_date: '26.02.2022',
-    last_update_date: '27.02.2022',
-  },
-  {
-    id: 2145,
-    name: 'Терапевты март 2022',
-    contact_count: '540',
-    create_date: '26.02.2022',
-    last_update_date: '27.02.2022',
-  },
-  {
-    id: 2145,
-    name: 'Терапевты март 2022',
-    contact_count: '540',
-    create_date: '26.02.2022',
-    last_update_date: '27.02.2022',
-  },
-  {
-    id: 2145,
-    name: 'Терапевты март 2022',
-    contact_count: '540',
-    create_date: '26.02.2022',
-    last_update_date: '27.02.2022',
-  },
-  {
-    id: 2145,
-    name: 'Терапевты март 2022',
-    contact_count: '540',
-    create_date: '26.02.2022',
-    last_update_date: '27.02.2022',
-  },
-  {
-    id: 2145,
-    name: 'Терапевты март 2022',
-    contact_count: '540',
-    create_date: '26.02.2022',
-    last_update_date: '27.02.2022',
-  },
-  {
-    id: 2145,
-    name: 'Терапевты март 2022',
-    contact_count: '540',
-    create_date: '26.02.2022',
-    last_update_date: '27.02.2022',
-  },
-  {
-    id: 2145,
-    name: 'Терапевты март 2022',
-    contact_count: '540',
-    create_date: '26.02.2022',
-    last_update_date: '27.02.2022',
-  },
-  {
-    id: 2145,
-    name: 'Терапевты март 2022',
-    contact_count: '540',
-    create_date: '26.02.2022',
-    last_update_date: '27.02.2022',
-  },
-  {
-    id: 2145,
-    name: 'Терапевты март 2022',
-    contact_count: '540',
-    create_date: '26.02.2022',
-    last_update_date: '27.02.2022',
-  },
-  {
-    id: 2145,
-    name: 'Терапевты март 2022',
-    contact_count: '540',
-    create_date: '26.02.2022',
-    last_update_date: '27.02.2022',
-  },
-  {
-    id: 2145,
-    name: 'Терапевты март 2022',
-    contact_count: '540',
-    create_date: '26.02.2022',
-    last_update_date: '27.02.2022',
-  },
-  {
-    id: 2145,
-    name: 'Терапевты март 2022',
-    contact_count: '540',
-    create_date: '26.02.2022',
-    last_update_date: '27.02.2022',
-  },
-  {
-    id: 2145,
-    name: 'Терапевты март 2022',
-    contact_count: '540',
-    create_date: '26.02.2022',
-    last_update_date: '27.02.2022',
-  },
-  {
-    id: 2145,
-    name: 'Терапевты март 2022',
-    contact_count: '540',
-    create_date: '26.02.2022',
-    last_update_date: '27.02.2022',
-  },
-  {
-    id: 2145,
-    name: 'Терапевты март 2022',
-    contact_count: '540',
-    create_date: '26.02.2022',
-    last_update_date: '27.02.2022',
-  },
-  {
-    id: 2145,
-    name: 'Терапевты март 2022',
-    contact_count: '540',
-    create_date: '26.02.2022',
-    last_update_date: '27.02.2022',
-  },
-  {
-    id: 2145,
-    name: 'Терапевты март 2022',
-    contact_count: '540',
-    create_date: '26.02.2022',
-    last_update_date: '27.02.2022',
-  },
-  {
-    id: 2145,
-    name: 'Терапевты март 2022',
-    contact_count: '540',
-    create_date: '26.02.2022',
-    last_update_date: '27.02.2022',
-  },
-  {
-    id: 2145,
-    name: 'Терапевты март 2022',
-    contact_count: '540',
-    create_date: '26.02.2022',
-    last_update_date: '27.02.2022',
-  },
-  {
-    id: 2145,
-    name: 'Терапевты март 2022',
-    contact_count: '540',
-    create_date: '26.02.2022',
-    last_update_date: '27.02.2022',
-  },
-  {
-    id: 2145,
-    name: 'Терапевты март 2022',
-    contact_count: '540',
-    create_date: '26.02.2022',
-    last_update_date: '27.02.2022',
-  },
-  {
-    id: 2145,
-    name: 'Терапевты март 2022',
-    contact_count: '540',
-    create_date: '26.02.2022',
-    last_update_date: '27.02.2022',
-  },
-  {
-    id: 2145,
-    name: 'Терапевты март 2022',
-    contact_count: '540',
-    create_date: '26.02.2022',
-    last_update_date: '27.02.2022',
-  },
-  {
-    id: 2145,
-    name: 'Терапевты март 2022',
-    contact_count: '540',
-    create_date: '26.02.2022',
-    last_update_date: '27.02.2022',
-  },
-  {
-    id: 2145,
-    name: 'Терапевты март 2022',
-    contact_count: '540',
-    create_date: '26.02.2022',
-    last_update_date: '27.02.2022',
-  },
-  {
-    id: 2145,
-    name: 'Терапевты март 2022',
-    contact_count: '540',
-    create_date: '26.02.2022',
-    last_update_date: '27.02.2022',
-  },
-  {
-    id: 2145,
-    name: 'Терапевты март 2022',
-    contact_count: '540',
-    create_date: '26.02.2022',
-    last_update_date: '27.02.2022',
-  },
-  {
-    id: 2145,
-    name: 'Терапевты март 2022',
-    contact_count: '540',
-    create_date: '26.02.2022',
-    last_update_date: '27.02.2022',
-  },
-  {
-    id: 2145,
-    name: 'Терапевты март 2022',
-    contact_count: '540',
-    create_date: '26.02.2022',
-    last_update_date: '27.02.2022',
-  },
-  {
-    id: 2145,
-    name: 'Терапевты март 2022',
-    contact_count: '540',
-    create_date: '26.02.2022',
-    last_update_date: '27.02.2022',
-  },
-  {
-    id: 2145,
-    name: 'Терапевты март 2022',
-    contact_count: '540',
-    create_date: '26.02.2022',
-    last_update_date: '27.02.2022',
-  },
-  {
-    id: 2145,
-    name: 'Терапевты март 2022',
-    contact_count: '540',
-    create_date: '26.02.2022',
-    last_update_date: '27.02.2022',
-  },
-  {
-    id: 2145,
-    name: 'Терапевты март 2022',
-    contact_count: '540',
-    create_date: '26.02.2022',
-    last_update_date: '27.02.2022',
-  },
-  {
-    id: 2145,
-    name: 'Терапевты март 2022',
-    contact_count: '540',
-    create_date: '26.02.2022',
-    last_update_date: '27.02.2022',
-  },
-  {
-    id: 2145,
-    name: 'Терапевты март 2022',
-    contact_count: '540',
-    create_date: '26.02.2022',
-    last_update_date: '27.02.2022',
-  },
-  {
-    id: 2145,
-    name: 'Терапевты март 2022',
-    contact_count: '540',
-    create_date: '26.02.2022',
-    last_update_date: '27.02.2022',
-  },
-  {
-    id: 2145,
-    name: 'Терапевты март 2022',
-    contact_count: '540',
-    create_date: '26.02.2022',
-    last_update_date: '27.02.2022',
-  },
-  {
-    id: 2145,
-    name: 'Терапевты март 2022',
-    contact_count: '540',
-    create_date: '26.02.2022',
-    last_update_date: '27.02.2022',
-  },
-  {
-    id: 2145,
-    name: 'Терапевты март 2022',
-    contact_count: '540',
-    create_date: '26.02.2022',
-    last_update_date: '27.02.2022',
-  },
-  {
-    id: 2145,
-    name: 'Терапевты март 2022',
-    contact_count: '540',
-    create_date: '26.02.2022',
-    last_update_date: '27.02.2022',
-  },
-  {
-    id: 2145,
-    name: 'Терапевты март 2022',
-    contact_count: '540',
-    create_date: '26.02.2022',
-    last_update_date: '27.02.2022',
-  },
-  {
-    id: 2145,
-    name: 'Терапевты март 2022',
-    contact_count: '540',
-    create_date: '26.02.2022',
-    last_update_date: '27.02.2022',
-  },
-  {
-    id: 2145,
-    name: 'Терапевты март 2022',
-    contact_count: '540',
-    create_date: '26.02.2022',
-    last_update_date: '27.02.2022',
-  },
-  {
-    id: 2145,
-    name: 'Терапевты март 2022',
-    contact_count: '540',
-    create_date: '26.02.2022',
-    last_update_date: '27.02.2022',
-  },
-  {
-    id: 2145,
-    name: 'Терапевты март 2022',
-    contact_count: '540',
-    create_date: '26.02.2022',
-    last_update_date: '27.02.2022',
-  },
-  {
-    id: 2145,
-    name: 'Терапевты март 2022',
-    contact_count: '540',
-    create_date: '26.02.2022',
-    last_update_date: '27.02.2022',
-  },
-  {
-    id: 2145,
-    name: 'Терапевты март 2022',
-    contact_count: '540',
-    create_date: '26.02.2022',
-    last_update_date: '27.02.2022',
-  },
-  {
-    id: 2145,
-    name: 'Терапевты март 2022',
-    contact_count: '540',
-    create_date: '26.02.2022',
-    last_update_date: '27.02.2022',
-  },
-  {
-    id: 2145,
-    name: 'Терапевты март 2022',
-    contact_count: '540',
-    create_date: '26.02.2022',
-    last_update_date: '27.02.2022',
-  },
-  {
-    id: 2145,
-    name: 'Терапевты март 2022',
-    contact_count: '540',
-    create_date: '26.02.2022',
-    last_update_date: '27.02.2022',
-  },
-  {
-    id: 2145,
-    name: 'Терапевты март 2022',
-    contact_count: '540',
-    create_date: '26.02.2022',
-    last_update_date: '27.02.2022',
-  },
-  {
-    id: 2145,
-    name: 'Терапевты март 2022',
-    contact_count: '540',
-    create_date: '26.02.2022',
-    last_update_date: '27.02.2022',
-  },
-  {
-    id: 2145,
-    name: 'Терапевты март 2022',
-    contact_count: '540',
-    create_date: '26.02.2022',
-    last_update_date: '27.02.2022',
-  },
-  {
-    id: 2145,
-    name: 'Терапевты март 2022',
-    contact_count: '540',
-    create_date: '26.02.2022',
-    last_update_date: '27.02.2022',
-  },
-  {
-    id: 2145,
-    name: 'Терапевты март 2022',
-    contact_count: '540',
-    create_date: '26.02.2022',
-    last_update_date: '27.02.2022',
-  },
-  {
-    id: 2145,
-    name: 'Терапевты март 2022',
-    contact_count: '540',
-    create_date: '26.02.2022',
-    last_update_date: '27.02.2022',
-  },
-  {
-    id: 2145,
-    name: 'Терапевты март 2022',
-    contact_count: '540',
-    create_date: '26.02.2022',
-    last_update_date: '27.02.2022',
-  },
-  {
-    id: 2145,
-    name: 'Терапевты март 2022',
-    contact_count: '540',
-    create_date: '26.02.2022',
-    last_update_date: '27.02.2022',
-  },
-  {
-    id: 2145,
-    name: 'Терапевты март 2022',
-    contact_count: '540',
-    create_date: '26.02.2022',
-    last_update_date: '27.02.2022',
-  },
-  {
-    id: 2145,
-    name: 'Терапевты март 2022',
-    contact_count: '540',
-    create_date: '26.02.2022',
-    last_update_date: '27.02.2022',
-  },
-  {
-    id: 2145,
-    name: 'Терапевты март 2022',
-    contact_count: '540',
-    create_date: '26.02.2022',
-    last_update_date: '27.02.2022',
-  },
-  {
-    id: 2145,
-    name: 'Терапевты март 2022',
-    contact_count: '540',
-    create_date: '26.02.2022',
-    last_update_date: '27.02.2022',
-  },
-]
 
 const AllAudiences: FC<IPageData> = () => {
   const history = useHistory()
   const { url } = useRouteMatch()
-
-  // const getData = (query: string) => {
-  //   console.log(query)
-  // }
 
   const openAudience = () => {
     console.log('asd')
   }
 
   const [checkedList, setCheckedList] = useState<number[]>([])
+  const [lastTriggeredCheck, setLastTriggeredCheck] = useState<number>(0)
+  const simplebarRef = useRef<SimpleBar>(null)
 
   const isItChecked = (id: number) => {
     return checkedList.includes(id)
@@ -551,11 +37,38 @@ const AllAudiences: FC<IPageData> = () => {
 
   const checkMenuIsOpen = () => checkedList.length > 0
 
-  const toggleCheck = (id: number) => {
-    if (isItChecked(id)) {
-      const newChecked = checkedList.filter((el) => el !== id)
+  const toggleCheck = (e: any) => {
+    const { id } = e.currentTarget.dataset
+    const idNum = Number(id)
+    if (isItChecked(idNum)) {
+      const newChecked = checkedList.filter((el) => el !== idNum)
       setCheckedList(newChecked)
-    } else setCheckedList([...checkedList, id])
+    } else setCheckedList([...checkedList, idNum])
+    setLastTriggeredCheck(idNum)
+    const idOfLastElement = data[data.length - 1].id
+    if (idNum === idOfLastElement) e.currentTarget.scrollIntoView()
+  }
+
+  useEffect(() => {
+    const idOfLastElement = data[data.length - 1].id
+    console.log(lastTriggeredCheck, idOfLastElement)
+    if (lastTriggeredCheck === idOfLastElement) scrollToBottom()
+    // if (!checkMenuIsOpen()) scrollToBottom()
+  }, [lastTriggeredCheck, checkMenuIsOpen])
+
+  const recalculate = () => {
+    const scrollNode = simplebarRef.current
+    console.log('recalculate!')
+    if (scrollNode) scrollNode.recalculate()
+  }
+
+  const scrollToBottom = () => {
+    console.log('scrollToBottom!')
+    const scrollNode = simplebarRef.current
+    if (!scrollNode) return
+    const scrollElement = scrollNode.getScrollElement()
+    const scrollHight = scrollElement.scrollHeight
+    // scrollElement.scrollTo({ top: scrollHight, behavior: 'smooth' })
   }
 
   return (
@@ -584,18 +97,30 @@ const AllAudiences: FC<IPageData> = () => {
           </div>
         </DropDown>
       </PageHead>
-      <ScrollTable headers={header} handleScrollLimit={() => console.log('handleScrollLimit')}>
+      {/* <button onClick={recalculate}>recalc</button> */}
+      <ScrollTable
+        headers={header}
+        handleScrollLimit={() => console.log('handleScrollLimit')}
+        simplebarRef={simplebarRef}
+        checkMenu={
+          checkMenuIsOpen() && (
+            <div className={cx(tableStyles.checkMenu)}>
+              {/* <button onClick={recalculate}>recalc</button> */}
+            </div>
+          )
+        }
+      >
         {data.map((dataRow, index) => {
           const { id, name, contact_count, create_date, last_update_date } = dataRow
           const checked = isItChecked(index)
           return (
-            <div className={tableStyles.row} key={id + index} onClick={() => toggleCheck(index)}>
+            <div className={tableStyles.row} key={index} onClick={toggleCheck} data-id={index}>
               <div className="checkContainer">
                 <div className={cx(tableStyles.check, { [tableStyles.checked]: checked })}>
                   {checked && <IconCheck />}
                 </div>
               </div>
-              <p className={cx(tableStyles.cell, 'text_1')}>{id}</p>
+              <p className={cx(tableStyles.cell, 'text_1')}>{index}</p>
               <p className={cx(tableStyles.cell)}>
                 <button className={'text_1_hl_2'} onClick={openAudience}>
                   {name}
@@ -607,6 +132,11 @@ const AllAudiences: FC<IPageData> = () => {
             </div>
           )
         })}
+        {checkMenuIsOpen() && (
+          <div className={tableStyles.row}>
+            <div className={tableStyles.cell}></div>
+          </div>
+        )}
       </ScrollTable>
     </div>
   )
