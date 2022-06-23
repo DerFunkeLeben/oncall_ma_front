@@ -1,5 +1,7 @@
 .row {
-  display: table-row;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
   box-shadow: 0px 1px 1px var(--blue_9);
   cursor: pointer;
 }
@@ -7,7 +9,6 @@
   background-color: var(--blue_1);
 }
 .cell {
-  display: table-cell;
   height: 50px;
   padding: 0 20px;
   vertical-align: middle;

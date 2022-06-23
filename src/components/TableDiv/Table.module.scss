@@ -9,33 +9,23 @@
 }
 
 .table {
-  display: table;
-  width: 100%;
   min-width: 100%;
 }
 
 .head {
   position: sticky;
   top: 0;
-  display: table-header-group;
-  height: 50px;
-  background-color: var(--blue_3);
-}
-
-.foot {
-  position: sticky;
-  bottom: 0;
-  display: table-footer-group;
   height: 50px;
   background-color: var(--blue_3);
 }
 
 .tableRow {
-  display: table-row;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
 }
 
 .headCell {
-  display: table-cell;
   padding: 0 20px;
   cursor: pointer;
   user-select: none;
@@ -67,7 +57,6 @@
 */
 
 .tbody {
-  display: table-row-group;
 }
 
 .scroll :global {
