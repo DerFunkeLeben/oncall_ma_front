@@ -3,7 +3,7 @@ import cx from 'classnames'
 
 import styles from './Table.module.scss'
 
-import { IconArrowDown } from 'assets/icons'
+import { IconArrow } from 'assets/icons'
 
 import { ASCENDING, DESCENDING } from 'constants/dictionary'
 interface ITable {
@@ -47,7 +47,7 @@ const Table: FC<ITable> = ({ children, innerRef, headers }) => {
               >
                 {column}
                 {sortDirection && (
-                  <IconArrowDown className={cx(styles.iconArrow, styles[sortDirection])} />
+                  <IconArrow className={cx(styles.iconArrow, styles[sortDirection])} />
                 )}
               </div>
             )

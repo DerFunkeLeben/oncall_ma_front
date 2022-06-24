@@ -68,6 +68,38 @@
     height: calc(100% - 50px);
   }
 }
+.hoverZone {
+  position: absolute;
+  top: 50%;
+  width: 50px;
+  height: 100px;
+  background-color: var(--blue_6);
+  opacity: 0.4;
+  transform: translateY(-50%);
+  & > * {
+    width: 24px;
+    height: 10px;
+    path {
+      fill: var(--white);
+    }
+  }
+}
+.hoverZoneLeft {
+  left: 0;
+  border-bottom-right-radius: 14px;
+  border-top-right-radius: 14px;
+  & > * {
+    transform: rotate(90deg);
+  }
+}
+.hoverZoneRight {
+  right: 0;
+  border-bottom-left-radius: 14px;
+  border-top-left-radius: 14px;
+  & > * {
+    transform: rotate(-90deg);
+  }
+}
 
 /**
   1. Столбцы могут переполнить таблицу значит:

@@ -18,24 +18,15 @@ import { IPageData } from 'types'
 import { IconCheck, IconCopy, IconTrash } from 'assets/icons'
 import { data } from './data'
 
-import screenSizeContext from 'context/screenSizeContext'
-
 const header = ['', 'ID', 'Название', 'Количество контактов', 'Дата создания', 'Дата изменения']
 
 const AllAudiences: FC<IPageData> = () => {
   const history = useHistory()
   const { url } = useRouteMatch()
   const [checkedList, setCheckedList] = useState<number[]>([])
-  const [tableIsFit, setTableIsFit] = useState(true)
-  const simplebarRef = useRef<SimpleBar>(null)
-  const windowSize: string = useContext(screenSizeContext)
 
-  const scrollNode = simplebarRef.current
-  const scrollElement = scrollNode?.getScrollElement()
   const totalCountOFData = data.length
   const checkedCount = checkedList.length
-  let intervalName: NodeJS.Timeout
-  const stepWidth = 2
 
   const openAudience = () => {
     console.log('asd')
@@ -56,55 +47,12 @@ const AllAudiences: FC<IPageData> = () => {
     } else setCheckedList([...checkedList, idNum])
   }
 
-  const oneStep = (step: number) => {
-    if (!scrollElement) return
-    const { scrollLeft } = scrollElement
-    scrollElement.scrollTo({ left: scrollLeft + step })
-  }
-
-  const scrollTo = (step: number) => {
-    stopMove()
-    intervalName = setInterval(() => oneStep(step), 1)
-  }
-
-  const scrollToRight = () => {
-    scrollTo(stepWidth)
-  }
-
-  const scrollToLeft = () => {
-    scrollTo(-stepWidth)
-  }
-
-  //TODO обьеденить scrollToRight scrollToLeft
-
-  const stopMove = () => {
-    clearInterval(intervalName)
-  }
-
-  useEffect(() => {
-    if (!scrollElement) return
-    const { scrollWidth, clientWidth } = scrollElement
-    const isTableFit = scrollWidth === clientWidth
-    console.log(scrollWidth, clientWidth)
-    setTableIsFit(isTableFit)
-  }, [windowSize, scrollElement])
-
   return (
     <div className={styles.pageContent}>
       <PageHead title="Аудитории" subtitle="Вы можете создать или редактировать аудиторию">
         <Button modificator={buttonStyles.theme_secondary}>
           <p>Загрузить аудиторию</p>
         </Button>
-        {!tableIsFit && (
-          <>
-            <button onMouseEnter={scrollToLeft} onMouseLeave={stopMove}>
-              left
-            </button>
-            <button onMouseEnter={scrollToRight} onMouseLeave={stopMove}>
-              right
-            </button>
-          </>
-        )}
         <DropDown
           triggerNode={
             <Button>
@@ -128,7 +76,6 @@ const AllAudiences: FC<IPageData> = () => {
       <ScrollTable
         headers={header}
         handleScrollLimit={() => console.log('handleScrollLimit')}
-        simplebarRef={simplebarRef}
         checkMenu={
           checkMenuIsOpen() && (
             <CheckMenu checkedCount={checkedCount} total={totalCountOFData}>
