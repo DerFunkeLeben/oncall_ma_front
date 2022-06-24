@@ -14,7 +14,7 @@ const CheckMenu: FC<ICheckMenu> = ({ children, checkedCount, total }) => {
       <div className={styles.buttonConianter}>{children}</div>
       <div className={cx(styles.amount, 'text_1')}>
         Отмечено
-        <span className={cx(styles.amountNumber, 'text_1_hl_3')}>{`${checkedCount}/${total}`}</span>
+        <span className={cx(styles.amountNumber, 'text_1_hl_2')}>{`${checkedCount}/${total}`}</span>
       </div>
     </div>
   )

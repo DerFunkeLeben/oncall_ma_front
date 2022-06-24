@@ -25,6 +25,9 @@
   flex-direction: row;
   align-items: center;
   color: var(--blue_5);
+  path {
+    fill: var(--blue_5);
+  }
 
   &:hover {
     color: var(--blue_10);
@@ -33,8 +36,21 @@
     }
   }
 }
+.alarm {
+  color: var(--error_2);
+  path {
+    fill: var(--error_2);
+  }
+
+  &:hover {
+    color: var(--error_3);
+    path {
+      fill: var(--error_3);
+    }
+  }
+}
 .buttonIcon {
-  margin-right: 14;
+  margin-right: 14px;
 }
 
 .amount {

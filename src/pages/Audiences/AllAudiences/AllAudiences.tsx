@@ -87,7 +87,7 @@ const AllAudiences: FC<IPageData> = () => {
                 <IconCopy className={checkMenuStyles.buttonIcon} />
                 Копировать
               </button>
-              <button className={cx(checkMenuStyles.button, 'text_1')}>
+              <button className={cx(checkMenuStyles.button, checkMenuStyles.alarm, 'text_1')}>
                 <IconTrash className={checkMenuStyles.buttonIcon} />
                 Удалить
               </button>
@@ -111,7 +111,10 @@ const AllAudiences: FC<IPageData> = () => {
               </div>
               <p className={cx(tableStyles.cell, 'text_1')}>{index}</p>
               <p className={cx(tableStyles.cell)}>
-                <button className={'text_1_hl_2'} onClick={openAudience}>
+                <button
+                  className={cx(tableStyles.accentCell, 'text_1_hl_1')}
+                  onClick={openAudience}
+                >
                   {name}
                 </button>
               </p>

@@ -6,7 +6,7 @@ import PAGES from 'pages'
 
 // import { PagesData } from 'constants/url'
 import './assets/styles/App.scss'
-import './assets/styles/text_styles.scss'
+import './assets/styles/typography.scss'
 import './assets/styles/fonts.scss'
 
 function App() {
