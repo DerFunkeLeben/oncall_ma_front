@@ -5,19 +5,19 @@ import cx from 'classnames'
 import PageHead from 'components/PageHead/PageHead'
 import Button from 'components/parts/Button/Button'
 import DropDown from 'components/parts/DropDown/DropDown'
-import ScrollTable from 'components/TableDiv/ScrollTable'
+import ScrollTable from 'components/Table/ScrollTable'
 
 import styles from './AllAudiences.module.scss'
 import buttonStyles from 'components/parts/Button/ButtonThemes.module.scss'
-import tableStyles from 'components/TableDiv/TableBase.module.scss'
-import checkMenuStyles from 'components/TableDiv/CheckMenu/CheckMenu.module.scss'
+import tableStyles from 'components/Table/TableBase.module.scss'
+import checkMenuStyles from 'components/Table/CheckMenu/CheckMenu.module.scss'
 import ddStyles from 'components/parts/DropDown/DropDown.module.scss'
 
 import { IPageData } from 'types'
 
 import { IconCheck, IconCopy, IconTrash } from 'assets/icons'
 import { data } from './data'
-import CheckMenu from 'components/TableDiv/CheckMenu/CheckMenu'
+import CheckMenu from 'components/Table/CheckMenu/CheckMenu'
 
 const header = ['', 'ID', 'Название', 'Количество контактов', 'Дата создания', 'Дата изменения']
 
