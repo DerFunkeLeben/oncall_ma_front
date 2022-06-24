@@ -49,10 +49,11 @@ const ScrollTable: FC<ITable> = ({ children, headers, handleScrollLimit, checkMe
     scrollTo(-stepWidth)
   }
 
-  //TODO обьеденить scrollToRight scrollToLeft
+  /*
+    TODO обьеденить scrollToRight scrollToLeft
+  */
 
   const stopMove = () => {
-    console.log('STOP')
     clearInterval(intervalName)
   }
 
@@ -62,7 +63,6 @@ const ScrollTable: FC<ITable> = ({ children, headers, handleScrollLimit, checkMe
     if (!scrollElement) return
     const { scrollWidth, clientWidth } = scrollElement
     const isTableFit = scrollWidth === clientWidth
-    console.log(scrollWidth, clientWidth)
     setTableIsFit(isTableFit)
   }, [windowSize, scrollElement])
 

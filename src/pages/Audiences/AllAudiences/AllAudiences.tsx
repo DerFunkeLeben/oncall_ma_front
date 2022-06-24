@@ -49,7 +49,7 @@ const AllAudiences: FC<IPageData> = () => {
 
   return (
     <div className={styles.pageContent}>
-      <PageHead title="Аудитории" subtitle="Вы можете создать или редактировать аудиторию">
+      <PageHead title="Аудитории">
         <Button modificator={buttonStyles.theme_secondary}>
           <p>Загрузить аудиторию</p>
         </Button>
@@ -96,7 +96,7 @@ const AllAudiences: FC<IPageData> = () => {
           const checked = isItChecked(index)
           return (
             <div className={tableStyles.row} key={index} onClick={toggleCheck} data-id={index}>
-              <div className={cx(tableStyles.cell, 'checkContainer')}>
+              <div className={cx(tableStyles.cell, tableStyles.cellCheck)}>
                 <div
                   className={cx(tableStyles.check, {
                     [tableStyles.checked]: checked,

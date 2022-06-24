@@ -2,10 +2,11 @@ import { FC, useState, RefObject } from 'react'
 import cx from 'classnames'
 
 import styles from './Table.module.scss'
+import stylesTable from './TableBase.module.scss'
 
 import { IconArrow } from 'assets/icons'
-
 import { ASCENDING, DESCENDING } from 'constants/dictionary'
+
 interface ITable {
   headers: string[]
   innerRef?: RefObject<HTMLDivElement>
@@ -42,7 +43,9 @@ const Table: FC<ITable> = ({ children, innerRef, headers }) => {
             return (
               <div
                 key={column}
-                className={cx(styles.headCell, 'text_1_hl_1')}
+                className={cx(styles.headCell, 'text_1_hl_1', {
+                  [stylesTable.cellCheck]: index === 0,
+                })}
                 onClick={() => changeSorting(index)}
               >
                 {column}
