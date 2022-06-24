@@ -28,23 +28,14 @@ const ScrollTable: FC<ITable> = ({
   useInfiniteScroll(wrapperRef, innerRef, children, handleScrollLimit)
 
   return (
-    <>
-      <div className={styles.wrapper}>
-        <ScrollArea modificator={styles.scroll} customRef={wrapperRef} simplebarRef={simplebarRef}>
-          <div
-            style={{
-              display: 'block',
-              overflowX: 'auto',
-            }}
-          >
-            <Table innerRef={innerRef} headers={headers} checkMenu={checkMenu}>
-              {children}
-            </Table>
-          </div>
-        </ScrollArea>
-        {checkMenu && <div className={tableStyles.checkMenu}>{checkMenu}</div>}
-      </div>
-    </>
+    <div className={styles.wrapper}>
+      <ScrollArea modificator={styles.scroll} customRef={wrapperRef} simplebarRef={simplebarRef}>
+        <Table innerRef={innerRef} headers={headers} checkMenu={checkMenu}>
+          {children}
+        </Table>
+      </ScrollArea>
+      {checkMenu && <div className={tableStyles.checkMenu}>{checkMenu}</div>}
+    </div>
   )
 }
 
