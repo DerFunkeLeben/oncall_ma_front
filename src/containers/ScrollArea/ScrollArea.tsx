@@ -11,6 +11,7 @@ interface IScrollArea {
   simplebarRef?: any
   modificator?: string
   autoHide?: boolean
+  maxHeight?: string
 }
 
 const ScrollArea: FC<IScrollArea> = ({

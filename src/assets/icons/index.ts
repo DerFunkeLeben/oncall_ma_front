@@ -7,6 +7,8 @@ import { ReactComponent as IconLogo } from './logo.svg'
 import { ReactComponent as IconProfile } from './profile.svg'
 import { ReactComponent as IconArrowDown } from './arrow_down.svg'
 import { ReactComponent as IconCheck } from './check.svg'
+import { ReactComponent as IconCopy } from './copy.svg'
+import { ReactComponent as IconTrash } from './trash.svg'
 
 export {
   IconAnalytics,
@@ -18,4 +20,6 @@ export {
   IconProfile,
   IconArrowDown,
   IconCheck,
+  IconCopy,
+  IconTrash,
 }
