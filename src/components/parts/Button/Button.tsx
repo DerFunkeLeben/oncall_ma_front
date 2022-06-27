@@ -10,7 +10,7 @@ export interface IButton extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 const Button: FC<IButton> = ({ onClick, modificator, children, type, ...props }) => {
   return (
     <button
-      className={cx(styles.button, 'button_1', modificator)}
+      className={cx(styles.button, 'button_text_1', modificator)}
       onClick={onClick}
       type={type}
       {...props}

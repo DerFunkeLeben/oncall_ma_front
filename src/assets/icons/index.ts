@@ -9,6 +9,10 @@ import { ReactComponent as IconArrow } from './arrow.svg'
 import { ReactComponent as IconCheck } from './check.svg'
 import { ReactComponent as IconCopy } from './copy.svg'
 import { ReactComponent as IconTrash } from './trash.svg'
+import { ReactComponent as IconUpload } from './upload.svg'
+import { ReactComponent as IconFolderOpen } from './folderOpen.svg'
+import { ReactComponent as IconFolderClose } from './folderClose.svg'
+import { ReactComponent as IconLoupe } from './loupe.svg'
 
 export {
   IconAnalytics,
@@ -22,4 +26,8 @@ export {
   IconCheck,
   IconCopy,
   IconTrash,
+  IconUpload,
+  IconFolderOpen,
+  IconFolderClose,
+  IconLoupe,
 }

@@ -1,0 +1,44 @@
+.container {
+  margin-right: 30px;
+}
+.folder {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: var(--blue_3);
+  }
+
+  &:not(:first-of-type) {
+    margin-top: 10px;
+  }
+}
+
+.activeFolder {
+  background-color: var(--blue_3);
+}
+
+.nameAndIcon {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  color: var(--blue_8);
+
+  path {
+    color: var(--blue_8);
+  }
+}
+
+.iconFolder {
+  margin-right: 10px;
+}
+
+.count {
+  color: var(--blue_15);
+}

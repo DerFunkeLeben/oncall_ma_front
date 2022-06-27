@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+  <g id="icon" transform="translate(-1810 -211)">
+    <path id="Объединение_13" data-name="Объединение 13" d="M12618.453-5061.547v-3.91h-3.907a.545.545,0,0,1-.545-.545.545.545,0,0,1,.545-.545h3.907v-3.909a.544.544,0,0,1,.545-.545.545.545,0,0,1,.548.545v3.909h3.909a.545.545,0,0,1,.545.545.545.545,0,0,1-.545.545h-3.909v3.91a.545.545,0,0,1-.548.545A.544.544,0,0,1,12618.453-5061.547Z" transform="translate(-10801.002 5285.001)" fill="#94a6c4"/>
+    <g id="Прямоугольник_119" data-name="Прямоугольник 119" transform="translate(1810 211)" fill="none" stroke="#94a6c4" stroke-width="1">
+      <rect width="16" height="16" rx="3" stroke="none"/>
+      <rect x="0.5" y="0.5" width="15" height="15" rx="2.5" fill="none"/>
+    </g>
+  </g>
+</svg>

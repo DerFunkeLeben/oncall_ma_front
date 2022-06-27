@@ -18,15 +18,7 @@
   position: sticky;
   top: 0;
   display: table-header-group;
-  height: 50px;
-  background-color: var(--blue_3);
-}
-
-.foot {
-  position: sticky;
-  bottom: 0;
-  display: table-footer-group;
-  height: 50px;
+  height: 40px;
   background-color: var(--blue_3);
 }
 
@@ -36,12 +28,15 @@
 
 .headCell {
   display: table-cell;
-  min-width: 50px;
+  // min-width: 200px;
   padding: 0 20px;
   color: var(--blue_8);
   cursor: pointer;
   user-select: none;
   vertical-align: middle;
+  & > p {
+    min-width: max-content;
+  }
 }
 
 .headCell:hover {
@@ -51,7 +46,7 @@
 .iconArrow {
   position: absolute;
   top: 0;
-  height: 50px;
+  height: 40px;
   margin-left: 10px;
 }
 .ascending {
@@ -64,8 +59,8 @@
 
 .scroll :global {
   .simplebar-track.simplebar-vertical {
-    top: 50px;
-    height: calc(100% - 50px);
+    top: 40px;
+    height: calc(100% - 40px);
   }
 }
 .hoverZone {

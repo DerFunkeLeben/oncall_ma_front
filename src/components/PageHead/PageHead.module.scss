@@ -1,22 +1,51 @@
 .head {
+  display: grid;
+  padding-bottom: 30px;
+  grid-column-end: 3;
+  grid-column-start: 1;
+  grid-template-columns: 290px 1fr;
+  grid-template-rows: 1fr;
+}
+
+.container {
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 30px;
+}
 
-  .title {
-    color: var(--blue_8);
-  }
-  .subTitle {
-    color: var(--blue_8);
-  }
-  .controlsBlock {
-    display: flex;
-    flex-direction: row;
-    align-items: flex-end;
-  }
-  .controlsBlock > *:not(:last-child) {
+.title {
+  color: var(--blue_8);
+}
+.subTitle {
+  color: var(--blue_8);
+}
+.leftBlock {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  & > *:not(:last-child) {
     margin-right: 30px;
+  }
+}
+.rightBlock {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  & > *:not(:last-child) {
+    margin-right: 30px;
+  }
+}
+.bigHeadMode {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  .container {
+    flex-direction: column;
+    align-items: flex-end;
+    & > *:not(:first-of-type) {
+      margin-top: 30px;
+    }
   }
 }

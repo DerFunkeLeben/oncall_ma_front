@@ -48,10 +48,12 @@ const Table: FC<ITable> = ({ children, innerRef, headers }) => {
                 })}
                 onClick={() => changeSorting(index)}
               >
-                {column}
-                {sortDirection && (
-                  <IconArrow className={cx(styles.iconArrow, styles[sortDirection])} />
-                )}
+                <p>
+                  {column}
+                  {sortDirection && (
+                    <IconArrow className={cx(styles.iconArrow, styles[sortDirection])} />
+                  )}
+                </p>
               </div>
             )
           })}

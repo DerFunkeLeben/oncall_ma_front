@@ -4,8 +4,10 @@ import InputMask from 'react-input-mask'
 import cx from 'classnames'
 
 import styles from './InputBase.module.scss'
+
+import { IconLoupe } from 'assets/icons'
 export interface IInputBase extends React.InputHTMLAttributes<HTMLInputElement> {
-  label: string
+  label?: string
   mask?: string
   type?: string
   handleInputChange: (event: ChangeEvent<HTMLInputElement>) => void
@@ -13,6 +15,7 @@ export interface IInputBase extends React.InputHTMLAttributes<HTMLInputElement> 
   modificator?: string | string[]
   disabled?: boolean
   autocomplete?: string
+  icon?: boolean
 }
 
 const InputBase: FC<IInputBase> = ({
@@ -31,6 +34,7 @@ const InputBase: FC<IInputBase> = ({
   modificator,
   disabled,
   autocomplete,
+  icon,
 }) => {
   return (
     <div style={{ width: width }} className={cx(styles.wrapper, { [styles.disabled]: disabled })}>
@@ -40,7 +44,7 @@ const InputBase: FC<IInputBase> = ({
         </label>
       )}
       <InputMask
-        className={cx(styles.input, modificator)}
+        className={cx(styles.input, modificator, 'text_1')}
         id={id}
         name={name}
         value={value}
@@ -52,6 +56,7 @@ const InputBase: FC<IInputBase> = ({
         autoComplete={autocomplete || 'off'}
         mask={mask || ''}
       ></InputMask>
+      {icon && <IconLoupe className={styles.iconLoupe} />}
       {children}
     </div>
   )

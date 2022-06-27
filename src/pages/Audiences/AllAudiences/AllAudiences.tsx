@@ -7,6 +7,8 @@ import Button from 'components/parts/Button/Button'
 import DropDown from 'components/parts/DropDown/DropDown'
 import ScrollTable from 'components/Table/ScrollTable'
 import CheckMenu from 'components/Table/CheckMenu/CheckMenu'
+import Folders from 'components/Folders/Folders'
+import InputBase from 'components/parts/InputBase/InputBase'
 
 import styles from './AllAudiences.module.scss'
 import buttonStyles from 'components/parts/Button/ButtonThemes.module.scss'
@@ -15,10 +17,11 @@ import checkMenuStyles from 'components/Table/CheckMenu/CheckMenu.module.scss'
 import ddStyles from 'components/parts/DropDown/DropDown.module.scss'
 
 import { IPageData } from 'types'
-import { IconCheck, IconCopy, IconTrash } from 'assets/icons'
-import { data } from './data'
+import { IconCheck, IconCopy, IconTrash, IconUpload, IconLoupe } from 'assets/icons'
+import { data } from './audiencesData'
 
 const header = ['', 'ID', 'Название', 'Количество контактов', 'Дата создания', 'Дата изменения']
+const menuIsOpen = true
 
 const AllAudiences: FC<IPageData> = () => {
   const history = useHistory()
@@ -28,8 +31,9 @@ const AllAudiences: FC<IPageData> = () => {
   const totalCountOFData = data.length
   const checkedCount = checkedList.length
 
-  const openAudience = () => {
-    console.log('asd')
+  const openAudience = (e: React.MouseEvent<HTMLElement>) => {
+    const { id } = e.currentTarget.dataset
+    history.push(`${url}/${id}`)
   }
 
   const isItChecked = (id: number) => {
@@ -48,15 +52,25 @@ const AllAudiences: FC<IPageData> = () => {
   }
 
   return (
-    <div className={styles.pageContent}>
-      <PageHead title="Аудитории">
+    <div className={cx(styles.pageContent, { [styles.menuIsOpen]: menuIsOpen })}>
+      <PageHead
+        title="Аудитории"
+        leftSide={
+          <InputBase
+            placeholder="Поиск по названию"
+            icon={true}
+            handleInputChange={() => console.log('asd')}
+          ></InputBase>
+        }
+      >
         <Button modificator={buttonStyles.theme_secondary}>
-          <p>Загрузить аудиторию</p>
+          <IconUpload />
+          <span>Загрузить аудиторию</span>
         </Button>
         <DropDown
           triggerNode={
             <Button>
-              <p>Создать аудиторию</p>
+              <span>Создать аудиторию</span>
             </Button>
           }
         >
@@ -73,6 +87,7 @@ const AllAudiences: FC<IPageData> = () => {
           </div>
         </DropDown>
       </PageHead>
+      <Folders />
       <ScrollTable
         headers={header}
         handleScrollLimit={() => console.log('handleScrollLimit')}
@@ -92,11 +107,15 @@ const AllAudiences: FC<IPageData> = () => {
         }
       >
         {data.map((dataRow, index) => {
-          const { name, contact_count, create_date, last_update_date } = dataRow
+          const { id, name, contact_count, create_date, last_update_date } = dataRow
           const checked = isItChecked(index)
           return (
-            <div className={tableStyles.row} key={index} onClick={toggleCheck} data-id={index}>
-              <div className={cx(tableStyles.cell, tableStyles.cellCheck)}>
+            <div className={tableStyles.row} key={index} onClick={openAudience} data-id={id}>
+              <div
+                className={cx(tableStyles.cell, tableStyles.cellCheck)}
+                onClick={toggleCheck}
+                data-id={index}
+              >
                 <div
                   className={cx(tableStyles.check, {
                     [tableStyles.checked]: checked,
@@ -105,18 +124,13 @@ const AllAudiences: FC<IPageData> = () => {
                   {checked && <IconCheck />}
                 </div>
               </div>
-              <p className={cx(tableStyles.cell, 'text_1')}>{index}</p>
-              <p className={cx(tableStyles.cell)}>
-                <button
-                  className={cx(tableStyles.accentCell, 'text_1_hl_1')}
-                  onClick={openAudience}
-                >
-                  {name}
-                </button>
-              </p>
-              <p className={cx(tableStyles.cell, 'text_1')}>{contact_count}</p>
-              <p className={cx(tableStyles.cell, 'text_1')}>{create_date}</p>
-              <p className={cx(tableStyles.cell, 'text_1')}>{last_update_date}</p>
+              <div className={cx(tableStyles.cell, 'text_1')}>{index}</div>
+              <div className={cx(tableStyles.cell, tableStyles.accentCell, 'text_1_hl_1')}>
+                <span>{name}</span>
+              </div>
+              <div className={cx(tableStyles.cell, 'text_1')}>{contact_count}</div>
+              <div className={cx(tableStyles.cell, 'text_1')}>{create_date}</div>
+              <div className={cx(tableStyles.cell, 'text_1')}>{last_update_date}</div>
             </div>
           )
         })}

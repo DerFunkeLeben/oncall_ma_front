@@ -86,7 +86,7 @@ const Login: FC = () => {
             handleInputChange={handleInputChange}
             modificator={styles.input_2}
           />
-          <Button type="button" modificator={[buttonStyles.theme_transparent, styles.btn_1]}>
+          <Button type="button" modificator={[buttonStyles.theme_additional, styles.btn_1]}>
             Забыли пароль ?
           </Button>
           <Button type="submit" modificator={styles.btn_2}>
