@@ -13,6 +13,12 @@ import { ReactComponent as IconUpload } from './upload.svg'
 import { ReactComponent as IconFolderOpen } from './folderOpen.svg'
 import { ReactComponent as IconFolderClose } from './folderClose.svg'
 import { ReactComponent as IconLoupe } from './loupe.svg'
+import { ReactComponent as IconEdit } from './edit.svg'
+import { ReactComponent as IconExport } from './export.svg'
+import { ReactComponent as IconFilters } from './filters.svg'
+import { ReactComponent as IconPlus } from './plus.svg'
+import { ReactComponent as IconRefresh } from './refresh.svg'
+import { ReactComponent as IconTriangle } from './triangle.svg'
 
 export {
   IconAnalytics,
@@ -30,4 +36,10 @@ export {
   IconFolderOpen,
   IconFolderClose,
   IconLoupe,
+  IconEdit,
+  IconExport,
+  IconFilters,
+  IconPlus,
+  IconRefresh,
+  IconTriangle,
 }
