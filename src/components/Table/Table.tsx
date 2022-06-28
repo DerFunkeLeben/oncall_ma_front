@@ -11,7 +11,6 @@ interface ITable {
   headers: string[]
   innerRef?: RefObject<HTMLDivElement>
   children: React.ReactNode[] | React.ReactNode
-  checkMenu?: React.ReactNode
 }
 
 const Table: FC<ITable> = ({ children, innerRef, headers }) => {
@@ -61,9 +60,16 @@ const Table: FC<ITable> = ({ children, innerRef, headers }) => {
       </div>
       <div className={styles.tbody} ref={innerRef}>
         {children}
+        {true && <EmptyRow />}
       </div>
     </div>
   )
 }
+
+const EmptyRow = () => (
+  <div className={stylesTable.row}>
+    <div className={stylesTable.cell}></div>
+  </div>
+)
 
 export default Table

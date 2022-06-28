@@ -1,4 +1,4 @@
-import { FC, useState, useRef, useEffect, useContext } from 'react'
+import { FC } from 'react'
 import { useHistory, useRouteMatch } from 'react-router-dom'
 import cx from 'classnames'
 
@@ -6,18 +6,17 @@ import PageHead from 'components/PageHead/PageHead'
 import Button from 'components/parts/Button/Button'
 import DropDown from 'components/parts/DropDown/DropDown'
 import ScrollTable from 'components/Table/ScrollTable'
-import CheckMenu from 'components/Table/CheckMenu/CheckMenu'
 import Folders from 'components/Folders/Folders'
 import InputBase from 'components/parts/InputBase/InputBase'
+import useTable from 'components/Table/useTable'
 
 import styles from './AllAudiences.module.scss'
 import buttonStyles from 'components/parts/Button/ButtonThemes.module.scss'
 import tableStyles from 'components/Table/TableBase.module.scss'
-import checkMenuStyles from 'components/Table/CheckMenu/CheckMenu.module.scss'
 import ddStyles from 'components/parts/DropDown/DropDown.module.scss'
 
 import { IPageData } from 'types'
-import { IconCheck, IconCopy, IconTrash, IconUpload, IconLoupe } from 'assets/icons'
+import { IconCheck, IconUpload } from 'assets/icons'
 import { data } from './audiencesData'
 
 const header = ['', 'ID', 'Название', 'Количество контактов', 'Дата создания', 'Дата изменения']
@@ -26,29 +25,14 @@ const menuIsOpen = true
 const AllAudiences: FC<IPageData> = () => {
   const history = useHistory()
   const { url } = useRouteMatch()
-  const [checkedList, setCheckedList] = useState<number[]>([])
+  const { toggleCheck, isItChecked, checkedCount } = useTable()
 
   const totalCountOFData = data.length
-  const checkedCount = checkedList.length
 
   const openAudience = (e: React.MouseEvent<HTMLElement>) => {
+    e.stopPropagation()
     const { id } = e.currentTarget.dataset
     history.push(`${url}/${id}`)
-  }
-
-  const isItChecked = (id: number) => {
-    return checkedList.includes(id)
-  }
-
-  const checkMenuIsOpen = () => checkedList.length > 0
-
-  const toggleCheck = (e: React.MouseEvent<HTMLElement>) => {
-    const { id } = e.currentTarget.dataset
-    const idNum = Number(id)
-    if (isItChecked(idNum)) {
-      const newChecked = checkedList.filter((el) => el !== idNum)
-      setCheckedList(newChecked)
-    } else setCheckedList([...checkedList, idNum])
   }
 
   return (
@@ -75,7 +59,7 @@ const AllAudiences: FC<IPageData> = () => {
           }
         >
           <div className={ddStyles.container}>
-            <button className={ddStyles.element} onClick={() => history.push(`${url}/fakeID`)}>
+            <button className={ddStyles.element} onClick={() => history.push(`${url}/newId`)}>
               Из CRM
             </button>
             <button className={ddStyles.element} onClick={() => console.log('Попап из готовой')}>
@@ -91,20 +75,8 @@ const AllAudiences: FC<IPageData> = () => {
       <ScrollTable
         headers={header}
         handleScrollLimit={() => console.log('handleScrollLimit')}
-        checkMenu={
-          checkMenuIsOpen() && (
-            <CheckMenu checkedCount={checkedCount} total={totalCountOFData}>
-              <button className={cx(checkMenuStyles.button, 'text_1')}>
-                <IconCopy className={checkMenuStyles.buttonIcon} />
-                Копировать
-              </button>
-              <button className={cx(checkMenuStyles.button, checkMenuStyles.alarm, 'text_1')}>
-                <IconTrash className={checkMenuStyles.buttonIcon} />
-                Удалить
-              </button>
-            </CheckMenu>
-          )
-        }
+        checkedCount={checkedCount}
+        total={totalCountOFData}
       >
         {data.map((dataRow, index) => {
           const { id, name, contact_count, create_date, last_update_date } = dataRow
@@ -134,16 +106,9 @@ const AllAudiences: FC<IPageData> = () => {
             </div>
           )
         })}
-        {true && <EmptyRow />}
       </ScrollTable>
     </div>
   )
 }
-
-const EmptyRow = () => (
-  <div className={tableStyles.row}>
-    <div className={tableStyles.cell}></div>
-  </div>
-)
 
 export default AllAudiences

@@ -5,6 +5,7 @@ import ScrollArea from 'containers/ScrollArea/ScrollArea'
 import Table from './Table'
 import useInfiniteScroll from 'hooks/useInfiniteScroll'
 import screenSizeContext from 'context/screenSizeContext'
+import CheckMenu from './CheckMenu/CheckMenu'
 
 import styles from './Table.module.scss'
 import tableStyles from './TableBase.module.scss'
@@ -14,12 +15,13 @@ interface ITable {
   headers: string[]
   handleScrollLimit: () => void
   children: React.ReactNode[] | React.ReactNode
-  checkMenu?: React.ReactNode
+  checkedCount: number
+  total: number
 }
 
 const stepWidth = 2
 
-const ScrollTable: FC<ITable> = ({ children, headers, handleScrollLimit, checkMenu }) => {
+const ScrollTable: FC<ITable> = ({ checkedCount, total, children, headers, handleScrollLimit }) => {
   const innerRef = useRef<HTMLDivElement>(null)
   const wrapperRef = useRef<HTMLDivElement>(null)
   const simplebarRef = useRef<SimpleBar>(null)
@@ -50,7 +52,7 @@ const ScrollTable: FC<ITable> = ({ children, headers, handleScrollLimit, checkMe
   }
 
   /*
-    TODO обьеденить scrollToRight scrollToLeft
+    TODO мб обьеденить scrollToRight scrollToLeft
   */
 
   const stopMove = () => {
@@ -69,7 +71,7 @@ const ScrollTable: FC<ITable> = ({ children, headers, handleScrollLimit, checkMe
   return (
     <div className={styles.wrapper}>
       <ScrollArea modificator={styles.scroll} customRef={wrapperRef} simplebarRef={simplebarRef}>
-        <Table innerRef={innerRef} headers={headers} checkMenu={checkMenu}>
+        <Table innerRef={innerRef} headers={headers}>
           {children}
         </Table>
       </ScrollArea>
@@ -91,7 +93,11 @@ const ScrollTable: FC<ITable> = ({ children, headers, handleScrollLimit, checkMe
           </button>
         </>
       )}
-      {checkMenu && <div className={tableStyles.checkMenu}>{checkMenu}</div>}
+      {checkedCount > 0 && (
+        <div className={tableStyles.checkMenu}>
+          <CheckMenu checkedCount={checkedCount} total={total} />
+        </div>
+      )}
     </div>
   )
 }

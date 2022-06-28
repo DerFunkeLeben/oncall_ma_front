@@ -1,23 +1,18 @@
-import { FC, useState } from 'react'
+import { FC } from 'react'
 import cx from 'classnames'
-import { useHistory, useRouteMatch, useParams } from 'react-router-dom'
 
 import PageHead from 'components/PageHead/PageHead'
 import Button from 'components/parts/Button/Button'
-import DropDown from 'components/parts/DropDown/DropDown'
 import ScrollTable from 'components/Table/ScrollTable'
-import CheckMenu from 'components/Table/CheckMenu/CheckMenu'
-import Folders from 'components/Folders/Folders'
 import InputBase from 'components/parts/InputBase/InputBase'
+import useTable from 'components/Table/useTable'
 
 import styles from './OneAudience.module.scss'
 import buttonStyles from 'components/parts/Button/ButtonThemes.module.scss'
 import tableStyles from 'components/Table/TableBase.module.scss'
-import checkMenuStyles from 'components/Table/CheckMenu/CheckMenu.module.scss'
-import ddStyles from 'components/parts/DropDown/DropDown.module.scss'
 
 import { IPageData } from 'types'
-import { IconCheck, IconCopy, IconTrash, IconUpload, IconLoupe } from 'assets/icons'
+import { IconCheck, IconUpload } from 'assets/icons'
 
 import { data } from './audienceTerapistMarch'
 const header = [
@@ -34,29 +29,9 @@ const header = [
 ]
 
 const OneAudience: FC<IPageData> = () => {
-  const history = useHistory()
-  const { url } = useRouteMatch()
-  const { audienceid } = useParams<{ audienceid?: string }>()
+  const { toggleCheck, isItChecked, checkedCount } = useTable()
 
-  const [checkedList, setCheckedList] = useState<number[]>([])
-
-  const totalCountOFData = data.length
-  const checkedCount = checkedList.length
-
-  const isItChecked = (id: number) => {
-    return checkedList.includes(id)
-  }
-
-  const checkMenuIsOpen = () => checkedList.length > 0
-
-  const toggleCheck = (e: React.MouseEvent<HTMLElement>) => {
-    const { id } = e.currentTarget.dataset
-    const idNum = Number(id)
-    if (isItChecked(idNum)) {
-      const newChecked = checkedList.filter((el) => el !== idNum)
-      setCheckedList(newChecked)
-    } else setCheckedList([...checkedList, idNum])
-  }
+  const totalCountOfData = data.length
 
   return (
     <div className={cx(styles.pageContent)}>
@@ -81,27 +56,15 @@ const OneAudience: FC<IPageData> = () => {
       <ScrollTable
         headers={header}
         handleScrollLimit={() => console.log('handleScrollLimit')}
-        checkMenu={
-          checkMenuIsOpen() && (
-            <CheckMenu checkedCount={checkedCount} total={totalCountOFData}>
-              <button className={cx(checkMenuStyles.button, 'text_1')}>
-                <IconCopy className={checkMenuStyles.buttonIcon} />
-                Копировать
-              </button>
-              <button className={cx(checkMenuStyles.button, checkMenuStyles.alarm, 'text_1')}>
-                <IconTrash className={checkMenuStyles.buttonIcon} />
-                Удалить
-              </button>
-            </CheckMenu>
-          )
-        }
+        checkedCount={checkedCount}
+        total={totalCountOfData}
       >
         {data.map((dataRow, index) => {
           const { id, lastName, firstName, patronym, email, phone, city, speciality, segment } =
             dataRow
           const checked = isItChecked(index)
           return (
-            <div className={tableStyles.row} key={index} data-id={id}>
+            <div className={cx(tableStyles.row, 'text_1')} key={index} data-id={id}>
               <div
                 className={cx(tableStyles.cell, tableStyles.cellCheck)}
                 onClick={toggleCheck}
@@ -115,28 +78,21 @@ const OneAudience: FC<IPageData> = () => {
                   {checked && <IconCheck />}
                 </div>
               </div>
-              <div className={cx(tableStyles.cell, 'text_1')}>{index}</div>
-              <div className={cx(tableStyles.cell, 'text_1')}>{lastName}</div>
-              <div className={cx(tableStyles.cell, 'text_1')}>{firstName}</div>
-              <div className={cx(tableStyles.cell, 'text_1')}>{patronym}</div>
-              <div className={cx(tableStyles.cell, 'text_1')}>{email}</div>
-              <div className={cx(tableStyles.cell, 'text_1')}>{phone}</div>
-              <div className={cx(tableStyles.cell, 'text_1')}>{city}</div>
-              <div className={cx(tableStyles.cell, 'text_1')}>{speciality}</div>
-              <div className={cx(tableStyles.cell, 'text_1')}>{segment}</div>
+              <div className={cx(tableStyles.cell)}>{index}</div>
+              <div className={cx(tableStyles.cell)}>{lastName}</div>
+              <div className={cx(tableStyles.cell)}>{firstName}</div>
+              <div className={cx(tableStyles.cell)}>{patronym}</div>
+              <div className={cx(tableStyles.cell)}>{email}</div>
+              <div className={cx(tableStyles.cell)}>{phone}</div>
+              <div className={cx(tableStyles.cell)}>{city}</div>
+              <div className={cx(tableStyles.cell)}>{speciality}</div>
+              <div className={cx(tableStyles.cell)}>{segment}</div>
             </div>
           )
         })}
-        {true && <EmptyRow />}
       </ScrollTable>
     </div>
   )
 }
-
-const EmptyRow = () => (
-  <div className={tableStyles.row}>
-    <div className={tableStyles.cell}></div>
-  </div>
-)
 
 export default OneAudience
