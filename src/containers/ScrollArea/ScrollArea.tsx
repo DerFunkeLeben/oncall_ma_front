@@ -6,7 +6,6 @@ import 'simplebar/dist/simplebar.min.css'
 import style from './ScrollArea.module.scss'
 
 interface IScrollArea {
-  children: ReactNode
   customRef?: ReactNode
   simplebarRef?: any
   modificator?: string
@@ -20,7 +19,7 @@ const ScrollArea: FC<IScrollArea> = ({
   simplebarRef,
   autoHide = true,
   modificator = '',
-}: IScrollArea) => (
+}) => (
   <SimpleBar
     scrollableNodeProps={{ ref: customRef }}
     style={{ maxHeight: '100%' }}

@@ -11,7 +11,6 @@ export interface IInputBase extends React.InputHTMLAttributes<HTMLInputElement> 
   mask?: string
   type?: string
   handleInputChange: (event: ChangeEvent<HTMLInputElement>) => void
-  children?: React.ReactNode
   modificator?: string | string[]
   disabled?: boolean
   autocomplete?: string

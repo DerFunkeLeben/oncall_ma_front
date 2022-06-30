@@ -2,15 +2,11 @@ import { FC, useState, useEffect } from 'react'
 
 import ScreenSizeContext from 'context/screenSizeContext'
 
-interface IProps {
-  children: React.ReactNode
-}
-
 const checkWindowSize = () => {
   return window.innerWidth
 }
 
-const WindowSizeWrap: FC<IProps> = ({ children }: IProps) => {
+const WindowSizeWrap: FC = ({ children }) => {
   const [windowSize, setWindowSize] = useState('0')
 
   const changeWindowSize = () => {

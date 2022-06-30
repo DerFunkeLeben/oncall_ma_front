@@ -14,7 +14,6 @@ import { IconArrow } from 'assets/icons'
 interface ITable {
   headers: string[]
   handleScrollLimit: () => void
-  children: React.ReactNode[] | React.ReactNode
   checkedCount?: number
   totalCountOfData?: number
   checkBoxesEnabled?: boolean

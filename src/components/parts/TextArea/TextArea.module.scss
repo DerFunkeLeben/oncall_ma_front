@@ -1,0 +1,65 @@
+.textareaLabel {
+  display: block;
+  margin-bottom: 0.375rem;
+  color: var(--black);
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.0625rem;
+}
+
+textarea {
+  width: 100%;
+  padding: 0.625rem 2.375rem 0.625rem 0.875rem;
+  border: var(--interactive_gray_100) 0.0625rem solid;
+  background: var(--white);
+  border-radius: 0.75rem;
+  box-shadow: 0px 1px 2px rgba(156, 160, 169, 0.05);
+  color: var(--black);
+  font-family: 'Inter', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1.0625rem;
+
+  &:focus {
+    border: var(--primary_basic) 0.0625rem solid;
+    outline: 3px solid var(--primary_100);
+    transition-duration: 0.1s;
+    transition-property: background, border-color, outline-width;
+    transition-timing-function: ease;
+  }
+}
+
+textarea::placeholder {
+  color: var(--interactive_gray_basic);
+}
+textarea::-webkit-input-placeholder {
+  color: var(--interactive_gray_basic);
+}
+textarea::-moz-placeholder {
+  color: var(--interactive_gray_basic);
+}
+textarea:-moz-placeholder {
+  color: var(--interactive_gray_basic);
+}
+textarea:-ms-input-placeholder {
+  color: var(--interactive_gray_basic);
+}
+
+.textareaError {
+  border-color: var(--error_basic);
+}
+
+textarea::placeholder {
+  color: #c4c4c4;
+}
+
+.wrapper {
+  position: relative;
+}
+
+.disabled {
+  pointer-events: none;
+}
+.disabled textarea {
+  background: var(--interactive_gray_50);
+}

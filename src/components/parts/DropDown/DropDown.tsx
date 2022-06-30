@@ -4,7 +4,6 @@ import { createPortal } from 'react-dom'
 import styles from './DropDown.module.scss'
 
 interface DropDown {
-  children: React.ReactNode
   triggerNode: React.ReactNode
 }
 

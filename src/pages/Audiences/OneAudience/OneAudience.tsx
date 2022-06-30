@@ -7,7 +7,7 @@ import Button from 'components/parts/Button/Button'
 import ScrollTable from 'components/Table/ScrollTable'
 import InputBase from 'components/parts/InputBase/InputBase'
 import useTable from 'components/Table/useTable'
-import SidePopup from 'containers/SidePopup/SidePopup'
+import SidePopup from 'components/SidePopup/SidePopup'
 
 import styles from './OneAudience.module.scss'
 import buttonStyles from 'components/parts/Button/ButtonThemes.module.scss'
@@ -138,7 +138,9 @@ const OneAudience: FC<IPageData> = () => {
         </ScrollTable>
       </div>
       <SidePopup isOpen={filtersisOpen} close={closeFilter}>
-        side!
+        <div>step1</div>
+        <div>step2</div>
+        <div>step2</div>
       </SidePopup>
     </>
   )

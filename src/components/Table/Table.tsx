@@ -10,7 +10,6 @@ import { ASCENDING, DESCENDING } from 'constants/dictionary'
 interface ITable {
   headers: string[]
   innerRef?: RefObject<HTMLDivElement>
-  children: React.ReactNode[] | React.ReactNode
   checkBoxesEnabled?: boolean
 }
 
