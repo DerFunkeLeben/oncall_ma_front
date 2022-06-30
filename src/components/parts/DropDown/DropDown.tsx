@@ -10,23 +10,24 @@ interface DropDown {
 
 const DropDown: FC<DropDown> = ({ children, triggerNode }) => {
   const [isMenuOpened, setMenuOpened] = useState(false)
-  const dotsRef = useRef<HTMLElement>(null)
+  const triggerRef = useRef<HTMLElement>(null)
 
   const togglePopup = () => setMenuOpened(!isMenuOpened)
   const closePopup = () => setMenuOpened(false)
 
-  const rect = dotsRef.current?.getBoundingClientRect()
+  const rect = triggerRef.current?.getBoundingClientRect()
   const gap = 10
+  const paddingRight = 30
+
   const ddStyle = rect && {
     top: rect.top,
-    left: rect.left,
-    width: rect.width,
+    right: paddingRight,
     paddingTop: rect.height + gap,
   }
 
   return (
     <>
-      <div onClick={togglePopup} ref={dotsRef as React.RefObject<HTMLDivElement>}>
+      <div onClick={togglePopup} ref={triggerRef as React.RefObject<HTMLDivElement>}>
         {triggerNode}
       </div>
       {isMenuOpened &&

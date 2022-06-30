@@ -9,6 +9,7 @@
 }
 .container {
   display: flex;
+  width: max-content;
   flex-direction: column;
   padding: 10px 0;
   border: 1px solid var(--blue_2);

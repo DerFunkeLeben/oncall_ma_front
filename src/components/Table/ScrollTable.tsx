@@ -15,13 +15,21 @@ interface ITable {
   headers: string[]
   handleScrollLimit: () => void
   children: React.ReactNode[] | React.ReactNode
-  checkedCount: number
-  total: number
+  checkedCount?: number
+  totalCountOfData?: number
+  checkBoxesEnabled?: boolean
 }
 
 const stepWidth = 2
 
-const ScrollTable: FC<ITable> = ({ checkedCount, total, children, headers, handleScrollLimit }) => {
+const ScrollTable: FC<ITable> = ({
+  checkedCount,
+  totalCountOfData,
+  children,
+  headers,
+  handleScrollLimit,
+  checkBoxesEnabled,
+}) => {
   const innerRef = useRef<HTMLDivElement>(null)
   const wrapperRef = useRef<HTMLDivElement>(null)
   const simplebarRef = useRef<SimpleBar>(null)
@@ -71,7 +79,7 @@ const ScrollTable: FC<ITable> = ({ checkedCount, total, children, headers, handl
   return (
     <div className={styles.wrapper}>
       <ScrollArea modificator={styles.scroll} customRef={wrapperRef} simplebarRef={simplebarRef}>
-        <Table innerRef={innerRef} headers={headers}>
+        <Table innerRef={innerRef} headers={headers} checkBoxesEnabled={checkBoxesEnabled}>
           {children}
         </Table>
       </ScrollArea>
@@ -93,9 +101,9 @@ const ScrollTable: FC<ITable> = ({ checkedCount, total, children, headers, handl
           </button>
         </>
       )}
-      {checkedCount > 0 && (
+      {checkedCount && totalCountOfData && checkedCount > 0 && (
         <div className={tableStyles.checkMenu}>
-          <CheckMenu checkedCount={checkedCount} total={total} />
+          <CheckMenu checkedCount={checkedCount} totalCountOfData={totalCountOfData} />
         </div>
       )}
     </div>

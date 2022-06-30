@@ -11,9 +11,10 @@ interface ITable {
   headers: string[]
   innerRef?: RefObject<HTMLDivElement>
   children: React.ReactNode[] | React.ReactNode
+  checkBoxesEnabled?: boolean
 }
 
-const Table: FC<ITable> = ({ children, innerRef, headers }) => {
+const Table: FC<ITable> = ({ children, innerRef, headers, checkBoxesEnabled }) => {
   const [sorting, setSorting] = useState({
     columnNumber: 4,
     direction: DESCENDING,
@@ -43,7 +44,7 @@ const Table: FC<ITable> = ({ children, innerRef, headers }) => {
               <div
                 key={column}
                 className={cx(styles.headCell, 'text_1_hl_1', {
-                  [stylesTable.cellCheck]: index === 0,
+                  [stylesTable.cellCheck]: column === '',
                 })}
                 onClick={() => changeSorting(index)}
               >
@@ -60,7 +61,7 @@ const Table: FC<ITable> = ({ children, innerRef, headers }) => {
       </div>
       <div className={styles.tbody} ref={innerRef}>
         {children}
-        {true && <EmptyRow />}
+        {checkBoxesEnabled && <EmptyRow />}
       </div>
     </div>
   )

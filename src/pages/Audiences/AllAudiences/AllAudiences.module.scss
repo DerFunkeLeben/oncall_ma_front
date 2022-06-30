@@ -6,6 +6,12 @@
   padding: 30px 30px 0px 30px;
 }
 
+.tableWrapper {
+  overflow: hidden;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
 .menuIsOpen {
   display: grid;
   padding: 30px 30px 0px 30px;

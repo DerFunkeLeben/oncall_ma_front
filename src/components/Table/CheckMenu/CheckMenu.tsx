@@ -6,10 +6,10 @@ import { IconCopy, IconTrash } from 'assets/icons'
 
 interface ICheckMenu {
   checkedCount: number
-  total: number
+  totalCountOfData: number
 }
 
-const CheckMenu: FC<ICheckMenu> = ({ checkedCount, total }) => {
+const CheckMenu: FC<ICheckMenu> = ({ checkedCount, totalCountOfData }) => {
   return (
     <div className={styles.checkMenu}>
       <div className={styles.buttonConianter}>
@@ -24,7 +24,9 @@ const CheckMenu: FC<ICheckMenu> = ({ checkedCount, total }) => {
       </div>
       <div className={cx(styles.amount, 'text_1')}>
         Отмечено
-        <span className={cx(styles.amountNumber, 'text_1_hl_2')}>{`${checkedCount}/${total}`}</span>
+        <span
+          className={cx(styles.amountNumber, 'text_1_hl_2')}
+        >{`${checkedCount}/${totalCountOfData}`}</span>
       </div>
     </div>
   )
