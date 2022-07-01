@@ -48,17 +48,40 @@ const initData = {
   last_update_date: '',
 }
 
-const config: IConfig = {
-  title: 'Фильтры',
-  steps: [
-    [
-      {
-        type: 'textarea',
-        name: 'telegrammMessageText',
-        require: true,
-      },
-    ],
-  ],
+export interface IState {
+  [key: string]: string
+}
+
+export interface IStep {
+  name: string
+  type: string
+  getNextStep?: (value: IState) => IStep
+}
+
+const title = 'Фильтры'
+
+const config: IStep = {
+  name: 'stepname1',
+  type: 'table',
+  getNextStep: (a) => {
+    if (a.stepname1 === 'a') {
+      return {
+        name: 'stepname2',
+        type: 'table',
+        getNextStep: () => {
+          return {
+            name: 'stepname4',
+            type: 'table',
+          }
+        },
+      }
+    } else {
+      return {
+        name: 'stepname3',
+        type: 'table',
+      }
+    }
+  },
 }
 
 const OneAudience: FC<IPageData> = () => {
@@ -66,7 +89,7 @@ const OneAudience: FC<IPageData> = () => {
   const { audienceid } = useParams<{ audienceid?: string }>()
   const [audienceInfo, setAudienceInfo] = useState<IAudienceMetaData>(initData)
   const [filterisOpen, setFilterisOpen] = useState(false)
-  const [filterOptions, setFilterOptions] = useState({})
+  const [sidePopupState, setSidePopupState] = useState({})
 
   const totalCountOfData = data.length
 
@@ -79,9 +102,9 @@ const OneAudience: FC<IPageData> = () => {
     setAudienceInfo(audiencesData.filter((audience) => audience.id === audienceIdNumber)[0])
   }, [audienceid])
 
-  useEffect(() => {
-    console.log(filterOptions)
-  }, [filterOptions])
+  // useEffect(() => {
+  //   console.log(sidePopupState)
+  // }, [sidePopupState])
 
   return (
     <>
@@ -161,7 +184,8 @@ const OneAudience: FC<IPageData> = () => {
         isOpen={filterisOpen}
         close={closeFilter}
         config={config}
-        handleSave={setFilterOptions}
+        handleSave={setSidePopupState}
+        title={title}
       />
     </>
   )

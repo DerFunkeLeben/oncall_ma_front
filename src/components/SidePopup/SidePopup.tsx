@@ -10,63 +10,47 @@ import buttonThemes from 'components/parts/Button/ButtonThemes.module.scss'
 import { IconPlus } from 'assets/icons'
 import TextAreaAction from './actions/TextAreaAction/TextAreaAction'
 
-import { IConfig, IState } from 'types/sidePopup'
+import { IStep, IState } from 'pages/Audiences/OneAudience/OneAudience'
 import ScrollArea from 'containers/ScrollArea/ScrollArea'
 
 interface ISidePopup {
   isOpen: boolean
   close: () => void
-  config: IConfig
+  config: IStep
   handleSave: React.Dispatch<React.SetStateAction<IState>>
+  title: string
 }
 
-// const config: IConfig = {
-//   title: 'Фильтры',
-//   steps: [
-//     [
-//       {
-//         type: 'table',
-//         url: '/telegrammMessages',
-//         name: 'telegrammMessageId',
-//         require: true,
-//       },
-//     ],
-//     [
-//       {
-//         type: 'textarea',
-//         name: 'telegrammMessageText',
-//         require: true,
-//       },
-//     ],
-//     [
-//       {
-//         type: 'filter',
-//         url: '/audences/2144',
-//         name: 'audienceFilter',
-//         require: true,
-//       },
-//     ],
-//   ],
-// }
-
-const SidePopup: FC<ISidePopup> = ({ isOpen, close, config, handleSave }) => {
+const SidePopup: FC<ISidePopup> = ({ isOpen, close, config, handleSave, title }) => {
   const generateInitState = () => {
-    return config.steps.reduce((stepsAccumulator, step, index) => {
-      const asd = step.reduce((actionsAccumulator, action) => {
-        const { name } = action
-        return { ...actionsAccumulator, [name]: '' }
-      }, {})
-      return { ...stepsAccumulator, [index]: asd }
-    }, {})
+    const { name } = config
+    return {
+      [name]: 'a',
+    }
+    /*TODO обрабатывать вложенности*/
   }
-
   const initState = generateInitState()
-
-  const [currentStep, setCurrentStep] = useState(1)
   const [state, setState] = useState<IState>(initState)
 
-  const countOfSteps = config.steps.length
-  const { title } = config
+  const createConfig = (step: IStep, acc: { [key: string]: string }[] = []): any => {
+    const { name, type, getNextStep } = step
+
+    acc = [...acc, { name, type, value: state[name] }]
+
+    if (getNextStep) {
+      const nextStep = getNextStep(state)
+      const children = createConfig(nextStep, acc)
+      return [...children]
+    }
+
+    return acc
+  }
+
+  const configArray = createConfig(config)
+
+  const [currentStep, setCurrentStep] = useState(1)
+
+  const countOfSteps = configArray.length
   const itsLastStep = currentStep === countOfSteps
   const itsFirstStep = currentStep === 1
   const itsOnlyStep = countOfSteps === 1
@@ -94,44 +78,39 @@ const SidePopup: FC<ISidePopup> = ({ isOpen, close, config, handleSave }) => {
   }
 
   const renderSteps = () => {
-    const { steps } = config
-    return steps.map((step, index) => {
+    // const { steps } = configArray
+    const steps = configArray
+    return steps.map((step: any, index: number) => {
       if (index + 1 !== currentStep) return
-      return step.map((action) => {
-        const { type, name } = action
-        switch (type) {
-          case 'filter':
-            return (
-              <div key={name}>
-                <p>table</p>
-              </div>
-            )
-          case 'table':
-            return (
-              <div key={name}>
-                <p>table</p>
-              </div>
-            )
-          case 'textarea':
-            return (
-              <TextAreaAction
-                key={name}
-                currentStep={currentStep}
-                action={action}
-                currentState={state}
-                setState={setState}
-              />
-            )
-          default:
-            return null
-        }
-      })
+      const { type, name } = step
+      switch (type) {
+        case 'filter':
+          return (
+            <div key={name}>
+              <p>filter</p>
+            </div>
+          )
+        case 'table':
+          return (
+            <div key={name}>
+              <p>table</p>
+            </div>
+          )
+        case 'textarea':
+          return (
+            <div key={name}>
+              <p>textarea</p>
+            </div>
+          )
+        default:
+          return null
+      }
     })
   }
 
-  useEffect(() => {
-    console.log(state)
-  }, [state])
+  // useEffect(() => {
+  //   console.log(state)
+  // }, [state])
 
   if (!isOpen) return null
   return createPortal(
@@ -146,9 +125,7 @@ const SidePopup: FC<ISidePopup> = ({ isOpen, close, config, handleSave }) => {
             <h2 className={cx(styles.title, 'header_2')}>{title}</h2>
           </div>
         </div>
-        <div className={styles.popupContent}>
-          <ScrollArea>{renderSteps()}</ScrollArea>
-        </div>
+        <div className={styles.popupContent}>{<ScrollArea>{renderSteps()}</ScrollArea>}</div>
         <div className={styles.footer}>
           <div className={styles.footerStepCounter}>
             {!itsOnlyStep && (
