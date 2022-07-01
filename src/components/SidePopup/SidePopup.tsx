@@ -10,37 +10,46 @@ import buttonThemes from 'components/parts/Button/ButtonThemes.module.scss'
 import { IconPlus } from 'assets/icons'
 import TextAreaAction from './actions/TextAreaAction/TextAreaAction'
 
-import { IAction, IConfig, IState } from './types'
+import { IConfig, IState } from 'types/sidePopup'
+import ScrollArea from 'containers/ScrollArea/ScrollArea'
 
 interface ISidePopup {
   isOpen: boolean
   close: () => void
+  config: IConfig
+  handleSave: React.Dispatch<React.SetStateAction<IState>>
 }
 
-const title = 'Фильтры'
+// const config: IConfig = {
+//   title: 'Фильтры',
+//   steps: [
+//     [
+//       {
+//         type: 'table',
+//         url: '/telegrammMessages',
+//         name: 'telegrammMessageId',
+//         require: true,
+//       },
+//     ],
+//     [
+//       {
+//         type: 'textarea',
+//         name: 'telegrammMessageText',
+//         require: true,
+//       },
+//     ],
+//     [
+//       {
+//         type: 'filter',
+//         url: '/audences/2144',
+//         name: 'audienceFilter',
+//         require: true,
+//       },
+//     ],
+//   ],
+// }
 
-const config: IConfig = {
-  title: 'Telegram',
-  steps: [
-    [
-      {
-        type: 'table',
-        url: '/telegrammMessages',
-        name: 'telegrammMessageId',
-        require: true,
-      },
-    ],
-    [
-      {
-        type: 'textarea',
-        name: 'telegrammMessageText',
-        require: true,
-      },
-    ],
-  ],
-}
-
-const SidePopup: FC<ISidePopup> = ({ isOpen, close }) => {
+const SidePopup: FC<ISidePopup> = ({ isOpen, close, config, handleSave }) => {
   const generateInitState = () => {
     return config.steps.reduce((stepsAccumulator, step, index) => {
       const asd = step.reduce((actionsAccumulator, action) => {
@@ -57,6 +66,7 @@ const SidePopup: FC<ISidePopup> = ({ isOpen, close }) => {
   const [state, setState] = useState<IState>(initState)
 
   const countOfSteps = config.steps.length
+  const { title } = config
   const itsLastStep = currentStep === countOfSteps
   const itsFirstStep = currentStep === 1
   const itsOnlyStep = countOfSteps === 1
@@ -78,28 +88,9 @@ const SidePopup: FC<ISidePopup> = ({ isOpen, close }) => {
 
   const save = () => {
     console.log('save')
+    handleSave(state)
     setCurrentStep(1)
     closePopup()
-  }
-
-  const renderAction = (action: IAction) => {
-    const { type, name } = action
-    // const props = { action, state, setState }
-    switch (type) {
-      case 'table':
-        return <div key={name}>table</div>
-      case 'textarea':
-        return (
-          <TextAreaAction
-            currentStep={currentStep}
-            action={action}
-            currentState={state}
-            setState={setState}
-          />
-        )
-      default:
-        return null
-    }
   }
 
   const renderSteps = () => {
@@ -107,7 +98,33 @@ const SidePopup: FC<ISidePopup> = ({ isOpen, close }) => {
     return steps.map((step, index) => {
       if (index + 1 !== currentStep) return
       return step.map((action) => {
-        return renderAction(action)
+        const { type, name } = action
+        switch (type) {
+          case 'filter':
+            return (
+              <div key={name}>
+                <p>table</p>
+              </div>
+            )
+          case 'table':
+            return (
+              <div key={name}>
+                <p>table</p>
+              </div>
+            )
+          case 'textarea':
+            return (
+              <TextAreaAction
+                key={name}
+                currentStep={currentStep}
+                action={action}
+                currentState={state}
+                setState={setState}
+              />
+            )
+          default:
+            return null
+        }
       })
     })
   }
@@ -120,30 +137,40 @@ const SidePopup: FC<ISidePopup> = ({ isOpen, close }) => {
   return createPortal(
     <div className={styles.popupWrapper}>
       <div className={styles.popupBackground} onClick={closePopup} />
-      <div className={styles.popupContent}>
+      <div className={styles.popupContentainer}>
         <div className={styles.header}>
-          <Button modificator={buttonThemes.theme_secondary} onClick={closePopup}>
-            <IconPlus className={styles.iconCross} />
-          </Button>
-          <h2 className={cx(styles.title, 'header_2')}>{title}</h2>
+          <div className={styles.headerWrapper}>
+            <Button modificator={buttonThemes.theme_secondary} onClick={closePopup}>
+              <IconPlus className={styles.iconCross} />
+            </Button>
+            <h2 className={cx(styles.title, 'header_2')}>{title}</h2>
+          </div>
         </div>
-        {renderSteps()}
+        <div className={styles.popupContent}>
+          <ScrollArea>{renderSteps()}</ScrollArea>
+        </div>
         <div className={styles.footer}>
-          {!itsOnlyStep && <div>{`Шаг ${currentStep} из ${countOfSteps}`}</div>}
-          {itsFirstStep ? (
-            <Button onClick={closePopup} modificator={buttonThemes.theme_secondary}>
-              Отменить
-            </Button>
-          ) : (
-            <Button onClick={goToPrevStep} modificator={buttonThemes.theme_secondary}>
-              Назад
-            </Button>
-          )}
-          {itsLastStep ? (
-            <Button onClick={save}>Сохранить</Button>
-          ) : (
-            <Button onClick={goToNextStep}>Далее</Button>
-          )}
+          <div className={styles.footerStepCounter}>
+            {!itsOnlyStep && (
+              <div className="text_1">{`Шаг ${currentStep} из ${countOfSteps}`}</div>
+            )}
+          </div>
+          <div className={styles.footerButtons}>
+            {itsFirstStep ? (
+              <Button onClick={closePopup} modificator={buttonThemes.theme_secondary}>
+                Отменить
+              </Button>
+            ) : (
+              <Button onClick={goToPrevStep} modificator={buttonThemes.theme_secondary}>
+                Назад
+              </Button>
+            )}
+            {itsLastStep ? (
+              <Button onClick={save}>Сохранить</Button>
+            ) : (
+              <Button onClick={goToNextStep}>Далее</Button>
+            )}
+          </div>
         </div>
       </div>
     </div>,

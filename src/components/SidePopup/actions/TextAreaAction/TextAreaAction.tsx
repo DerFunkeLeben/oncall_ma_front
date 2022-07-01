@@ -1,7 +1,7 @@
 import TextArea from 'components/parts/TextArea/TextArea'
 import { FC, ChangeEvent, Dispatch, SetStateAction } from 'react'
 
-import { IAction, IConfig, IState } from '../../types'
+import { IAction, IState } from 'types/sidePopup'
 
 interface ITextAreaAction {
   currentStep: number

@@ -14,10 +14,12 @@ import buttonStyles from 'components/parts/Button/ButtonThemes.module.scss'
 import tableStyles from 'components/Table/TableBase.module.scss'
 
 import { IPageData } from 'types'
+import { IConfig } from 'types/sidePopup'
 import { IconCheck, IconExport, IconFilters, IconRefresh } from 'assets/icons'
 
 import { data } from './audienceTerapistMarch'
 import { data as audiencesData } from '../AllAudiences/audiencesData'
+
 interface IAudienceMetaData {
   id: number
   name: string
@@ -46,22 +48,40 @@ const initData = {
   last_update_date: '',
 }
 
+const config: IConfig = {
+  title: 'Фильтры',
+  steps: [
+    [
+      {
+        type: 'textarea',
+        name: 'telegrammMessageText',
+        require: true,
+      },
+    ],
+  ],
+}
+
 const OneAudience: FC<IPageData> = () => {
   const { toggleCheck, isItChecked, checkedCount } = useTable()
   const { audienceid } = useParams<{ audienceid?: string }>()
   const [audienceInfo, setAudienceInfo] = useState<IAudienceMetaData>(initData)
-  const [filtersisOpen, setFiltersisOpen] = useState(false)
+  const [filterisOpen, setFilterisOpen] = useState(false)
+  const [filterOptions, setFilterOptions] = useState({})
 
   const totalCountOfData = data.length
 
-  const openFilter = () => setFiltersisOpen(true)
-  const closeFilter = () => setFiltersisOpen(false)
+  const openFilter = () => setFilterisOpen(true)
+  const closeFilter = () => setFilterisOpen(false)
 
   useEffect(() => {
     if (!audienceid) return
     const audienceIdNumber = Number(audienceid)
     setAudienceInfo(audiencesData.filter((audience) => audience.id === audienceIdNumber)[0])
   }, [audienceid])
+
+  useEffect(() => {
+    console.log(filterOptions)
+  }, [filterOptions])
 
   return (
     <>
@@ -137,11 +157,12 @@ const OneAudience: FC<IPageData> = () => {
           })}
         </ScrollTable>
       </div>
-      <SidePopup isOpen={filtersisOpen} close={closeFilter}>
-        <div>step1</div>
-        <div>step2</div>
-        <div>step2</div>
-      </SidePopup>
+      <SidePopup
+        isOpen={filterisOpen}
+        close={closeFilter}
+        config={config}
+        handleSave={setFilterOptions}
+      />
     </>
   )
 }
