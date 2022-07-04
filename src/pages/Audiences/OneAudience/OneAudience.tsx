@@ -62,12 +62,12 @@ const title = 'Фильтры'
 
 const config: IStep = {
   name: 'stepname1',
-  type: 'table',
+  type: 'filter',
   getNextStep: (a) => {
     if (a.stepname1 === 'a') {
       return {
         name: 'stepname2',
-        type: 'table',
+        type: 'textarea',
         getNextStep: () => {
           return {
             name: 'stepname4',

@@ -5,9 +5,11 @@ input {
   border: var(--blue_2) 1px solid;
   background: var(--white);
   border-radius: 8px;
+  color: var(--blue_8);
 
   &:focus {
-    border: var(--blue_2) 1px solid;
+    border: var(--blue_6) 1px solid;
+    box-shadow: 0 0 3px 0.25px var(--blue_6);
     outline: none;
   }
 }
@@ -33,4 +35,14 @@ input::placeholder {
   position: absolute;
   top: 13px;
   left: 13px;
+}
+
+.inputLabel {
+  display: block;
+  margin: 0.25rem 0 0.375rem;
+  margin-bottom: 0.375rem;
+  color: var(--blue_8);
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.0625rem;
 }

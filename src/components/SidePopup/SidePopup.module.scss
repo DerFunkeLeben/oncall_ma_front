@@ -72,4 +72,27 @@
   overflow: hidden;
   height: calc(100vh - 124px - 145px);
   width: 850px;
+  padding: 10px 50px;
+  box-sizing: border-box;
 }
+
+.popupContentInnerWrapper {
+  padding: 0 10px;
+}
+
+.popupSubtitle {
+  margin: 0 0 2rem;
+  color: var(--blue_8);
+  font-weight: 600;
+}
+
+.popupInput,
+.popupTextArea {
+  padding: 10px 15px;
+  margin-bottom: 1rem;
+}
+
+.popupTextArea {
+  min-height: 7rem;
+}
+

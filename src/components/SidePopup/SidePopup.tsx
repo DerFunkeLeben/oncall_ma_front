@@ -9,6 +9,9 @@ import buttonThemes from 'components/parts/Button/ButtonThemes.module.scss'
 
 import { IconPlus } from 'assets/icons'
 import TextAreaAction from './actions/TextAreaAction/TextAreaAction'
+import PopupEmailStep2 from './PopupContent/PopupEmailStep2/PopupEmailStep2'
+import PopupSMSStep2 from './PopupContent/PopupSMSStep2/PopupSMSStep2'
+import Slider from 'components/parts/Slider/Slider'
 
 import { IStep, IState } from 'pages/Audiences/OneAudience/OneAudience'
 import ScrollArea from 'containers/ScrollArea/ScrollArea'
@@ -86,21 +89,26 @@ const SidePopup: FC<ISidePopup> = ({ isOpen, close, config, handleSave, title })
       switch (type) {
         case 'filter':
           return (
-            <div key={name}>
-              <p>filter</p>
+            <div style={{ padding: '25px' }} key={name}>
+              <Slider title="Аудитория 11" initValue={60} />
             </div>
           )
         case 'table':
           return (
-            <div key={name}>
-              <p>table</p>
-            </div>
+            <PopupEmailStep2
+              emailName={'Врачи_вебинар'}
+              emailOptions={{
+                theme: 'Вебинары Власовой Елены',
+                preheader: 'Добрый день! Переходите по ссылке...',
+              }}
+            />
           )
         case 'textarea':
           return (
-            <div key={name}>
-              <p>textarea</p>
-            </div>
+            <PopupSMSStep2
+              SMSName={'Приглашение впч'}
+              SMSOptions={{ text: 'Добрый день! Приглашаем вас....' }}
+            />
           )
         default:
           return null
@@ -125,7 +133,9 @@ const SidePopup: FC<ISidePopup> = ({ isOpen, close, config, handleSave, title })
             <h2 className={cx(styles.title, 'header_2')}>{title}</h2>
           </div>
         </div>
-        <div className={styles.popupContent}>{<ScrollArea>{renderSteps()}</ScrollArea>}</div>
+        <div className={styles.popupContent}>
+          <ScrollArea>{renderSteps()}</ScrollArea>
+        </div>
         <div className={styles.footer}>
           <div className={styles.footerStepCounter}>
             {!itsOnlyStep && (
