@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react'
+import { FC, useState } from 'react'
 import { createPortal } from 'react-dom'
 import cx from 'classnames'
 
@@ -6,12 +6,9 @@ import Button from 'components/parts/Button/Button'
 
 import styles from './SidePopup.module.scss'
 import buttonThemes from 'components/parts/Button/ButtonThemes.module.scss'
+import SidePopupContent from './SidePopupContent'
 
 import { IconPlus } from 'assets/icons'
-import TextAreaAction from './actions/TextAreaAction/TextAreaAction'
-import PopupEmailStep2 from './PopupContent/PopupEmailStep2/PopupEmailStep2'
-import PopupSMSStep2 from './PopupContent/PopupSMSStep2/PopupSMSStep2'
-import Slider from 'components/parts/Slider/Slider'
 
 import { IStep, IState } from 'pages/Audiences/OneAudience/OneAudience'
 import ScrollArea from 'containers/ScrollArea/ScrollArea'
@@ -28,7 +25,7 @@ const SidePopup: FC<ISidePopup> = ({ isOpen, close, config, handleSave, title })
   const generateInitState = () => {
     const { name } = config
     return {
-      [name]: 'a',
+      [name]: 'textarea text',
     }
     /*TODO обрабатывать вложенности*/
   }
@@ -80,46 +77,6 @@ const SidePopup: FC<ISidePopup> = ({ isOpen, close, config, handleSave, title })
     closePopup()
   }
 
-  const renderSteps = () => {
-    // const { steps } = configArray
-    const steps = configArray
-    return steps.map((step: any, index: number) => {
-      if (index + 1 !== currentStep) return
-      const { type, name } = step
-      switch (type) {
-        case 'filter':
-          return (
-            <div style={{ padding: '25px' }} key={name}>
-              <Slider title="Аудитория 11" initValue={60} />
-            </div>
-          )
-        case 'table':
-          return (
-            <PopupEmailStep2
-              emailName={'Врачи_вебинар'}
-              emailOptions={{
-                theme: 'Вебинары Власовой Елены',
-                preheader: 'Добрый день! Переходите по ссылке...',
-              }}
-            />
-          )
-        case 'textarea':
-          return (
-            <PopupSMSStep2
-              SMSName={'Приглашение впч'}
-              SMSOptions={{ text: 'Добрый день! Приглашаем вас....' }}
-            />
-          )
-        default:
-          return null
-      }
-    })
-  }
-
-  // useEffect(() => {
-  //   console.log(state)
-  // }, [state])
-
   if (!isOpen) return null
   return createPortal(
     <div className={styles.popupWrapper}>
@@ -134,7 +91,11 @@ const SidePopup: FC<ISidePopup> = ({ isOpen, close, config, handleSave, title })
           </div>
         </div>
         <div className={styles.popupContent}>
-          <ScrollArea>{renderSteps()}</ScrollArea>
+          <ScrollArea>
+            <div className={styles.popupContentInnerWrapper}>
+              <SidePopupContent {...{ configArray, currentStep, state, setState }} />
+            </div>
+          </ScrollArea>
         </div>
         <div className={styles.footer}>
           <div className={styles.footerStepCounter}>
