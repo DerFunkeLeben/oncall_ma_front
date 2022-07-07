@@ -60,29 +60,42 @@ export interface IStep {
 
 const title = 'Фильтры'
 
-const config: IStep = {
-  name: 'stepname1',
-  type: 'table',
-  getNextStep: (a) => {
-    if (a.stepname1 === 'a') {
-      return {
-        name: 'stepname2',
-        type: 'table',
-        getNextStep: () => {
-          return {
-            name: 'stepname4',
-            type: 'table',
-          }
-        },
-      }
-    } else {
-      return {
-        name: 'stepname3',
-        type: 'table',
-      }
+const configTest: IStep = {
+  name: 'step 1',
+  type: 'textarea',
+  getNextStep: () => {
+    return {
+      name: 'step 2',
+      type: 'inputs',
+      getNextStep: () => {
+        return {
+          name: 'step 3',
+          type: 'slider',
+          getNextStep: () => {
+            return {
+              name: 'step 4',
+              type: 'radiogroup',
+              getNextStep: () => {
+                return {
+                  name: 'step 5',
+                  type: 'filter',
+                  getNextStep: () => {
+                    return {
+                      name: 'step 6',
+                      type: 'table',
+                    }
+                  },
+                }
+              },
+            }
+          },
+        }
+      },
     }
   },
 }
+
+const config = configTest
 
 const OneAudience: FC<IPageData> = () => {
   const { toggleCheck, isItChecked, checkedCount } = useTable()

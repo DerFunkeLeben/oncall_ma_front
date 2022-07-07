@@ -1,0 +1,52 @@
+
+.wrapper {
+  position: relative;
+  margin: 1rem 0;
+}
+
+.radioInput {
+  position: absolute;
+  display: inline-block;
+  opacity: 0;
+
+  & + label {
+    position: relative;
+    display: inline-block;
+    padding: 0 0 0 1rem;
+    margin: 0.75rem 0;
+    color: var(--blue_8);
+    cursor: pointer;
+    font-size: 0.875rem;
+    line-height: 0.875rem;
+    white-space: nowrap;
+
+    span {
+      margin-left: 0.75rem;
+    }
+
+    &::before {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: calc(100% - 2px);
+      box-sizing: content-box;
+      border: 1px solid var(--blue_11);
+      aspect-ratio: 1 / 1;
+      border-radius: 50%;
+      content: '';
+      transition: 0.3s;
+    }
+
+    &:focus,
+    &:active {
+      outline: none;
+    }
+  }
+
+  &:focus,
+  &:checked {
+    & + label::before {
+      box-shadow: inset 0 0 0 1px var(--white), inset 0 0 0 1rem var(--blue_6);
+    }
+  }
+}

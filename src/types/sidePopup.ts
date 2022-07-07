@@ -22,3 +22,9 @@ export interface IStateElement {
 export interface IState {
   [key: number]: IStateElement
 }
+
+export interface IStep {
+  name: string
+  type: string
+  getNextStep?: (value: IState) => IStep
+}

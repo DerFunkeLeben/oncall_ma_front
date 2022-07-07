@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react'
+import { FC, useState } from 'react'
 import { createPortal } from 'react-dom'
 import cx from 'classnames'
 
@@ -6,9 +6,9 @@ import Button from 'components/parts/Button/Button'
 
 import styles from './SidePopup.module.scss'
 import buttonThemes from 'components/parts/Button/ButtonThemes.module.scss'
+import SidePopupContent from './SidePopupContent'
 
 import { IconPlus } from 'assets/icons'
-import TextAreaAction from './actions/TextAreaAction/TextAreaAction'
 
 import { IStep, IState } from 'pages/Audiences/OneAudience/OneAudience'
 import ScrollArea from 'containers/ScrollArea/ScrollArea'
@@ -25,7 +25,7 @@ const SidePopup: FC<ISidePopup> = ({ isOpen, close, config, handleSave, title })
   const generateInitState = () => {
     const { name } = config
     return {
-      [name]: 'a',
+      [name]: 'textarea text',
     }
     /*TODO обрабатывать вложенности*/
   }
@@ -77,41 +77,6 @@ const SidePopup: FC<ISidePopup> = ({ isOpen, close, config, handleSave, title })
     closePopup()
   }
 
-  const renderSteps = () => {
-    // const { steps } = configArray
-    const steps = configArray
-    return steps.map((step: any, index: number) => {
-      if (index + 1 !== currentStep) return
-      const { type, name } = step
-      switch (type) {
-        case 'filter':
-          return (
-            <div key={name}>
-              <p>filter</p>
-            </div>
-          )
-        case 'table':
-          return (
-            <div key={name}>
-              <p>table</p>
-            </div>
-          )
-        case 'textarea':
-          return (
-            <div key={name}>
-              <p>textarea</p>
-            </div>
-          )
-        default:
-          return null
-      }
-    })
-  }
-
-  // useEffect(() => {
-  //   console.log(state)
-  // }, [state])
-
   if (!isOpen) return null
   return createPortal(
     <div className={styles.popupWrapper}>
@@ -125,7 +90,13 @@ const SidePopup: FC<ISidePopup> = ({ isOpen, close, config, handleSave, title })
             <h2 className={cx(styles.title, 'header_2')}>{title}</h2>
           </div>
         </div>
-        <div className={styles.popupContent}>{<ScrollArea>{renderSteps()}</ScrollArea>}</div>
+        <div className={styles.popupContent}>
+          <ScrollArea>
+            <div className={styles.popupContentInnerWrapper}>
+              <SidePopupContent {...{ configArray, currentStep, state, setState }} />
+            </div>
+          </ScrollArea>
+        </div>
         <div className={styles.footer}>
           <div className={styles.footerStepCounter}>
             {!itsOnlyStep && (
