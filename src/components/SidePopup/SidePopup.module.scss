@@ -79,6 +79,9 @@
 .popupContentInnerWrapper {
   padding: 0 10px;
 }
+.popupContentInnerWrapper > *:not(:last-child) {
+  margin-bottom: 30px;
+}
 
 .popupSubtitle {
   margin: 0 0 2rem;
@@ -95,4 +98,3 @@
 .popupTextArea {
   min-height: 7rem;
 }
-

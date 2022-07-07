@@ -1,4 +1,4 @@
-import { FC, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
 import cx from 'classnames'
 
@@ -10,7 +10,7 @@ import SidePopupContent from './SidePopupContent'
 
 import { IconPlus } from 'assets/icons'
 
-import { IStep, IState } from 'pages/Audiences/OneAudience/OneAudience'
+import { IStep, IState } from 'types/sidePopup'
 import ScrollArea from 'containers/ScrollArea/ScrollArea'
 
 interface ISidePopup {
@@ -22,20 +22,12 @@ interface ISidePopup {
 }
 
 const SidePopup: FC<ISidePopup> = ({ isOpen, close, config, handleSave, title }) => {
-  const generateInitState = () => {
-    const { name } = config
-    return {
-      [name]: 'textarea text',
-    }
-    /*TODO обрабатывать вложенности*/
-  }
-  const initState = generateInitState()
-  const [state, setState] = useState<IState>(initState)
+  const [state, setState] = useState<IState>({})
 
-  const createConfig = (step: IStep, acc: { [key: string]: string }[] = []): any => {
-    const { name, type, getNextStep } = step
+  const createConfig = (step: IStep, acc: any[] = []): any => {
+    const { name, getNextStep } = step
 
-    acc = [...acc, { name, type, value: state[name] }]
+    acc = [...acc, { ...step, value: state[name] }]
 
     if (getNextStep) {
       const nextStep = getNextStep(state)
@@ -56,7 +48,7 @@ const SidePopup: FC<ISidePopup> = ({ isOpen, close, config, handleSave, title })
   const itsOnlyStep = countOfSteps === 1
 
   const closePopup = () => {
-    setState(initState)
+    setState({})
     setCurrentStep(1)
     close()
   }
@@ -76,6 +68,10 @@ const SidePopup: FC<ISidePopup> = ({ isOpen, close, config, handleSave, title })
     setCurrentStep(1)
     closePopup()
   }
+
+  useEffect(() => {
+    console.log(state)
+  }, [state])
 
   if (!isOpen) return null
   return createPortal(

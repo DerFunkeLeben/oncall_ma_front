@@ -2,8 +2,7 @@ import { FC, ChangeEvent, Dispatch, SetStateAction } from 'react'
 
 import TextArea from 'components/parts/TextArea/TextArea'
 
-import { IAction } from 'types/sidePopup'
-import { IState } from 'pages/Audiences/OneAudience/OneAudience'
+import { IAction, IState } from 'types/sidePopup'
 
 import styles from '../SidePopup.module.scss'
 

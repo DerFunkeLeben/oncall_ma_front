@@ -4,17 +4,10 @@ import cx from 'classnames'
 
 import styles from './RadioGroup.module.scss'
 
-export interface IRadioOptions {
-  [key: number]: IRadioOption
-}
-
-interface IRadioOption {
-  name: string
-  label: string
-}
+import { IRadioOption } from 'types/sidePopup'
 
 export interface IRadioGroup {
-  options: IRadioOptions
+  options: IRadioOption[]
   value?: string
   handleChange?: (id: string) => void
   modificator?: string | string[]
@@ -61,7 +54,7 @@ const RadioGroup: FC<IRadioGroup> = ({ options, modificator, value, handleChange
 
   return (
     <div className={styles.wrapper}>
-      {Object.values(options).map((option, index) => {
+      {options.map((option, index) => {
         const { name, label } = option
         const isChecked = selectedInput === name
         return (

@@ -13,7 +13,7 @@ import useTable from 'components/Table/useTable'
 import styles from './AllAudiences.module.scss'
 import buttonStyles from 'components/parts/Button/ButtonThemes.module.scss'
 import tableStyles from 'components/Table/TableBase.module.scss'
-import ddStyles from 'components/parts/DropDown/DropDown.module.scss'
+import dropDownStyles from 'components/parts/DropDown/DropDown.module.scss'
 
 import { IPageData } from 'types'
 import { IconCheck, IconUpload } from 'assets/icons'
@@ -64,15 +64,18 @@ const AllAudiences: FC<IPageData> = () => {
               </Button>
             }
           >
-            <div className={ddStyles.container}>
-              <button className={ddStyles.element} onClick={() => history.push(`${url}/newId`)}>
+            <div className={dropDownStyles.container}>
+              <button
+                className={dropDownStyles.element}
+                onClick={() => history.push(`${url}/newId`)}
+              >
                 Из CRM
               </button>
-              <button className={ddStyles.element} onClick={copenPopupCreateFromExist}>
+              <button className={dropDownStyles.element} onClick={copenPopupCreateFromExist}>
                 Из готовой аудитории
               </button>
               <button
-                className={ddStyles.element}
+                className={dropDownStyles.element}
                 onClick={() => history.push(`${url}/create_new`)}
               >
                 Новая

@@ -14,7 +14,7 @@ import buttonStyles from 'components/parts/Button/ButtonThemes.module.scss'
 import tableStyles from 'components/Table/TableBase.module.scss'
 
 import { IPageData } from 'types'
-import { IConfig } from 'types/sidePopup'
+import { IStep } from 'types/sidePopup'
 import { IconCheck, IconExport, IconFilters, IconRefresh } from 'assets/icons'
 
 import { data } from './audienceTerapistMarch'
@@ -48,41 +48,57 @@ const initData = {
   last_update_date: '',
 }
 
-export interface IState {
-  [key: string]: string
-}
-
-export interface IStep {
-  name: string
-  type: string
-  getNextStep?: (value: IState) => IStep
-}
-
 const title = 'Фильтры'
 
 const configTest: IStep = {
-  name: 'step 1',
-  type: 'textarea',
+  name: 'Длительность',
+  type: 'duration',
+  title: 'Установите продолжительность теста',
   getNextStep: () => {
     return {
-      name: 'step 2',
-      type: 'inputs',
+      name: 'ТекстАреа',
+      type: 'textarea',
+      title: 'Аудитория',
       getNextStep: () => {
         return {
-          name: 'step 3',
-          type: 'slider',
+          name: 'ТекстИнпут',
+          type: 'inputs',
+          title: 'Аудитория',
           getNextStep: () => {
             return {
-              name: 'step 4',
-              type: 'radiogroup',
+              name: 'Слайдер',
+              type: 'slider',
+              title: 'Выберите процент аудитории для тестирования',
               getNextStep: () => {
                 return {
-                  name: 'step 5',
-                  type: 'filter',
+                  name: 'СлайдерСоотношение',
+                  type: 'sliderRelation',
+                  title: 'Выберите процент аудитории для тестирования',
+                  count: 2,
                   getNextStep: () => {
                     return {
-                      name: 'step 6',
-                      type: 'table',
+                      name: 'Радио',
+                      type: 'radiogroup',
+                      options: [
+                        { name: 'deliveryRate', label: 'delivery rate 11' },
+                        { name: 'openRate', label: 'open rate 444212' },
+                        { name: 'clickRate', label: 'click rate' },
+                        { name: 'unsubscribeRate', label: 'unsub rate' },
+                      ],
+                      getNextStep: () => {
+                        return {
+                          name: 'Фильтр',
+                          type: 'filter',
+                          title: 'Аудитория',
+                          getNextStep: () => {
+                            return {
+                              name: 'Таблица',
+                              type: 'table',
+                              title: 'Аудитория',
+                            }
+                          },
+                        }
+                      },
                     }
                   },
                 }

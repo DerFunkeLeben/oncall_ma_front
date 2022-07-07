@@ -7,8 +7,10 @@ import TextAreaAction from './actions/TextAreaAction'
 import InputAction from './actions/InputAction'
 import SliderAction from './actions/SliderAction'
 import RadioGroupAction from './actions/RadioGroupAction'
+import SliderRelation from './actions/SliderRelationAction'
+import DurationAction from './actions/DurationAction'
 
-import { IState } from 'pages/Audiences/OneAudience/OneAudience'
+import { IState } from 'types/sidePopup'
 
 interface ISidePopupContent {
   configArray: any
@@ -30,21 +32,14 @@ const SidePopupContent: FC<ISidePopupContent> = ({ configArray, state, currentSt
   }
 
   switch (type) {
+    case 'duration':
+      return <DurationAction {...props} />
     case 'radiogroup':
-      return (
-        <RadioGroupAction
-          {...props}
-          options={{
-            0: { name: 'deliveryRate', label: 'delivery rate 11' },
-            1: { name: 'openRate', label: 'open rate 444212' },
-            2: { name: 'clickRate', label: 'click rate' },
-            3: { name: 'unsubscribeRate', label: 'unsub rate' },
-          }}
-        />
-      )
+      return <RadioGroupAction {...props} />
     case 'slider':
-      return <SliderAction {...props} title={'Аудитория'} />
-
+      return <SliderAction {...props} />
+    case 'sliderRelation':
+      return <SliderRelation {...props} />
     case 'inputs':
       return (
         <InputAction

@@ -1,20 +1,22 @@
 import { FC, Dispatch, SetStateAction } from 'react'
+import cx from 'classnames'
 
 import Slider from 'components/parts/Slider/Slider'
 
-import { IAction } from 'types/sidePopup'
-import { IState } from 'pages/Audiences/OneAudience/OneAudience' // перенести типы
+import styles from './styles.module.scss'
+
+import { IAction, IState } from 'types/sidePopup'
 
 interface ISliderAction {
-  title: string
   currentState: IState
   action: IAction
   setState: Dispatch<SetStateAction<IState>> /* TODO хуйня какая то */
 }
 
-const SliderAction: FC<ISliderAction> = ({ action, currentState, setState, title }) => {
+const SliderAction: FC<ISliderAction> = ({ action, currentState, setState }) => {
   const actionName = action.name
-  const sliderValue = +(currentState[actionName] || 0)
+  const title = action.title
+  const sliderValue = 0
 
   const handleChange = (value: number) => {
     const newState = {
@@ -24,7 +26,18 @@ const SliderAction: FC<ISliderAction> = ({ action, currentState, setState, title
     setState(newState)
   }
 
-  return <Slider title={title} initValue={sliderValue} handleChange={handleChange} />
+  return (
+    <>
+      <p className={cx(styles.title, 'text_1')}>{title}</p>
+      <Slider
+        value={Number(currentState[actionName])}
+        title={actionName}
+        initValue={sliderValue}
+        handleChange={handleChange}
+        number={1}
+      />
+    </>
+  )
 }
 
 export default SliderAction
