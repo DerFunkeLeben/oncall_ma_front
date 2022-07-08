@@ -9,6 +9,7 @@ import SliderAction from './actions/SliderAction'
 import RadioGroupAction from './actions/RadioGroupAction'
 import SliderRelation from './actions/SliderRelationAction'
 import DurationAction from './actions/DurationAction'
+import FilterAction from './actions/FilterAction/FilterAction'
 
 import { IState } from 'types/sidePopup'
 
@@ -55,11 +56,7 @@ const SidePopupContent: FC<ISidePopupContent> = ({ configArray, state, currentSt
         />
       )
     case 'filter':
-      return (
-        <div key={name}>
-          <p>filter</p>
-        </div>
-      )
+      return <FilterAction {...props} />
     case 'table':
       return (
         <div key={name}>

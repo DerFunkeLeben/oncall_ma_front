@@ -10,14 +10,19 @@ export interface IActionRelation extends IDefaultAction {
   count?: number
 }
 
+export interface IActionFilter extends IDefaultAction {
+  attributes: string[]
+}
+
 export interface IDefaultAction {
   type: string
   name: string
   title?: string
-  require: boolean
+  getNextStep?: (value: IState) => IStep
+  require?: boolean
 }
 
-export type IAction = IActionTable | IActionRadio | IDefaultAction | IActionRelation
+export type IAction = IActionTable | IActionRadio | IDefaultAction | IActionRelation | IActionFilter
 
 export interface IConfig {
   title: string

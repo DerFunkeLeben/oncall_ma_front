@@ -58,6 +58,7 @@ const AllAudiences: FC<IPageData> = () => {
             <span>Загрузить аудиторию</span>
           </Button>
           <DropDown
+            alignRight={true}
             triggerNode={
               <Button>
                 <span>Создать аудиторию</span>

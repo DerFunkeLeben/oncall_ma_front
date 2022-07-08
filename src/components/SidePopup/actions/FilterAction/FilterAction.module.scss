@@ -1,0 +1,44 @@
+.wrapper {
+  position: relative;
+  height: 100%;
+  box-sizing: border-box;
+  border-top: 1px solid var(--blue_1);
+  border-bottom: 1px solid var(--blue_1);
+}
+.controlContainer {
+  position: absolute;
+  bottom: 0;
+  display: flex;
+  width: 100%;
+  height: 60px;
+  box-sizing: border-box;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0 60px;
+  border-top: 1px solid var(--blue_1);
+  background-color: var(--white);
+}
+
+.filterContainer {
+  display: flex;
+  height: 100%;
+  box-sizing: border-box;
+  flex-direction: column;
+}
+
+.thirdLevelFilter {
+  display: grid;
+  height: 100%;
+  border-top: 1px solid var(--blue_1);
+  grid-row: auto;
+  grid-template-columns: 170px auto;
+}
+.thirdLevelFilter > *:nth-child(1) {
+  box-sizing: border-box;
+  padding: 80px 0 0 60px;
+  border-right: 1px solid var(--blue_1);
+}
+
+.firstLevelOperand {
+}

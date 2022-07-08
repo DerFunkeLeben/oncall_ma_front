@@ -26,13 +26,7 @@ const DurationAction: FC<IDurationAction> = ({ action, currentState, setState })
     setState(newState)
   }
 
-  const timeSizes = [
-    'Месяцaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaы',
-    'Недели',
-    'Дни',
-    'Часы',
-    'Минуты',
-  ]
+  const timeSizes = ['Месяц', 'Недели', 'Дни', 'Часы', 'Минуты']
 
   return (
     <>

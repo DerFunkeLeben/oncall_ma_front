@@ -87,11 +87,11 @@ const SidePopup: FC<ISidePopup> = ({ isOpen, close, config, handleSave, title })
           </div>
         </div>
         <div className={styles.popupContent}>
-          <ScrollArea>
-            <div className={styles.popupContentInnerWrapper}>
-              <SidePopupContent {...{ configArray, currentStep, state, setState }} />
-            </div>
-          </ScrollArea>
+          {/* <ScrollArea>
+            <div className={styles.popupContentInnerWrapper}> */}
+          <SidePopupContent {...{ configArray, currentStep, state, setState }} />
+          {/* </div>
+          </ScrollArea> */}
         </div>
         <div className={styles.footer}>
           <div className={styles.footerStepCounter}>
