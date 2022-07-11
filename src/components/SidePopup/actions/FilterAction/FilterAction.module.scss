@@ -41,4 +41,25 @@
 }
 
 .firstLevelOperand {
+  display: flex;
+  flex-direction: row;
+}
+
+.filterElement {
+  height: 40px;
+  margin-right: 10px;
+  line-height: 40px;
+  vertical-align: middle;
+}
+
+.leftGap {
+  width: 80px;
+}
+.secondAddButtonContainer {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+.thirdLevelLeftPart {
+  position: relative;
 }
