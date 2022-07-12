@@ -9,6 +9,8 @@ import InputBase from 'components/parts/InputBase/InputBase'
 import useTable from 'components/Table/useTable'
 import SidePopup from 'components/SidePopup/SidePopup'
 
+import { SidePopupActions } from 'constants/SidePopup'
+
 import styles from './OneAudience.module.scss'
 import buttonStyles from 'components/parts/Button/ButtonThemes.module.scss'
 import tableStyles from 'components/Table/TableBase.module.scss'
@@ -51,54 +53,39 @@ const initData = {
 const title = 'Фильтры'
 
 const configTest: IStep = {
-  name: 'Длительность',
-  type: 'duration',
-  title: 'Установите продолжительность теста',
+  name: 'ПрисвоениеАтрибута',
+  type: SidePopupActions.ATTRIBUTES,
   getNextStep: () => {
     return {
-      name: 'Инпут количество',
-      type: 'inputNumber',
-      title: 'Количество',
+      name: 'Длительность',
+      type: SidePopupActions.DURATION,
+      title: 'Установите продолжительность теста',
       getNextStep: () => {
         return {
           name: 'ТекстИнпут',
-          type: 'inputs',
+          type: SidePopupActions.INPUT,
           title: 'Аудитория',
           getNextStep: () => {
             return {
               name: 'Слайдер',
-              type: 'slider',
+              type: SidePopupActions.SLIDER,
               title: 'Выберите процент аудитории для тестирования',
               getNextStep: () => {
                 return {
                   name: 'СлайдерСоотношение',
-                  type: 'sliderRelation',
+                  type: SidePopupActions.SLIDER_RELATION,
                   title: 'Выберите процент аудитории для тестирования',
                   count: 2,
                   getNextStep: () => {
                     return {
                       name: 'Радио',
-                      type: 'radiogroup',
+                      type: SidePopupActions.RADIO,
                       options: [
                         { name: 'deliveryRate', label: 'delivery rate 11' },
                         { name: 'openRate', label: 'open rate 444212' },
                         { name: 'clickRate', label: 'click rate' },
                         { name: 'unsubscribeRate', label: 'unsub rate' },
                       ],
-                      getNextStep: () => {
-                        return {
-                          name: 'Фильтр',
-                          type: 'filter',
-                          title: 'Аудитория',
-                          getNextStep: () => {
-                            return {
-                              name: 'Таблица',
-                              type: 'table',
-                              title: 'Аудитория',
-                            }
-                          },
-                        }
-                      },
                     }
                   },
                 }

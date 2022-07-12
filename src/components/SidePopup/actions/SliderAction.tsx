@@ -32,13 +32,7 @@ const SliderAction: FC<ISliderAction> = ({ action, currentState, setState }) => 
   return (
     <>
       <p className={cx(styles.title, 'text_1')}>{title}</p>
-      <Slider
-        value={Number(currentState[actionName])}
-        title={actionName}
-        initValue={sliderValue}
-        handleChange={handleChange}
-        number={1}
-      />
+      <Slider value={sliderValue} title={actionName} handleChange={handleChange} number={1} />
     </>
   )
 }

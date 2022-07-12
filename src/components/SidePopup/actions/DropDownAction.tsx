@@ -1,4 +1,4 @@
-import { FC, Dispatch, SetStateAction, SyntheticEvent } from 'react'
+import { FC, Dispatch, SetStateAction, SyntheticEvent, useState } from 'react'
 import cx from 'classnames'
 
 import DropDown from 'components/parts/DropDown/DropDown'
@@ -12,6 +12,7 @@ interface IDropDownAction {
   action: IActionDropDown
   setState: Dispatch<SetStateAction<IStatePopup>>
   label?: string
+  id?: string
 }
 
 const getOptionLabel = (options: IOption[], name: string | undefined): string => {
@@ -19,31 +20,35 @@ const getOptionLabel = (options: IOption[], name: string | undefined): string =>
   return option?.label || ''
 }
 
-const DropDownAction: FC<IDropDownAction> = ({ action, currentState, setState, label }) => {
+const DropDownAction: FC<IDropDownAction> = ({ action, currentState, setState, label, id }) => {
   const actionName = action.name
   const { options } = action
-  const initOption = getOptionLabel(options, currentState[actionName]?.option)
-  const dropDownTitle = initOption || options[0].label
+
+  const [pickedOption, setPickedOption] = useState<string>(id || options[0].name)
 
   const handleChange = (event: SyntheticEvent<HTMLButtonElement>) => {
-    const optionName = event.currentTarget.dataset?.option
+    const optionName = event.currentTarget.dataset.option
+    if (!optionName) return
     const newState = {
       ...currentState,
       [actionName]: {
         ...currentState[actionName],
-        option: optionName,
+
+        [pickedOption]: undefined,
+        [optionName]: '' /* TODO: хуйня */,
       },
     }
+    setPickedOption(optionName)
     setState(newState)
   }
 
   return (
     <div>
-      <div className={styles.label}>{label}</div>
+      {label && <div className={styles.label}>{label}</div>}
       <DropDown
         triggerNode={
           <button className={dropDownStyles.triggerButton}>
-            <span>{dropDownTitle}</span>
+            <span>{getOptionLabel(options, pickedOption)}</span>
           </button>
         }
       >

@@ -11,6 +11,9 @@ import SliderRelation from './actions/SliderRelationAction'
 import DurationAction from './actions/DurationAction'
 import FilterAction from './actions/FilterAction/FilterAction'
 import NumericStepAction from './actions/NumericStepAction'
+import AttributeAction from './actions/AttributeAction/AttributeAction'
+
+import { SidePopupActions } from 'constants/SidePopup'
 
 import { IStatePopup } from 'types/sidePopup'
 
@@ -34,33 +37,35 @@ const SidePopupContent: FC<ISidePopupContent> = ({ configArray, state, currentSt
   }
 
   switch (type) {
-    case 'duration':
+    case SidePopupActions.ATTRIBUTES:
+      return <AttributeAction {...props} />
+    case SidePopupActions.DURATION:
       return <DurationAction {...props} />
-    case 'radiogroup':
+    case SidePopupActions.RADIO:
       return <RadioGroupAction {...props} />
-    case 'slider':
+    case SidePopupActions.SLIDER:
       return <SliderAction {...props} />
-    case 'sliderRelation':
+    case SidePopupActions.SLIDER_RELATION:
       return <SliderRelation {...props} />
-    case 'inputs':
+    case SidePopupActions.INPUT:
       return (
         <InputAction
           {...props}
           label={'Тема'} // получать из конфига
         />
       )
-    case 'inputNumber':
+    case SidePopupActions.NUMERIC_STEP:
       return <NumericStepAction {...props} label={'Количество'} />
-    case 'textarea':
+    case SidePopupActions.TEXTAREA:
       return (
         <TextAreaAction
           {...props}
           subtitle={'Приглашение впч'} // получить с предыдущего шага из таблицы
         />
       )
-    case 'filter':
+    case SidePopupActions.FILTER:
       return <FilterAction {...props} />
-    case 'table':
+    case SidePopupActions.TABLE:
       return (
         <div key={name}>
           <p>table</p>

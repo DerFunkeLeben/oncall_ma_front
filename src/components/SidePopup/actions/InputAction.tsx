@@ -11,11 +11,12 @@ interface IInputAction {
   action: IAction
   setState: Dispatch<SetStateAction<IStatePopup>>
   label?: string
+  id?: string
 }
 
-const InputAction: FC<IInputAction> = ({ action, currentState, setState, label }) => {
+const InputAction: FC<IInputAction> = ({ action, currentState, setState, label, id = 'text' }) => {
   const actionName = action.name
-  const text = currentState[actionName]?.text || ''
+  const text = currentState[actionName]?.[id] || ''
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target
@@ -23,7 +24,7 @@ const InputAction: FC<IInputAction> = ({ action, currentState, setState, label }
       ...currentState,
       [actionName]: {
         ...currentState[actionName],
-        text: value,
+        [id]: value,
       },
     }
     setState(newState)
