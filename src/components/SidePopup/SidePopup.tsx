@@ -10,19 +10,19 @@ import SidePopupContent from './SidePopupContent'
 
 import { IconPlus } from 'assets/icons'
 
-import { IStep, IState } from 'types/sidePopup'
+import { IStep, IStatePopup } from 'types/sidePopup'
 import ScrollArea from 'containers/ScrollArea/ScrollArea'
 
 interface ISidePopup {
   isOpen: boolean
   close: () => void
   config: IStep
-  handleSave: React.Dispatch<React.SetStateAction<IState>>
+  handleSave: React.Dispatch<React.SetStateAction<IStatePopup>>
   title: string
 }
 
 const SidePopup: FC<ISidePopup> = ({ isOpen, close, config, handleSave, title }) => {
-  const [state, setState] = useState<IState>({})
+  const [state, setState] = useState<IStatePopup>({})
 
   const createConfig = (step: IStep, acc: any[] = []): any => {
     const { name, getNextStep } = step
@@ -87,11 +87,11 @@ const SidePopup: FC<ISidePopup> = ({ isOpen, close, config, handleSave, title })
           </div>
         </div>
         <div className={styles.popupContent}>
-          {/* <ScrollArea>
-            <div className={styles.popupContentInnerWrapper}> */}
-          <SidePopupContent {...{ configArray, currentStep, state, setState }} />
-          {/* </div>
-          </ScrollArea> */}
+          <ScrollArea>
+            <div className={styles.popupContentInnerWrapper}>
+              <SidePopupContent {...{ configArray, currentStep, state, setState }} />
+            </div>
+          </ScrollArea>
         </div>
         <div className={styles.footer}>
           <div className={styles.footerStepCounter}>

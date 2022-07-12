@@ -10,14 +10,15 @@ import RadioGroupAction from './actions/RadioGroupAction'
 import SliderRelation from './actions/SliderRelationAction'
 import DurationAction from './actions/DurationAction'
 import FilterAction from './actions/FilterAction/FilterAction'
+import NumericStepAction from './actions/NumericStepAction'
 
-import { IState } from 'types/sidePopup'
+import { IStatePopup } from 'types/sidePopup'
 
 interface ISidePopupContent {
   configArray: any
   currentStep: number
-  state: IState
-  setState: Dispatch<SetStateAction<IState>>
+  state: IStatePopup
+  setState: Dispatch<SetStateAction<IStatePopup>>
 }
 
 const SidePopupContent: FC<ISidePopupContent> = ({ configArray, state, currentStep, setState }) => {
@@ -48,6 +49,8 @@ const SidePopupContent: FC<ISidePopupContent> = ({ configArray, state, currentSt
           label={'Тема'} // получать из конфига
         />
       )
+    case 'inputNumber':
+      return <NumericStepAction {...props} label={'Количество'} />
     case 'textarea':
       return (
         <TextAreaAction

@@ -36,7 +36,6 @@ const DropDown: FC<DropDown> = ({ children, triggerNode, alignRight = false }) =
   }
 
   const ddStyle = calcDDPosition(alignRight)
-
   return (
     <>
       <div onClick={togglePopup} ref={triggerRef as React.RefObject<HTMLDivElement>}>
@@ -44,7 +43,12 @@ const DropDown: FC<DropDown> = ({ children, triggerNode, alignRight = false }) =
       </div>
       {isMenuOpened &&
         createPortal(
-          <div onMouseLeave={closePopup} className={styles.taskHoverBlock} style={ddStyle}>
+          <div
+            onMouseLeave={closePopup}
+            onClick={closePopup}
+            className={styles.taskHoverBlock}
+            style={ddStyle}
+          >
             {children}
           </div>,
           document.body

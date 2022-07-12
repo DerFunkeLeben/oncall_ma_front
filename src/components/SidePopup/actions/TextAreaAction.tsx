@@ -2,15 +2,15 @@ import { FC, ChangeEvent, Dispatch, SetStateAction } from 'react'
 
 import TextArea from 'components/parts/TextArea/TextArea'
 
-import { IAction, IState } from 'types/sidePopup'
+import { IAction, IStatePopup } from 'types/sidePopup'
 
 import styles from '../SidePopup.module.scss'
 
 interface ITextAreaAction {
   subtitle: string
   action: IAction
-  currentState: IState
-  setState: Dispatch<SetStateAction<IState>> /* TODO хуйня какая то */
+  currentState: IStatePopup
+  setState: Dispatch<SetStateAction<IStatePopup>> /* TODO хуйня какая то */
   label?: string
 }
 
@@ -22,13 +22,16 @@ const TextAreaAction: FC<ITextAreaAction> = ({
   label = 'Текст',
 }) => {
   const actionName = action.name
-  const text = currentState[actionName] || ''
+  const text = currentState[actionName]?.text || ''
 
   const handleChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
     const { value } = event.target
     const newState = {
       ...currentState,
-      [actionName]: value,
+      [actionName]: {
+        ...currentState[actionName],
+        text: value,
+      },
     }
     setState(newState)
   }

@@ -2,7 +2,7 @@ import { FC, Dispatch, SetStateAction } from 'react'
 
 import RadioGroup from 'components/parts/RadioGroup/RadioGroup'
 
-import { IActionFilter, IState } from 'types/sidePopup'
+import { IActionFilter, IStatePopup } from 'types/sidePopup'
 import DropDown from 'components/parts/DropDown/DropDown'
 import Button from 'components/parts/Button/Button'
 
@@ -10,9 +10,9 @@ import styles from './FilterAction.module.scss'
 import buttonThemes from 'components/parts/Button/ButtonThemes.module.scss'
 
 interface IFilterAction {
-  currentState: IState
+  currentState: IStatePopup
   action: IActionFilter
-  setState: Dispatch<SetStateAction<IState>> /* TODO хуйня какая то */
+  setState: Dispatch<SetStateAction<IStatePopup>> /* TODO хуйня какая то */
 }
 
 const FilterAction: FC<IFilterAction> = ({ action, currentState, setState }) => {

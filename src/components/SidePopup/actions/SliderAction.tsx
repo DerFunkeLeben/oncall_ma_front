@@ -5,23 +5,26 @@ import Slider from 'components/parts/Slider/Slider'
 
 import styles from './styles.module.scss'
 
-import { IAction, IState } from 'types/sidePopup'
+import { IAction, IStatePopup } from 'types/sidePopup'
 
 interface ISliderAction {
-  currentState: IState
+  currentState: IStatePopup
   action: IAction
-  setState: Dispatch<SetStateAction<IState>> /* TODO хуйня какая то */
+  setState: Dispatch<SetStateAction<IStatePopup>> /* TODO хуйня какая то */
 }
 
 const SliderAction: FC<ISliderAction> = ({ action, currentState, setState }) => {
   const actionName = action.name
   const title = action.title
-  const sliderValue = 0
+  const sliderValue = +(currentState[actionName]?.value || 0)
 
   const handleChange = (value: number) => {
     const newState = {
       ...currentState,
-      [actionName]: value.toString(),
+      [actionName]: {
+        ...currentState[actionName],
+        value: value.toString(),
+      },
     }
     setState(newState)
   }

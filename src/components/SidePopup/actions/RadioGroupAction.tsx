@@ -2,23 +2,26 @@ import { FC, Dispatch, SetStateAction } from 'react'
 
 import RadioGroup from 'components/parts/RadioGroup/RadioGroup'
 
-import { IActionRadio, IState } from 'types/sidePopup'
+import { IActionRadio, IStatePopup } from 'types/sidePopup'
 
 interface IRadioGroupAction {
-  currentState: IState
+  currentState: IStatePopup
   action: IActionRadio
-  setState: Dispatch<SetStateAction<IState>> /* TODO хуйня какая то */
+  setState: Dispatch<SetStateAction<IStatePopup>> /* TODO хуйня какая то */
 }
 
 const RadioGroupAction: FC<IRadioGroupAction> = ({ action, currentState, setState }) => {
   const actionName = action.name
   const options = action.options
-  const pickedOptionName = currentState[actionName]
+  const pickedOptionName = currentState[actionName]?.option
 
   const handleChange = (value: string) => {
     const newState = {
       ...currentState,
-      [actionName]: value,
+      [actionName]: {
+        ...currentState[actionName],
+        option: value,
+      },
     }
     setState(newState)
   }

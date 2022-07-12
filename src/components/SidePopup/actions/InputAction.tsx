@@ -2,26 +2,29 @@ import { FC, ChangeEvent, Dispatch, SetStateAction } from 'react'
 
 import InputBase from 'components/parts/InputBase/InputBase'
 
-import { IAction, IState } from 'types/sidePopup'
+import { IAction, IStatePopup } from 'types/sidePopup'
 
 import styles from '../SidePopup.module.scss'
 
 interface IInputAction {
-  currentState: IState
+  currentState: IStatePopup
   action: IAction
-  setState: Dispatch<SetStateAction<IState>>
+  setState: Dispatch<SetStateAction<IStatePopup>>
   label?: string
 }
 
 const InputAction: FC<IInputAction> = ({ action, currentState, setState, label }) => {
   const actionName = action.name
-  const text = currentState[actionName] || ''
+  const text = currentState[actionName]?.text || ''
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target
     const newState = {
       ...currentState,
-      [actionName]: value,
+      [actionName]: {
+        ...currentState[actionName],
+        text: value,
+      },
     }
     setState(newState)
   }

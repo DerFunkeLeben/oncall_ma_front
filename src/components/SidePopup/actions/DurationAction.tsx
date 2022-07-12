@@ -1,56 +1,35 @@
 import { FC, Dispatch, SetStateAction } from 'react'
 
-import RadioGroup from 'components/parts/RadioGroup/RadioGroup'
+import NumericStepAction from './NumericStepAction'
+import DropDownAction from './DropDownAction'
 
-import { IActionRadio, IState } from 'types/sidePopup'
-import DropDown from 'components/parts/DropDown/DropDown'
-import Button from 'components/parts/Button/Button'
+import { IActionRadio, IStatePopup } from 'types/sidePopup'
 
-import dropDownStyles from 'components/parts/DropDown/DropDown.module.scss'
+import actionsStyles from './styles.module.scss'
 
 interface IDurationAction {
-  currentState: IState
+  currentState: IStatePopup
   action: IActionRadio
-  setState: Dispatch<SetStateAction<IState>> /* TODO хуйня какая то */
+  setState: Dispatch<SetStateAction<IStatePopup>> /* TODO хуйня какая то */
 }
 
-const DurationAction: FC<IDurationAction> = ({ action, currentState, setState }) => {
-  const actionName = action.name
-  const title = action.title
+const timeSizes = [
+  { name: 'month', label: 'Месяцы' },
+  { name: 'weeks', label: 'Недели' },
+  { name: 'days', label: 'Дни' },
+  { name: 'hours', label: 'Часы' },
+  { name: 'minutes', label: 'Минуты' },
+]
 
-  const handleChange = (value: string) => {
-    const newState = {
-      ...currentState,
-      [actionName]: value,
-    }
-    setState(newState)
-  }
-
-  const timeSizes = ['Месяц', 'Недели', 'Дни', 'Часы', 'Минуты']
+const DurationAction: FC<IDurationAction> = (props) => {
+  const { action } = props
+  action.options = timeSizes
 
   return (
-    <>
-      <p>Временной отрезок</p>
-      <DropDown
-        triggerNode={
-          <button className={dropDownStyles.triggerButton}>
-            <span>Создать аудиторию</span>
-          </button>
-        }
-      >
-        <div className={dropDownStyles.container}>
-          {timeSizes.map((timesize) => (
-            <button
-              key={timesize}
-              className={dropDownStyles.element}
-              onClick={() => console.log('click')}
-            >
-              {timesize}
-            </button>
-          ))}
-        </div>
-      </DropDown>
-    </>
+    <div className={actionsStyles.durationWrapper}>
+      <NumericStepAction {...props} label="Количество" />
+      <DropDownAction {...props} label={'Временной отрезок'} />
+    </div>
   )
 }
 

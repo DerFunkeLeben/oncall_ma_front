@@ -46,7 +46,7 @@ const Slider: FC<ISlider> = ({
   return (
     <div style={{ width: width }} className={styles.wrapper}>
       {title && <div className={styles.sliderTitle}>{title}</div>}
-      <div className={styles.sliderValue}>{value}%</div>
+      <div className={styles.sliderValue}>{value || 0}%</div>
 
       <ReactSlider
         min={0}

@@ -58,3 +58,19 @@ const configTest: IStep = {
     }
   },
 }
+
+const configTest_: IAction = {
+  name: 'filter',
+  type: 'filter',
+  attributes: [
+    'ID',
+    'Фамилия',
+    'Имя',
+    'Отчество',
+    'Email',
+    'Телефон',
+    'Город',
+    'Специальность',
+    'Сегмент',
+  ],
+}

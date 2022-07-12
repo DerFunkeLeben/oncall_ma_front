@@ -5,19 +5,19 @@ import Slider from 'components/parts/Slider/Slider'
 
 import styles from './styles.module.scss'
 
-import { IActionRelation, IState } from 'types/sidePopup'
+import { IActionRelation, IStatePopup } from 'types/sidePopup'
 
 interface ISliderRelation {
-  currentState: IState
+  currentState: IStatePopup
   action: IActionRelation
-  setState: Dispatch<SetStateAction<IState>> /* TODO хуйня какая то */
+  setState: Dispatch<SetStateAction<IStatePopup>> /* TODO хуйня какая то */
 }
 
 const SliderRelation: FC<ISliderRelation> = ({ action, currentState, setState }) => {
   const actionName = action.name
   const title = action.title
   const countOfBranches = action.count ? action.count : 2
-  const sliderValue = Number(currentState[actionName] || 0)
+  const sliderValue = Number(currentState[actionName]?.value || 0)
 
   const handleChange = (value: number, index: number | undefined) => {
     const anotherIndex = index === 0 ? 1 : 0
@@ -28,8 +28,11 @@ const SliderRelation: FC<ISliderRelation> = ({ action, currentState, setState })
      */
     const newState = {
       ...currentState,
-      [`${actionName}_${index}`]: value.toString(),
-      [`${actionName}_${anotherIndex}`]: anotherValue.toString(),
+      [actionName]: {
+        ...currentState[actionName],
+        [`slider_${index}`]: value.toString(),
+        [`slider_${anotherIndex}`]: anotherValue.toString(),
+      },
     }
     setState(newState)
   }
@@ -42,7 +45,7 @@ const SliderRelation: FC<ISliderRelation> = ({ action, currentState, setState })
           title={`Ветка ${number + 1}`}
           initValue={sliderValue}
           handleChange={handleChange}
-          value={Number(currentState[`${actionName}_${number}`])}
+          value={Number(currentState[actionName]?.[`slider_${number}`])}
           key={number}
           number={number}
           data-id={number}
