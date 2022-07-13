@@ -58,4 +58,5 @@ export interface IStep {
 export interface IOption {
   name: string
   label: string
+  type?: string
 }

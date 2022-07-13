@@ -13,6 +13,8 @@ interface IDropDownAction {
   setState: Dispatch<SetStateAction<IStatePopup>>
   label?: string
   id?: string
+  disabledOptions?: string[]
+  setDisabledOptions?: Dispatch<SetStateAction<string[]>>
 }
 
 const getOptionLabel = (options: IOption[], name: string | undefined): string => {
@@ -20,15 +22,35 @@ const getOptionLabel = (options: IOption[], name: string | undefined): string =>
   return option?.label || ''
 }
 
-const DropDownAction: FC<IDropDownAction> = ({ action, currentState, setState, label, id }) => {
+const DropDownAction: FC<IDropDownAction> = ({
+  action,
+  currentState,
+  setState,
+  label,
+  id,
+  disabledOptions = [],
+  setDisabledOptions,
+}) => {
   const actionName = action.name
   const { options } = action
 
   const [pickedOption, setPickedOption] = useState<string>(id || options[0].name)
 
+  const replaceOption = (prevOption: string, newOption: string): void => {
+    if (!setDisabledOptions) return
+
+    const newDisabledOptions = disabledOptions.map((option) =>
+      option === prevOption ? newOption : option
+    )
+
+    setDisabledOptions(newDisabledOptions)
+  }
+
   const handleChange = (event: SyntheticEvent<HTMLButtonElement>) => {
     const optionName = event.currentTarget.dataset.option
-    if (!optionName) return
+
+    if (!optionName || optionName === pickedOption) return
+
     const newState = {
       ...currentState,
       [actionName]: {
@@ -38,6 +60,8 @@ const DropDownAction: FC<IDropDownAction> = ({ action, currentState, setState, l
         [optionName]: '' /* TODO: хуйня */,
       },
     }
+
+    replaceOption(pickedOption, optionName)
     setPickedOption(optionName)
     setState(newState)
   }
@@ -54,11 +78,16 @@ const DropDownAction: FC<IDropDownAction> = ({ action, currentState, setState, l
       >
         <div className={dropDownStyles.container}>
           {options.map((option) => {
+            const { name } = option
+            const isDisabled = pickedOption !== name && disabledOptions.find((opt) => opt === name)
+
             return (
               <button
                 key={option.name}
                 data-option={option.name}
-                className={cx(dropDownStyles.element, styles.dropDownOption)}
+                className={cx(dropDownStyles.element, styles.dropDownOption, {
+                  [styles.disabled]: isDisabled,
+                })}
                 onClick={handleChange}
               >
                 {option.label}

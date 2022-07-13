@@ -1,74 +1,35 @@
-import { FC, Dispatch, SetStateAction, useState, useRef } from 'react'
+import { FC, Dispatch, SetStateAction, useState, useRef, useEffect } from 'react'
 import cx from 'classnames'
 
-import { IActionFilter, IStatePopup } from 'types/sidePopup'
-import DropDown from 'components/parts/DropDown/DropDown'
 import Button from 'components/parts/Button/Button'
+import ThirdLevel from './ThirdLevel'
+
 import { makeId } from 'utils'
 
 import styles from './FilterAction.module.scss'
 import buttonThemes from 'components/parts/Button/ButtonThemes.module.scss'
 import { IconPlus } from '../../../../assets/icons'
 
-interface IFilterAction {
-  currentState: IStatePopup
-  action: IActionFilter
-  setState: Dispatch<SetStateAction<IStatePopup>> /* TODO хуйня какая то */
-}
-
-interface IRow {
-  id: string
-  defined: string
-  condition: string
-  determinant: string
-}
-interface ISecondLevel {
-  id: string
-  type: string
-  rows: IRow[]
-}
-interface IThirdLevel {
-  id: string
-  type: string
-  rows: ISecondLevel[]
-}
-
-type IConfig = IThirdLevel[]
-
-interface IFirstLevelRow {
-  index: number
-  row: IRow
-  handleCreateFirstLevelRow: (e: any) => void
-}
-interface ISecondLevelRow {
-  secondLevel: ISecondLevel
-  handleCreateFirstLevelRow: (e: any) => void
-}
-
-interface IThirdLevelRow {
-  thirdLevel: IThirdLevel
-  handleAddSecondLevel: (e: any) => void
-  handleCreateFirstLevelRow: (e: any) => void
-}
+import { IFilterAction, IFirstLevelObj, ISecondLevelObj, IThirdLevelObj, IConfig } from './types'
 
 const FilterAction: FC<IFilterAction> = ({ action, currentState, setState }) => {
   const actionName = action.name
   const title = action.title
 
-  const initFirstLevelRow: IRow = {
-    defined: 'специальность',
+  const initFirstLevelRow: IFirstLevelObj = {
+    defined: 'и',
     condition: 'содержит',
     determinant: 'Урология',
     id: makeId(10),
   }
 
-  const initSecondLevelRow: ISecondLevel = {
+  const initSecondLevelRow: ISecondLevelObj = {
     id: makeId(10),
     type: 'И',
     rows: [initFirstLevelRow],
   }
 
-  const initThirdLevelRow: IThirdLevel = {
+  const initThirdLevelRow: IThirdLevelObj = {
     id: makeId(10),
     type: 'И',
     rows: [initSecondLevelRow],
@@ -103,9 +64,8 @@ const FilterAction: FC<IFilterAction> = ({ action, currentState, setState }) => 
 
   const findAndImplement = (targetId: string, config: IConfig, act: any) => {
     config.forEach((element: any) => {
-      console.log(element, targetId)
       if (element.id === targetId) {
-        console.log('!', element)
+        act(element, config)
         return
       } else {
         const rows = element.rows
@@ -117,7 +77,11 @@ const FilterAction: FC<IFilterAction> = ({ action, currentState, setState }) => 
 
   const handleCreateFirstLevelRow = (e: any) => {
     const { id } = e.currentTarget.dataset
-    console.log(id)
+    const act = (firstLevelRow: any, config: any) => {
+      config.push(initFirstLevelRow)
+      setFiterConfig([...filterConfig])
+    }
+    findAndImplement(id, filterConfig, act)
   }
 
   const handleAddThirdLevel = () => {
@@ -126,24 +90,64 @@ const FilterAction: FC<IFilterAction> = ({ action, currentState, setState }) => 
 
   const handleAddSecondLevel = (e: any) => {
     const { id } = e.currentTarget.dataset
-    console.log({ id })
-    // const act = (thirdLevelRow) => {
-    //   const newThirdLevelRow
-    // }
-    // findAndImplement(id, filterConfig, act)
-    // setFiterConfig([...filterConfig, initThirdLevelRow])
+    const act = (thirdLevelRow: any) => {
+      thirdLevelRow.rows.push(initSecondLevelRow)
+      setFiterConfig([...filterConfig])
+    }
+    findAndImplement(id, filterConfig, act)
   }
+
+  const mutateDelFromArr = (arr: any[], id?: string) => {
+    if (!id) {
+      arr.length = 0
+    }
+    for (let i = 0; i < arr.length; i++) {
+      if (arr[i].id === id) {
+        arr.splice(i, 1)
+      }
+    }
+  }
+
+  const cleanEmptyParent = (config: IConfig) => {
+    config.forEach((element: any) => {
+      const { rows, id } = element
+      if (!rows) return
+      if (rows.length === 0) {
+        mutateDelFromArr(config, id)
+      } else {
+        cleanEmptyParent(rows)
+      }
+    })
+  }
+
+  const handleDeleteFirstLevelRow = (e: any) => {
+    const { id, index } = e.currentTarget.dataset
+    const act = (firstLevelRow: any, config: any) => {
+      if (index !== '0') {
+        mutateDelFromArr(config, id)
+      } else mutateDelFromArr(config)
+      setFiterConfig([...filterConfig])
+    }
+    findAndImplement(id, filterConfig, act)
+    cleanEmptyParent(filterConfig)
+  }
+
+  useEffect(() => {
+    console.log(filterConfig)
+  }, [filterConfig])
 
   return (
     <div className={styles.wrapper}>
       <div className={styles.filterContainer}>
         {filterConfig.map((thirdLevel, thirdLevelIndex) => {
           return (
-            <ThirdLevelRow
+            <ThirdLevel
+              index={thirdLevelIndex}
               key={thirdLevelIndex}
               thirdLevel={thirdLevel}
               handleCreateFirstLevelRow={handleCreateFirstLevelRow}
               handleAddSecondLevel={handleAddSecondLevel}
+              handleDeleteFirstLevelRow={handleDeleteFirstLevelRow}
             />
           )
         })}
@@ -161,77 +165,3 @@ const FilterAction: FC<IFilterAction> = ({ action, currentState, setState }) => 
 }
 
 export default FilterAction
-
-const FirstLevelRow: FC<IFirstLevelRow> = ({ index, handleCreateFirstLevelRow, row }) => {
-  const { defined, condition, determinant, id } = row
-  return (
-    <div className={cx(styles.firstLevelOperand)}>
-      <div className={cx(styles.filterElement, styles.leftGap)}>
-        {index === 0 && <p>у которых</p>}
-      </div>
-      <p className={styles.filterElement}>{defined}</p>
-      <p className={styles.filterElement}>{condition}</p>
-      <p className={styles.filterElement}>{determinant}</p>
-      <Button
-        modificator={buttonThemes.theme_secondary}
-        onClick={handleCreateFirstLevelRow}
-        data-id={id}
-      >
-        <IconPlus />
-      </Button>
-    </div>
-  )
-}
-
-const SecondLevelRow: FC<ISecondLevelRow> = ({ secondLevel, handleCreateFirstLevelRow }) => {
-  const firstRows = secondLevel.rows
-  return (
-    <div className="SecondLevelOperand">
-      <p>И</p>
-      {firstRows.map((row, index) => {
-        return (
-          <FirstLevelRow
-            index={index}
-            key={row.id}
-            row={row}
-            handleCreateFirstLevelRow={handleCreateFirstLevelRow}
-          />
-        )
-      })}
-    </div>
-  )
-}
-
-const ThirdLevelRow: FC<IThirdLevelRow> = ({
-  thirdLevel,
-  handleCreateFirstLevelRow,
-  handleAddSecondLevel,
-}) => {
-  const secondRows = thirdLevel.rows
-  const id = thirdLevel.id
-  return (
-    <div className={styles.thirdLevelFilter}>
-      <div className="firstLevelFilterRightPart">
-        <p>Врачи</p>
-      </div>
-      <div className={styles.thirdLevelLeftPart}>
-        <div className={styles.secondAddButtonContainer}>
-          <Button
-            modificator={buttonThemes.theme_secondary}
-            onClick={handleAddSecondLevel}
-            data-id={id}
-          >
-            <IconPlus />
-          </Button>
-        </div>
-        {secondRows.map((secondLevel, secondIndex) => (
-          <SecondLevelRow
-            secondLevel={secondLevel}
-            key={secondIndex}
-            handleCreateFirstLevelRow={handleCreateFirstLevelRow}
-          />
-        ))}
-      </div>
-    </div>
-  )
-}

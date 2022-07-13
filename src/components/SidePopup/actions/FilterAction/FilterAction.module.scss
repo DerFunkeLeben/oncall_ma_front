@@ -43,6 +43,22 @@
 .firstLevelOperand {
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
+}
+.firstLevelOperandContent {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+.firstLevelDeleteButton {
+  display: none;
+  height: 40px;
+}
+.firstLevelOperand:hover {
+  background-color: var(--blue_16);
+  .firstLevelDeleteButton {
+    display: flex;
+  }
 }
 
 .filterElement {

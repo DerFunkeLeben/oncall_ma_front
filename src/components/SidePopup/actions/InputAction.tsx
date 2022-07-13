@@ -12,9 +12,17 @@ interface IInputAction {
   setState: Dispatch<SetStateAction<IStatePopup>>
   label?: string
   id?: string
+  type?: string
 }
 
-const InputAction: FC<IInputAction> = ({ action, currentState, setState, label, id = 'text' }) => {
+const InputAction: FC<IInputAction> = ({
+  action,
+  currentState,
+  setState,
+  label,
+  type,
+  id = 'text',
+}) => {
   const actionName = action.name
   const text = currentState[actionName]?.[id] || ''
 
@@ -37,6 +45,7 @@ const InputAction: FC<IInputAction> = ({ action, currentState, setState, label, 
       value={text}
       handleInputChange={handleChange}
       modificator={styles.popupInput}
+      type={type || 'text'}
     />
   )
 }
