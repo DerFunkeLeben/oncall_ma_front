@@ -11,18 +11,22 @@ export interface IFirstLevelObj {
   defined: string
   condition: string
   determinant: string
+  type: string
+  logicalOperator: string
 }
 
 export interface ISecondLevelObj {
   id: string
   type: string
-  rows: IFirstLevelObj[]
+  logicalOperator: string
+  childIds: any[]
 }
 
 export interface IThirdLevelObj {
   id: string
   type: string
-  rows: ISecondLevelObj[]
+  logicalOperator: string
+  childIds: any[]
 }
 
 export type IConfig = IThirdLevelObj[]
@@ -33,20 +37,32 @@ export interface ILevel {
 
 export interface IFirstLevel extends ILevel {
   row: IFirstLevelObj
-  itsLastRow: boolean
-  handleCreateFirstLevelRow: (e: any) => void
-  handleDeleteFirstLevelRow: (e: any) => void
+  itsLastChild: boolean
+  itsFirstChild: boolean
+  parentSecondLevelId: string
+  handleCreateFirstLevel: (e: any) => void
+  handleDeleteFirstLevelRow: (id: string, parentId: string) => void
+  updateElement: (id: string, level: string, update: { [key: string]: string }) => void
+  headers: string[]
 }
 
 export interface ISecondLevel extends ILevel {
   secondLevel: ISecondLevelObj
-  handleCreateFirstLevelRow: (e: any) => void
-  handleDeleteFirstLevelRow: (e: any) => void
+  itsFirstChild: boolean
+  handleCreateFirstLevel: (e: any) => void
+  handleDeleteFirstLevelRow: (id: string, parentId: string) => void
+  firstLevelElements: any[]
+  updateElement: (id: string, level: string, update: { [key: string]: string }) => void
+  headers: string[]
 }
 
 export interface IThirdLevel extends ILevel {
   thirdLevel: IThirdLevelObj
-  handleCreateFirstLevelRow: (e: any) => void
-  handleAddSecondLevel: (e: any) => void
-  handleDeleteFirstLevelRow: (e: any) => void
+  handleCreateFirstLevel: (e: any) => void
+  handleCreateSecondLevel: (e: any) => void
+  handleDeleteFirstLevelRow: (id: string, parentId: string) => void
+  secondLevelElements: any[]
+  firstLevelElements: any[]
+  updateElement: (id: string, level: string, update: { [key: string]: string }) => void
+  headers: string[]
 }

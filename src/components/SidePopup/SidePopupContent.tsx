@@ -13,7 +13,7 @@ import FilterAction from './actions/FilterAction/FilterAction'
 import NumericStepAction from './actions/NumericStepAction'
 import AttributeAction from './actions/AttributeAction/AttributeAction'
 
-import { SidePopupActions } from 'constants/SidePopup'
+import { SidePopupActions } from 'constants/sidePopup'
 
 import styles from './SidePopup.module.scss'
 
@@ -41,6 +41,8 @@ const SidePopupContent: FC = () => {
       return <TextAreaAction key={name} subtitle={'Приглашение впч'} />
     case SidePopupActions.DATE:
       return <DatePickAction key={name} />
+    case SidePopupActions.FILTER:
+      return <FilterAction key={name} />
     case SidePopupActions.TABLE:
       return (
         <div key={name}>

@@ -5,7 +5,7 @@ import usePopupContext from 'context/SidePopupContext'
 import NumericStepAction from './NumericStepAction'
 import DropDownAction from './DropDownAction'
 
-import { TIME_OPTIONS } from 'constants/SidePopup'
+import { TIME_OPTIONS } from 'constants/sidePopup'
 
 import actionsStyles from './styles.module.scss'
 

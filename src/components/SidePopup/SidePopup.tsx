@@ -91,13 +91,13 @@ const SidePopup: FC<ISidePopup> = ({ isOpen, close, config, handleSave, title })
           </div>
         </div>
         <div className={styles.popupContent}>
-          <ScrollArea>
-            <div className={styles.popupContentInnerWrapper}>
-              <PopupContext.Provider value={{ action, currentState, setState }}>
-                <SidePopupContent />
-              </PopupContext.Provider>
-            </div>
-          </ScrollArea>
+          {/* <ScrollArea>
+            <div className={styles.popupContentInnerWrapper}> */}
+          <PopupContext.Provider value={{ action, currentState, setState }}>
+            <SidePopupContent />
+          </PopupContext.Provider>
+          {/* </div>
+          </ScrollArea> */}
         </div>
         <div className={styles.footer}>
           <div className={styles.footerStepCounter}>
