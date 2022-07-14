@@ -1,0 +1,23 @@
+.calendarWrapper {
+  border: 1px solid var(--blue_2);
+  animation: fadeIn 0.3s both;
+  background-color: var(--white);
+  border-radius: 8px;
+  box-shadow: 0px 3px 6px var(--shadow_1);
+  font-family: 'Inter', 'Arial', 'Helvetica', sans-serif;
+  font-size: 0.875rem;
+  text-transform: capitalize;
+
+  & * {
+    transition: 0.2s;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

@@ -2,6 +2,7 @@ import { FC } from 'react'
 
 import usePopupContext from 'context/SidePopupContext'
 
+import DatePicker from '../parts/DatePicker/DatePicker'
 import TextAreaAction from './actions/TextAreaAction'
 import InputAction from './actions/InputAction'
 import SliderAction from './actions/SliderAction'
@@ -38,7 +39,8 @@ const SidePopupContent: FC = () => {
       return <NumericStepAction key={name} label={'Количество'} />
     case SidePopupActions.TEXTAREA:
       return <TextAreaAction key={name} subtitle={'Приглашение впч'} />
-
+    case SidePopupActions.DATE:
+      return <DatePicker />
     case SidePopupActions.TABLE:
       return (
         <div key={name}>
