@@ -54,13 +54,15 @@ const FirstLevel: FC<IFirstLevel> = ({
   return (
     <div className={cx(styles.firstLevelOperand)}>
       <div className={styles.firstLevelOperandContent}>
-        <div className={cx(styles.filterElement, styles.leftGap)}>
-          {itsFirstChild && <p>у которых</p>}
+        <div className={cx(styles.leftGap)}>
+          {itsFirstChild && <p className={cx(styles.filterElement, 'text_1')}>у которых</p>}
         </div>
         {itsFirstChild ? (
           <DropDown
             triggerNode={
-              <Button modificator={buttonThemes.theme_secondary}>{defined.toUpperCase()}</Button>
+              <Button modificator={buttonThemes.theme_filter_accent}>
+                {defined.toLowerCase()}
+              </Button>
             }
           >
             <div className={dropDownStyles.container}>
@@ -68,11 +70,11 @@ const FirstLevel: FC<IFirstLevel> = ({
                 return (
                   <button
                     key={headerElement}
-                    className={dropDownStyles.element}
+                    className={cx(dropDownStyles.element, 'text_1')}
                     onClick={handleChangeDefined}
                     data-defined={headerElement}
                   >
-                    {headerElement.toUpperCase()}
+                    {headerElement.toLowerCase()}
                   </button>
                 )
               })}
@@ -81,8 +83,8 @@ const FirstLevel: FC<IFirstLevel> = ({
         ) : (
           <DropDown
             triggerNode={
-              <Button modificator={buttonThemes.theme_secondary}>
-                {logicalOperator.toUpperCase()}
+              <Button modificator={buttonThemes.theme_filter_accent}>
+                {logicalOperator.toLowerCase()}
               </Button>
             }
           >
@@ -95,7 +97,7 @@ const FirstLevel: FC<IFirstLevel> = ({
                     onClick={handleChangeOperator}
                     data-operator={operator}
                   >
-                    {operator.toUpperCase()}
+                    {operator.toLowerCase()}
                   </button>
                 )
               })}
@@ -104,7 +106,7 @@ const FirstLevel: FC<IFirstLevel> = ({
         )}
         <DropDown
           triggerNode={
-            <Button modificator={buttonThemes.theme_secondary}>{condition.toUpperCase()}</Button>
+            <Button modificator={buttonThemes.theme_filter}>{condition.toLowerCase()}</Button>
           }
         >
           <div className={dropDownStyles.container}>
@@ -112,11 +114,11 @@ const FirstLevel: FC<IFirstLevel> = ({
               return (
                 <button
                   key={currentCondition}
-                  className={dropDownStyles.element}
+                  className={cx(dropDownStyles.element, 'text_1')}
                   onClick={handleChangeCondition}
                   data-condition={currentCondition}
                 >
-                  {currentCondition.toUpperCase()}
+                  {currentCondition.toLowerCase()}
                 </button>
               )
             })}
@@ -131,24 +133,24 @@ const FirstLevel: FC<IFirstLevel> = ({
         />
         {itsLastChild && (
           <Button
-            modificator={buttonThemes.theme_secondary}
+            modificator={buttonThemes.theme_additional}
             onClick={handleCreate}
             data-id={id}
             data-parent-second-level-id={parentSecondLevelId}
           >
-            <IconPlus />
+            <IconPlus className={styles.iconCreate} />
           </Button>
         )}
       </div>
       <div className={styles.firstLevelDeleteButton}>
         <Button
-          modificator={buttonThemes.theme_secondary}
+          modificator={buttonThemes.theme_additional}
           onClick={handleDelete}
           data-id={id}
           data-index={index}
           data-parent-second-level-id={parentSecondLevelId}
         >
-          <IconPlus />
+          <IconPlus className={styles.iconDelete} />
         </Button>
       </div>
     </div>

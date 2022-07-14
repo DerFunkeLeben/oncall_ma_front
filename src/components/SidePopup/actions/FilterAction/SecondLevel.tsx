@@ -1,4 +1,5 @@
 import { FC } from 'react'
+import cx from 'classnames'
 
 import FirstLevel from './FirstLevel'
 import DropDown from 'components/parts/DropDown/DropDown'
@@ -6,6 +7,7 @@ import Button from 'components/parts/Button/Button'
 
 import dropDownStyles from 'components/parts/DropDown/DropDown.module.scss'
 import buttonThemes from 'components/parts/Button/ButtonThemes.module.scss'
+import styles from './FilterAction.module.scss'
 
 import { ISecondLevel } from './types'
 
@@ -27,31 +29,38 @@ const SecondLevel: FC<ISecondLevel> = ({
     updateElement(id, 'second', { logicalOperator: operator })
   }
   return (
-    <div className="SecondLevelOperand">
-      {!itsFirstChild && (
-        <DropDown
-          triggerNode={
-            <Button modificator={buttonThemes.theme_secondary}>
-              {logicalOperator.toUpperCase()}
-            </Button>
-          }
-        >
-          <div className={dropDownStyles.container}>
-            {Object.values(LogicalOperators).map((operator) => {
-              return (
-                <button
-                  key={operator}
-                  className={dropDownStyles.element}
-                  onClick={handleChangeOperator}
-                  data-operator={operator}
-                >
-                  {operator.toUpperCase()}
-                </button>
-              )
-            })}
-          </div>
-        </DropDown>
-      )}
+    <div className={styles.secondLevelOperand}>
+      <div
+        className={cx(
+          styles.logicalOperatorContener,
+          !itsFirstChild && styles.logicalOperatorContenerNotFirst
+        )}
+      >
+        {!itsFirstChild && (
+          <DropDown
+            triggerNode={
+              <Button modificator={cx(buttonThemes.theme_filter_accent)}>
+                {logicalOperator.toUpperCase()}
+              </Button>
+            }
+          >
+            <div className={dropDownStyles.container}>
+              {Object.values(LogicalOperators).map((operator) => {
+                return (
+                  <button
+                    key={operator}
+                    className={cx(dropDownStyles.element, 'text_1')}
+                    onClick={handleChangeOperator}
+                    data-operator={operator}
+                  >
+                    {operator.toUpperCase()}
+                  </button>
+                )
+              })}
+            </div>
+          </DropDown>
+        )}
+      </div>
       {firstLevelElements.map((row, firstLevelIndex) => {
         const childIds = secondLevel.childIds
         if (!childIds.includes(row.id)) return

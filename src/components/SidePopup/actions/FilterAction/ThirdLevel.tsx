@@ -1,4 +1,5 @@
 import { FC } from 'react'
+import cx from 'classnames'
 
 import SecondLevel from './SecondLevel'
 import Button from 'components/parts/Button/Button'
@@ -12,7 +13,7 @@ import { IThirdLevel } from './types'
 
 import { LogicalOperators } from 'constants/sidePopup'
 
-import { IconPlus } from '../../../../assets/icons'
+import { IconPlusWithBorder } from '../../../../assets/icons'
 
 const ThirdLevel: FC<IThirdLevel> = ({
   thirdLevel,
@@ -45,7 +46,7 @@ const ThirdLevel: FC<IThirdLevel> = ({
         ) : (
           <DropDown
             triggerNode={
-              <Button modificator={buttonThemes.theme_secondary}>
+              <Button modificator={cx(buttonThemes.theme_filter_accent)}>
                 {logicalOperator.toUpperCase()}
               </Button>
             }
@@ -55,7 +56,7 @@ const ThirdLevel: FC<IThirdLevel> = ({
                 return (
                   <button
                     key={operator}
-                    className={dropDownStyles.element}
+                    className={cx(dropDownStyles.element, 'text_1')}
                     onClick={handleChangeOperator}
                     data-operator={operator}
                   >
@@ -74,7 +75,7 @@ const ThirdLevel: FC<IThirdLevel> = ({
             onClick={handleCreate}
             data-third-level-id={id}
           >
-            <IconPlus />
+            <IconPlusWithBorder />
           </Button>
         </div>
         {secondLevelElements.map((secondLevel, secondLevelIndex) => {
