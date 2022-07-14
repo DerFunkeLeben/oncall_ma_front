@@ -6,23 +6,30 @@ import { ISecondLevel } from './types'
 
 const SecondLevel: FC<ISecondLevel> = ({
   secondLevel,
-  handleCreateFirstLevelRow,
+  itsFirstChild,
+  handleCreateFirstLevel,
   index,
   handleDeleteFirstLevelRow,
+  firstLevelElements,
 }) => {
-  const firstRows = secondLevel.rows
+  console.log({ secondLevel })
   return (
     <div className="SecondLevelOperand">
-      {index !== 0 && <p>И</p>}
-      {firstRows.map((row, firstLevelIndex) => {
-        const itsLastRow = firstLevelIndex + 1 === firstRows.length
+      {!itsFirstChild && <p>И</p>}
+      {firstLevelElements.map((row, firstLevelIndex) => {
+        const childIds = secondLevel.childIds
+        if (!childIds.includes(row.id)) return
+        const itsLastChild = childIds.indexOf(row.id) + 1 === childIds.length
+        const itsFirstFirstLevelChild = childIds.indexOf(row.id) === 0
         return (
           <FirstLevel
             index={firstLevelIndex}
+            parentSecondLevelId={secondLevel.id}
             key={row.id}
             row={row}
-            itsLastRow={itsLastRow}
-            handleCreateFirstLevelRow={handleCreateFirstLevelRow}
+            itsLastChild={itsLastChild}
+            itsFirstChild={itsFirstFirstLevelChild}
+            handleCreateFirstLevel={handleCreateFirstLevel}
             handleDeleteFirstLevelRow={handleDeleteFirstLevelRow}
           />
         )

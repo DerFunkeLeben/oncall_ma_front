@@ -54,7 +54,6 @@ const configTest: IAction = {
   name: 'filter',
   type: 'filter',
   attributes: [
-    'ID',
     'Фамилия',
     'Имя',
     'Отчество',
