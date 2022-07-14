@@ -2,10 +2,15 @@ import { FC } from 'react'
 
 import SecondLevel from './SecondLevel'
 import Button from 'components/parts/Button/Button'
+import DropDown from 'components/parts/DropDown/DropDown'
 
 import styles from './FilterAction.module.scss'
 import buttonThemes from 'components/parts/Button/ButtonThemes.module.scss'
+import dropDownStyles from 'components/parts/DropDown/DropDown.module.scss'
+
 import { IThirdLevel } from './types'
+
+import { LogicalOperators } from 'constants/sidePopup'
 
 import { IconPlus } from '../../../../assets/icons'
 
@@ -18,6 +23,7 @@ const ThirdLevel: FC<IThirdLevel> = ({
   firstLevelElements,
   index,
   updateElement,
+  headers,
 }) => {
   const { id, logicalOperator } = thirdLevel
   const handleCreate = (e: any) => {
@@ -26,18 +32,39 @@ const ThirdLevel: FC<IThirdLevel> = ({
     console.log(e.currentTarget.dataset, thirdLevelId)
     handleCreateSecondLevel(thirdLevelId)
   }
+
+  const handleChangeOperator = (e: any) => {
+    const { operator } = e.currentTarget.dataset
+    updateElement(id, 'third', { logicalOperator: operator })
+  }
   return (
     <div className={styles.thirdLevelFilter}>
       <div className="firstLevelFilterRightPart">
         {index === 0 ? (
           <p>Врачи</p>
         ) : (
-          <Button
-            modificator={buttonThemes.theme_secondary}
-            onClick={() => updateElement(id, 'third', { logicalOperator: 'или' })}
+          <DropDown
+            triggerNode={
+              <Button modificator={buttonThemes.theme_secondary}>
+                {logicalOperator.toUpperCase()}
+              </Button>
+            }
           >
-            {logicalOperator}
-          </Button>
+            <div className={dropDownStyles.container}>
+              {Object.values(LogicalOperators).map((operator) => {
+                return (
+                  <button
+                    key={operator}
+                    className={dropDownStyles.element}
+                    onClick={handleChangeOperator}
+                    data-operator={operator}
+                  >
+                    {operator.toUpperCase()}
+                  </button>
+                )
+              })}
+            </div>
+          </DropDown>
         )}
       </div>
       <div className={styles.thirdLevelLeftPart}>
@@ -63,6 +90,8 @@ const ThirdLevel: FC<IThirdLevel> = ({
               handleCreateFirstLevel={handleCreateFirstLevel}
               handleDeleteFirstLevelRow={handleDeleteFirstLevelRow}
               firstLevelElements={firstLevelElements}
+              updateElement={updateElement}
+              headers={headers}
             />
           )
         })}

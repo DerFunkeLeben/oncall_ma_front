@@ -11,21 +11,21 @@ import { IconPlus } from '../../../../assets/icons'
 
 import { IFilterAction, IFirstLevelObj, ISecondLevelObj, IThirdLevelObj, IConfig } from './types'
 
+import { LogicalOperators, Conditions } from 'constants/sidePopup'
+
 const FilterAction: FC<IFilterAction> = ({ action, currentState, setState }) => {
   const actionName = action.name
   const attributes = action.attributes
   const title = action.title
-
-  const logicalOperators = ['и', 'не и', 'или', 'не или']
 
   console.log(attributes)
 
   const initFirstLevelRow = (id: string) => {
     return {
       defined: attributes[0].toLocaleLowerCase(),
-      logicalOperator: logicalOperators[0],
-      condition: 'содержит',
-      determinant: 'Введите значение',
+      logicalOperator: LogicalOperators.AND,
+      condition: Conditions.EQUAL,
+      determinant: '',
       id: id,
     }
   }
@@ -33,7 +33,7 @@ const FilterAction: FC<IFilterAction> = ({ action, currentState, setState }) => 
   const initSecondLevelRow = (id: string, childId: string) => {
     return {
       id: id,
-      logicalOperator: logicalOperators[0],
+      logicalOperator: LogicalOperators.AND,
       childIds: [childId],
     }
   }
@@ -49,17 +49,17 @@ const FilterAction: FC<IFilterAction> = ({ action, currentState, setState }) => 
   const [firstLevelElements, setFirstLevelElements] = useState<any[]>([
     {
       defined: attributes[0].toLocaleLowerCase(),
-      logicalOperator: logicalOperators[0],
-      condition: 'содержит',
-      determinant: 'Введите значение',
+      logicalOperator: LogicalOperators.AND,
+      condition: Conditions.EQUAL,
+      determinant: '',
       id: '11',
     },
   ])
   const [secondLevelElements, setSecondLevelElements] = useState<any[]>([
-    { id: '21', logicalOperator: logicalOperators[0], childIds: ['11'] },
+    { id: '21', logicalOperator: LogicalOperators.AND, childIds: ['11'] },
   ])
   const [thirdLevelElements, setThirdLevelElements] = useState<any[]>([
-    { id: '31', logicalOperator: logicalOperators[0], childIds: ['21'] },
+    { id: '31', logicalOperator: LogicalOperators.AND, childIds: ['21'] },
   ])
 
   const handleCreateFirstLevel = (secondLevelId: string) => {
@@ -163,10 +163,10 @@ const FilterAction: FC<IFilterAction> = ({ action, currentState, setState }) => 
   }
 
   const updateElement = (id: string, level: string, update: { [key: string]: string }) => {
-    console.log(id, level, update)
     if (level === 'first') {
       const updatedFirst = firstLevelElements.map((element) => {
         if (element.id === id) {
+          console.log('!s', update)
           return {
             ...element,
             ...update,
@@ -175,21 +175,24 @@ const FilterAction: FC<IFilterAction> = ({ action, currentState, setState }) => 
       })
       setFirstLevelElements(updatedFirst)
     } else if (level === 'second') {
-      console.log('second')
-    } else if (level === 'third') {
-      const updatedThird = thirdLevelElements.map((element) => {
+      const updatedSecond = secondLevelElements.map((element) => {
         if (element.id === id) {
-          console.log({
-            ...element,
-            ...update,
-          })
           return {
             ...element,
             ...update,
           }
         } else return element
       })
-      console.log(updatedThird)
+      setSecondLevelElements(updatedSecond)
+    } else if (level === 'third') {
+      const updatedThird = thirdLevelElements.map((element) => {
+        if (element.id === id) {
+          return {
+            ...element,
+            ...update,
+          }
+        } else return element
+      })
       setThirdLevelElements(updatedThird)
     }
   }
@@ -215,12 +218,13 @@ const FilterAction: FC<IFilterAction> = ({ action, currentState, setState }) => 
               handleCreateSecondLevel={handleCreateSecondLevel}
               handleDeleteFirstLevelRow={handleDeleteFirstLevelRow}
               updateElement={updateElement}
+              headers={attributes}
             />
           )
         })}
       </div>
       <div className={styles.controlContainer}>
-        {logicalOperators.map((operator) => {
+        {Object.values(LogicalOperators).map((operator) => {
           return (
             <Button
               key={operator}

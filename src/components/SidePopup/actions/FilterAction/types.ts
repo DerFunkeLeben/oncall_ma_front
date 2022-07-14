@@ -42,6 +42,8 @@ export interface IFirstLevel extends ILevel {
   parentSecondLevelId: string
   handleCreateFirstLevel: (e: any) => void
   handleDeleteFirstLevelRow: (id: string, parentId: string) => void
+  updateElement: (id: string, level: string, update: { [key: string]: string }) => void
+  headers: string[]
 }
 
 export interface ISecondLevel extends ILevel {
@@ -50,6 +52,8 @@ export interface ISecondLevel extends ILevel {
   handleCreateFirstLevel: (e: any) => void
   handleDeleteFirstLevelRow: (id: string, parentId: string) => void
   firstLevelElements: any[]
+  updateElement: (id: string, level: string, update: { [key: string]: string }) => void
+  headers: string[]
 }
 
 export interface IThirdLevel extends ILevel {
@@ -60,4 +64,5 @@ export interface IThirdLevel extends ILevel {
   secondLevelElements: any[]
   firstLevelElements: any[]
   updateElement: (id: string, level: string, update: { [key: string]: string }) => void
+  headers: string[]
 }
