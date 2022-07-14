@@ -53,7 +53,8 @@ const initData = {
 const title = 'Фильтры'
 
 const configTest: IStep = {
-  name: 'ТекстИнпут',
+  name: 'ВыборДаты',
+  title: 'Выбор даты',
   type: SidePopupActions.DATE,
   getNextStep: () => {
     return {
@@ -63,7 +64,7 @@ const configTest: IStep = {
         return {
           name: 'Длительность',
           type: SidePopupActions.DURATION,
-          title: 'Установите продолжительность теста',
+          title: 'Количество',
           getNextStep: () => {
             return {
               name: 'Слайдер',
@@ -85,6 +86,13 @@ const configTest: IStep = {
                         { name: 'clickRate', label: 'click rate' },
                         { name: 'unsubscribeRate', label: 'unsub rate' },
                       ],
+                      getNextStep: () => {
+                        return {
+                          name: 'Инпут',
+                          type: SidePopupActions.INPUT,
+                          title: 'Прехедер',
+                        }
+                      },
                     }
                   },
                 }

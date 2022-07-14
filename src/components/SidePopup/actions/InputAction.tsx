@@ -5,15 +5,15 @@ import InputBase from 'components/parts/InputBase/InputBase'
 import styles from '../SidePopup.module.scss'
 
 interface IInputAction {
-  label?: string
   stateKey?: string
   type?: string
 }
 
-const InputAction: FC<IInputAction> = ({ label, type, stateKey = 'text' }) => {
+const InputAction: FC<IInputAction> = ({ type, stateKey = 'text' }) => {
   const { action, currentState, setState } = usePopupContext()
 
   const actionName = action.name
+  const { title } = action
   const text = currentState[actionName]?.[stateKey] || ''
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -30,7 +30,7 @@ const InputAction: FC<IInputAction> = ({ label, type, stateKey = 'text' }) => {
 
   return (
     <InputBase
-      label={label}
+      label={title}
       name={actionName}
       value={text}
       handleInputChange={handleChange}

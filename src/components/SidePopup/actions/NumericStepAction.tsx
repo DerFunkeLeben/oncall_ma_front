@@ -3,14 +3,11 @@ import { FC } from 'react'
 import usePopupContext from 'context/SidePopupContext'
 import NumericStep from 'components/parts/NumericStep/NumericStep'
 
-interface INumericStepAction {
-  label?: string
-}
-
-const NumericStepAction: FC<INumericStepAction> = ({ label }) => {
+const NumericStepAction: FC = () => {
   const { action, currentState, setState } = usePopupContext()
 
   const actionName = action.name
+  const { title } = action
   const numValue = +(currentState[actionName]?.ammount || 0)
 
   const handleChange = (value: number | null) => {
@@ -25,7 +22,7 @@ const NumericStepAction: FC<INumericStepAction> = ({ label }) => {
   }
 
   return (
-    <NumericStep label={label} name={actionName} value={numValue} handleChange={handleChange} />
+    <NumericStep label={title} name={actionName} value={numValue} handleChange={handleChange} />
   )
 }
 

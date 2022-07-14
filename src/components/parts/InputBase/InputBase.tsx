@@ -15,6 +15,7 @@ export interface IInputBase extends React.InputHTMLAttributes<HTMLInputElement> 
   disabled?: boolean
   autocomplete?: string
   icon?: boolean
+  ref?: any
 }
 
 const InputBase: FC<IInputBase> = ({
@@ -34,6 +35,7 @@ const InputBase: FC<IInputBase> = ({
   disabled,
   autocomplete,
   icon,
+  ...props
 }) => {
   return (
     <div style={{ width: width }} className={cx(styles.wrapper, { [styles.disabled]: disabled })}>
@@ -54,7 +56,8 @@ const InputBase: FC<IInputBase> = ({
         onClick={onClick}
         autoComplete={autocomplete || 'off'}
         mask={mask || ''}
-      ></InputMask>
+        {...props}
+      />
       {icon && <IconLoupe className={styles.iconLoupe} />}
       {children}
     </div>

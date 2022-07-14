@@ -1,4 +1,4 @@
-import { FC, ChangeEvent } from 'react'
+import { FC } from 'react'
 import NumericInput from 'react-numeric-input'
 
 import cx from 'classnames'

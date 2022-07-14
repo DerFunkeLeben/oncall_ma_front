@@ -15,7 +15,7 @@ const DurationAction: FC = () => {
 
   return (
     <div className={actionsStyles.durationWrapper}>
-      <NumericStepAction label="Количество" />
+      <NumericStepAction />
       <DropDownAction label={'Временной отрезок'} />
     </div>
   )
