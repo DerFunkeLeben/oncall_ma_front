@@ -29,4 +29,5 @@ export enum SidePopupActions {
   DROP_DOWN = 'dropDown',
   DURATION = 'duration',
   ATTRIBUTES = 'attributes',
+  DATE = 'datePick',
 }

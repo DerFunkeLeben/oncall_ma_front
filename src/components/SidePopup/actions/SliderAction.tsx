@@ -1,19 +1,12 @@
-import { FC, Dispatch, SetStateAction } from 'react'
+import { FC } from 'react'
 import cx from 'classnames'
 
+import usePopupContext from 'context/SidePopupContext'
 import Slider from 'components/parts/Slider/Slider'
-
 import styles from './styles.module.scss'
 
-import { IAction, IStatePopup } from 'types/sidePopup'
-
-interface ISliderAction {
-  currentState: IStatePopup
-  action: IAction
-  setState: Dispatch<SetStateAction<IStatePopup>> /* TODO хуйня какая то */
-}
-
-const SliderAction: FC<ISliderAction> = ({ action, currentState, setState }) => {
+const SliderAction: FC = () => {
+  const { action, currentState, setState } = usePopupContext()
   const actionName = action.name
   const title = action.title
   const sliderValue = +(currentState[actionName]?.value || 0)

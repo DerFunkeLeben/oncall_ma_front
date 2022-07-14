@@ -1,21 +1,16 @@
-import { FC, Dispatch, SetStateAction, useState } from 'react'
+import { FC, useState } from 'react'
+
+import usePopupContext from 'context/SidePopupContext'
 
 import SingleAttribute from './SingleAttribute'
 import ButtonAdd from './ButtonAdd'
 
 import { ATTRIBUTES_OPTIONS } from 'constants/SidePopup'
-import { IActionDropDown, IStatePopup } from 'types/sidePopup'
 
 import styles from './AttributeAction.module.scss'
 
-export interface IAttributeAction {
-  currentState: IStatePopup
-  action: IActionDropDown
-  setState: Dispatch<SetStateAction<IStatePopup>> /* TODO хуйня какая то */
-}
-
-const AttributeAction: FC<IAttributeAction> = (props) => {
-  const { action, currentState } = props
+const AttributeAction: FC = () => {
+  const { action, currentState } = usePopupContext()
   const actionName = action.name
   action.options = ATTRIBUTES_OPTIONS
 
@@ -42,7 +37,6 @@ const AttributeAction: FC<IAttributeAction> = (props) => {
 
       {prevAttrs.map((attrName, index) => (
         <SingleAttribute
-          {...props}
           id={attrName}
           key={index}
           prevAttrs={prevAttrs}

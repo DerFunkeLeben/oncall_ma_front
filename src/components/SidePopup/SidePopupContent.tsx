@@ -1,7 +1,6 @@
-import { FC, Dispatch, SetStateAction } from 'react'
-import cx from 'classnames'
+import { FC } from 'react'
 
-import styles from './SidePopup.module.scss'
+import usePopupContext from 'context/SidePopupContext'
 
 import TextAreaAction from './actions/TextAreaAction'
 import InputAction from './actions/InputAction'
@@ -15,56 +14,31 @@ import AttributeAction from './actions/AttributeAction/AttributeAction'
 
 import { SidePopupActions } from 'constants/SidePopup'
 
-import { IStatePopup } from 'types/sidePopup'
+import styles from './SidePopup.module.scss'
 
-interface ISidePopupContent {
-  configArray: any
-  currentStep: number
-  state: IStatePopup
-  setState: Dispatch<SetStateAction<IStatePopup>>
-}
+const SidePopupContent: FC = () => {
+  const { action } = usePopupContext()
 
-const SidePopupContent: FC<ISidePopupContent> = ({ configArray, state, currentStep, setState }) => {
-  const currentStepIndex = currentStep - 1
-  const step = configArray[currentStepIndex]
-  const { type, name } = step
-
-  const props = {
-    key: name,
-    action: configArray[currentStepIndex],
-    currentState: state,
-    setState,
-  }
+  const { type, name } = action
 
   switch (type) {
     case SidePopupActions.ATTRIBUTES:
-      return <AttributeAction {...props} />
+      return <AttributeAction key={name} />
     case SidePopupActions.DURATION:
-      return <DurationAction {...props} />
+      return <DurationAction key={name} />
     case SidePopupActions.RADIO:
-      return <RadioGroupAction {...props} />
+      return <RadioGroupAction key={name} />
     case SidePopupActions.SLIDER:
-      return <SliderAction {...props} />
+      return <SliderAction key={name} />
     case SidePopupActions.SLIDER_RELATION:
-      return <SliderRelation {...props} />
+      return <SliderRelation key={name} />
     case SidePopupActions.INPUT:
-      return (
-        <InputAction
-          {...props}
-          label={'Тема'} // получать из конфига
-        />
-      )
+      return <InputAction key={name} label={'Тема'} />
     case SidePopupActions.NUMERIC_STEP:
-      return <NumericStepAction {...props} label={'Количество'} />
+      return <NumericStepAction key={name} label={'Количество'} />
     case SidePopupActions.TEXTAREA:
-      return (
-        <TextAreaAction
-          {...props}
-          subtitle={'Приглашение впч'} // получить с предыдущего шага из таблицы
-        />
-      )
-    case SidePopupActions.FILTER:
-      return <FilterAction {...props} />
+      return <TextAreaAction key={name} subtitle={'Приглашение впч'} />
+
     case SidePopupActions.TABLE:
       return (
         <div key={name}>

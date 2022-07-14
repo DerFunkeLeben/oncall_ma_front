@@ -1,38 +1,30 @@
 import { FC, Dispatch, SetStateAction, SyntheticEvent, useState } from 'react'
 import cx from 'classnames'
 
+import usePopupContext from 'context/SidePopupContext'
+
 import DropDown from 'components/parts/DropDown/DropDown'
-import { IActionDropDown, IStatePopup, IOption } from 'types/sidePopup'
+import { IOption } from 'types/sidePopup'
 
 import dropDownStyles from 'components/parts/DropDown/DropDown.module.scss'
 import styles from './styles.module.scss'
 
 interface IDropDownAction {
-  currentState: IStatePopup
-  action: IActionDropDown
-  setState: Dispatch<SetStateAction<IStatePopup>>
   label?: string
   id?: string
   disabledOptions?: string[]
   setDisabledOptions?: Dispatch<SetStateAction<string[]>>
 }
 
-const getOptionLabel = (options: IOption[], name: string | undefined): string => {
-  const option = options.find((opt) => opt.name === name)
-  return option?.label || ''
-}
-
 const DropDownAction: FC<IDropDownAction> = ({
-  action,
-  currentState,
-  setState,
   label,
   id,
   disabledOptions = [],
   setDisabledOptions,
 }) => {
+  const { action, currentState, setState } = usePopupContext()
   const actionName = action.name
-  const { options } = action
+  const options = action.options as IOption[]
 
   const [pickedOption, setPickedOption] = useState<string>(id || options[0].name)
 
@@ -44,6 +36,11 @@ const DropDownAction: FC<IDropDownAction> = ({
     )
 
     setDisabledOptions(newDisabledOptions)
+  }
+
+  const getOptionLabel = (name: string | undefined): string => {
+    const option = options.find((opt: { name: string | undefined }) => opt.name === name)
+    return option?.label || ''
   }
 
   const handleChange = (event: SyntheticEvent<HTMLButtonElement>) => {
@@ -72,7 +69,7 @@ const DropDownAction: FC<IDropDownAction> = ({
       <DropDown
         triggerNode={
           <button className={dropDownStyles.triggerButton}>
-            <span>{getOptionLabel(options, pickedOption)}</span>
+            <span>{getOptionLabel(pickedOption)}</span>
           </button>
         }
       >

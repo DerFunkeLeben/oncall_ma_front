@@ -1,6 +1,8 @@
 import { FC, Dispatch, SetStateAction, useState, useRef, useEffect } from 'react'
 import cx from 'classnames'
 
+import usePopupContext from 'context/SidePopupContext'
+
 import Button from 'components/parts/Button/Button'
 import ThirdLevel from './ThirdLevel'
 
@@ -12,7 +14,8 @@ import { IconPlus } from '../../../../assets/icons'
 
 import { IFilterAction, IFirstLevelObj, ISecondLevelObj, IThirdLevelObj, IConfig } from './types'
 
-const FilterAction: FC<IFilterAction> = ({ action, currentState, setState }) => {
+const FilterAction: FC<IFilterAction> = () => {
+  const { action, currentState, setState } = usePopupContext()
   const actionName = action.name
   const title = action.title
 

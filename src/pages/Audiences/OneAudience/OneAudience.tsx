@@ -53,18 +53,17 @@ const initData = {
 const title = 'Фильтры'
 
 const configTest: IStep = {
-  name: 'ПрисвоениеАтрибута',
-  type: SidePopupActions.ATTRIBUTES,
+  name: 'ТекстИнпут',
+  type: SidePopupActions.DATE,
   getNextStep: () => {
     return {
-      name: 'Длительность',
-      type: SidePopupActions.DURATION,
-      title: 'Установите продолжительность теста',
+      name: 'ПрисвоениеАтрибута',
+      type: SidePopupActions.ATTRIBUTES,
       getNextStep: () => {
         return {
-          name: 'ТекстИнпут',
-          type: SidePopupActions.INPUT,
-          title: 'Аудитория',
+          name: 'Длительность',
+          type: SidePopupActions.DURATION,
+          title: 'Установите продолжительность теста',
           getNextStep: () => {
             return {
               name: 'Слайдер',

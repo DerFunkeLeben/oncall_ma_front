@@ -1,27 +1,22 @@
-import { FC, Dispatch, SetStateAction } from 'react'
+import { FC } from 'react'
+
+import usePopupContext from 'context/SidePopupContext'
 
 import NumericStepAction from './NumericStepAction'
 import DropDownAction from './DropDownAction'
 
 import { TIME_OPTIONS } from 'constants/SidePopup'
-import { IActionDropDown, IStatePopup } from 'types/sidePopup'
 
 import actionsStyles from './styles.module.scss'
 
-interface IDurationAction {
-  currentState: IStatePopup
-  action: IActionDropDown
-  setState: Dispatch<SetStateAction<IStatePopup>> /* TODO хуйня какая то */
-}
-
-const DurationAction: FC<IDurationAction> = (props) => {
-  const { action } = props
+const DurationAction: FC = () => {
+  const { action } = usePopupContext()
   action.options = TIME_OPTIONS
 
   return (
     <div className={actionsStyles.durationWrapper}>
-      <NumericStepAction {...props} label="Количество" />
-      <DropDownAction {...props} label={'Временной отрезок'} />
+      <NumericStepAction label="Количество" />
+      <DropDownAction label={'Временной отрезок'} />
     </div>
   )
 }

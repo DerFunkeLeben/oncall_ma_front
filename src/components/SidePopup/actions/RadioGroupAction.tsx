@@ -1,16 +1,10 @@
-import { FC, Dispatch, SetStateAction } from 'react'
+import { FC } from 'react'
 
+import usePopupContext from 'context/SidePopupContext'
 import RadioGroup from 'components/parts/RadioGroup/RadioGroup'
 
-import { IActionRadio, IStatePopup } from 'types/sidePopup'
-
-interface IRadioGroupAction {
-  currentState: IStatePopup
-  action: IActionRadio
-  setState: Dispatch<SetStateAction<IStatePopup>> /* TODO хуйня какая то */
-}
-
-const RadioGroupAction: FC<IRadioGroupAction> = ({ action, currentState, setState }) => {
+const RadioGroupAction: FC = () => {
+  const { action, currentState, setState } = usePopupContext()
   const actionName = action.name
   const options = action.options
   const pickedOptionName = currentState[actionName]?.option

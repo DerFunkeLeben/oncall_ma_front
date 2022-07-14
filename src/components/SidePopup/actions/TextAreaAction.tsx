@@ -1,26 +1,16 @@
-import { FC, ChangeEvent, Dispatch, SetStateAction } from 'react'
+import { FC, ChangeEvent } from 'react'
 
+import usePopupContext from 'context/SidePopupContext'
 import TextArea from 'components/parts/TextArea/TextArea'
-
-import { IAction, IStatePopup } from 'types/sidePopup'
-
 import styles from '../SidePopup.module.scss'
 
 interface ITextAreaAction {
   subtitle: string
-  action: IAction
-  currentState: IStatePopup
-  setState: Dispatch<SetStateAction<IStatePopup>> /* TODO хуйня какая то */
   label?: string
 }
 
-const TextAreaAction: FC<ITextAreaAction> = ({
-  currentState,
-  setState,
-  subtitle,
-  action,
-  label = 'Текст',
-}) => {
+const TextAreaAction: FC<ITextAreaAction> = ({ subtitle, label = 'Текст' }) => {
+  const { action, currentState, setState } = usePopupContext()
   const actionName = action.name
   const text = currentState[actionName]?.text || ''
 
