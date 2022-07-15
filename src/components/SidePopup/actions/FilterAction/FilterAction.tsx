@@ -12,6 +12,7 @@ import { IconPlus } from '../../../../assets/icons'
 import { IFilterAction, IFirstLevelObj, ISecondLevelObj, IThirdLevelObj, IConfig } from './types'
 
 import { LogicalOperators, Conditions } from 'constants/sidePopup'
+import ScrollArea from 'containers/ScrollArea/ScrollArea'
 
 const FilterAction: FC<IFilterAction> = ({ action, currentState, setState }) => {
   const actionName = action.name
@@ -61,6 +62,8 @@ const FilterAction: FC<IFilterAction> = ({ action, currentState, setState }) => 
   const [thirdLevelElements, setThirdLevelElements] = useState<any[]>([
     { id: '31', logicalOperator: LogicalOperators.AND, childIds: ['21'] },
   ])
+
+  //*TODO переписать все функции */
 
   const handleCreateFirstLevel = (secondLevelId: string) => {
     const newFirstLevelId = uuid()
@@ -120,10 +123,12 @@ const FilterAction: FC<IFilterAction> = ({ action, currentState, setState }) => 
     setFirstLevelElements(newFirstLevelElements)
   }
 
-  const handleDeleteFirstLevelRow = (id: string, parentId: string) => {
-    const newFirstLevelElements = firstLevelElements.filter(
-      (firstLevelElement) => firstLevelElement.id !== id
-    )
+  const handleDeleteFirstLevelRow = (id: string, parentId: string, itsFirstChildren: boolean) => {
+    const newFirstLevelElements = firstLevelElements.filter((firstLevelElement) => {
+      // if (itsFirstChildren) return false
+      // else
+      return firstLevelElement.id !== id
+    })
     const newSecondLevelElements = secondLevelElements
       .map((secondLevelElement) => {
         if (secondLevelElement.id === parentId) {
@@ -197,38 +202,43 @@ const FilterAction: FC<IFilterAction> = ({ action, currentState, setState }) => 
     }
   }
 
-  useEffect(() => {
-    console.log({ firstLevelElements })
-    console.log({ secondLevelElements })
-    console.log({ thirdLevelElements })
-  }, [firstLevelElements, secondLevelElements, thirdLevelElements])
+  // useEffect(() => {
+  //   console.log({ firstLevelElements })
+  //   console.log({ secondLevelElements })
+  //   console.log({ thirdLevelElements })
+  // }, [firstLevelElements, secondLevelElements, thirdLevelElements])
 
   return (
     <div className={styles.wrapper}>
-      <div className={styles.filterContainer}>
-        {thirdLevelElements.map((thirdLevelElement, thirdLevelIndex) => {
-          return (
-            <ThirdLevel
-              index={thirdLevelIndex}
-              key={thirdLevelIndex}
-              thirdLevel={thirdLevelElement}
-              secondLevelElements={secondLevelElements}
-              firstLevelElements={firstLevelElements}
-              handleCreateFirstLevel={handleCreateFirstLevel}
-              handleCreateSecondLevel={handleCreateSecondLevel}
-              handleDeleteFirstLevelRow={handleDeleteFirstLevelRow}
-              updateElement={updateElement}
-              headers={attributes}
-            />
-          )
-        })}
+      <div className={styles.filterContainerWrapper}>
+        <div className={styles.verticalLine} />
+        <ScrollArea>
+          <div className={styles.filterContainer}>
+            {thirdLevelElements.map((thirdLevelElement, thirdLevelIndex) => {
+              return (
+                <ThirdLevel
+                  index={thirdLevelIndex}
+                  key={thirdLevelIndex}
+                  thirdLevel={thirdLevelElement}
+                  secondLevelElements={secondLevelElements}
+                  firstLevelElements={firstLevelElements}
+                  handleCreateFirstLevel={handleCreateFirstLevel}
+                  handleCreateSecondLevel={handleCreateSecondLevel}
+                  handleDeleteFirstLevelRow={handleDeleteFirstLevelRow}
+                  updateElement={updateElement}
+                  headers={attributes}
+                />
+              )
+            })}
+          </div>
+        </ScrollArea>
       </div>
       <div className={styles.controlContainer}>
         {Object.values(LogicalOperators).map((operator) => {
           return (
             <Button
               key={operator}
-              modificator={buttonThemes.theme_secondary}
+              modificator={buttonThemes.theme_secondary_accent}
               onClick={handleCreateThirdLevel}
               data-operator={operator}
             >

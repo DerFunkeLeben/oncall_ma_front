@@ -40,7 +40,7 @@ const ThirdLevel: FC<IThirdLevel> = ({
   }
   return (
     <div className={styles.thirdLevelFilter}>
-      <div className="firstLevelFilterRightPart">
+      <div className={styles.firstLevelFilterRightPart}>
         {index === 0 ? (
           <p>Врачи</p>
         ) : (
@@ -71,11 +71,11 @@ const ThirdLevel: FC<IThirdLevel> = ({
       <div className={styles.thirdLevelLeftPart}>
         <div className={styles.secondAddButtonContainer}>
           <Button
-            modificator={buttonThemes.theme_secondary}
+            modificator={buttonThemes.theme_additional}
             onClick={handleCreate}
             data-third-level-id={id}
           >
-            <IconPlusWithBorder />
+            <IconPlusWithBorder className={styles.secondAddButtonIcon} />
           </Button>
         </div>
         {secondLevelElements.map((secondLevel, secondLevelIndex) => {

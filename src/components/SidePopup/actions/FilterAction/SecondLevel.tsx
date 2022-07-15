@@ -40,7 +40,7 @@ const SecondLevel: FC<ISecondLevel> = ({
           <DropDown
             triggerNode={
               <Button modificator={cx(buttonThemes.theme_filter_accent)}>
-                {logicalOperator.toUpperCase()}
+                {logicalOperator.toLowerCase()}
               </Button>
             }
           >
@@ -53,7 +53,7 @@ const SecondLevel: FC<ISecondLevel> = ({
                     onClick={handleChangeOperator}
                     data-operator={operator}
                   >
-                    {operator.toUpperCase()}
+                    {operator.toLowerCase()}
                   </button>
                 )
               })}
