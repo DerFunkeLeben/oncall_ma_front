@@ -202,11 +202,25 @@ const FilterAction: FC<IFilterAction> = ({ action, currentState, setState }) => 
     }
   }
 
-  // useEffect(() => {
-  //   console.log({ firstLevelElements })
-  //   console.log({ secondLevelElements })
-  //   console.log({ thirdLevelElements })
-  // }, [firstLevelElements, secondLevelElements, thirdLevelElements])
+  const createLevelHandler =
+    (elements: any, setter: any) => (id: string, update: { [key: string]: string }) => {
+      const updatedFirst = elements.map((element: any) => {
+        if (element.id === id) {
+          console.log('!s', update)
+          return {
+            ...element,
+            ...update,
+          }
+        } else return element
+      })
+      setter(updatedFirst)
+    }
+
+  const [updateFirstLevel, updateSecondLevel, updateThirdLevel] = [
+    createLevelHandler(firstLevelElements, setFirstLevelElements),
+    createLevelHandler(secondLevelElements, secondLevelElements),
+    createLevelHandler(thirdLevelElements, setThirdLevelElements),
+  ]
 
   return (
     <div className={styles.wrapper}>
