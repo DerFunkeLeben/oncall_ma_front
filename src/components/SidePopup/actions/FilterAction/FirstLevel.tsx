@@ -11,7 +11,7 @@ import buttonThemes from 'components/parts/Button/ButtonThemes.module.scss'
 import dropDownStyles from 'components/parts/DropDown/DropDown.module.scss'
 import inputThemes from 'components/parts/InputBase/InputBaseThemes.module.scss'
 
-import { PositiveLogicalOperators, Conditions } from 'constants/sidePopupConsts'
+import { PositiveLogicalOperators, Conditions } from 'constants/sidePopup'
 
 import { IconPlus } from '../../../../assets/icons'
 import InputBase from 'components/parts/InputBase/InputBase'

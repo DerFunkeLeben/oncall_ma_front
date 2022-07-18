@@ -11,7 +11,7 @@ import styles from './FilterAction.module.scss'
 
 import { ISecondLevel } from './types'
 
-import { LogicalOperators } from 'constants/sidePopupConsts'
+import { LogicalOperators } from 'constants/sidePopup'
 
 const SecondLevel: FC<ISecondLevel> = ({
   secondLevel,

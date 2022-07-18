@@ -3,7 +3,7 @@ import { FC, Dispatch, SetStateAction } from 'react'
 import DropDownAction from '../DropDownAction'
 import InputAction from '../InputAction'
 
-import { ATTRIBUTES_OPTIONS } from 'constants/sidePopupConsts'
+import { ATTRIBUTES_OPTIONS } from 'constants/sidePopup'
 
 interface ISingleAtr {
   id: string
