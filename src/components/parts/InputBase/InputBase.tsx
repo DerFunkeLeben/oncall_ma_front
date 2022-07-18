@@ -15,6 +15,7 @@ export interface IInputBase extends React.InputHTMLAttributes<HTMLInputElement> 
   disabled?: boolean
   autocomplete?: string
   icon?: boolean
+  wrapperModificator?: string | string[]
   ref?: any
 }
 
@@ -35,10 +36,14 @@ const InputBase: FC<IInputBase> = ({
   disabled,
   autocomplete,
   icon,
+  wrapperModificator,
   ...props
 }) => {
   return (
-    <div style={{ width: width }} className={cx(styles.wrapper, { [styles.disabled]: disabled })}>
+    <div
+      style={{ width: width }}
+      className={cx(styles.wrapper, wrapperModificator, { [styles.disabled]: disabled })}
+    >
       {label && (
         <label className={styles.inputLabel} htmlFor={id}>
           {label}

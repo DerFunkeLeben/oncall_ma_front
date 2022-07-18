@@ -49,3 +49,56 @@
     background-color: var(--gray_2);
   }
 }
+.theme_secondary_accent {
+  background: transparent;
+  color: var(--blue_6);
+
+  &:hover {
+    background-color: var(--blue_3);
+  }
+
+  &:active {
+    background-color: var(--blue_3);
+    color: var(--blue_12);
+    path {
+      fill: var(--blue_12);
+    }
+  }
+
+  &:disabled {
+    background-color: var(--gray_2);
+  }
+}
+
+.theme_filter {
+  padding: 0;
+  padding-bottom: 4px;
+  border-bottom: 2px dotted var(--blue_8);
+  background: transparent;
+  border-radius: 0;
+  color: var(--blue_8);
+  &:hover {
+    border-bottom: 2px dotted var(--black);
+    background-color: transparent;
+    color: var(--black);
+  }
+  &:active {
+    background-color: transparent;
+  }
+}
+.theme_filter_accent {
+  padding: 0;
+  padding-bottom: 4px;
+  border-bottom: 2px dotted var(--blue_6);
+  background: transparent;
+  border-radius: 0;
+  color: var(--blue_6);
+  &:hover {
+    border-bottom: 2px dotted var(--blue_7);
+    background-color: transparent;
+    color: var(--blue_7);
+  }
+  &:active {
+    background-color: transparent;
+  }
+}

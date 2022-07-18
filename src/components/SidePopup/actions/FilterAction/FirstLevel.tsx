@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, useRef } from 'react'
 import cx from 'classnames'
 
 import Button from 'components/parts/Button/Button'
@@ -9,6 +9,7 @@ import { IFirstLevel } from './types'
 import styles from './FilterAction.module.scss'
 import buttonThemes from 'components/parts/Button/ButtonThemes.module.scss'
 import dropDownStyles from 'components/parts/DropDown/DropDown.module.scss'
+import inputThemes from 'components/parts/InputBase/InputBaseThemes.module.scss'
 
 import { PositiveLogicalOperators, Conditions } from 'constants/sidePopup'
 
@@ -16,7 +17,6 @@ import { IconPlus } from '../../../../assets/icons'
 import InputBase from 'components/parts/InputBase/InputBase'
 
 const FirstLevel: FC<IFirstLevel> = ({
-  index,
   row,
   itsLastChild,
   itsFirstChild,
@@ -27,6 +27,7 @@ const FirstLevel: FC<IFirstLevel> = ({
   headers,
 }) => {
   const { defined, condition, determinant, id, logicalOperator } = row
+  //*TODO переписать все функции */
   const handleCreate = (e: any) => {
     const secondLevelId = e.currentTarget.dataset.parentSecondLevelId
     handleCreateFirstLevel(secondLevelId)
@@ -34,7 +35,8 @@ const FirstLevel: FC<IFirstLevel> = ({
   const handleDelete = (e: any) => {
     const secondLevelId = e.currentTarget.dataset.parentSecondLevelId
     const firstLevelId = e.currentTarget.dataset.id
-    handleDeleteFirstLevelRow(firstLevelId, secondLevelId)
+    const itsFirstChildren = e.currentTarget.dataset.itsFirstChild
+    handleDeleteFirstLevelRow(firstLevelId, secondLevelId, itsFirstChildren)
   }
   const handleChangeOperator = (e: any) => {
     const { operator } = e.currentTarget.dataset
@@ -51,16 +53,23 @@ const FirstLevel: FC<IFirstLevel> = ({
   const handleDeterminantInput = (e: any) => {
     updateElement(id, 'first', { determinant: e.target.value })
   }
+  const calibrationText = () => {
+    if (!determinant) return 'Введите значение'
+    if (determinant.length > 20) return determinant.slice(-20)
+    return determinant
+  }
   return (
     <div className={cx(styles.firstLevelOperand)}>
       <div className={styles.firstLevelOperandContent}>
-        <div className={cx(styles.filterElement, styles.leftGap)}>
-          {itsFirstChild && <p>у которых</p>}
+        <div className={cx(styles.leftGap)}>
+          {itsFirstChild && <p className={cx(styles.filterElement, 'text_1')}>у которых</p>}
         </div>
         {itsFirstChild ? (
           <DropDown
             triggerNode={
-              <Button modificator={buttonThemes.theme_secondary}>{defined.toUpperCase()}</Button>
+              <Button modificator={buttonThemes.theme_filter_accent}>
+                {defined.toLowerCase()}
+              </Button>
             }
           >
             <div className={dropDownStyles.container}>
@@ -68,11 +77,11 @@ const FirstLevel: FC<IFirstLevel> = ({
                 return (
                   <button
                     key={headerElement}
-                    className={dropDownStyles.element}
+                    className={cx(dropDownStyles.element, 'text_1')}
                     onClick={handleChangeDefined}
                     data-defined={headerElement}
                   >
-                    {headerElement.toUpperCase()}
+                    {headerElement.toLowerCase()}
                   </button>
                 )
               })}
@@ -81,8 +90,8 @@ const FirstLevel: FC<IFirstLevel> = ({
         ) : (
           <DropDown
             triggerNode={
-              <Button modificator={buttonThemes.theme_secondary}>
-                {logicalOperator.toUpperCase()}
+              <Button modificator={buttonThemes.theme_filter_accent}>
+                {logicalOperator.toLowerCase()}
               </Button>
             }
           >
@@ -95,7 +104,7 @@ const FirstLevel: FC<IFirstLevel> = ({
                     onClick={handleChangeOperator}
                     data-operator={operator}
                   >
-                    {operator.toUpperCase()}
+                    {operator.toLowerCase()}
                   </button>
                 )
               })}
@@ -104,7 +113,7 @@ const FirstLevel: FC<IFirstLevel> = ({
         )}
         <DropDown
           triggerNode={
-            <Button modificator={buttonThemes.theme_secondary}>{condition.toUpperCase()}</Button>
+            <Button modificator={buttonThemes.theme_filter}>{condition.toLowerCase()}</Button>
           }
         >
           <div className={dropDownStyles.container}>
@@ -112,43 +121,47 @@ const FirstLevel: FC<IFirstLevel> = ({
               return (
                 <button
                   key={currentCondition}
-                  className={dropDownStyles.element}
+                  className={cx(dropDownStyles.element, 'text_1')}
                   onClick={handleChangeCondition}
                   data-condition={currentCondition}
                 >
-                  {currentCondition.toUpperCase()}
+                  {currentCondition.toLowerCase()}
                 </button>
               )
             })}
           </div>
         </DropDown>
-        <InputBase
-          name={'determinantInput'}
-          placeholder={'Введите значение'}
-          value={determinant}
-          handleInputChange={handleDeterminantInput}
-          modificator={styles.popupInput}
-        />
+        <div className={styles.inputContainer}>
+          <span className={cx(styles.sizeCalibrator, 'text_1')}>{calibrationText()}</span>
+          <InputBase
+            name={'determinantInput'}
+            placeholder={'Введите значение'}
+            value={determinant}
+            handleInputChange={handleDeterminantInput}
+            modificator={cx(inputThemes.theme_simple, styles.input)}
+            wrapperModificator={inputThemes.theme_simple_wrapper}
+          />
+        </div>
         {itsLastChild && (
           <Button
-            modificator={buttonThemes.theme_secondary}
+            modificator={buttonThemes.theme_additional}
             onClick={handleCreate}
             data-id={id}
             data-parent-second-level-id={parentSecondLevelId}
           >
-            <IconPlus />
+            <IconPlus className={styles.iconCreate} />
           </Button>
         )}
       </div>
       <div className={styles.firstLevelDeleteButton}>
         <Button
-          modificator={buttonThemes.theme_secondary}
+          modificator={buttonThemes.theme_additional}
           onClick={handleDelete}
           data-id={id}
-          data-index={index}
+          data-its-first-child={itsFirstChild}
           data-parent-second-level-id={parentSecondLevelId}
         >
-          <IconPlus />
+          <IconPlus className={styles.iconDelete} />
         </Button>
       </div>
     </div>

@@ -38,7 +38,11 @@ const DropDown: FC<DropDown> = ({ children, triggerNode, alignRight = false }) =
   const ddStyle = calcDDPosition(alignRight)
   return (
     <>
-      <div onClick={togglePopup} ref={triggerRef as React.RefObject<HTMLDivElement>}>
+      <div
+        className={styles.triggerContainer}
+        onClick={togglePopup}
+        ref={triggerRef as React.RefObject<HTMLDivElement>}
+      >
         {triggerNode}
       </div>
       {isMenuOpened &&

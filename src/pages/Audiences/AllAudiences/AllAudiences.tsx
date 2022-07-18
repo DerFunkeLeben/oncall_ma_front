@@ -67,16 +67,19 @@ const AllAudiences: FC<IPageData> = () => {
           >
             <div className={dropDownStyles.container}>
               <button
-                className={dropDownStyles.element}
+                className={cx(dropDownStyles.element, 'text_1')}
                 onClick={() => history.push(`${url}/newId`)}
               >
                 Из CRM
               </button>
-              <button className={dropDownStyles.element} onClick={copenPopupCreateFromExist}>
+              <button
+                className={cx(dropDownStyles.element, 'text_1')}
+                onClick={copenPopupCreateFromExist}
+              >
                 Из готовой аудитории
               </button>
               <button
-                className={dropDownStyles.element}
+                className={cx(dropDownStyles.element, 'text_1')}
                 onClick={() => history.push(`${url}/create_new`)}
               >
                 Новая

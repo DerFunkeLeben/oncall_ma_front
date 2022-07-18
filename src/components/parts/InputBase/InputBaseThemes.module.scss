@@ -1,0 +1,21 @@
+.theme_simple {
+  padding: 0;
+  padding-bottom: 2px;
+  border: none;
+  border-bottom: 1px solid var(--blue_5);
+  background: transparent;
+  border-radius: 0;
+  color: var(--blue_8);
+  &::placeholder {
+    color: var(--blue_8);
+  }
+  &:focus {
+    border: none;
+    border-bottom: 1px solid var(--blue_5);
+    box-shadow: none;
+  }
+}
+.theme_simple_wrapper {
+  position: absolute;
+  top: 8px;
+}

@@ -8,11 +8,15 @@
   position: absolute;
 }
 
+.triggerContainer {
+  display: flex;
+  align-items: center;
+}
 .container {
   display: flex;
   width: max-content;
   flex-direction: column;
-  padding: 10px 0;
+  padding: 10px;
   border: 1px solid var(--blue_2);
   background-color: var(--white);
   border-radius: 10px;
@@ -20,9 +24,8 @@
 }
 
 .element {
-  padding: 10px 22px;
-  color: var(--blue_8);
-  font-size: 0.875rem;
+  padding: 10px;
+  border-radius: 6px;
   text-align: left;
   transition: 0.2s;
 
