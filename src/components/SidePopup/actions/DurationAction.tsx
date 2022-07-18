@@ -1,56 +1,23 @@
-import { FC, Dispatch, SetStateAction } from 'react'
+import { FC } from 'react'
 
-import RadioGroup from 'components/parts/RadioGroup/RadioGroup'
+import usePopupContext from 'context/SidePopupContext'
 
-import { IActionRadio, IState } from 'types/sidePopup'
-import DropDown from 'components/parts/DropDown/DropDown'
-import Button from 'components/parts/Button/Button'
+import NumericStepAction from './NumericStepAction'
+import DropDownAction from './DropDownAction'
 
-import dropDownStyles from 'components/parts/DropDown/DropDown.module.scss'
+import { TIME_OPTIONS } from 'constants/sidePopup'
 
-interface IDurationAction {
-  currentState: IState
-  action: IActionRadio
-  setState: Dispatch<SetStateAction<IState>> /* TODO хуйня какая то */
-}
+import actionsStyles from './styles.module.scss'
 
-const DurationAction: FC<IDurationAction> = ({ action, currentState, setState }) => {
-  const actionName = action.name
-  const title = action.title
-
-  const handleChange = (value: string) => {
-    const newState = {
-      ...currentState,
-      [actionName]: value,
-    }
-    setState(newState)
-  }
-
-  const timeSizes = ['Месяц', 'Недели', 'Дни', 'Часы', 'Минуты']
+const DurationAction: FC = () => {
+  const { action } = usePopupContext()
+  action.options = TIME_OPTIONS
 
   return (
-    <>
-      <p>Временной отрезок</p>
-      <DropDown
-        triggerNode={
-          <button className={dropDownStyles.triggerButton}>
-            <span>Создать аудиторию</span>
-          </button>
-        }
-      >
-        <div className={dropDownStyles.container}>
-          {timeSizes.map((timesize) => (
-            <button
-              key={timesize}
-              className={dropDownStyles.element}
-              onClick={() => console.log('click')}
-            >
-              {timesize}
-            </button>
-          ))}
-        </div>
-      </DropDown>
-    </>
+    <div className={actionsStyles.durationWrapper}>
+      <NumericStepAction />
+      <DropDownAction label={'Временной отрезок'} />
+    </div>
   )
 }
 

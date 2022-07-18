@@ -2,7 +2,10 @@ import { FC, useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
 import cx from 'classnames'
 
+import { PopupContext } from 'context/SidePopupContext'
+
 import Button from 'components/parts/Button/Button'
+import ScrollArea from 'containers/ScrollArea/ScrollArea'
 
 import styles from './SidePopup.module.scss'
 import buttonThemes from 'components/parts/Button/ButtonThemes.module.scss'
@@ -10,27 +13,26 @@ import SidePopupContent from './SidePopupContent'
 
 import { IconPlus } from 'assets/icons'
 
-import { IStep, IState } from 'types/sidePopup'
-import ScrollArea from 'containers/ScrollArea/ScrollArea'
+import { IStep, IStatePopup } from 'types/sidePopup'
 
 interface ISidePopup {
   isOpen: boolean
   close: () => void
   config: IStep
-  handleSave: React.Dispatch<React.SetStateAction<IState>>
+  handleSave: React.Dispatch<React.SetStateAction<IStatePopup>>
   title: string
 }
 
 const SidePopup: FC<ISidePopup> = ({ isOpen, close, config, handleSave, title }) => {
-  const [state, setState] = useState<IState>({})
+  const [currentState, setState] = useState<IStatePopup>({})
 
   const createConfig = (step: IStep, acc: any[] = []): any => {
     const { name, getNextStep } = step
 
-    acc = [...acc, { ...step, value: state[name] }]
+    acc = [...acc, { ...step, value: currentState[name] }]
 
     if (getNextStep) {
-      const nextStep = getNextStep(state)
+      const nextStep = getNextStep(currentState)
       const children = createConfig(nextStep, acc)
       return [...children]
     }
@@ -41,6 +43,8 @@ const SidePopup: FC<ISidePopup> = ({ isOpen, close, config, handleSave, title })
   const configArray = createConfig(config)
 
   const [currentStep, setCurrentStep] = useState(1)
+
+  const action = configArray[currentStep - 1]
 
   const countOfSteps = configArray.length
   const itsLastStep = currentStep === countOfSteps
@@ -64,14 +68,14 @@ const SidePopup: FC<ISidePopup> = ({ isOpen, close, config, handleSave, title })
 
   const save = () => {
     console.log('save')
-    handleSave(state)
+    handleSave(currentState)
     setCurrentStep(1)
     closePopup()
   }
 
   useEffect(() => {
-    console.log(state)
-  }, [state])
+    console.log(currentState)
+  }, [currentState])
 
   if (!isOpen) return null
   return createPortal(
@@ -89,7 +93,9 @@ const SidePopup: FC<ISidePopup> = ({ isOpen, close, config, handleSave, title })
         <div className={styles.popupContent}>
           {/* <ScrollArea>
             <div className={styles.popupContentInnerWrapper}> */}
-          <SidePopupContent {...{ configArray, currentStep, state, setState }} />
+          <PopupContext.Provider value={{ action, currentState, setState }}>
+            <SidePopupContent />
+          </PopupContext.Provider>
           {/* </div>
           </ScrollArea> */}
         </div>

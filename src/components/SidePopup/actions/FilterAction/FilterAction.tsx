@@ -2,6 +2,8 @@ import { FC, Dispatch, SetStateAction, useState, useRef, useEffect } from 'react
 import { v4 as uuid } from 'uuid'
 import cx from 'classnames'
 
+import usePopupContext from 'context/SidePopupContext'
+
 import Button from 'components/parts/Button/Button'
 import ThirdLevel from './ThirdLevel'
 
@@ -14,7 +16,8 @@ import { IFilterAction, IFirstLevelObj, ISecondLevelObj, IThirdLevelObj, IConfig
 import { LogicalOperators, Conditions } from 'constants/sidePopup'
 import ScrollArea from 'containers/ScrollArea/ScrollArea'
 
-const FilterAction: FC<IFilterAction> = ({ action, currentState, setState }) => {
+const FilterAction: FC = () => {
+  const { action, currentState, setState } = usePopupContext()
   const actionName = action.name
   const attributes = action.attributes
   const title = action.title

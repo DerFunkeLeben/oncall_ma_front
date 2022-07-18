@@ -1,0 +1,35 @@
+.calendarWrapper {
+  animation: fadeIn 0.3s both;
+  box-shadow: 0px 3px 6px var(--shadow_1);
+
+}
+
+.dateInput {
+  padding: 10px 30px 10px 15px;
+}
+
+.timeInput {
+  padding: 10px;
+  border: none;
+
+  &:focus {
+    border: none;
+    box-shadow: none;
+  }
+}
+
+.icon {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  pointer-events: none;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

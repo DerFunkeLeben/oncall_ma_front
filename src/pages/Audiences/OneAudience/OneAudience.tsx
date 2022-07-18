@@ -9,6 +9,8 @@ import InputBase from 'components/parts/InputBase/InputBase'
 import useTable from 'components/Table/useTable'
 import SidePopup from 'components/SidePopup/SidePopup'
 
+import { SidePopupActions } from 'constants/sidePopup'
+
 import styles from './OneAudience.module.scss'
 import buttonStyles from 'components/parts/Button/ButtonThemes.module.scss'
 import tableStyles from 'components/Table/TableBase.module.scss'

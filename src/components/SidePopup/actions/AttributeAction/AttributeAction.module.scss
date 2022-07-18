@@ -1,0 +1,47 @@
+.wrapper {
+  display: grid;
+  column-gap: 4rem;
+  grid-template-columns: repeat(2, 15rem);
+  row-gap: 1rem;
+}
+
+.label {
+  margin: 0.25rem 0 -0.5rem;
+  color: var(--blue_8);
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1.0625rem;
+}
+
+.oneAttributeWrapper {
+  display: flex;
+  align-items: flex-start;
+
+  & > *:not(:last-child) {
+    margin-right: 60px;
+  }
+}
+
+.buttonAdd {
+  color: var(--blue_5);
+  cursor: pointer;
+  font-size: 0.875rem;
+  transition: 0.2s;
+  user-select: none;
+  
+  span {
+    margin-right: 0.25rem;
+    font-size: 1.2rem;
+    line-height: 0;
+    pointer-events: none;
+  }
+
+  &:hover {
+    color: var(--blue_10);
+  }
+
+  &.disabled {
+    opacity: 0.25;
+    pointer-events: none;
+  }
+}

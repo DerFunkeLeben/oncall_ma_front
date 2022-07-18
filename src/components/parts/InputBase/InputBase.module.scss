@@ -1,4 +1,5 @@
 input {
+  position: relative;
   width: 100%;
   box-sizing: border-box;
   padding: 10px 36px;
@@ -24,6 +25,7 @@ input::placeholder {
 
 .wrapper {
   position: relative;
+  margin-bottom: 3px;
 }
 
 .disabled {
@@ -42,7 +44,7 @@ input::placeholder {
   margin: 0.25rem 0 0.375rem;
   margin-bottom: 0.375rem;
   color: var(--blue_8);
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   font-weight: 600;
   line-height: 1.0625rem;
 }

@@ -16,6 +16,7 @@ export interface IInputBase extends React.InputHTMLAttributes<HTMLInputElement> 
   autocomplete?: string
   icon?: boolean
   wrapperModificator?: string | string[]
+  ref?: any
 }
 
 const InputBase: FC<IInputBase> = ({
@@ -36,6 +37,7 @@ const InputBase: FC<IInputBase> = ({
   autocomplete,
   icon,
   wrapperModificator,
+  ...props
 }) => {
   return (
     <div
@@ -59,7 +61,8 @@ const InputBase: FC<IInputBase> = ({
         onClick={onClick}
         autoComplete={autocomplete || 'off'}
         mask={mask || ''}
-      ></InputMask>
+        {...props}
+      />
       {icon && <IconLoupe className={styles.iconLoupe} />}
       {children}
     </div>

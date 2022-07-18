@@ -3,7 +3,11 @@ export interface IActionTable extends IDefaultAction {
 }
 
 export interface IActionRadio extends IDefaultAction {
-  options: IRadioOption[]
+  options: IOption[]
+}
+
+export interface IActionDropDown extends IDefaultAction {
+  options: IOption[]
 }
 
 export interface IActionRelation extends IDefaultAction {
@@ -18,11 +22,17 @@ export interface IDefaultAction {
   type: string
   name: string
   title?: string
-  getNextStep?: (value: IState) => IStep
+  getNextStep?: (value: IStatePopup) => IStep
   require?: boolean
 }
 
-export type IAction = IActionTable | IActionRadio | IDefaultAction | IActionRelation | IActionFilter
+export type IAction =
+  | IActionTable
+  | IActionRadio
+  | IDefaultAction
+  | IActionRelation
+  | IActionFilter
+  | IActionDropDown
 
 export interface IConfig {
   title: string
@@ -33,15 +43,20 @@ export interface IState {
   [key: string]: string | undefined
 }
 
+export interface IStatePopup {
+  [key: string]: { [key: string]: string | undefined } | undefined
+}
+
 export interface IStep {
   name: string
   type: string
-  getNextStep?: (value: IState) => IStep
+  getNextStep?: (value: IStatePopup) => IStep
   title?: string
-  options?: IRadioOption[]
+  options?: IOption[]
 }
 
-export interface IRadioOption {
+export interface IOption {
   name: string
   label: string
+  type?: string
 }

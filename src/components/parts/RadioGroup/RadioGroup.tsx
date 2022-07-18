@@ -4,10 +4,10 @@ import cx from 'classnames'
 
 import styles from './RadioGroup.module.scss'
 
-import { IRadioOption } from 'types/sidePopup'
+import { IOption } from 'types/sidePopup'
 
 export interface IRadioGroup {
-  options: IRadioOption[]
+  options: IOption[]
   value?: string
   handleChange?: (id: string) => void
   modificator?: string | string[]

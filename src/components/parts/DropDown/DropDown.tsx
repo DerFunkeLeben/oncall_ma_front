@@ -36,7 +36,6 @@ const DropDown: FC<DropDown> = ({ children, triggerNode, alignRight = false }) =
   }
 
   const ddStyle = calcDDPosition(alignRight)
-
   return (
     <>
       <div

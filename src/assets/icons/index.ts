@@ -20,6 +20,7 @@ import { ReactComponent as IconPlus } from './plus.svg'
 import { ReactComponent as IconPlusWithBorder } from './plusWithBorder.svg'
 import { ReactComponent as IconRefresh } from './refresh.svg'
 import { ReactComponent as IconTriangle } from './triangle.svg'
+import { ReactComponent as IconCalendar } from './calendar.svg'
 
 export {
   IconAnalytics,
@@ -44,4 +45,5 @@ export {
   IconPlusWithBorder,
   IconRefresh,
   IconTriangle,
+  IconCalendar,
 }
