@@ -5,7 +5,7 @@ import usePopupContext from 'context/SidePopupContext'
 import SingleAttribute from './SingleAttribute'
 import ButtonAdd from './ButtonAdd'
 
-import { ATTRIBUTES_OPTIONS } from 'constants/sidePopup'
+import { ATTRIBUTES_OPTIONS } from 'constants/sidePopupConsts'
 
 import styles from './AttributeAction.module.scss'
 

@@ -11,7 +11,7 @@ import dropDownStyles from 'components/parts/DropDown/DropDown.module.scss'
 
 import { IThirdLevel } from './types'
 
-import { LogicalOperators } from 'constants/sidePopup'
+import { LogicalOperators } from 'constants/sidePopupConsts'
 
 import { IconPlusWithBorder } from '../../../../assets/icons'
 

@@ -13,7 +13,7 @@ import { IconPlus } from '../../../../assets/icons'
 
 import { IFilterAction, IFirstLevelObj, ISecondLevelObj, IThirdLevelObj, IConfig } from './types'
 
-import { LogicalOperators, Conditions } from 'constants/sidePopup'
+import { LogicalOperators, Conditions } from 'constants/sidePopupConsts'
 import ScrollArea from 'containers/ScrollArea/ScrollArea'
 
 const FilterAction: FC = () => {

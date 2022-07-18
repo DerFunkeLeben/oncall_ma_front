@@ -1,7 +1,7 @@
 import { FC, Dispatch, SetStateAction } from 'react'
 import cx from 'classnames'
 
-import { ATTRIBUTES_OPTIONS } from 'constants/sidePopup'
+import { ATTRIBUTES_OPTIONS } from 'constants/sidePopupConsts'
 import { IOption } from 'types/sidePopup'
 
 import styles from './AttributeAction.module.scss'

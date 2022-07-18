@@ -13,7 +13,7 @@ import FilterAction from './actions/FilterAction/FilterAction'
 import NumericStepAction from './actions/NumericStepAction'
 import AttributeAction from './actions/AttributeAction/AttributeAction'
 
-import { SidePopupActions } from 'constants/sidePopup'
+import { SidePopupActions } from 'constants/sidePopupConsts'
 
 import styles from './SidePopup.module.scss'
 
