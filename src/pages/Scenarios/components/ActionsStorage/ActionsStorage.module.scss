@@ -1,0 +1,21 @@
+.actionsStorage {
+  margin-right: 30px;
+  background: white;
+  border-radius: 10px;
+}
+.groupOfActions {
+  padding: 30px;
+}
+.title {
+  color: var(--blue_6);
+}
+.actions {
+  display: grid;
+  align-items: stretch;
+  padding: 30px;
+  grid-column-gap: 20px;
+  grid-row-gap: 20px;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  justify-items: stretch;
+}
