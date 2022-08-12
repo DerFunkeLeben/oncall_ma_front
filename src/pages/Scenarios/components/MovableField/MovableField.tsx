@@ -30,7 +30,9 @@ const MovableField: FC = ({ children }) => {
     }
   }
 
-  const handleStart = () => {
+  const handleStart = (e: any) => {
+    if (e.target.dataset.type === 'action') return
+    return
     setMouseIsDown(true)
   }
 
@@ -40,7 +42,12 @@ const MovableField: FC = ({ children }) => {
 
   return (
     <div className={styles.fieldConainter} ref={container as React.RefObject<HTMLDivElement>}>
-      <Draggable bounds={calcBounds()} onStart={handleStart} onStop={handleStop}>
+      <Draggable
+        bounds={calcBounds()}
+        onStart={handleStart}
+        onStop={handleStop}
+        // onDrag={handleDrag}
+      >
         <div
           className={styles.movableField}
           ref={field as React.RefObject<HTMLDivElement>}

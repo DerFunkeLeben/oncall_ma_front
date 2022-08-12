@@ -3,6 +3,7 @@ import { v4 as uuid } from 'uuid'
 
 import Sidebar from 'components/Sidebar/Sidebar'
 import PageHead from 'components/PageHead/PageHead'
+import Action from '../Action/Action'
 
 import styles from './ScenarioBuilder.module.scss'
 
@@ -112,7 +113,7 @@ const ScenarioBuilder: FC = () => {
         return (
           <div key={id} style={style} className={styles.actionContainer}>
             <div className={styles.actionCreateArea} data-action-id={id} onClick={addActivity} />
-            <div className={styles.action}>{`${columnNumber}-${index}`}</div>
+            <Action name={`${columnNumber}-${index}`}></Action>
           </div>
         )
       })

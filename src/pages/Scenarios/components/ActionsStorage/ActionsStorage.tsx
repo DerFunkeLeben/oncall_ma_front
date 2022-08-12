@@ -1,6 +1,8 @@
 import { FC, useEffect, useRef, useState } from 'react'
 import cx from 'classnames'
 
+import Action from '../Action/Action'
+
 import styles from './ActionsStorage.module.scss'
 
 const actionStorage = [
@@ -29,7 +31,7 @@ const ActionsStorage: FC = () => {
             <p className={cx(styles.title, 'text_2_hl_1')}>{title}</p>
             <div className={styles.actions}>
               {actions.map((action, indexA) => {
-                return <div key={indexA}>{action}</div>
+                return <Action key={indexA} name={action}></Action>
               })}
             </div>
           </div>

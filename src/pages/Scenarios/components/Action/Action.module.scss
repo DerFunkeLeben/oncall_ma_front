@@ -1,0 +1,13 @@
+.action {
+  display: flex;
+  width: 50px;
+  height: 50px;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--blue_4);
+  border-radius: 10px;
+}
+.name {
+  pointer-events: none;
+  user-select: none;
+}
