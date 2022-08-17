@@ -1,12 +1,15 @@
 import { FC, useEffect, useRef, useState } from 'react'
 import Draggable from 'react-draggable'
 
-import styles from './MovableField.module.scss'
+import { useScenario } from '../../../../store/scenario/useScenario'
 
-const MovableField: FC = ({ children }) => {
+import styles from './Field.module.scss'
+
+const Field: FC = ({ children }) => {
   const field = useRef<HTMLDivElement>(null)
   const container = useRef<HTMLDivElement>(null)
   const [mouseIsDown, setMouseIsDown] = useState(false)
+  const { taskIsMoving } = useScenario()
 
   const getContainerRect = () => {
     const containerPosition = container?.current?.getBoundingClientRect()
@@ -30,15 +33,20 @@ const MovableField: FC = ({ children }) => {
     }
   }
 
-  const handleStart = (e: any) => {
-    if (e.target.dataset.type === 'action') return
-    return
+  const handleStart = () => {
     setMouseIsDown(true)
+  }
+
+  const handleDrag = () => {
+    if (taskIsMoving) return false
   }
 
   const handleStop = () => {
     setMouseIsDown(false)
   }
+  // useEffect(() => {
+  //   console.log({ taskIsMoving })
+  // }, [taskIsMoving])
 
   return (
     <div className={styles.fieldConainter} ref={container as React.RefObject<HTMLDivElement>}>
@@ -46,10 +54,10 @@ const MovableField: FC = ({ children }) => {
         bounds={calcBounds()}
         onStart={handleStart}
         onStop={handleStop}
-        // onDrag={handleDrag}
+        onDrag={handleDrag}
       >
         <div
-          className={styles.movableField}
+          className={styles.field}
           ref={field as React.RefObject<HTMLDivElement>}
           style={{ cursor: mouseIsDown ? 'grabbing' : 'grab' }}
         >
@@ -60,4 +68,4 @@ const MovableField: FC = ({ children }) => {
   )
 }
 
-export default MovableField
+export default Field

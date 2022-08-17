@@ -1,4 +1,4 @@
-.actionContainer {
+.taskContainer {
   position: absolute;
   display: flex;
   width: 100px;
@@ -6,7 +6,7 @@
   flex-direction: row;
   justify-content: space-between;
 }
-.action {
+.task {
   display: flex;
   width: 50px;
   height: 50px;
@@ -15,7 +15,7 @@
   background-color: var(--blue_4);
   border-radius: 10px;
 }
-.actionCreateArea {
+.taskCreateArea {
   width: 50px;
   height: 50px;
   box-sizing: border-box;
@@ -23,6 +23,15 @@
   &:hover {
     border: 2px dashed var(--blue_4);
   }
+}
+.placeUnderTask {
+  position: absolute;
+  right: 0;
+  width: 50px;
+  height: 50px;
+  box-sizing: border-box;
+  border: 2px dashed var(--blue_4);
+  border-radius: 10px;
 }
 .scenarioBuilder {
   position: relative;

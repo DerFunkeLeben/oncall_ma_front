@@ -6,8 +6,8 @@ import PageHead from 'components/PageHead/PageHead'
 import ScenarioBuilder from 'pages/Scenarios/components/ScenarioBuilder/ScenarioBuilder'
 
 import styles from './Scenarios.module.scss'
-import MovableField from './components/MovableField/MovableField'
-import ActionsStorage from './components/ActionsStorage/ActionsStorage'
+import Field from './components/Field/Field'
+import TasksStorage from './components/TasksStorage/TasksStorage'
 
 const Scenarios: FC = () => {
   return (
@@ -15,7 +15,7 @@ const Scenarios: FC = () => {
       <Sidebar />
       <div className={cx(styles.pageContent)}>
         <PageHead title="Сценарии" />
-        <ActionsStorage />
+        <TasksStorage />
         <ScenarioBuilder />
       </div>
     </div>

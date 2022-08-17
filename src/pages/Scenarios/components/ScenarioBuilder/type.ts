@@ -1,10 +1,11 @@
-export interface IAction {
+export interface ITask {
+  type: string
   in: string[]
   out: string[]
 }
 
-export interface IActionHeap {
-  [id: string]: IAction
+export interface ITasksHeap {
+  [id: string]: ITask
 }
 
 export type TObject = {

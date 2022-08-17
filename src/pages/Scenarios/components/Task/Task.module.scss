@@ -1,4 +1,7 @@
-.action {
+.task {
+  position: absolute;
+  z-index: 100;
+  right: 0;
   display: flex;
   width: 50px;
   height: 50px;
