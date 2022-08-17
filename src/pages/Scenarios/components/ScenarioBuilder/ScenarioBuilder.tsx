@@ -7,7 +7,7 @@ import Task from '../Task/Task'
 
 import styles from './ScenarioBuilder.module.scss'
 
-import { ITask, ITasksHeap, TObject } from './type'
+import { ITask, ITasksHeap, TObject } from 'types'
 import Field from '../Field/Field'
 
 import { useScenario } from '../../../../store/scenario/useScenario'
@@ -20,11 +20,12 @@ const SIZE = {
 }
 
 const ScenarioBuilder: FC = () => {
-  const { tasksHeap, addTask } = useScenario()
+  const { tasksHeap } = useScenario()
   const [stateTasksHeap, setStateTasksHeap] = useState<ITasksHeap>({})
 
   useEffect(() => {
     if (!tasksHeap) return
+    console.log(tasksHeap)
     setStateTasksHeap(tasksHeap)
   }, [tasksHeap])
 
@@ -55,16 +56,10 @@ const ScenarioBuilder: FC = () => {
     return matrix
   }
 
-  const handleCreateClick = (e: any) => {
-    const rightTaskId = e.currentTarget.dataset.taskId
-    addTask(rightTaskId)
-  }
-
   const render = () => {
     const rootId = '1'
     const matrix = createMatrix(rootId)
     if (!matrix) return
-    console.log(matrix)
     return matrix.map((row: any, index: any) => {
       return row.map((task: any) => {
         const { id, columnNumber } = task
@@ -74,13 +69,13 @@ const ScenarioBuilder: FC = () => {
           left: `${leftPosition}px`,
           top: `${topPosition}px`,
         }
-        const { type } = stateTasksHeap[id]
+        const currentTask = stateTasksHeap[id]
 
         return (
           <div key={id} style={style} className={styles.taskContainer}>
-            <div className={styles.taskCreateArea} data-task-id={id} onClick={handleCreateClick} />
+            <div className={styles.taskCreateArea} data-task-id={id} />
             <div className={styles.placeUnderTask} />
-            <Task name={`${columnNumber}-${index}`} type={type}></Task>
+            <Task properties={currentTask} id={id}></Task>
           </div>
         )
       })

@@ -5,16 +5,17 @@ import { v4 as uuid } from 'uuid'
 import TaskCreator from './actions'
 import { getTaskIsMoving, getTasksHeap } from './selectors'
 
-import { IStoreScenario, StoreKeys, ITasksHeap } from './_data-types'
+import { IStoreScenario, StoreKeys } from './_data-types'
+
+import { ITask } from 'types'
 
 const useScenario = () => {
   const dispatch = useDispatch()
 
   const taskIsMoving = useSelector(getTaskIsMoving)
   const tasksHeap = useSelector(getTasksHeap)
-  console.log(tasksHeap)
 
-  const addTask = (rightTaskId: string) => {
+  const addTask = (currentTaskProperties: ITask, rightTaskId: string) => {
     //TODO некрасиво написано
     const newTaskId = uuid()
     if (!tasksHeap) return
@@ -25,8 +26,16 @@ const useScenario = () => {
     const rightTaskUpd = { ...rightTask, in: rightInUpd }
 
     //Обновление Out для соседа слева
+    if (!rightTask.in) {
+      console.log('у правой таски нет родителя')
+      return
+    }
     const leftTaskId = rightTask.in[0]
     const leftTask = tasksHeap[leftTaskId]
+    if (!leftTask.out) {
+      console.log('у левой таски нет потомка')
+      return
+    }
     const leftOutUpd = leftTask.out.map((outId) => {
       const result = outId === rightTaskId ? newTaskId : outId
       return result
@@ -35,7 +44,7 @@ const useScenario = () => {
 
     //Создание нового элемента
     const newTask = {
-      type: 'event',
+      ...currentTaskProperties,
       in: [leftTaskId],
       out: [rightTaskId],
     }

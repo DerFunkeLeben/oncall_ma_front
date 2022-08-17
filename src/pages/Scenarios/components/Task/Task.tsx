@@ -5,12 +5,10 @@ import Draggable, { DraggableData, DraggableEventHandler } from 'react-draggable
 import styles from './Task.module.scss'
 import { useScenario } from '../../../../store/scenario/useScenario'
 
-interface ITask {
-  name: string
-  type: string
-}
+import { ITaskNode } from '../../type'
 
-const Task: FC<ITask> = ({ name, type }) => {
+const Task: FC<ITaskNode> = ({ properties, id }) => {
+  const { type } = properties
   const { setTaskIsMoving, addTask } = useScenario()
 
   const position = { x: 0, y: 0 }
@@ -34,7 +32,7 @@ const Task: FC<ITask> = ({ name, type }) => {
       const rightNodeId = nodeUnderMouse.dataset.taskId
       if (rightNodeId) {
         console.log('ADD', rightNodeId)
-        addTask(rightNodeId)
+        addTask(properties, rightNodeId)
       }
     }
     draggableNode.style.pointerEvents = 'all'
@@ -50,7 +48,7 @@ const Task: FC<ITask> = ({ name, type }) => {
       position={position}
     >
       <div className={styles.task} data-type={type}>
-        <p className={styles.name}>{name}</p>
+        <p className={styles.name}>{type}</p>
       </div>
     </Draggable>
   )

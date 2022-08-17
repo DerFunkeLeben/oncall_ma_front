@@ -1,12 +1,6 @@
-export interface ITask {
-  in: string[]
-  out: string[]
-}
+import { ITask } from 'types'
 
-export interface ITasksHeap {
-  [id: string]: ITask
-}
-
-export type TObject = {
-  [key: string]: any
+export interface ITaskNode {
+  properties: ITask
+  id?: string
 }

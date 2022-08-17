@@ -31,7 +31,8 @@ const TasksStorage: FC = () => {
             <p className={cx(styles.title, 'text_2_hl_1')}>{title}</p>
             <div className={styles.tasks}>
               {tasks.map((task, indexA) => {
-                return <Task key={indexA} name={task} type={task}></Task>
+                const properties = { type: task }
+                return <Task key={indexA} properties={properties}></Task>
               })}
             </div>
           </div>
