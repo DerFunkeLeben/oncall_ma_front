@@ -15,7 +15,7 @@ import { useScenario } from '../../../../store/scenario/useScenario'
 const SIZE = {
   taskWidth: 50,
   taskHeight: 50,
-  gap: 50,
+  gap: 80,
   padding: 100,
 }
 
@@ -38,7 +38,7 @@ const ScenarioBuilder: FC = () => {
   ): any => {
     const task = stateTasksHeap[id]
     const rowUpd = itsNewRow ? [{ id, columnNumber }] : [...row, { id, columnNumber }]
-    const outIds = task?.out
+    const outIds = task?.output
     if (!outIds) return
     const itsEndOfBranch = outIds.length === 0
     const newColumnNumber = columnNumber + 1
@@ -73,7 +73,9 @@ const ScenarioBuilder: FC = () => {
 
         return (
           <div key={id} style={style} className={styles.taskContainer}>
-            <div className={styles.taskCreateArea} data-task-id={id} />
+            <div className={styles.leftArea}>
+              <div className={styles.taskCreateArea} data-task-id={id} />
+            </div>
             <div className={styles.placeUnderTask} />
             <Task properties={currentTask} id={id}></Task>
           </div>

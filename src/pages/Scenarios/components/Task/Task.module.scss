@@ -1,16 +1,55 @@
 .task {
   position: absolute;
   z-index: 100;
+  top: 0;
   right: 0;
   display: flex;
-  width: 50px;
-  height: 50px;
   align-items: center;
   justify-content: center;
+
+  &:hover {
+    .hoverBlock {
+      display: block;
+    }
+  }
+}
+.taskIconContainer {
+  width: 50px;
+  height: 50px;
   background-color: var(--blue_4);
   border-radius: 10px;
 }
 .name {
-  pointer-events: none;
+  position: absolute;
+  top: 58px;
+  display: -webkit-box;
+  overflow: hidden;
+  max-width: 100px;
+  -webkit-box-orient: vertical;
+  color: var(--blue_8);
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  text-align: center;
+  text-overflow: ellipsis;
   user-select: none;
+  &:hover {
+    .hoverBlock {
+      display: block;
+    }
+  }
+}
+.hoverBlock {
+  position: absolute;
+  display: none;
+  width: 80px;
+  height: 88px;
+}
+.iconClose {
+  float: right;
+  & > svg {
+    transform: rotate(45deg) scale(1.5);
+  }
+}
+.inStorage {
+  right: initial;
 }

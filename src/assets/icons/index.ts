@@ -21,6 +21,19 @@ import { ReactComponent as IconPlusWithBorder } from './plusWithBorder.svg'
 import { ReactComponent as IconRefresh } from './refresh.svg'
 import { ReactComponent as IconTriangle } from './triangle.svg'
 import { ReactComponent as IconCalendar } from './calendar.svg'
+import { ReactComponent as IconTaskAbTest } from './task_abTest.svg'
+import { ReactComponent as IconTaskAssigment } from './task_assignment.svg'
+import { ReactComponent as IconTaskCrmMessage } from './task_crmMessage.svg'
+import { ReactComponent as IconTaskEmail } from './task_email.svg'
+import { ReactComponent as IconTaskEvent } from './task_event.svg'
+import { ReactComponent as IconTaskExit } from './task_exit.svg'
+import { ReactComponent as IconTaskJoin } from './task_join.svg'
+import { ReactComponent as IconTaskList } from './task_list.svg'
+import { ReactComponent as IconTaskPush } from './task_push.svg'
+import { ReactComponent as IconTaskQuestion } from './task_question.svg'
+import { ReactComponent as IconTaskSms } from './task_sms.svg'
+import { ReactComponent as IconTaskTelega } from './task_telega.svg'
+import { ReactComponent as IconTaskWait } from './task_wait.svg'
 
 export {
   IconAnalytics,
@@ -46,4 +59,17 @@ export {
   IconRefresh,
   IconTriangle,
   IconCalendar,
+  IconTaskAbTest,
+  IconTaskAssigment,
+  IconTaskCrmMessage,
+  IconTaskEmail,
+  IconTaskEvent,
+  IconTaskExit,
+  IconTaskJoin,
+  IconTaskList,
+  IconTaskPush,
+  IconTaskQuestion,
+  IconTaskSms,
+  IconTaskTelega,
+  IconTaskWait,
 }

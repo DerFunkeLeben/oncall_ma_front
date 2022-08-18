@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 50 50">
+  <g id="Сгруппировать_100" data-name="Сгруппировать 100" transform="translate(-422 -737)">
+    <g id="icon_1" transform="translate(196 -55)">
+      <g class="back" id="Эллипс_15" data-name="Эллипс 15" transform="translate(226 792)" fill="#fff" stroke="#ea66c1"
+        stroke-width="1.5">
+        <circle cx="25" cy="25" r="25" stroke="none" />
+        <circle cx="25" cy="25" r="24.25" fill="none" />
+      </g>
+    </g>
+    <g class="logo" id="Сгруппировать_99" data-name="Сгруппировать 99" transform="translate(-7.048 -56)">
+      <g id="Эллипс_21" data-name="Эллипс 21" transform="translate(442 807)" fill="none" stroke="#ea66c1"
+        stroke-width="1.5">
+        <circle cx="7.857" cy="7.857" r="7.857" stroke="none" />
+        <circle cx="7.857" cy="7.857" r="7.107" fill="none" />
+      </g>
+      <g class="logo" id="Эллипс_22" data-name="Эллипс 22" transform="translate(450.381 813.286)" fill="none"
+        stroke="#ea66c1" stroke-width="1.5">
+        <circle cx="7.857" cy="7.857" r="7.857" stroke="none" />
+        <circle cx="7.857" cy="7.857" r="7.107" fill="none" />
+      </g>
+    </g>
+  </g>
+</svg>

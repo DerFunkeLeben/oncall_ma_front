@@ -15,38 +15,38 @@ const useScenario = () => {
   const taskIsMoving = useSelector(getTaskIsMoving)
   const tasksHeap = useSelector(getTasksHeap)
 
-  const addTask = (currentTaskProperties: ITask, rightTaskId: string) => {
+  const addTask = (currentTaskProperties: ITask, newTaskId: string, rightTaskId: string) => {
     //TODO некрасиво написано
-    const newTaskId = uuid()
     if (!tasksHeap) return
 
-    //Обновление In для соседа справа
+    //Обновление input для соседа справа
     const rightTask = tasksHeap[rightTaskId]
     const rightInUpd = [newTaskId]
-    const rightTaskUpd = { ...rightTask, in: rightInUpd }
-
-    //Обновление Out для соседа слева
-    if (!rightTask.in) {
+    const rightTaskUpd = { ...rightTask, input: rightInUpd }
+    if (!rightTask.input) {
       console.log('у правой таски нет родителя')
       return
     }
-    const leftTaskId = rightTask.in[0]
+
+    //Обновление output для соседа слева
+    const leftTaskId = rightTask.input[0]
     const leftTask = tasksHeap[leftTaskId]
-    if (!leftTask.out) {
+    if (!leftTask.output) {
       console.log('у левой таски нет потомка')
       return
     }
-    const leftOutUpd = leftTask.out.map((outId) => {
+    //
+    const leftOutUpd = leftTask.output.map((outId) => {
       const result = outId === rightTaskId ? newTaskId : outId
       return result
     })
-    const leftTaskUpd = { ...leftTask, out: leftOutUpd }
+    const leftTaskUpd = { ...leftTask, output: leftOutUpd }
 
     //Создание нового элемента
     const newTask = {
       ...currentTaskProperties,
-      in: [leftTaskId],
-      out: [rightTaskId],
+      input: [leftTaskId],
+      output: [rightTaskId],
     }
 
     dispatch(
@@ -55,6 +55,36 @@ const useScenario = () => {
         [leftTaskId]: leftTaskUpd,
         [rightTaskId]: rightTaskUpd,
         [newTaskId]: newTask,
+      })
+    )
+  }
+
+  const deleteTask = (taskId: string) => {
+    console.log('delete 1')
+    if (!tasksHeap) return
+    console.log('delete 2')
+
+    const tasksHeapUpd = { ...tasksHeap }
+    const currentTask = tasksHeapUpd[taskId]
+    const { input, output } = currentTask
+    //допускаем что у нас нет веток
+    if (!input) return
+    if (!output) return
+    console.log('delete 3')
+    const leftId = input[0]
+    const rightId = output[0]
+    const leftNode = tasksHeapUpd[leftId]
+    const rightNode = tasksHeapUpd[rightId]
+    const leftNodeUpd = { ...leftNode, output: [rightId] }
+    const rightNodeUpd = { ...rightNode, input: [leftId] }
+
+    delete tasksHeapUpd[taskId]
+
+    dispatch(
+      TaskCreator.setTasksHeap({
+        ...tasksHeapUpd,
+        [leftId]: leftNodeUpd,
+        [rightId]: rightNodeUpd,
       })
     )
   }
@@ -71,6 +101,7 @@ const useScenario = () => {
     setTaskIsMoving,
     tasksHeap,
     addTask,
+    deleteTask,
   }
 }
 

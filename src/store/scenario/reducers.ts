@@ -7,13 +7,13 @@ const initialState: IStoreScenario = {
   tasksHeap: {
     '1': {
       type: 'start',
-      in: [],
-      out: ['2'],
+      input: [],
+      output: ['2'],
     },
     '2': {
       type: 'exit',
-      in: ['1'],
-      out: [],
+      input: ['1'],
+      output: [],
     },
   },
 }

@@ -8,5 +8,6 @@
   "[scss]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "todo-tree.tree.showBadges": true
+  "todo-tree.tree.showBadges": true,
+  "svg.preview.background": "dark-transparent"
 }

@@ -5,9 +5,11 @@ import Task from '../Task/Task'
 
 import styles from './TasksStorage.module.scss'
 
+import { TasksTypes } from 'types'
+
 const taskStorage = [
   { title: 'Создание сценария', tasks: ['Список', 'Событие'] },
-  { title: 'Коммуникация', tasks: ['Email', 'SMS', 'Telegramm', 'Push-уведомления'] },
+  { title: 'Коммуникация', tasks: ['Email', 'SMS', 'Telegram', 'Push-уведомления'] },
   {
     title: 'Сценарии',
     tasks: [
@@ -20,6 +22,18 @@ const taskStorage = [
     ],
   },
 ]
+export const dictionary = {
+  sms: 'Sms',
+  email: 'Письмо',
+  condition: 'Условие',
+  wait: 'Ожидание',
+  push: 'Push уведомление',
+  join: 'Объединение',
+  crm_message: 'CRM сообщение',
+  telegram: 'Telegram',
+  ab_test: 'А/Б тест',
+  assignment: 'Присвоение',
+}
 
 const TasksStorage: FC = () => {
   return (
@@ -32,7 +46,11 @@ const TasksStorage: FC = () => {
             <div className={styles.tasks}>
               {tasks.map((task, indexA) => {
                 const properties = { type: task }
-                return <Task key={indexA} properties={properties}></Task>
+                return (
+                  <div key={indexA} className={styles.taskContainer}>
+                    <Task properties={properties}></Task>
+                  </div>
+                )
               })}
             </div>
           </div>

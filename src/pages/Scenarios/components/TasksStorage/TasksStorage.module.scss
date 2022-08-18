@@ -6,17 +6,28 @@
 }
 .groupOfTasks {
   padding: 30px;
+  border-bottom: 1px solid var(--blue_3);
 }
 .title {
   color: var(--blue_6);
+  padding-bottom: 30px;
 }
 .tasks {
   display: grid;
   align-items: stretch;
-  padding: 30px;
+  // padding: 30px;
   grid-column-gap: 20px;
   grid-row-gap: 20px;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: 1fr 1fr;
+  grid-template-columns: repeat(3, 80px);
   justify-items: stretch;
+  margin: auto;
+  width: fit-content;
+}
+.taskContainer {
+  position: relative;
+  display: flex;
+  width: 80px;
+  height: 90px;
+  align-items: center;
+  justify-content: center;
 }
