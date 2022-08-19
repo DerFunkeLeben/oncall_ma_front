@@ -79,8 +79,8 @@ const ScenarioBuilder: FC = () => {
 
         return (
           <div key={id} style={style} className={styles.taskContainer}>
-            <div className={styles.leftArea}>
-              <div className={styles.taskCreateArea} data-task-id={id} />
+            <div className={styles.leftArea} data-task-id={id}>
+              <div className={styles.taskCreateArea} />
             </div>
             {taskWithoutPlaceholder && <div className={styles.placeUnderTask} />}
             <Task properties={properties} id={id} />

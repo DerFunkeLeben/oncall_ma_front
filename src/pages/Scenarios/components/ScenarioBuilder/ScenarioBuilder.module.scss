@@ -20,6 +20,11 @@
   display: flex;
   width: 80px;
   justify-content: center;
+  &:hover {
+    .taskCreateArea {
+      border: 2px dashed var(--blue_4);
+    }
+  }
 }
 .taskCreateArea {
   width: 50px;
@@ -27,9 +32,7 @@
   box-sizing: border-box;
   margin: 19px 15px;
   border-radius: 15px;
-  &:hover {
-    border: 2px dashed var(--blue_4);
-  }
+  pointer-events: none;
 }
 .placeUnderTask {
   position: absolute;

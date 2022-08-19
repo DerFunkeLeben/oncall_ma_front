@@ -49,6 +49,7 @@ const Task: FC<ITaskNode> = ({ properties, id }) => {
   const handleStop = (e: Event, data: DraggableData) => {
     const draggableNode = data.node
     const nodeUnderMouse = e.target as HTMLDivElement
+    console.log(nodeUnderMouse)
     if (nodeUnderMouse) {
       const rightNodeId = nodeUnderMouse.dataset.taskId
       if (rightNodeId) {
