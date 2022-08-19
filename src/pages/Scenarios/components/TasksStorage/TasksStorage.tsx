@@ -5,47 +5,51 @@ import Task from '../Task/Task'
 
 import styles from './TasksStorage.module.scss'
 
-import { TasksTypes } from 'types'
+import { TasksTypes, TaskStorageFolders, TasksDefaultNames } from 'types'
+
+const {
+  list,
+  event,
+  email,
+  sms,
+  telegram,
+  push,
+  condition,
+  wait,
+  join,
+  ab_test,
+  assignment,
+  crm_message,
+} = TasksTypes
+
+const { scenario_creation, communication, scenarios } = TaskStorageFolders
 
 const taskStorage = [
-  { title: 'Создание сценария', tasks: ['Список', 'Событие'] },
-  { title: 'Коммуникация', tasks: ['Email', 'SMS', 'Telegram', 'Push-уведомления'] },
+  { title: scenario_creation, tasks: [list, event], color: 'orange' },
+  { title: communication, tasks: [email, sms, telegram, push], color: 'cyan' },
   {
-    title: 'Сценарии',
-    tasks: [
-      'Условие',
-      'Ожидание',
-      'Объединение',
-      'А/Б тест',
-      'Присвоение атрибута',
-      'CRM сообщение',
-    ],
+    title: scenarios,
+    tasks: [condition, wait, join, ab_test, assignment, crm_message],
+    color: 'pink',
   },
 ]
-export const dictionary = {
-  sms: 'Sms',
-  email: 'Письмо',
-  condition: 'Условие',
-  wait: 'Ожидание',
-  push: 'Push уведомление',
-  join: 'Объединение',
-  crm_message: 'CRM сообщение',
-  telegram: 'Telegram',
-  ab_test: 'А/Б тест',
-  assignment: 'Присвоение',
-}
 
 const TasksStorage: FC = () => {
   return (
     <div className={styles.tasksStorage}>
       {taskStorage.map((group, indexG) => {
-        const { title, tasks } = group
+        const { title, tasks, color } = group
         return (
           <div className={styles.groupOfTasks} key={indexG}>
             <p className={cx(styles.title, 'text_2_hl_1')}>{title}</p>
             <div className={styles.tasks}>
               {tasks.map((task, indexA) => {
-                const properties = { type: task }
+                const properties = {
+                  type: task,
+                  color,
+                  status: 'validated',
+                  name: TasksDefaultNames[task],
+                }
                 return (
                   <div key={indexA} className={styles.taskContainer}>
                     <Task properties={properties}></Task>

@@ -1,17 +1,24 @@
 import ActionType from './action-type'
 import { IStoreScenario } from './_data-types'
 import { IReducer } from '../data-types'
+import { TasksTypes } from 'types'
 
 const initialState: IStoreScenario = {
   taskIsMoving: false,
   tasksHeap: {
     '1': {
-      type: 'start',
+      type: TasksTypes.list,
+      color: 'orange',
+      status: 'clear',
+      name: 'Старт',
       input: [],
       output: ['2'],
     },
     '2': {
-      type: 'exit',
+      type: TasksTypes.exit,
+      color: 'green',
+      status: 'clear',
+      name: 'Выход',
       input: ['1'],
       output: [],
     },

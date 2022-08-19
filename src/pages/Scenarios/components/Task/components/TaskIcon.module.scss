@@ -1,0 +1,67 @@
+.cyan {
+  &[data-status='validated'] {
+    *[data-name='back'] {
+      fill: var(--cyan);
+      stroke: var(--cyan);
+    }
+    *[data-name='logo'] {
+      fill: var(--white);
+      stroke: var(--white);
+    }
+  }
+  &[data-status='clear'] {
+    *[data-name='back'] {
+      fill: var(--white);
+    }
+    *[data-name='logo'] {
+      fill: var(--cyan);
+      stroke: var(--cyan);
+    }
+  }
+}
+.pink {
+  &[data-status='validated'] {
+    *[data-name='back'] {
+      fill: var(--pink);
+      stroke: var(--pink);
+    }
+    *[data-name='logo'] {
+      fill: var(--white);
+      stroke: var(--white);
+    }
+  }
+  &[data-status='clear'] {
+    *[data-name='back'] {
+      fill: var(--white);
+    }
+    *[data-name='logo'] {
+      fill: var(--pink);
+      stroke: var(--pink);
+    }
+  }
+}
+.green {
+  &[data-status='validated'] {
+    *[data-name='back'] {
+      fill: var(--green);
+      stroke: var(--green);
+    }
+    *[data-name='logo'] {
+      fill: var(--white);
+      stroke: var(--white);
+    }
+  }
+  &[data-status='clear'] {
+    *[data-name='back'] {
+      fill: var(--white);
+    }
+    *[data-name='logo'] {
+      fill: var(--green);
+      stroke: var(--green);
+    }
+  }
+}
+
+.iconRomb {
+  transform: translate(-10px, -12px);
+}

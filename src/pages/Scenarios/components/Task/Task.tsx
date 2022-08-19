@@ -3,69 +3,47 @@ import cx from 'classnames'
 import Draggable, { DraggableData, DraggableEventHandler } from 'react-draggable'
 import { v4 as uuid } from 'uuid'
 
+import TaskIcon from './components/TaskIcon'
+
 import styles from './Task.module.scss'
 import { useScenario } from '../../../../store/scenario/useScenario'
-import {
-  IconPlus,
-  IconTaskAbTest,
-  IconTaskAssigment,
-  IconTaskCrmMessage,
-  IconTaskEmail,
-  IconTaskEvent,
-  IconTaskExit,
-  IconTaskJoin,
-  IconTaskList,
-  IconTaskPush,
-  IconTaskQuestion,
-  IconTaskSms,
-  IconTaskTelega,
-  IconTaskWait,
-} from 'assets/icons'
+import { IconPlus } from 'assets/icons'
 
 import { ITaskNode } from '../../type'
 
-const SIZE = {
-  taskWidth: 50,
-  taskHeight: 50,
-  gap: 80,
-  padding: 100,
-}
+import { TasksTypes, TasksDefaultNames } from 'types'
 
-const taskIcons = {
-  sms: <IconTaskSms />,
-  email: <IconTaskWait />,
-  sms: <IconTaskTelega />,
-  sms: <IconTaskQuestion />,
-  sms: <IconTaskPush />,
-  sms: <IconTaskList />,
-  sms: <IconTaskJoin />,
-  sms: <IconTaskExit />,
-  sms: <IconTaskEvent />,
-  sms: <IconTaskEmail />,
-  sms: <IconTaskCrmMessage />,
-  sms: <IconTaskAssigment />,
-  sms: <IconTaskAbTest />,
-}
+const { exit } = TasksTypes
 
 const Task: FC<ITaskNode> = ({ properties, id }) => {
-  const { type } = properties
+  const { type, color, status, name } = properties
   const { setTaskIsMoving, addTask, deleteTask } = useScenario()
+
+  const position = { x: 0, y: 0 }
 
   const isTaskPlacedInScenario = Boolean(id)
   const myId = isTaskPlacedInScenario ? (id as string) : uuid()
 
-  const position = { x: 0, y: 0 }
+  const isDeleteAvailable = () => {
+    const typeAllowsToBeDeleted = ![exit].includes(type)
+    return isTaskPlacedInScenario && typeAllowsToBeDeleted
+  }
+
+  const isDraggable = ![exit].includes(type)
 
   const handleStart = (e: Event, data: DraggableData) => {
     e.preventDefault()
-    console.log('start')
     setTaskIsMoving(true)
+    if (!isDraggable) return false
   }
 
   const handleDrag = (e: Event, data: DraggableData) => {
     const draggableNode = data.node
     draggableNode.style.pointerEvents = 'none'
+    draggableNode.style.zIndex = '9999'
+    // document.body.style.cursor = 'grabbing'
     e.preventDefault()
+    e.stopPropagation()
   }
 
   const handleStop = (e: Event, data: DraggableData) => {
@@ -79,13 +57,10 @@ const Task: FC<ITaskNode> = ({ properties, id }) => {
       }
     }
     draggableNode.style.pointerEvents = 'all'
+    draggableNode.style.zIndex = 'inherit'
     e.preventDefault()
+    // document.body.style.cursor = 'inherit'
     setTaskIsMoving(false)
-  }
-
-  const isDeleteAvailable = () => {
-    const typeAllowsToBeDeleted = !['exit', 'start'].includes(type)
-    return isTaskPlacedInScenario && typeAllowsToBeDeleted
   }
 
   return (
@@ -99,8 +74,10 @@ const Task: FC<ITaskNode> = ({ properties, id }) => {
         className={cx(!isTaskPlacedInScenario && styles.inStorage, styles.task)}
         data-type={type}
       >
-        <div className={styles.taskIconContainer}></div>
-        <p className={cx(styles.name, 'text_05')}>{type}</p>
+        <div className={styles.taskIconContainer}>
+          <TaskIcon type={type} status={status} color={color} />
+        </div>
+        <p className={cx(styles.name, 'text_05')}>{name}</p>
         <div className={styles.hoverBlock}>
           {isDeleteAvailable() && (
             <div className={styles.iconClose} onClick={() => deleteTask(myId)}>

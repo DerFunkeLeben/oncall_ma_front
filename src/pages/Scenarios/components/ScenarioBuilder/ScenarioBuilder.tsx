@@ -8,24 +8,26 @@ import Task from '../Task/Task'
 import styles from './ScenarioBuilder.module.scss'
 
 import { ITask, ITasksHeap, TObject } from 'types'
+import { TasksTypes, TasksDefaultNames } from 'types'
 import Field from '../Field/Field'
 
 import { useScenario } from '../../../../store/scenario/useScenario'
 
 const SIZE = {
-  taskWidth: 50,
-  taskHeight: 50,
+  taskWidth: 80,
+  taskHeight: 88,
   gap: 80,
   padding: 100,
 }
 
+const { exit, list, event } = TasksTypes
+
 const ScenarioBuilder: FC = () => {
-  const { tasksHeap } = useScenario()
+  const { tasksHeap, taskIsMoving } = useScenario()
   const [stateTasksHeap, setStateTasksHeap] = useState<ITasksHeap>({})
 
   useEffect(() => {
     if (!tasksHeap) return
-    console.log(tasksHeap)
     setStateTasksHeap(tasksHeap)
   }, [tasksHeap])
 
@@ -71,13 +73,17 @@ const ScenarioBuilder: FC = () => {
         }
         const currentTask = stateTasksHeap[id]
 
+        const properties = { ...currentTask, status: 'clear' }
+
+        const taskWithoutPlaceholder = ![exit, list, event].includes(currentTask.type)
+
         return (
           <div key={id} style={style} className={styles.taskContainer}>
             <div className={styles.leftArea}>
               <div className={styles.taskCreateArea} data-task-id={id} />
             </div>
-            <div className={styles.placeUnderTask} />
-            <Task properties={currentTask} id={id}></Task>
+            {taskWithoutPlaceholder && <div className={styles.placeUnderTask} />}
+            <Task properties={properties} id={id} />
           </div>
         )
       })

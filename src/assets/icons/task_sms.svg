@@ -1,23 +1,22 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 50 50">
   <g id="Сгруппировать_101" data-name="Сгруппировать 101" transform="translate(-224 -536)">
-    <g class="back" id="Прямоугольник_32" data-name="Прямоугольник 32" transform="translate(224 536)" fill="#fff"
-      stroke="#24d1f4" stroke-width="1.5">
+    <g id="Прямоугольник_32" data-name="back" transform="translate(224 536)" fill="#fff" stroke="#24d1f4"
+      stroke-width="1.5">
       <rect width="50" height="50" rx="15" stroke="none" />
       <rect x="0.75" y="0.75" width="48.5" height="48.5" rx="14.25" fill="none" />
     </g>
-    <g class="logo" id="Сгруппировать_6" data-name="Сгруппировать 6" transform="translate(1022.494 -3561)">
-      <path class="logo" id="Контур_150" data-name="Контур 150"
+    <g id="Сгруппировать_6" data-name="logo" transform="translate(1022.494 -3561)">
+      <path id="Контур_150" data-name="logo"
         d="M215.752,164.865a.277.277,0,0,1-.226-.075.568.568,0,0,1-.377-.528v-4.906h-4.755a3.028,3.028,0,0,1-3.019-3.019V143.884a3.028,3.028,0,0,1,3.019-3.019H228.96a3.028,3.028,0,0,1,3.019,3.019v12.377a3.028,3.028,0,0,1-3.019,3.019h-6.868l-5.962,5.358a.415.415,0,0,1-.377.226Zm-5.358-22.792a1.836,1.836,0,0,0-1.811,1.811v12.377a1.836,1.836,0,0,0,1.811,1.811h5.358a.649.649,0,0,1,.6.6v4.151l5.132-4.6a.576.576,0,0,1,.377-.151h7.094a1.836,1.836,0,0,0,1.811-1.811V143.884a1.837,1.837,0,0,0-1.811-1.811Z"
         transform="translate(-993.171 3971.135)" fill="#24d1f4" stroke="#24d1f4" stroke-width="0.3" />
-      <path class="logo" id="Контур_151" data-name="Контур 151"
+      <path id="Контур_151" data-name="logo"
         d="M288.726,193.708H277.1a.6.6,0,0,1,0-1.208h11.547a.649.649,0,0,1,.6.6.583.583,0,0,1-.528.6Z"
         transform="translate(-1056.334 3923.954)" fill="#24d1f4" stroke="#24d1f4" stroke-width="0.3" />
-      <path class="logo" id="Контур_152" data-name="Контур 152"
+      <path id="Контур_152" data-name="logo"
         d="M288.726,241.828H277.1a.6.6,0,0,1,0-1.208h11.547a.649.649,0,0,1,.6.6.583.583,0,0,1-.528.6Z"
         transform="translate(-1056.334 3879.984)" fill="#24d1f4" stroke="#24d1f4" stroke-width="0.3" />
-      <path class="logo" id="Контур_153" data-name="Контур 153"
-        d="M285.1,290.827h-8a.6.6,0,1,1,0-1.207h8a.6.6,0,1,1,0,1.207Z" transform="translate(-1056.334 3835.21)"
-        fill="#24d1f4" stroke="#24d1f4" stroke-width="0.3" />
+      <path id="Контур_153" data-name="logo" d="M285.1,290.827h-8a.6.6,0,1,1,0-1.207h8a.6.6,0,1,1,0,1.207Z"
+        transform="translate(-1056.334 3835.21)" fill="#24d1f4" stroke="#24d1f4" stroke-width="0.3" />
     </g>
   </g>
 </svg>

@@ -1,16 +1,19 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 50 50">
+  <style>
+    #logo_36 {
+      fill: none !important;
+    }
+  </style>
   <g id="Сгруппировать_95" data-name="Сгруппировать 95" transform="translate(-326 -887)">
-    <g class="back" id="Эллипс_19" data-name="Эллипс 19" transform="translate(326 887)" fill="#fff" stroke="#ea66c1"
-      stroke-width="1.5">
+    <g id="Эллипс_19" data-name="back" transform="translate(326 887)" fill="#fff" stroke="#ea66c1" stroke-width="1.5">
       <circle cx="25" cy="25" r="25" stroke="none" />
       <circle cx="25" cy="25" r="24.25" fill="none" />
     </g>
-    <g class="logo" id="Прямоугольник_36" data-name="Прямоугольник 36" transform="translate(340 901)" fill="none"
-      stroke="#ea66c1" stroke-width="1.5">
+    <g id="logo_36" data-name="logo" transform="translate(340 901)" fill="none" stroke="#ea66c1" stroke-width="1.5">
       <rect width="22" height="22" rx="4" stroke="none" />
       <rect x="0.75" y="0.75" width="20.5" height="20.5" rx="3.25" fill="none" />
     </g>
-    <path class="logo" id="Контур_100" data-name="Контур 100"
+    <path id="logo_100" data-name="logo"
       d="M204.361,128.8a.618.618,0,0,0-.618.618v4.327h-4.327a.618.618,0,1,0,0,1.236h4.327v4.327a.618.618,0,0,0,1.236,0v-4.327h4.327a.618.618,0,0,0,0-1.236h-4.327v-4.327A.618.618,0,0,0,204.361,128.8Z"
       transform="translate(146.639 777.637)" fill="#ea66c1" />
   </g>

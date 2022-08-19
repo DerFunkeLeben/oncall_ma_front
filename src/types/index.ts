@@ -12,7 +12,10 @@ export interface IUser {
   email: string
 }
 export interface ITask {
-  type: string
+  type: TasksTypes
+  color: string
+  status: string
+  name: string
   input?: string[]
   output?: string[]
 }
@@ -20,6 +23,7 @@ export interface ITask {
 export interface ITasksHeap {
   [key: string]: ITask
 }
+
 export type TObject = {
   [key: string]: any
 }
@@ -37,6 +41,7 @@ export enum TasksTypes {
   ab_test = 'ab_test',
   assignment = 'assignment',
   crm_message = 'crm_message',
+  exit = 'exit',
 }
 
 export enum TasksDefaultNames {
@@ -52,4 +57,11 @@ export enum TasksDefaultNames {
   ab_test = 'А/Б тест',
   assignment = 'Присвоение атрибута',
   crm_message = 'CRM сообщение',
+  exit = 'Выход',
+}
+
+export enum TaskStorageFolders {
+  scenario_creation = 'Создание сценария',
+  communication = 'Коммуникация',
+  scenarios = 'Сценарии',
 }

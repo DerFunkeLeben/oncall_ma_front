@@ -1,11 +1,11 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="70.711" height="70.711" viewBox="0 0 70.711 70.711">
   <g id="Сгруппировать_96" data-name="Сгруппировать 96" transform="translate(-337 -305.289)">
-    <g class="back" id="Прямоугольник_31" data-name="Прямоугольник 31" transform="translate(337 340.645) rotate(-45)"
-      fill="#fff" stroke="#2ec4b6" stroke-width="1.5">
+    <g id="Прямоугольник_31" data-name="back" transform="translate(337 340.645) rotate(-45)" fill="#fff"
+      stroke="#2ec4b6" stroke-width="1.5">
       <rect width="50" height="50" rx="15" stroke="none" />
       <rect x="0.75" y="0.75" width="48.5" height="48.5" rx="14.25" fill="none" />
     </g>
-    <path class="logo" id="Контур_160" data-name="Контур 160"
+    <path id="Контур_160" data-name="logo"
       d="M244.2,188.2a.917.917,0,0,0-.219-.625l-6.5-8a1.026,1.026,0,0,0-1.438-.15.985.985,0,0,0-.109,1.4l5.172,6.375H222.2a1,1,0,1,0,0,2h18.906l-5.172,6.375a1.033,1.033,0,0,0,.135,1.46,1.107,1.107,0,0,0,1.412-.21l6.5-8a.844.844,0,0,0,.219-.625Z"
       transform="translate(139.798 152.09)" fill="#2ec4b6" />
   </g>
