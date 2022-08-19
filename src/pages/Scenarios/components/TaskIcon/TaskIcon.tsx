@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import { ITaskIcon } from '../../../type'
+import { ITaskIcon } from '../../type'
 import cx from 'classnames'
 
 import styles from './TaskIcon.module.scss'
@@ -37,6 +37,7 @@ const TaskIcon: FC<ITaskIcon> = ({ type, status, color }) => {
     assignment: <IconTaskAssigment className={cx(styles[color])} data-status={status} />,
     crm_message: <IconTaskCrmMessage className={cx(styles[color])} data-status={status} />,
     exit: <IconTaskExit className={cx(styles[color], styles.iconRomb)} data-status={status} />,
+    start: <IconTaskExit className={cx(styles[color], styles.iconRomb)} data-status={status} />,
   }
   return <>{taskIcons[type]}</>
 }

@@ -42,9 +42,11 @@ export enum TasksTypes {
   assignment = 'assignment',
   crm_message = 'crm_message',
   exit = 'exit',
+  start = 'start',
 }
 
 export enum TasksDefaultNames {
+  start = 'Начало',
   list = 'Список',
   event = 'Событие',
   email = 'Email',

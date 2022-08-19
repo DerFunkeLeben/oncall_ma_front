@@ -73,9 +73,13 @@ const ScenarioBuilder: FC = () => {
         }
         const currentTask = stateTasksHeap[id]
 
+        const { type } = currentTask
+
         const properties = { ...currentTask, status: 'clear' }
 
-        const taskWithoutPlaceholder = ![exit, list, event].includes(currentTask.type)
+        const taskWithoutPlaceholder = ![exit, list, event].includes(type)
+
+        const isStart = type === 'start'
 
         return (
           <div key={id} style={style} className={styles.taskContainer}>
@@ -83,7 +87,7 @@ const ScenarioBuilder: FC = () => {
               <div className={styles.taskCreateArea} />
             </div>
             {taskWithoutPlaceholder && <div className={styles.placeUnderTask} />}
-            <Task properties={properties} id={id} />
+            {isStart ? <>фыв</> : <Task properties={properties} id={id} />}
           </div>
         )
       })

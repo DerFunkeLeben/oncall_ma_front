@@ -25,7 +25,7 @@ const {
 const { scenario_creation, communication, scenarios } = TaskStorageFolders
 
 const taskStorage = [
-  { title: scenario_creation, tasks: [list, event], color: 'orange' },
+  // { title: scenario_creation, tasks: [list, event], color: 'orange' },
   { title: communication, tasks: [email, sms, telegram, push], color: 'cyan' },
   {
     title: scenarios,

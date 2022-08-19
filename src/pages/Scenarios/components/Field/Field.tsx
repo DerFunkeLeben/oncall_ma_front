@@ -61,6 +61,22 @@ const Field: FC = ({ children }) => {
           ref={field as React.RefObject<HTMLDivElement>}
           style={{ cursor: mouseIsDown ? 'grabbing' : 'grab' }}
         >
+          <svg width="100%" height="100%">
+            <defs>
+              <pattern
+                id="dots"
+                x="0"
+                y="0"
+                width="11.7"
+                height="11.7"
+                patternUnits="userSpaceOnUse"
+              >
+                <circle fill="var(--blue_3)" cx="11.7" cy="11.7" r="2.57"></circle>
+              </pattern>
+            </defs>
+
+            <rect x="0" y="0" width="100%" height="100%" fill="url(#dots)"></rect>
+          </svg>
           {children}
         </div>
       </Draggable>

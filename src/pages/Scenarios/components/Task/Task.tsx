@@ -3,7 +3,7 @@ import cx from 'classnames'
 import Draggable, { DraggableData, DraggableEventHandler } from 'react-draggable'
 import { v4 as uuid } from 'uuid'
 
-import TaskIcon from './components/TaskIcon'
+import TaskIcon from '../TaskIcon/TaskIcon'
 
 import styles from './Task.module.scss'
 import { useScenario } from '../../../../store/scenario/useScenario'
