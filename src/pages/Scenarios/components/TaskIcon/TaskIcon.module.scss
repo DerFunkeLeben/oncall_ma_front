@@ -9,7 +9,7 @@
       stroke: var(--white);
     }
   }
-  &[data-status='clear'] {
+  &[data-status='default'] {
     *[data-name='back'] {
       fill: var(--white);
     }
@@ -30,7 +30,7 @@
       stroke: var(--white);
     }
   }
-  &[data-status='clear'] {
+  &[data-status='default'] {
     *[data-name='back'] {
       fill: var(--white);
     }
@@ -51,7 +51,7 @@
       stroke: var(--white);
     }
   }
-  &[data-status='clear'] {
+  &[data-status='default'] {
     *[data-name='back'] {
       fill: var(--white);
     }

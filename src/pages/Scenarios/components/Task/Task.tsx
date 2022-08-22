@@ -58,7 +58,7 @@ const Task: FC<ITaskNode> = ({ properties, id }) => {
       }
     }
     draggableNode.style.pointerEvents = 'all'
-    draggableNode.style.zIndex = 'inherit'
+    draggableNode.style.zIndex = '10'
     e.preventDefault()
     // document.body.style.cursor = 'inherit'
     setTaskIsMoving(false)

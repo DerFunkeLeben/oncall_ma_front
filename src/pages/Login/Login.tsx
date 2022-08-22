@@ -35,7 +35,7 @@ const Login: FC = () => {
     return new Promise((resolve) => {
       setTimeout(() => {
         resolve({ userDB: { email: login } })
-      }, 1000)
+      }, 100000)
     })
   }
 
