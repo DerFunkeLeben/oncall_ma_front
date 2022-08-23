@@ -136,7 +136,6 @@ const ScenarioBuilder: FC = () => {
     const rootId = '1'
     const renderMatrix = createMatrix(rootId)
     if (!renderMatrix) return
-    console.log(renderMatrix)
     return renderMatrix.map((row: any, index: any) => {
       return row.map((task: any) => {
         const { id, columnNumber, type } = task
