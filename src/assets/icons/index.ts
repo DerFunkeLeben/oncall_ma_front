@@ -10,6 +10,7 @@ import { ReactComponent as IconCheck } from './check.svg'
 import { ReactComponent as IconCopy } from './copy.svg'
 import { ReactComponent as IconTrash } from './trash.svg'
 import { ReactComponent as IconUpload } from './upload.svg'
+import { ReactComponent as IconFolderYellow } from './folder_yellow.svg'
 import { ReactComponent as IconFolderOpen } from './folderOpen.svg'
 import { ReactComponent as IconFolderClose } from './folderClose.svg'
 import { ReactComponent as IconLoupe } from './loupe.svg'
@@ -50,6 +51,7 @@ export {
   IconUpload,
   IconFolderOpen,
   IconFolderClose,
+  IconFolderYellow,
   IconLoupe,
   IconEdit,
   IconExport,
