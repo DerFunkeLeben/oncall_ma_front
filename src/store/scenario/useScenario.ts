@@ -15,11 +15,14 @@ const useScenario = () => {
   const taskIsMoving = useSelector(getTaskIsMoving)
   const tasksHeap = useSelector(getTasksHeap)
 
+  console.log({ tasksHeap })
+
   const addTask = (currentTaskProperties: ITask, newTaskId: string, rightTaskId: string) => {
     //TODO некрасиво написано
     if (!tasksHeap) return
 
     //Обновление input для соседа справа
+    //Join еще не изобрели поэтому родитель может быть только один
     const rightTask = tasksHeap[rightTaskId]
     const rightInUpd = [newTaskId]
     const rightTaskUpd = { ...rightTask, input: rightInUpd }
@@ -35,7 +38,7 @@ const useScenario = () => {
       console.log('у левой таски нет потомка')
       return
     }
-    //
+    //Изза ветвления потомков может быть много
     const leftOutUpd = leftTask.output.map((outId) => {
       const result = outId === rightTaskId ? newTaskId : outId
       return result
@@ -45,6 +48,7 @@ const useScenario = () => {
     //Создание нового элемента
     const newTask = {
       ...currentTaskProperties,
+      status: 'default',
       input: [leftTaskId],
       output: [rightTaskId],
     }
@@ -59,10 +63,26 @@ const useScenario = () => {
     )
   }
 
-  const deleteTask = (taskId: string) => {
-    console.log('delete 1')
+  const objIsNotEmpty = (obj: any) =>
+    obj && Object.keys(obj).length === 0 && Object.getPrototypeOf(obj) === Object.prototype
+
+  const updateSettings = (taskId: string, settings: { [key: string]: string }) => {
     if (!tasksHeap) return
-    console.log('delete 2')
+    const tasksHeapUpd = { ...tasksHeap }
+    const currentTask = tasksHeapUpd[taskId]
+    const status = settings ? 'validated' : 'default'
+    console.log(taskId, currentTask.type, settings === {}, status)
+
+    dispatch(
+      TaskCreator.setTasksHeap({
+        ...tasksHeap,
+        [taskId]: { ...currentTask, settings, status },
+      })
+    )
+  }
+
+  const deleteTask = (taskId: string) => {
+    if (!tasksHeap) return
 
     const tasksHeapUpd = { ...tasksHeap }
     const currentTask = tasksHeapUpd[taskId]
@@ -70,12 +90,18 @@ const useScenario = () => {
     //допускаем что у нас нет веток
     if (!input) return
     if (!output) return
-    console.log('delete 3')
+
     const leftId = input[0]
     const rightId = output[0]
     const leftNode = tasksHeapUpd[leftId]
     const rightNode = tasksHeapUpd[rightId]
-    const leftNodeUpd = { ...leftNode, output: [rightId] }
+
+    const leftOutUpd = leftNode?.output?.map((outId) => {
+      const result = outId === taskId ? rightId : outId
+      return result
+    })
+
+    const leftNodeUpd = { ...leftNode, output: leftOutUpd }
     const rightNodeUpd = { ...rightNode, input: [leftId] }
 
     delete tasksHeapUpd[taskId]
@@ -102,6 +128,7 @@ const useScenario = () => {
     tasksHeap,
     addTask,
     deleteTask,
+    updateSettings,
   }
 }
 

@@ -19,7 +19,7 @@ interface ISidePopup {
   isOpen: boolean
   close: () => void
   config: IStep
-  handleSave: React.Dispatch<React.SetStateAction<IStatePopup>>
+  handleSave: any
   title: string
 }
 

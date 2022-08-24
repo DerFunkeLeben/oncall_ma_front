@@ -1,5 +1,6 @@
 .sourceTask {
   position: absolute;
+  z-index: 3;
   width: 150px;
   height: 200px;
   padding: 10px;
@@ -21,4 +22,13 @@
 }
 .title {
   color: var(--blue_5);
+}
+.line {
+  position: absolute;
+  z-index: 2;
+  top: 66px;
+}
+
+.source {
+  position: absolute;
 }

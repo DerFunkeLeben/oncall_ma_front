@@ -52,9 +52,7 @@ const DropDownAction: FC<IDropDownAction> = ({
       ...currentState,
       [actionName]: {
         ...currentState[actionName],
-
-        [pickedOption]: undefined,
-        [optionName]: '' /* TODO: хуйня */,
+        unit: optionName,
       },
     }
 
