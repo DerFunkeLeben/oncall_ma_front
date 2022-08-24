@@ -511,3 +511,36 @@ export const data = [
     last_update_date: '27.02.2022',
   },
 ]
+
+export const foldersConfig = [
+  {
+    name: 'Все аудитории',
+    id: '61',
+    count: 1947,
+  },
+  {
+    name: 'Гинекологи',
+    id: '52',
+    count: 546,
+  },
+  {
+    name: 'Онбординг',
+    id: '43',
+    count: 262,
+  },
+  {
+    name: 'Февраль',
+    id: '34',
+    count: 140,
+  },
+  {
+    name: 'Хирурги',
+    id: '25',
+    count: 377,
+  },
+  {
+    name: 'Праздники рассылки',
+    id: '16',
+    count: 620,
+  },
+]

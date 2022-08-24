@@ -8,6 +8,7 @@ import { ReactComponent as IconProfile } from './profile.svg'
 import { ReactComponent as IconArrow } from './arrow.svg'
 import { ReactComponent as IconCheck } from './check.svg'
 import { ReactComponent as IconCopy } from './copy.svg'
+import { ReactComponent as IconSend } from './send.svg'
 import { ReactComponent as IconTrash } from './trash.svg'
 import { ReactComponent as IconUpload } from './upload.svg'
 import { ReactComponent as IconFolderYellow } from './folder_yellow.svg'
@@ -47,6 +48,7 @@ export {
   IconArrow,
   IconCheck,
   IconCopy,
+  IconSend,
   IconTrash,
   IconUpload,
   IconFolderOpen,

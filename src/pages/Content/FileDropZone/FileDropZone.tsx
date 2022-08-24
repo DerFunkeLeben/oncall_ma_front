@@ -26,7 +26,7 @@ const uploadFiles = async (acceptedFiles: any) => {
 }
 
 const FileDropZone: FC = () => {
-  const onDrop = useCallback(async (acceptedFiles) => {
+  const onDrop = useCallback(async (acceptedFiles: any) => {
     await uploadFiles(acceptedFiles)
     console.log(acceptedFiles)
   }, [])

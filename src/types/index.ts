@@ -1,3 +1,5 @@
+import { FC, SVGProps } from 'react'
+
 export interface IPageData {
   link: string
   name: string
@@ -26,6 +28,19 @@ export interface ITasksHeap {
 
 export type TObject = {
   [key: string]: any
+}
+
+export interface IFolderConfig {
+  name: string
+  id: string
+  count: number
+}
+
+export interface ICheckMenuConfig {
+  caption: string
+  Icon: FC<SVGProps<SVGSVGElement>>
+  handleClick: () => void
+  modificators?: string[]
 }
 
 export enum TasksTypes {

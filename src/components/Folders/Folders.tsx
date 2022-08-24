@@ -1,45 +1,16 @@
 import { FC, useState } from 'react'
 import cx from 'classnames'
 
-import styles from './Folders.module.scss'
+import { IFolderConfig } from 'types'
+
 import { IconFolderOpen, IconFolderClose } from 'assets/icons'
+import styles from './Folders.module.scss'
 
-// interface IFolders {}
+interface IFolders {
+  config: IFolderConfig[]
+}
 
-const config = [
-  {
-    name: 'Все аудитории',
-    id: '61',
-    count: 1947,
-  },
-  {
-    name: 'Гинекологи',
-    id: '52',
-    count: 546,
-  },
-  {
-    name: 'Онбординг',
-    id: '43',
-    count: 262,
-  },
-  {
-    name: 'Февраль',
-    id: '34',
-    count: 140,
-  },
-  {
-    name: 'Хирурги',
-    id: '25',
-    count: 377,
-  },
-  {
-    name: 'Праздники рассылки',
-    id: '16',
-    count: 620,
-  },
-]
-
-const Folders: FC = () => {
+const Folders: FC<IFolders> = ({ config }) => {
   const [activeFolderId, setActiveFolderId] = useState('61')
 
   const setActiveFolder = (e: React.MouseEvent<HTMLElement>) => {

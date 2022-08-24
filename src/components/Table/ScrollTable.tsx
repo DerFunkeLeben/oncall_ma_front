@@ -7,9 +7,11 @@ import useInfiniteScroll from 'hooks/useInfiniteScroll'
 import screenSizeContext from 'context/screenSizeContext'
 import CheckMenu from './CheckMenu/CheckMenu'
 
+import { IconArrow } from 'assets/icons'
+import { ICheckMenuConfig } from 'types'
+
 import styles from './Table.module.scss'
 import tableStyles from './TableBase.module.scss'
-import { IconArrow } from 'assets/icons'
 
 interface ITable {
   headers: string[]
@@ -17,6 +19,7 @@ interface ITable {
   checkedCount?: number
   totalCountOfData?: number
   checkBoxesEnabled?: boolean
+  checkMenuConfig?: ICheckMenuConfig[]
 }
 
 const stepWidth = 2
@@ -28,6 +31,7 @@ const ScrollTable: FC<ITable> = ({
   headers,
   handleScrollLimit,
   checkBoxesEnabled,
+  checkMenuConfig,
 }) => {
   const innerRef = useRef<HTMLDivElement>(null)
   const wrapperRef = useRef<HTMLDivElement>(null)
@@ -102,7 +106,7 @@ const ScrollTable: FC<ITable> = ({
       )}
       {checkedCount && totalCountOfData && checkedCount > 0 && (
         <div className={tableStyles.checkMenu}>
-          <CheckMenu checkedCount={checkedCount} totalCountOfData={totalCountOfData} />
+          <CheckMenu {...{ checkedCount, totalCountOfData, checkMenuConfig }} />
         </div>
       )}
     </div>

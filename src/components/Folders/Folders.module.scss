@@ -20,18 +20,15 @@
   }
 }
 
-.activeFolder {
-  background-color: var(--blue_3);
-}
-
 .nameAndIcon {
   display: flex;
   flex-direction: row;
   align-items: center;
   color: var(--blue_8);
+  transition: 0.2s ease;
 
   path {
-    color: var(--blue_8);
+    fill: var(--blue_8);
   }
 }
 
@@ -41,4 +38,20 @@
 
 .count {
   color: var(--blue_15);
+  transition: 0.2s ease;
+
+}
+
+.activeFolder {
+  background-color: var(--blue_3);
+
+  .nameAndIcon {
+    color: var(--blue_6);
+    path {
+      fill: var(--blue_6);
+    }
+  }
+  .count {
+    color: var(--blue_6);
+  }
 }
