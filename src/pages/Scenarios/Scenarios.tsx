@@ -4,7 +4,7 @@ import cx from 'classnames'
 import Sidebar from 'components/Sidebar/Sidebar'
 import PageHead from 'components/PageHead/PageHead'
 import ScenarioBuilder from 'pages/Scenarios/components/ScenarioBuilder/ScenarioBuilder'
-import { IStep, IAction } from 'types/sidePopup'
+import { IStep, ISidePopupStep } from 'types/sidePopup'
 
 import styles from './Scenarios.module.scss'
 import Field from './components/Field/Field'

@@ -11,7 +11,7 @@ import { ITaskNode } from '../../type'
 import { TasksTypes, TasksDefaultNames } from 'types'
 import { SidePopupActions } from 'constants/sidePopup'
 import SidePopup from 'components/SidePopup/SidePopup'
-import { IAction } from 'types/sidePopup'
+import { ISidePopupStep } from 'types/sidePopup'
 import configs from './configs'
 
 const { exit } = TasksTypes
@@ -107,7 +107,8 @@ const Task: FC<ITaskNode> = ({ properties, id }) => {
           close={() => setPopupIsOpen(false)}
           config={config}
           handleSave={setSettings}
-          title={config.name}
+          title={config.title ? config.title : config.name}
+          settings={settings}
         />
       )}
     </>

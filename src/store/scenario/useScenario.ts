@@ -15,7 +15,7 @@ const useScenario = () => {
   const taskIsMoving = useSelector(getTaskIsMoving)
   const tasksHeap = useSelector(getTasksHeap)
 
-  console.log({ tasksHeap })
+  // console.log({ tasksHeap })
 
   const addTask = (currentTaskProperties: ITask, newTaskId: string, rightTaskId: string) => {
     //TODO некрасиво написано
@@ -63,15 +63,11 @@ const useScenario = () => {
     )
   }
 
-  const objIsNotEmpty = (obj: any) =>
-    obj && Object.keys(obj).length === 0 && Object.getPrototypeOf(obj) === Object.prototype
-
   const updateSettings = (taskId: string, settings: { [key: string]: string }) => {
     if (!tasksHeap) return
     const tasksHeapUpd = { ...tasksHeap }
     const currentTask = tasksHeapUpd[taskId]
-    const status = settings ? 'validated' : 'default'
-    console.log(taskId, currentTask.type, settings === {}, status)
+    const status = Object.keys(settings).length === 0 ? 'default' : 'validated'
 
     dispatch(
       TaskCreator.setTasksHeap({

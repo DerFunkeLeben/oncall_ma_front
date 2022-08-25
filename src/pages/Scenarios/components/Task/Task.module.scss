@@ -46,6 +46,7 @@
   height: 88px;
 }
 .iconClose {
+  cursor: pointer;
   float: right;
   & > svg {
     transform: rotate(45deg) scale(1.5);

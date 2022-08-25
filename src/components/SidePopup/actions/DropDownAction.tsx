@@ -1,4 +1,4 @@
-import { FC, Dispatch, SetStateAction, SyntheticEvent, useState } from 'react'
+import { FC, Dispatch, SetStateAction, SyntheticEvent, useState, useEffect } from 'react'
 import cx from 'classnames'
 
 import usePopupContext from 'context/SidePopupContext'
@@ -14,6 +14,8 @@ interface IDropDownAction {
   id?: string
   disabledOptions?: string[]
   setDisabledOptions?: Dispatch<SetStateAction<string[]>>
+  preset?: { [key: string]: any }
+  optionName: string
 }
 
 const DropDownAction: FC<IDropDownAction> = ({
@@ -21,12 +23,20 @@ const DropDownAction: FC<IDropDownAction> = ({
   id,
   disabledOptions = [],
   setDisabledOptions,
+  preset,
+  optionName,
 }) => {
   const { action, currentState, setState } = usePopupContext()
   const actionName = action.name
   const options = action.options as IOption[]
 
-  const [pickedOption, setPickedOption] = useState<string>(id || options[0].name)
+  const defaultOption = preset ? preset[optionName] : options[0].name
+
+  const [pickedOption, setPickedOption] = useState<string>(id || defaultOption)
+
+  useEffect(() => {
+    changeSettings(pickedOption)
+  }, [])
 
   const replaceOption = (prevOption: string, newOption: string): void => {
     if (!setDisabledOptions) return
@@ -44,20 +54,27 @@ const DropDownAction: FC<IDropDownAction> = ({
   }
 
   const handleChange = (event: SyntheticEvent<HTMLButtonElement>) => {
-    const optionName = event.currentTarget.dataset.option
+    const selectOption = event.currentTarget.dataset.option
 
-    if (!optionName || optionName === pickedOption) return
+    if (!selectOption || selectOption === pickedOption) return
 
+    const optionValue = selectOption ? selectOption : pickedOption
+
+    changeSettings(optionValue)
+  }
+
+  const changeSettings = (selectOption: any) => {
     const newState = {
       ...currentState,
       [actionName]: {
         ...currentState[actionName],
-        unit: optionName,
+        ...preset,
+        [optionName]: selectOption,
       },
     }
 
-    replaceOption(pickedOption, optionName)
-    setPickedOption(optionName)
+    replaceOption(pickedOption, selectOption)
+    setPickedOption(selectOption)
     setState(newState)
   }
 

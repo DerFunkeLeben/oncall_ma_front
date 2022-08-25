@@ -1,8 +1,8 @@
 import { Dispatch, SetStateAction } from 'react'
-import { IActionFilter, IState } from 'types/sidePopup'
+import { IStepFilter, IState } from 'types/sidePopup'
 export interface IFilterAction {
   currentState: IState
-  action: IActionFilter
+  action: IStepFilter
   setState: Dispatch<SetStateAction<IState>> /* TODO хуйня какая то */
 }
 

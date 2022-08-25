@@ -1,42 +1,34 @@
-export interface IActionTable extends IDefaultAction {
+export interface IStepTable extends IStep {
   url: string
 }
 
-export interface IActionRadio extends IDefaultAction {
+export interface IStepRadio extends IStep {
   options: IOption[]
 }
 
-export interface IActionDropDown extends IDefaultAction {
+export interface IStepDropDown extends IStep {
   options: IOption[]
 }
 
-export interface IActionRelation extends IDefaultAction {
+export interface IStepRelation extends IStep {
   count?: number
 }
 
-export interface IActionFilter extends IDefaultAction {
+export interface IStepFilter extends IStep {
   attributes: string[]
 }
 
-export interface IDefaultAction {
-  type: string
-  name: string
-  title?: string
-  getNextStep?: (value: IStatePopup) => IStep
-  require?: boolean
-}
-
-export type IAction =
-  | IActionTable
-  | IActionRadio
-  | IDefaultAction
-  | IActionRelation
-  | IActionFilter
-  | IActionDropDown
+export type ISidePopupStep =
+  | IStepTable
+  | IStepRadio
+  | IStep
+  | IStepRelation
+  | IStepFilter
+  | IStepDropDown
 
 export interface IConfig {
   title: string
-  steps: IAction[][]
+  steps: ISidePopupStep[][]
 }
 
 export interface IState {

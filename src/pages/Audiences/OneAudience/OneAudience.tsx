@@ -16,7 +16,7 @@ import buttonStyles from 'components/parts/Button/ButtonThemes.module.scss'
 import tableStyles from 'components/Table/TableBase.module.scss'
 
 import { IPageData } from 'types'
-import { IStep, IAction } from 'types/sidePopup'
+import { IStep, ISidePopupStep } from 'types/sidePopup'
 import { IconCheck, IconExport, IconFilters, IconRefresh } from 'assets/icons'
 
 import { data } from './audienceTerapistMarch'
@@ -52,7 +52,7 @@ const initData = {
 
 const title = 'Фильтры'
 
-const configTest: IAction = {
+const configTest: ISidePopupStep = {
   name: 'filter',
   type: 'filter',
   attributes: [

@@ -1,16 +1,17 @@
 import { SidePopupActions } from 'constants/sidePopup'
-import { IAction } from 'types/sidePopup'
+import { ISidePopupStep } from 'types/sidePopup'
 import { TasksTypes } from 'types'
 
 type IConfigs = {
-  [key in TasksTypes]?: IAction
+  [key in TasksTypes]?: ISidePopupStep
 }
 
 const configs: IConfigs = {
   wait: {
-    name: 'ВыборДаты',
+    name: 'duration',
     title: 'Выбор даты',
     type: SidePopupActions.DURATION,
   },
 }
+
 export default configs
