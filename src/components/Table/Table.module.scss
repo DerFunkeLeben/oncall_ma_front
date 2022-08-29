@@ -17,8 +17,9 @@
   position: sticky;
   top: 0;
   display: table-header-group;
-  height: 40px;
-  background-color: var(--blue_3);
+  height: 50px;
+  background-color: var(--white);
+  box-shadow: 0px 3px 6px var(--shadow_2);
 }
 
 .tableRow {
@@ -38,13 +39,13 @@
 }
 
 .headCell:hover {
-  background-color: var(--blue_4);
+  background-color: var(--blue_3);
 }
 
 .iconArrow {
   position: absolute;
   top: 0;
-  height: 40px;
+  height: 100%;
   margin-left: 10px;
 }
 .ascending {
@@ -57,8 +58,8 @@
 
 .scroll :global {
   .simplebar-track.simplebar-vertical {
-    top: 40px;
-    height: calc(100% - 40px);
+    top: 50px;
+    height: calc(100% - 50px);
   }
 }
 .hoverZone {

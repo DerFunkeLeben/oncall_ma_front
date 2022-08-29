@@ -122,15 +122,15 @@ const configTest: IAction = {
 }
 
 const config = configTest
+const totalCountOfData = data.length
 
 const OneAudience: FC<IPageData> = () => {
-  const { toggleCheck, isItChecked, checkedCount } = useTable()
+  const { toggleCheck, isItChecked, checkedCount, checkedAll, toggleAllChecks } =
+    useTable(totalCountOfData)
   const { audienceid } = useParams<{ audienceid?: string }>()
   const [audienceInfo, setAudienceInfo] = useState<IAudienceMetaData>(initData)
   const [filterisOpen, setFilterisOpen] = useState(false)
   const [sidePopupState, setSidePopupState] = useState({})
-
-  const totalCountOfData = data.length
 
   const openFilter = () => setFilterisOpen(true)
   const closeFilter = () => setFilterisOpen(false)
@@ -183,8 +183,7 @@ const OneAudience: FC<IPageData> = () => {
         <ScrollTable
           headers={header}
           handleScrollLimit={() => console.log('handleScrollLimit')}
-          checkedCount={checkedCount}
-          totalCountOfData={totalCountOfData}
+          {...{ checkedCount, checkedAll, totalCountOfData, toggleAllChecks }}
         >
           {data.map((dataRow, index) => {
             const { id, lastName, firstName, patronym, email, phone, city, speciality, segment } =

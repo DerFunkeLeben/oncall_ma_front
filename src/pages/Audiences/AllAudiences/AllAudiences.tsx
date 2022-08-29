@@ -23,14 +23,15 @@ import PopupOfCreationFromExist from './PopupOfCreationFromExist/PopupOfCreation
 
 const header = ['', 'ID', 'Название', 'Количество контактов', 'Дата создания', 'Дата изменения']
 const menuIsOpen = true
+const totalCountOfData = data.length
 
 const AllAudiences: FC<IPageData> = () => {
   const history = useHistory()
   const { url } = useRouteMatch()
-  const { toggleCheck, isItChecked, checkedCount } = useTable()
-  const [popupCreateFromExistIsOpen, setPopupCreateFromExist] = useState(false)
+  const { toggleCheck, isItChecked, checkedCount, checkedAll, toggleAllChecks } =
+    useTable(totalCountOfData)
 
-  const totalCountOFData = data.length
+  const [popupCreateFromExistIsOpen, setPopupCreateFromExist] = useState(false)
 
   const openAudience = (e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation()
@@ -110,9 +111,7 @@ const AllAudiences: FC<IPageData> = () => {
           <ScrollTable
             headers={header}
             handleScrollLimit={() => console.log('handleScrollLimit')}
-            checkedCount={checkedCount}
-            totalCountOfData={totalCountOFData}
-            checkMenuConfig={checkMenuConfig}
+            {...{ checkedCount, checkedAll, totalCountOfData, checkMenuConfig, toggleAllChecks }}
           >
             {data.map((dataRow, index) => {
               const { id, name, contact_count, create_date, last_update_date } = dataRow

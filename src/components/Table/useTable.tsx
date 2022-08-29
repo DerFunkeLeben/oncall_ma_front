@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-const useTable = () => {
+const useTable = (totalCountOfData?: number) => {
   const [checkedList, setCheckedList] = useState<number[]>([])
 
   const isItChecked = (id: number) => {
@@ -10,6 +10,7 @@ const useTable = () => {
   const checkMenuIsOpen = () => checkedList.length > 0
 
   const checkedCount = checkedList.length
+  const checkedAll = totalCountOfData === checkedCount
 
   const toggleCheck = (e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation()
@@ -21,11 +22,22 @@ const useTable = () => {
     } else setCheckedList([...checkedList, idNum])
   }
 
+  const toggleAllChecks = () => {
+    if (checkedAll) {
+      setCheckedList([])
+    } else {
+      const allIds = [...Array(totalCountOfData).keys()]
+      setCheckedList(allIds)
+    }
+  }
+
   return {
     toggleCheck,
+    toggleAllChecks,
     isItChecked,
     checkMenuIsOpen,
     checkedCount,
+    checkedAll,
   }
 }
 

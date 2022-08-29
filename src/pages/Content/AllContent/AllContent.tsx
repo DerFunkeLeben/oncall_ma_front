@@ -26,13 +26,13 @@ const createOptions = [
   { title: 'Создать SMS', url: 'create_sms' },
   { title: 'Создать File', url: 'create_file' },
 ]
+const totalCountOfData = data.length
 
 const AllContent: FC<IPageData> = () => {
   const history = useHistory()
   const { url } = useRouteMatch()
-  const { toggleCheck, isItChecked, checkedCount } = useTable()
-
-  const totalCountOFData = data.length
+  const { toggleCheck, isItChecked, checkedCount, checkedAll, toggleAllChecks } =
+    useTable(totalCountOfData)
 
   const openContent = (e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation()
@@ -96,9 +96,7 @@ const AllContent: FC<IPageData> = () => {
           <ScrollTable
             headers={header}
             handleScrollLimit={() => console.log('handleScrollLimit')}
-            checkedCount={checkedCount}
-            totalCountOfData={totalCountOFData}
-            checkMenuConfig={checkMenuConfig}
+            {...{ checkedCount, checkedAll, totalCountOfData, checkMenuConfig, toggleAllChecks }}
           >
             {data.map((dataRow, index) => {
               const { id, name, type, create_date, last_update_date } = dataRow

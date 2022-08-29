@@ -16,7 +16,9 @@ import tableStyles from './TableBase.module.scss'
 interface ITable {
   headers: string[]
   handleScrollLimit: () => void
+  toggleAllChecks?: () => void
   checkedCount?: number
+  checkedAll?: boolean
   totalCountOfData?: number
   checkBoxesEnabled?: boolean
   checkMenuConfig?: ICheckMenuConfig[]
@@ -26,7 +28,9 @@ const stepWidth = 2
 
 const ScrollTable: FC<ITable> = ({
   checkedCount,
+  checkedAll,
   totalCountOfData,
+  toggleAllChecks,
   children,
   headers,
   handleScrollLimit,
@@ -82,7 +86,13 @@ const ScrollTable: FC<ITable> = ({
   return (
     <div className={styles.wrapper}>
       <ScrollArea modificator={styles.scroll} customRef={wrapperRef} simplebarRef={simplebarRef}>
-        <Table innerRef={innerRef} headers={headers} checkBoxesEnabled={checkBoxesEnabled}>
+        <Table
+          innerRef={innerRef}
+          headers={headers}
+          checkBoxesEnabled={checkBoxesEnabled}
+          checkedAll={checkedAll}
+          toggleAllChecks={toggleAllChecks}
+        >
           {children}
         </Table>
       </ScrollArea>
