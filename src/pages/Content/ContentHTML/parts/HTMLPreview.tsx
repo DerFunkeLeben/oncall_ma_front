@@ -3,7 +3,7 @@ import cx from 'classnames'
 
 import ScrollArea from 'containers/ScrollArea/ScrollArea'
 
-import styles from '../CreateHTML.module.scss'
+import styles from '../ContentHTML.module.scss'
 
 interface IHTMLPreview {
   HTML: string | undefined

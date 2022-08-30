@@ -11,7 +11,7 @@ import HTMLPreview from './parts/HTMLPreview'
 import useDebounce from 'hooks/useDebounce'
 import { IPageData } from 'types'
 
-import styles from './CreateHTML.module.scss'
+import styles from './ContentHTML.module.scss'
 
 interface IHTMLFile {
   title: string
@@ -21,7 +21,7 @@ interface IHTMLFile {
   emails: string[]
 }
 
-const CreateHTML: FC<IPageData> = () => {
+const ContentHTML: FC<IPageData> = () => {
   const [popUpIsOpen, setPopUpIsOpen] = useState<boolean>(false)
   const [settings, setSettings] = useState<IHTMLFile>({
     title: 'Название',
@@ -117,4 +117,4 @@ const CreateHTML: FC<IPageData> = () => {
   )
 }
 
-export default CreateHTML
+export default ContentHTML

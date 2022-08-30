@@ -4,7 +4,7 @@ import cx from 'classnames'
 
 import ScrollArea from 'containers/ScrollArea/ScrollArea'
 
-import styles from '../CreateHTML.module.scss'
+import styles from '../ContentHTML.module.scss'
 import textAreaStyles from 'components/parts/TextArea/TextArea.module.scss'
 
 interface IHTMLTextArea {

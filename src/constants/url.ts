@@ -31,7 +31,7 @@ export const PagesData: IPagesData = {
     route: contentRoutes,
     name: 'Контент',
   },
-  CREATE_HTML: {
+  CONTENT_HTML: {
     link: contentRoutes[1],
     route: contentRoutes,
     name: 'Контент',
