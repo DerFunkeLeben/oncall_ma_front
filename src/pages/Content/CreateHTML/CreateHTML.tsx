@@ -3,6 +3,7 @@ import cx from 'classnames'
 
 import InputBase from 'components/parts/InputBase/InputBase'
 import FileDropZone from '../FileDropZone/FileDropZone'
+import ContentPopup from '../ContentPopup/ContentPopup'
 import HTMLHead from './parts/HTMLHead'
 import HTMLTextArea from './parts/HTMLTextArea'
 import HTMLPreview from './parts/HTMLPreview'
@@ -17,14 +18,17 @@ interface IHTMLFile {
   theme: string
   preheader: string
   HTML: string | undefined
+  emails: string[]
 }
 
 const CreateHTML: FC<IPageData> = () => {
+  const [popUpIsOpen, setPopUpIsOpen] = useState<boolean>(false)
   const [settings, setSettings] = useState<IHTMLFile>({
     title: 'Название',
     theme: '',
     preheader: '',
     HTML: undefined,
+    emails: [''],
   })
 
   const handleChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -55,11 +59,21 @@ const CreateHTML: FC<IPageData> = () => {
     reader.readAsText(file)
   }
 
+  const togglePopUp = () => setPopUpIsOpen(!popUpIsOpen)
+
+  const saveEmails = (inputs: string[]) => {
+    setSettings({
+      ...settings,
+      emails: inputs.filter((el) => el),
+    })
+    togglePopUp()
+  }
+
   const debouncedHTML = useDebounce(settings.HTML, 1000)
 
   return (
     <div className={cx(styles.pageContent)}>
-      <HTMLHead title={settings.title} handleChange={handleChange} />
+      <HTMLHead title={settings.title} handleChange={handleChange} openPopUp={togglePopUp} />
 
       {showTextArea ? (
         <HTMLTextArea HTML={settings.HTML} handleChange={handleChange} />
@@ -88,6 +102,17 @@ const CreateHTML: FC<IPageData> = () => {
         />
         <HTMLPreview HTML={debouncedHTML} />
       </div>
+
+      {popUpIsOpen && (
+        <ContentPopup
+          close={togglePopUp}
+          subtitle="Email"
+          placeholder="Введите email"
+          btnAddText="Добавить email"
+          inputs={settings.emails}
+          handleSave={saveEmails}
+        />
+      )}
     </div>
   )
 }

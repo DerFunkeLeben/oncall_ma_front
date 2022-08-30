@@ -10,9 +10,10 @@ import buttonStyles from 'components/parts/Button/ButtonThemes.module.scss'
 interface IHTMLHead {
   title: string
   handleChange: (event: ChangeEvent<HTMLInputElement>) => void
+  openPopUp: () => void
 }
 
-const HTMLHead: FC<IHTMLHead> = ({ title, handleChange }) => {
+const HTMLHead: FC<IHTMLHead> = ({ title, handleChange, openPopUp }) => {
   return (
     <PageHead
       mod={true}
@@ -22,7 +23,7 @@ const HTMLHead: FC<IHTMLHead> = ({ title, handleChange }) => {
       buttonBackName="К списку всего контента"
       buttonBackUrl="/content"
     >
-      <Button modificator={buttonStyles.theme_secondary}>
+      <Button modificator={buttonStyles.theme_secondary} onClick={openPopUp}>
         <IconSend />
         <span>Отправить тестово</span>
       </Button>
