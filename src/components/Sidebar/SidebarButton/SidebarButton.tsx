@@ -17,6 +17,7 @@ const SidebarButton: FC<ISidebarButton> = ({ Icon, name, path = '/' }) => {
       className={styles.Button}
       activeClassName={styles.Button_active}
       key={name}
+      data-tooltip={name}
     >
       <Icon className={styles.icon} />
     </NavLink>

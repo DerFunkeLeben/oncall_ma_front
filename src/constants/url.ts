@@ -79,7 +79,7 @@ export const PagesData: IPagesData = {
   ANALYTICS: {
     link: analyticsRoutes[0],
     route: analyticsRoutes,
-    name: 'Аналитика',
+    name: 'Раздел в разработке',
   },
   SCENARIOS: {
     link: scenariosRoutes[0],

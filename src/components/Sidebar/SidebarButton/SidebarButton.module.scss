@@ -1,21 +1,42 @@
 .Button {
+  position: relative;
   display: flex;
   width: 70px;
   height: 70px;
   align-items: center;
   justify-content: center;
-  transition: 0.3s ease;
+  transition: background-color 0.2s;
+
+  &::before {
+    position: absolute;
+    z-index: 1000;
+    left: calc(100% - 10px);
+    display: block;
+    padding: 6px;
+    background-color: var(--blue_19);
+    border-radius: 5px;
+    color: var(--white);
+    content: attr(data-tooltip) ' ';
+    font-size: 10px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s;
+    white-space: nowrap;
+  }
 }
 
 .Button:hover {
   background-color: var(--blue_2);
+
+  &::before {
+    opacity: 1;
+    transition-delay: 0.5s;
+  }
 }
-/*.Button:active path {
-  fill: var(--blue_7);
-}*/
+
 
 .Button_active {
-  position: relative;
+
   color: var(--black);
 
   &::after {
@@ -26,6 +47,10 @@
     background-color: var(--blue_6);
     border-radius: 3px;
     content: '';
+  }
+
+  &::before {
+    opacity: 0 !important;
   }
 
   path {

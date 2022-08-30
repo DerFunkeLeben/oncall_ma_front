@@ -1,22 +1,26 @@
 .container {
-  margin-right: 30px;
+  margin-right: 20px;
 }
 .folder {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  padding: 8px 10px;
+  position: relative;
+  display: grid;
+  padding: 9px 10px;
   border-radius: 8px;
   cursor: pointer;
+  grid-template-columns: 1fr 1fr 10px;
+  grid-template-rows: 1fr;
   transition: background-color 0.2s ease;
 
   &:hover {
     background-color: var(--blue_3);
+
+    .iconDots {
+      opacity: 1;
+    }
   }
 
   &:not(:first-of-type) {
-    margin-top: 10px;
+    margin-top: 5px;
   }
 }
 
@@ -36,10 +40,49 @@
   margin-right: 10px;
 }
 
+.triggerContainerActive {
+  .iconDots {
+    opacity: 1;
+    circle {
+      fill: var(--blue_15);
+    }
+  }
+}
+
+.iconDots {
+  position: absolute;
+  right: 7px;
+  display: flex;
+  width: 10px;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.2s;
+
+  circle {
+    fill: var(--blue_4);
+    transition: 0.1s;
+  }
+
+  &:hover {
+    circle {
+      fill: var(--blue_15);
+    }
+  }
+}
+
 .count {
   color: var(--blue_15);
+  text-align: right;
   transition: 0.2s ease;
+}
 
+.folderName {
+  overflow: hidden;
+  max-width: 180px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .activeFolder {
@@ -53,5 +96,35 @@
   }
   .count {
     color: var(--blue_6);
+  }
+}
+
+.dropDownContainer {
+  padding: 5px;
+}
+
+.dropDownOption {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding:  10px;
+
+  svg {
+    margin-right: 10px;
+  }
+}
+
+.btnAdd {
+  padding: 10px;
+  margin-top: 5px;
+}
+
+.alert {
+  color: var(--error_2);
+
+  svg {
+    path {
+      fill: var(--error_2);
+    }
   }
 }

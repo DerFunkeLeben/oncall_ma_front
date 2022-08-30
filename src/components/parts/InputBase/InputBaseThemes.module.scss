@@ -28,7 +28,7 @@
   background: transparent;
   border-radius: 0;
   color: var(--blue_8);
-  cursor: pointer;
+  cursor: url(../../../assets/icons/cursor.svg), pointer;
   transition: 0.2s;
 
   &:focus {
@@ -51,7 +51,7 @@
   svg {
     position: absolute;
     right: -30px;
-    cursor: pointer;
+    cursor: url(../../../assets/icons/cursor.svg), pointer;
     opacity: 0;
     transition: 0.2s;
   }

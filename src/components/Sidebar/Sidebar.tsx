@@ -26,25 +26,25 @@ const buttons = [
     path: PagesData.ALL_CONTENT.link,
   },
   {
-    Icon: IconAnalytics,
-    name: PagesData.ANALYTICS.name,
-    path: PagesData.ANALYTICS.link,
-  },
-  {
     Icon: IconJourney,
     name: PagesData.SCENARIOS.name,
     path: PagesData.SCENARIOS.link,
+  },
+  {
+    Icon: IconAnalytics,
+    name: PagesData.ANALYTICS.name,
+    path: PagesData.ANALYTICS.link,
   },
 ]
 const buttonsBottomMenu = [
   {
     Icon: IconBell,
-    name: PagesData.AUDIENCES.name,
+    name: 'Раздел в разработке',
     path: '/',
   },
   {
     Icon: IconProfile,
-    name: PagesData.ALL_CONTENT.name,
+    name: 'Раздел в разработке',
     path: '/',
   },
 ]

@@ -17,7 +17,7 @@
   position: sticky;
   top: 0;
   display: table-header-group;
-  height: 50px;
+  height: 42px;
   background-color: var(--white);
   box-shadow: 0px 3px 6px var(--shadow_2);
 }
@@ -31,6 +31,7 @@
   padding: 0 20px;
   color: var(--blue_8);
   cursor: pointer;
+  transition: 0.1s;
   user-select: none;
   vertical-align: middle;
   & > p {
@@ -58,8 +59,8 @@
 
 .scroll :global {
   .simplebar-track.simplebar-vertical {
-    top: 50px;
-    height: calc(100% - 50px);
+    top: 42px;
+    height: calc(100% - 42px);
   }
 }
 .hoverZone {

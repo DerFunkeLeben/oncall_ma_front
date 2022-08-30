@@ -1,9 +1,14 @@
 import { FC, useState } from 'react'
 import cx from 'classnames'
 
-import { IFolderConfig } from 'types'
+import Button from 'components/parts/Button/Button'
+import FolderContextMenu from './FolderContextMenu'
 
-import { IconFolderOpen, IconFolderClose } from 'assets/icons'
+import { IFolderConfig } from 'types'
+import { reduceBigNumbers } from 'utils'
+
+import { IconPlus, IconFolderOpen, IconFolderClose } from 'assets/icons'
+import buttonThemes from 'components/parts/Button/ButtonThemes.module.scss'
 import styles from './Folders.module.scss'
 
 interface IFolders {
@@ -17,6 +22,8 @@ const Folders: FC<IFolders> = ({ config }) => {
     const { id } = e.currentTarget.dataset
     if (id) setActiveFolderId(id)
   }
+
+  const handleNewFolder = () => console.log(1)
 
   return (
     <div className={styles.container}>
@@ -36,12 +43,23 @@ const Folders: FC<IFolders> = ({ config }) => {
               ) : (
                 <IconFolderClose className={styles.iconFolder} />
               )}
-              <p className={cx('text_1_hl_1')}>{name}</p>
+              <p className={cx('text_1_hl_1', styles.folderName)}>{name}</p>
             </div>
-            <span className={cx(styles.count, active ? 'text_1_hl_2' : 'text_1')}>{count}</span>
+            <span className={cx(styles.count, active ? 'text_1_hl_2' : 'text_1')}>
+              {reduceBigNumbers(count)}
+            </span>
+            <FolderContextMenu />
           </div>
         )
       })}
+
+      <Button
+        modificator={cx(buttonThemes.theme_additional, styles.btnAdd)}
+        onClick={handleNewFolder}
+      >
+        <IconPlus />
+        <span>Создать новую папку</span>
+      </Button>
     </div>
   )
 }

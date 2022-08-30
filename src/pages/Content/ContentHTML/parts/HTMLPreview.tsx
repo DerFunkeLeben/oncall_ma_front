@@ -15,7 +15,7 @@ const HTMLPreview: FC<IHTMLPreview> = ({ HTML }) => {
 
   function calcHeight() {
     const refNode = iFrameRef.current
-    const height = (refNode.contentWindow?.document.body.scrollHeight || 0) + 20
+    const height = (refNode.contentWindow?.document.body.scrollHeight || 0) + 10
     refNode.height = height + ''
   }
 

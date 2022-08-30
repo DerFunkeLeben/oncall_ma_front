@@ -85,7 +85,12 @@ export const foldersConfig = [
   {
     name: 'Завершенные рассылки',
     id: '43',
-    count: 99,
+    count: 999954,
+  },
+  {
+    name: 'Рассылки январь февраль',
+    id: '48',
+    count: 1786,
   },
   {
     name: 'Medpoint',
