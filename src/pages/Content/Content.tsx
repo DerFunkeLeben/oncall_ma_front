@@ -5,6 +5,7 @@ import { Switch, Route, Redirect } from 'react-router-dom'
 import Sidebar from 'components/Sidebar/Sidebar'
 import AllContent from './AllContent/AllContent'
 import ContentHTML from './ContentHTML/ContentHTML'
+import ContentSMS from './ContentSMS/ContentSMS'
 
 import { PagesData } from 'constants/url'
 import { IPageData } from 'types'
@@ -14,11 +15,23 @@ import styles from './Content.module.scss'
 const CONTENT_PAGES = [
   {
     Component: AllContent,
-    ...PagesData.CONTENT,
+    ...PagesData.ALL_CONTENT,
   },
   {
     Component: ContentHTML,
     ...PagesData.CONTENT_HTML,
+  },
+  {
+    Component: ContentSMS,
+    ...PagesData.CONTENT_SMS,
+  },
+  {
+    Component: ContentHTML,
+    ...PagesData.CONTENT_HTML_VIEW,
+  },
+  {
+    Component: ContentSMS,
+    ...PagesData.CONTENT_SMS_VIEW,
   },
 ]
 

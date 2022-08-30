@@ -1,5 +1,5 @@
-import { FC, useState } from 'react'
-import { useHistory, useRouteMatch } from 'react-router-dom'
+import { FC } from 'react'
+import { useHistory } from 'react-router-dom'
 import cx from 'classnames'
 
 import PageHead from 'components/PageHead/PageHead'
@@ -12,7 +12,11 @@ import useTable from 'components/Table/useTable'
 
 import { IconCheck, IconSend, IconTrash } from 'assets/icons'
 import { data, foldersConfig } from './allContentData'
+import { CONTENT_URL_HTML, CONTENT_URL_SMS, CONTENT_URL_FILE } from 'constants/url'
+
+import { ddmmyyyy } from '../../../utils/transformDate'
 import { IPageData } from 'types'
+import { ContentTypes } from 'types/content'
 
 import styles from './AllContent.module.scss'
 import tableStyles from 'components/Table/TableBase.module.scss'
@@ -22,21 +26,27 @@ const header = ['', 'Название', 'Тип', 'Дата создания', '
 const menuIsOpen = true
 
 const createOptions = [
-  { title: 'Создать HTML', url: 'create_html' },
-  { title: 'Создать SMS', url: 'create_sms' },
-  { title: 'Создать File', url: 'create_file' },
+  { title: 'Создать HTML', url: CONTENT_URL_HTML },
+  { title: 'Создать SMS', url: CONTENT_URL_SMS },
+  { title: 'Создать File', url: CONTENT_URL_FILE },
 ]
+
 const totalCountOfData = data.length
 
 const AllContent: FC<IPageData> = () => {
   const history = useHistory()
-  const { url } = useRouteMatch()
   const { toggleCheck, isItChecked, checkedCount, checkedAll, toggleAllChecks } =
     useTable(totalCountOfData)
 
   const openContent = (e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation()
-    const { id } = e.currentTarget.dataset
+    const { id, type } = e.currentTarget.dataset
+
+    let url
+    if (type === ContentTypes.HTML) url = CONTENT_URL_HTML
+    else if (type === ContentTypes.SMS) url = CONTENT_URL_SMS
+    else url = CONTENT_URL_FILE
+
     history.push(`${url}/${id}`)
   }
 
@@ -82,7 +92,7 @@ const AllContent: FC<IPageData> = () => {
               {createOptions.map((createOption, index) => (
                 <button
                   className={cx(dropDownStyles.element, 'text_1')}
-                  onClick={() => history.push(`${url}/${createOption.url}`)}
+                  onClick={() => history.push(createOption.url)}
                   key={index}
                 >
                   {createOption.title}
@@ -99,10 +109,16 @@ const AllContent: FC<IPageData> = () => {
             {...{ checkedCount, checkedAll, totalCountOfData, checkMenuConfig, toggleAllChecks }}
           >
             {data.map((dataRow, index) => {
-              const { id, name, type, create_date, last_update_date } = dataRow
+              const { id, title, type, createDate, lastUpdateDate } = dataRow
               const checked = isItChecked(index)
               return (
-                <div className={tableStyles.row} key={index} onClick={openContent} data-id={id}>
+                <div
+                  className={tableStyles.row}
+                  key={index}
+                  onClick={openContent}
+                  data-id={id}
+                  data-type={type}
+                >
                   <div
                     className={cx(tableStyles.cell, tableStyles.cellCheck)}
                     onClick={toggleCheck}
@@ -117,11 +133,12 @@ const AllContent: FC<IPageData> = () => {
                     </div>
                   </div>
                   <div className={cx(tableStyles.cell, tableStyles.accentCell, 'text_1_hl_1')}>
-                    <span>{name}</span>
+                    <span>{title}</span>
                   </div>
+
                   <div className={cx(tableStyles.cell, 'text_1')}>{type}</div>
-                  <div className={cx(tableStyles.cell, 'text_1')}>{create_date}</div>
-                  <div className={cx(tableStyles.cell, 'text_1')}>{last_update_date}</div>
+                  <div className={cx(tableStyles.cell, 'text_1')}>{ddmmyyyy(createDate)}</div>
+                  <div className={cx(tableStyles.cell, 'text_1')}>{ddmmyyyy(lastUpdateDate)}</div>
                 </div>
               )
             })}

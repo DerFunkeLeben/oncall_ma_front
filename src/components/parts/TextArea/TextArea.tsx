@@ -9,7 +9,6 @@ export interface ITextAreaBase extends React.TextareaHTMLAttributes<HTMLTextArea
   handleChange?: (event: ChangeEvent<HTMLTextAreaElement>) => void
   textAreaRef?: RefObject<HTMLTextAreaElement>
   spellCheck?: boolean
-  minHeight?: string
 }
 
 const TextArea: FC<ITextAreaBase> = ({
@@ -22,7 +21,6 @@ const TextArea: FC<ITextAreaBase> = ({
   handleChange,
   spellCheck,
   textAreaRef,
-  minHeight,
   ...props
 }) => {
   return (
@@ -39,7 +37,6 @@ const TextArea: FC<ITextAreaBase> = ({
         onChange={handleChange}
         ref={textAreaRef}
         spellCheck={spellCheck}
-        style={{ minHeight: minHeight || 'unset' }}
         {...props}
       />
       {children}

@@ -19,7 +19,7 @@ const PAGES = [
   },
   {
     Component: Content,
-    ...PagesData.CONTENT,
+    ...PagesData.ALL_CONTENT,
   },
   {
     Component: Analytics,

@@ -1,7 +1,22 @@
 import { IPagesData } from 'types'
 
 export const audencesRoutes = ['/audences', '/audences/:audienceid', '/audences/create_new']
-export const contentRoutes = ['/content', '/content/create_html']
+
+export const CONTENT_URL = '/content'
+export const CONTENT_URL_HTML = `${CONTENT_URL}/html`
+export const CONTENT_URL_SMS = `${CONTENT_URL}/sms`
+export const CONTENT_URL_FILE = `${CONTENT_URL}/file`
+
+export const contentRoutes = [
+  CONTENT_URL,
+  CONTENT_URL_HTML,
+  CONTENT_URL_SMS,
+  CONTENT_URL_FILE,
+  `${CONTENT_URL_HTML}/:contentId`,
+  `${CONTENT_URL_SMS}/:contentId`,
+  `${CONTENT_URL_FILE}/:contentId`,
+]
+
 export const analyticsRoutes = ['/analytics']
 export const scenariosRoutes = ['/scenarios']
 
@@ -26,13 +41,38 @@ export const PagesData: IPagesData = {
     route: audencesRoutes,
     name: 'Аудитория',
   },
-  CONTENT: {
-    link: contentRoutes[0],
+  ALL_CONTENT: {
+    link: CONTENT_URL,
     route: contentRoutes,
     name: 'Контент',
   },
   CONTENT_HTML: {
-    link: contentRoutes[1],
+    link: CONTENT_URL_HTML,
+    route: contentRoutes,
+    name: 'Контент',
+  },
+  CONTENT_SMS: {
+    link: CONTENT_URL_SMS,
+    route: contentRoutes,
+    name: 'Контент',
+  },
+  CONTENT_FILE: {
+    link: CONTENT_URL_FILE,
+    route: contentRoutes,
+    name: 'Контент',
+  },
+  CONTENT_HTML_VIEW: {
+    link: contentRoutes[4],
+    route: contentRoutes,
+    name: 'Контент',
+  },
+  CONTENT_SMS_VIEW: {
+    link: contentRoutes[5],
+    route: contentRoutes,
+    name: 'Контент',
+  },
+  CONTENT_FILE_VIEW: {
+    link: contentRoutes[6],
     route: contentRoutes,
     name: 'Контент',
   },

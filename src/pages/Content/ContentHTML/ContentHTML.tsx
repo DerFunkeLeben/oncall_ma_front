@@ -1,35 +1,40 @@
 import { FC, ChangeEvent, useState } from 'react'
+import { useParams } from 'react-router-dom'
 import cx from 'classnames'
 
 import InputBase from 'components/parts/InputBase/InputBase'
-import FileDropZone from '../FileDropZone/FileDropZone'
-import ContentPopup from '../ContentPopup/ContentPopup'
-import HTMLHead from './parts/HTMLHead'
+import FileDropZone from '../components/FileDropZone/FileDropZone'
+import ContentPopup from '../components/ContentPopup/ContentPopup'
+import ContentHead from '../components/ContentHead/ContentHead'
 import HTMLTextArea from './parts/HTMLTextArea'
 import HTMLPreview from './parts/HTMLPreview'
 
 import useDebounce from 'hooks/useDebounce'
+import { getContentById } from 'utils/content'
+import { getToday } from 'utils/transformDate'
+
+import { data } from '../AllContent/allContentData'
+
 import { IPageData } from 'types'
+import { IContentHTML, ContentTypes } from 'types/content'
 
 import styles from './ContentHTML.module.scss'
 
-interface IHTMLFile {
-  title: string
-  theme: string
-  preheader: string
-  HTML: string | undefined
-  emails: string[]
+const defaultContent = {
+  title: `Письмо ${getToday()}`,
+  type: ContentTypes.HTML,
+  theme: '',
+  preheader: '',
+  HTML: undefined,
 }
 
 const ContentHTML: FC<IPageData> = () => {
+  const { contentId } = useParams<{ contentId?: string }>()
+  const existingContent = (getContentById(data, contentId) as IContentHTML) || defaultContent
   const [popUpIsOpen, setPopUpIsOpen] = useState<boolean>(false)
-  const [settings, setSettings] = useState<IHTMLFile>({
-    title: 'Название',
-    theme: '',
-    preheader: '',
-    HTML: undefined,
-    emails: [''],
-  })
+  const [emails, setEmails] = useState<string[]>([''])
+
+  const [settings, setSettings] = useState<IContentHTML>(existingContent)
 
   const handleChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = event.target
@@ -61,11 +66,8 @@ const ContentHTML: FC<IPageData> = () => {
 
   const togglePopUp = () => setPopUpIsOpen(!popUpIsOpen)
 
-  const saveEmails = (inputs: string[]) => {
-    setSettings({
-      ...settings,
-      emails: inputs.filter((el) => el),
-    })
+  const sendEmails = (inputs: string[]) => {
+    console.log('send email', inputs)
     togglePopUp()
   }
 
@@ -73,7 +75,7 @@ const ContentHTML: FC<IPageData> = () => {
 
   return (
     <div className={cx(styles.pageContent)}>
-      <HTMLHead title={settings.title} handleChange={handleChange} openPopUp={togglePopUp} />
+      <ContentHead title={settings.title} handleChange={handleChange} openPopUp={togglePopUp} />
 
       {showTextArea ? (
         <HTMLTextArea HTML={settings.HTML} handleChange={handleChange} />
@@ -109,8 +111,9 @@ const ContentHTML: FC<IPageData> = () => {
           subtitle="Email"
           placeholder="Введите email"
           btnAddText="Добавить email"
-          inputs={settings.emails}
-          handleSave={saveEmails}
+          inputsState={emails}
+          setInputsState={setEmails}
+          handleSend={sendEmails}
         />
       )}
     </div>

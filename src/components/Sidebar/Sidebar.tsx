@@ -22,8 +22,8 @@ const buttons = [
   },
   {
     Icon: IconFiles,
-    name: PagesData.CONTENT.name,
-    path: PagesData.CONTENT.link,
+    name: PagesData.ALL_CONTENT.name,
+    path: PagesData.ALL_CONTENT.link,
   },
   {
     Icon: IconAnalytics,
@@ -44,7 +44,7 @@ const buttonsBottomMenu = [
   },
   {
     Icon: IconProfile,
-    name: PagesData.CONTENT.name,
+    name: PagesData.ALL_CONTENT.name,
     path: '/',
   },
 ]

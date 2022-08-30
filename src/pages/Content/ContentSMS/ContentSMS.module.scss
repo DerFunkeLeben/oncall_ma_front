@@ -1,0 +1,18 @@
+.pageContent {
+  display: grid;
+  padding: 30px 30px 0 30px;
+  grid-template-columns: 1fr;
+  grid-template-rows: 120px 1fr;
+}
+
+.input,
+.textArea {
+  padding: 10px 15px;
+}
+
+.textArea {
+  overflow: hidden;
+  width: calc(100% - 3px * 2);
+  min-height: 170px;
+  margin: 2px 3px;
+}

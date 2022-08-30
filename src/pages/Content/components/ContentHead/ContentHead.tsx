@@ -4,16 +4,17 @@ import PageHead from 'components/PageHead/PageHead'
 import Button from 'components/parts/Button/Button'
 
 import { IconTrash, IconSend } from 'assets/icons'
+import { CONTENT_URL } from 'constants/url'
 
 import buttonStyles from 'components/parts/Button/ButtonThemes.module.scss'
 
-interface IHTMLHead {
+interface IContentHead {
   title: string
   handleChange: (event: ChangeEvent<HTMLInputElement>) => void
   openPopUp: () => void
 }
 
-const HTMLHead: FC<IHTMLHead> = ({ title, handleChange, openPopUp }) => {
+const ContentHead: FC<IContentHead> = ({ title, handleChange, openPopUp }) => {
   return (
     <PageHead
       mod={true}
@@ -21,7 +22,7 @@ const HTMLHead: FC<IHTMLHead> = ({ title, handleChange, openPopUp }) => {
       title={title}
       handleTitleChange={handleChange}
       buttonBackName="К списку всего контента"
-      buttonBackUrl="/content"
+      buttonBackUrl={CONTENT_URL}
     >
       <Button modificator={buttonStyles.theme_secondary} onClick={openPopUp}>
         <IconSend />
@@ -39,4 +40,4 @@ const HTMLHead: FC<IHTMLHead> = ({ title, handleChange, openPopUp }) => {
   )
 }
 
-export default HTMLHead
+export default ContentHead

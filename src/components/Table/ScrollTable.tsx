@@ -114,10 +114,12 @@ const ScrollTable: FC<ITable> = ({
           </button>
         </>
       )}
-      {checkedCount && totalCountOfData && checkedCount > 0 && (
+      {checkedCount && totalCountOfData && checkedCount > 0 ? (
         <div className={tableStyles.checkMenu}>
           <CheckMenu {...{ checkedCount, totalCountOfData, checkMenuConfig }} />
         </div>
+      ) : (
+        ''
       )}
     </div>
   )

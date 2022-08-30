@@ -53,9 +53,9 @@ const Table: FC<ITable> = ({
         <div className={styles.tableRow}>
           {headers.map((columnName, index) => {
             return columnName === '' ? (
-              <HeaderCheckCell {...{ toggleAllChecks, checkedAll }} />
+              <HeaderCheckCell {...{ toggleAllChecks, checkedAll }} key={index} />
             ) : (
-              <HeaderDefaultCell {...{ columnName, sorting, changeSorting, index }} />
+              <HeaderDefaultCell {...{ columnName, sorting, changeSorting, index }} key={index} />
             )
           })}
         </div>
@@ -90,11 +90,7 @@ const HeaderDefaultCell: FC<IHeaderDefaultCell> = ({
   const sortDirection = index === sorting.columnNumber ? sorting.direction : null
 
   return (
-    <div
-      key={columnName}
-      className={cx(styles.headCell, 'text_1_hl_1')}
-      onClick={() => changeSorting(index)}
-    >
+    <div className={cx(styles.headCell, 'text_1_hl_1')} onClick={() => changeSorting(index)}>
       <p>
         {columnName}
         {sortDirection && <IconArrow className={cx(styles.iconArrow, styles[sortDirection])} />}
@@ -111,7 +107,6 @@ interface IHeaderCellCheck {
 const HeaderCheckCell: FC<IHeaderCellCheck> = ({ toggleAllChecks, checkedAll }) => {
   return (
     <div
-      key={0}
       className={cx(styles.headCell, 'text_1_hl_1', stylesTable.cellCheck)}
       onClick={toggleAllChecks}
     >
