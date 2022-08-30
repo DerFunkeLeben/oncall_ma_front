@@ -102,3 +102,27 @@
     background-color: transparent;
   }
 }
+
+.theme_alert {
+  background: transparent;
+  color: var(--error_2);
+  path {
+    fill: var(--error_2);
+  }
+
+  &:hover {
+    background-color: var(--blue_3);
+  }
+
+  &:active {
+    background-color: var(--blue_3);
+    color: var(--error_3);
+    path {
+      fill: var(--error_3);
+    }
+  }
+
+  &:disabled {
+    background-color: var(--gray_2);
+  }
+}

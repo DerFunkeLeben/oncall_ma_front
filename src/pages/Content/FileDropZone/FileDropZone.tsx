@@ -25,9 +25,13 @@ const uploadFiles = async (acceptedFiles: any) => {
   }
 }
 
-const FileDropZone: FC = () => {
-  const onDrop = useCallback(async (acceptedFiles: any) => {
-    await uploadFiles(acceptedFiles)
+interface IFileDropZone {
+  handleDropFile: (acceptedFiles: any) => void
+}
+
+const FileDropZone: FC<IFileDropZone> = ({ handleDropFile }) => {
+  const onDrop = useCallback((acceptedFiles: any) => {
+    handleDropFile(acceptedFiles)
     console.log(acceptedFiles)
   }, [])
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop })

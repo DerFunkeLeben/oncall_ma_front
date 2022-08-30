@@ -1,12 +1,12 @@
-import { FC } from 'react'
+import { FC, ChangeEvent } from 'react'
 import cx from 'classnames'
-import { useHistory, useRouteMatch } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 
 import Button from 'components/parts/Button/Button'
+import EditableTitle from 'components/parts/EditableTitle/EditableTitle'
 
 import styles from './PageHead.module.scss'
 import buttonThemes from 'components/parts/Button/ButtonThemes.module.scss'
-import buttonStyles from 'components/parts/Button/ButtonBase.module.scss'
 
 import { IconArrow } from 'assets/icons'
 
@@ -19,6 +19,8 @@ interface IPageHead {
   mod?: boolean
   buttonBackName?: string
   buttonBackUrl?: string
+  titleEditable?: boolean
+  handleTitleChange?: (event: ChangeEvent<HTMLInputElement>) => void
 }
 
 const PageHead: FC<IPageHead> = ({
@@ -30,12 +32,15 @@ const PageHead: FC<IPageHead> = ({
   children,
   contactCount,
   createDate,
+  titleEditable,
+  handleTitleChange,
 }) => {
   const history = useHistory()
   const goBack = () => {
     if (!buttonBackUrl) return
-    history.push(`/${buttonBackUrl}`)
+    history.push(buttonBackUrl)
   }
+
   return (
     <div className={cx(styles.head, mod && styles.bigHeadMode)}>
       <div className={styles.titleContainer}>
@@ -45,7 +50,11 @@ const PageHead: FC<IPageHead> = ({
             <span>{buttonBackName}</span>
           </Button>
         )}
-        <h1 className={cx(styles.title, 'header_1')}>{title}</h1>
+        {titleEditable ? (
+          <EditableTitle {...{ title, handleTitleChange }} />
+        ) : (
+          <h1 className={cx(styles.title, 'header_1')}>{title}</h1>
+        )}
         {(contactCount || createDate) && (
           <div className={cx(styles.infoBlockContainer)}>
             {contactCount && (
@@ -68,4 +77,5 @@ const PageHead: FC<IPageHead> = ({
     </div>
   )
 }
+
 export default PageHead

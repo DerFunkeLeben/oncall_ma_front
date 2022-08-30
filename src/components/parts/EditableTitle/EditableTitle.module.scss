@@ -1,0 +1,21 @@
+.sizeCalibrator {
+  visibility: hidden;
+  white-space: pre;
+}
+
+.inputContainer {
+  position: relative;
+  width: min-content;
+  min-width: 10px;
+  height: 40px;
+  margin-top: 30px;
+   span {
+    font-size: 29px;
+    font-style: normal;
+    font-weight: 600;
+  }
+}
+
+.input {
+  width: 100%;
+}

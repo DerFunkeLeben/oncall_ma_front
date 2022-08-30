@@ -23,6 +23,7 @@ import { ReactComponent as IconPlusWithBorder } from './plusWithBorder.svg'
 import { ReactComponent as IconRefresh } from './refresh.svg'
 import { ReactComponent as IconTriangle } from './triangle.svg'
 import { ReactComponent as IconCalendar } from './calendar.svg'
+import { ReactComponent as IconTelegram } from './telegram.svg'
 import { ReactComponent as IconTaskAbTest } from './task_abTest.svg'
 import { ReactComponent as IconTaskAssigment } from './task_assignment.svg'
 import { ReactComponent as IconTaskCrmMessage } from './task_crmMessage.svg'
@@ -63,6 +64,7 @@ export {
   IconRefresh,
   IconTriangle,
   IconCalendar,
+  IconTelegram,
   IconTaskAbTest,
   IconTaskAssigment,
   IconTaskCrmMessage,

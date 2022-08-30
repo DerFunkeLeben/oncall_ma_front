@@ -44,11 +44,11 @@
   padding: 80px 0 0 60px;
 }
 .verticalLine {
+  position: absolute;
+  left: 170px;
   width: 1px;
   height: 100%;
   background-color: var(--blue_1);
-  position: absolute;
-  left: 170px;
 }
 
 .firstLevelOperand {
@@ -85,8 +85,8 @@
 
 .filterElement {
   height: 40px;
-  line-height: 40px;
   color: var(--blue_5);
+  line-height: 40px;
 }
 
 .leftGap {
@@ -140,8 +140,6 @@
   white-space: pre;
 }
 .input {
-  // position: absolute;
-  // left: 0;
   width: 100%;
 }
 .inputWrapper {

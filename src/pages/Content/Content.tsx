@@ -4,6 +4,7 @@ import { Switch, Route, Redirect } from 'react-router-dom'
 
 import Sidebar from 'components/Sidebar/Sidebar'
 import AllContent from './AllContent/AllContent'
+import CreateHTML from './CreateHTML/CreateHTML'
 
 import { PagesData } from 'constants/url'
 import { IPageData } from 'types'
@@ -14,6 +15,10 @@ const CONTENT_PAGES = [
   {
     Component: AllContent,
     ...PagesData.CONTENT,
+  },
+  {
+    Component: CreateHTML,
+    ...PagesData.CREATE_HTML,
   },
 ]
 

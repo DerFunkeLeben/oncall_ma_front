@@ -1,12 +1,15 @@
-import { FC, ChangeEvent } from 'react'
+import { FC, ChangeEvent, RefObject } from 'react'
 import cx from 'classnames'
 
 import styles from './TextArea.module.scss'
 export interface ITextAreaBase extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
-  label: string
+  label?: string
   value?: string
   modificator?: string
   handleChange?: (event: ChangeEvent<HTMLTextAreaElement>) => void
+  textAreaRef?: RefObject<HTMLTextAreaElement>
+  spellCheck?: boolean
+  minHeight?: string
 }
 
 const TextArea: FC<ITextAreaBase> = ({
@@ -17,6 +20,9 @@ const TextArea: FC<ITextAreaBase> = ({
   disabled,
   value,
   handleChange,
+  spellCheck,
+  textAreaRef,
+  minHeight,
   ...props
 }) => {
   return (
@@ -31,6 +37,9 @@ const TextArea: FC<ITextAreaBase> = ({
         className={cx(styles.textarea, modificator)}
         value={value}
         onChange={handleChange}
+        ref={textAreaRef}
+        spellCheck={spellCheck}
+        style={{ minHeight: minHeight || 'unset' }}
         {...props}
       />
       {children}

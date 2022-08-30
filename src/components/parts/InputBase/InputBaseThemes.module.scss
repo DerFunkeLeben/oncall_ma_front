@@ -19,3 +19,49 @@
   position: absolute;
   top: 8px;
 }
+
+.theme_editable {
+  padding: 0;
+  padding-bottom: 2px;
+  border: none;
+  border-bottom: 1px solid transparent;
+  background: transparent;
+  border-radius: 0;
+  color: var(--blue_8);
+  cursor: pointer;
+  transition: 0.2s;
+
+  &:focus {
+    border: none;
+    border-bottom: 1px solid var(--blue_5);
+    box-shadow: none;
+    cursor: unset;
+
+    & ~ svg {
+      opacity: 1;
+    }
+  }
+}
+
+.theme_editable_wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  svg {
+    position: absolute;
+    right: -30px;
+    cursor: pointer;
+    opacity: 0;
+    transition: 0.2s;
+  }
+
+  &:hover {
+    svg {
+      opacity: 1;
+    }
+    .theme_editable {
+      border-bottom: 1px solid var(--blue_5);
+    }
+  }
+}
