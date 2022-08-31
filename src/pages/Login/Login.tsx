@@ -1,17 +1,22 @@
-import { FC, useState } from 'react'
+import { FC, useState, FormEvent } from 'react'
 import { Redirect, useHistory } from 'react-router-dom'
+import cx from 'classnames'
 
 import InputBase from 'components/parts/InputBase/InputBase'
-import { loginInputsData } from './loginData'
 import Button from 'components/parts/Button/Button'
-import logo from './img/logo.png'
-import styles from './Login.module.scss'
-import buttonStyles from '../../components/parts/Button/ButtonThemes.module.scss'
 import Loading from 'components/parts/Loading/Loading'
 
-import { ILoginAnswer } from './loginData'
 import { PagesData } from 'constants/url'
 import { useAuth } from 'store/auth/useAuth'
+import { ILoginAnswer, loginInputsData } from './loginData'
+
+import logo from './img/logo.png'
+import buttonStyles from 'components/parts/Button/ButtonThemes.module.scss'
+import inputStyles from 'components/parts/InputBase/InputBase.module.scss'
+import styles from './Login.module.scss'
+
+const ERROR_MESSAGE =
+  'Неверный пароль. Повторите попытку или нажмите на ссылку "Забыли пароль?", чтобы сбросить его.'
 
 const Login: FC = () => {
   const [isLoading, setLoading] = useState(false)
@@ -19,9 +24,9 @@ const Login: FC = () => {
     login: '',
     password: '',
   })
-
-  const history = useHistory()
+  const [loginError, setLoginError] = useState('')
   const { setUser } = useAuth()
+  const history = useHistory()
 
   const user = { email: sessionStorage.getItem('user') }
 
@@ -29,13 +34,14 @@ const Login: FC = () => {
     const { value, name } = event.target
 
     setLoginData({ ...loginData, [name]: value })
+    if (loginError) setLoginError('')
   }
 
   const fakeRequest = ({ login }: { [key: string]: string }): Promise<ILoginAnswer> => {
     return new Promise((resolve) => {
       setTimeout(() => {
         resolve({ userDB: { email: login } })
-      }, 100)
+      }, 1000)
     })
   }
 
@@ -47,7 +53,7 @@ const Login: FC = () => {
     history.push(PagesData.AUDIENCES.link)
   }
 
-  const onSubmitLogin = async (event: React.FormEvent) => {
+  const onSubmitLogin = async (event: FormEvent<HTMLFormElement>) => {
     setLoading(true)
     event.preventDefault()
     try {
@@ -56,8 +62,9 @@ const Login: FC = () => {
         login,
         password,
       })
-      loginUser(result)
+      await loginUser(result)
     } catch (e) {
+      setLoginError(ERROR_MESSAGE)
       console.error(e)
     } finally {
       setLoading(false)
@@ -84,10 +91,14 @@ const Login: FC = () => {
             {...loginInputsData.PASSWORD}
             value={loginData.password}
             handleInputChange={handleInputChange}
-            modificator={styles.input_2}
+            modificator={cx(styles.input_2, {
+              [inputStyles.inputError]: loginError === ERROR_MESSAGE,
+            })}
           />
-          <Button type="button" modificator={[buttonStyles.theme_additional, styles.btn_1]}>
-            Забыли пароль ?
+          <div className={cx(styles.errorMessage, 'text_05')}>{loginError}</div>
+
+          <Button type="button" modificator={[buttonStyles.theme_additional, styles.btnForget]}>
+            Забыли пароль?
           </Button>
           <Button type="submit" modificator={styles.btn_2}>
             Войти

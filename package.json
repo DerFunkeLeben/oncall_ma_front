@@ -3,9 +3,17 @@
   "version": "0.1.0",
   "homepage": ".",
   "private": true,
+  "scripts": {
+    "start": "react-scripts start",
+    "start:dbg": "cross-env REACT_APP_DEBUG=true react-scripts start",
+    "build": "react-scripts build",
+    "lint": "eslint . --fix"
+  },
   "dependencies": {
     "axios": "^0.27.2",
+    "axios-retry": "^3.3.1",
     "classnames": "^2.3.1",
+    "cross-env": "^7.0.3",
     "rc-slider": "^10.0.0",
     "react": "^17.0.2",
     "react-datepicker": "^4.8.0",
@@ -24,12 +32,6 @@
     "sass": "^1.35.2",
     "simplebar-react": "^2.4.1",
     "uuid": "^8.3.2"
-  },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
   },
   "browserslist": {
     "production": [

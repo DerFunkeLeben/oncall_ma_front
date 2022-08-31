@@ -12,24 +12,40 @@
 }
 .loginForm {
   display: flex;
-  width: 500px;
+  width: 350px;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
 }
 .input_1 {
+  max-width: 350px;
+  padding: 10px 15px;
   margin-top: 70px;
 }
 .input_2 {
+  max-width: 350px;
+  padding: 10px 15px;
   margin-top: 20px;
-}
-.btn_1 {
-  margin-top: 40px;
-}
-.btn_2 {
-  margin-top: 60px;
+
 }
 .btnForget {
+  padding-bottom: 3px;
+  border-bottom: 1px solid var(--blue_6);
+  margin-top: 20px;
+  border-radius: unset;
   color: var(--blue_6);
-  text-decoration: underline;
+
+  &:hover {
+    color: var(--blue_13);
+  }
+}
+.btn_2 {
+  margin-top: 50px;
+}
+
+
+.errorMessage {
+  min-height: 35px;
+  margin-top: 10px;
+  color: var(--error_2);
 }

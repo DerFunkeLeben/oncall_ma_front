@@ -1,5 +1,12 @@
 import { IPagesData } from 'types'
 
+export const Config = {
+  HEADERS: {
+    'Content-Type': 'application/json; charset=utf-8',
+  },
+  MULTIPART_HEADERS: { 'Content-Type': 'multipart/form-data; charset= utf-8; boundary=---sad' },
+}
+
 export const audencesRoutes = ['/audences', '/audences/:audienceid', '/audences/create_new']
 
 export const CONTENT_URL = '/content'
