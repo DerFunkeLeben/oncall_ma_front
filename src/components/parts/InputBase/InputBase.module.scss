@@ -17,7 +17,8 @@ input {
 }
 
 .inputError {
-  border-color: var(--error);
+  border-color: var(--error_2);
+  box-shadow: 0 0 0 3px var(--error_2_shadow);
 }
 
 input::placeholder {

@@ -39,12 +39,12 @@ const buttons = [
 const buttonsBottomMenu = [
   {
     Icon: IconBell,
-    name: 'Раздел в разработке',
+    name: 'Уведомления',
     path: '/',
   },
   {
     Icon: IconProfile,
-    name: 'Раздел в разработке',
+    name: 'Профиль',
     path: '/',
   },
 ]
