@@ -20,6 +20,8 @@ import { ReactComponent as IconLoupe } from './loupe.svg'
 import { ReactComponent as IconEdit } from './edit.svg'
 import { ReactComponent as IconExport } from './export.svg'
 import { ReactComponent as IconFilters } from './filters.svg'
+import { ReactComponent as IconPasswordShow } from './password_eye.svg'
+import { ReactComponent as IconPasswordHide } from './password_open.svg'
 import { ReactComponent as IconPlus } from './plus.svg'
 import { ReactComponent as IconPlusWithBorder } from './plusWithBorder.svg'
 import { ReactComponent as IconRefresh } from './refresh.svg'
@@ -63,6 +65,8 @@ export {
   IconEdit,
   IconExport,
   IconFilters,
+  IconPasswordShow,
+  IconPasswordHide,
   IconPlus,
   IconPlusWithBorder,
   IconRefresh,
