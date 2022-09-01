@@ -1,6 +1,6 @@
-export const data = [
+let data = [
   {
-    id: 2145,
+    id: '2145',
     lastName: 'Катасонов',
     firstName: 'Дмитрий',
     patronym: 'Сергеевич',
@@ -11,7 +11,7 @@ export const data = [
     segment: 'Активный',
   },
   {
-    id: 2145,
+    id: '2145',
     lastName: 'Катасоновфывфывыфвфв',
     firstName: 'Дмитрийфывфывфывфывфыв',
     patronym: 'Сергеевичфвфывфывфвфывфыв',
@@ -22,7 +22,7 @@ export const data = [
     segment: 'Активный',
   },
   {
-    id: 2145,
+    id: '2145',
     lastName: 'Катасонов',
     firstName: 'Дмитрий',
     patronym: 'Сергеевич',
@@ -33,7 +33,7 @@ export const data = [
     segment: 'Активный',
   },
   {
-    id: 2145,
+    id: '2145',
     lastName: 'Катасонов',
     firstName: 'Дмитрий',
     patronym: 'Сергеевич',
@@ -44,7 +44,7 @@ export const data = [
     segment: 'Активный',
   },
   {
-    id: 2145,
+    id: '2145',
     lastName: 'Катасонов',
     firstName: 'Дмитрий',
     patronym: 'Сергеевич',
@@ -55,7 +55,7 @@ export const data = [
     segment: 'Активный',
   },
   {
-    id: 2145,
+    id: '2145',
     lastName: 'Катасонов',
     firstName: 'Дмитрий',
     patronym: 'Сергеевич',
@@ -66,7 +66,7 @@ export const data = [
     segment: 'Активный',
   },
   {
-    id: 2145,
+    id: '2145',
     lastName: 'Катасонов',
     firstName: 'Дмитрий',
     patronym: 'Сергеевич',
@@ -77,7 +77,7 @@ export const data = [
     segment: 'Активный',
   },
   {
-    id: 2145,
+    id: '2145',
     lastName: 'Катасонов',
     firstName: 'Дмитрий',
     patronym: 'Сергеевич',
@@ -88,7 +88,7 @@ export const data = [
     segment: 'Активный',
   },
   {
-    id: 2145,
+    id: '2145',
     lastName: 'Катасонов',
     firstName: 'Дмитрий',
     patronym: 'Сергеевич',
@@ -99,7 +99,7 @@ export const data = [
     segment: 'Активный',
   },
   {
-    id: 2145,
+    id: '2145',
     lastName: 'Катасонов',
     firstName: 'Дмитрий',
     patronym: 'Сергеевич',
@@ -110,7 +110,7 @@ export const data = [
     segment: 'Активный',
   },
   {
-    id: 2145,
+    id: '2145',
     lastName: 'Катасонов',
     firstName: 'Дмитрий',
     patronym: 'Сергеевич',
@@ -121,7 +121,7 @@ export const data = [
     segment: 'Активный',
   },
   {
-    id: 2145,
+    id: '2145',
     lastName: 'Катасонов',
     firstName: 'Дмитрий',
     patronym: 'Сергеевич',
@@ -132,7 +132,7 @@ export const data = [
     segment: 'Активный',
   },
   {
-    id: 2145,
+    id: '2145',
     lastName: 'Катасонов',
     firstName: 'Дмитрий',
     patronym: 'Сергеевич',
@@ -143,7 +143,7 @@ export const data = [
     segment: 'Активный',
   },
   {
-    id: 2145,
+    id: '2145',
     lastName: 'Катасонов',
     firstName: 'Дмитрий',
     patronym: 'Сергеевич',
@@ -154,7 +154,7 @@ export const data = [
     segment: 'Активный',
   },
   {
-    id: 2145,
+    id: '2145',
     lastName: 'Катасонов',
     firstName: 'Дмитрий',
     patronym: 'Сергеевич',
@@ -165,7 +165,7 @@ export const data = [
     segment: 'Активный',
   },
   {
-    id: 2145,
+    id: '2145',
     lastName: 'Катасонов',
     firstName: 'Дмитрий',
     patronym: 'Сергеевич',
@@ -176,7 +176,7 @@ export const data = [
     segment: 'Активный',
   },
   {
-    id: 2145,
+    id: '2145',
     lastName: 'Катасонов',
     firstName: 'Дмитрий',
     patronym: 'Сергеевич',
@@ -187,7 +187,7 @@ export const data = [
     segment: 'Активный',
   },
   {
-    id: 2145,
+    id: '2145',
     lastName: 'Катасонов',
     firstName: 'Дмитрий',
     patronym: 'Сергеевич',
@@ -198,7 +198,7 @@ export const data = [
     segment: 'Активный',
   },
   {
-    id: 2145,
+    id: '2145',
     lastName: 'Катасонов',
     firstName: 'Дмитрий',
     patronym: 'Сергеевич',
@@ -209,7 +209,7 @@ export const data = [
     segment: 'Активный',
   },
   {
-    id: 2145,
+    id: '2145',
     lastName: 'Катасонов',
     firstName: 'Дмитрий',
     patronym: 'Сергеевич',
@@ -220,7 +220,7 @@ export const data = [
     segment: 'Активный',
   },
   {
-    id: 2145,
+    id: '2145',
     lastName: 'Катасонов',
     firstName: 'Дмитрий',
     patronym: 'Сергеевич',
@@ -231,7 +231,7 @@ export const data = [
     segment: 'Активный',
   },
   {
-    id: 2145,
+    id: '2145',
     lastName: 'Катасонов',
     firstName: 'Дмитрий',
     patronym: 'Сергеевич',
@@ -242,7 +242,7 @@ export const data = [
     segment: 'Активный',
   },
   {
-    id: 2145,
+    id: '2145',
     lastName: 'Катасонов',
     firstName: 'Дмитрий',
     patronym: 'Сергеевич',
@@ -253,7 +253,7 @@ export const data = [
     segment: 'Активный',
   },
   {
-    id: 2145,
+    id: '2145',
     lastName: 'Катасонов',
     firstName: 'Дмитрий',
     patronym: 'Сергеевич',
@@ -264,7 +264,7 @@ export const data = [
     segment: 'Активный',
   },
   {
-    id: 2145,
+    id: '2145',
     lastName: 'Катасонов',
     firstName: 'Дмитрий',
     patronym: 'Сергеевич',
@@ -275,7 +275,7 @@ export const data = [
     segment: 'Активный',
   },
   {
-    id: 2145,
+    id: '2145',
     lastName: 'Катасонов',
     firstName: 'Дмитрий',
     patronym: 'Сергеевич',
@@ -286,7 +286,7 @@ export const data = [
     segment: 'Активный',
   },
   {
-    id: 2145,
+    id: '2145',
     lastName: 'Катасонов',
     firstName: 'Дмитрий',
     patronym: 'Сергеевич',
@@ -297,7 +297,7 @@ export const data = [
     segment: 'Активный',
   },
   {
-    id: 2145,
+    id: '2145',
     lastName: 'Катасонов',
     firstName: 'Дмитрий',
     patronym: 'Сергеевич',
@@ -308,7 +308,7 @@ export const data = [
     segment: 'Активный',
   },
   {
-    id: 2145,
+    id: '2145',
     lastName: 'Катасонов',
     firstName: 'Дмитрий',
     patronym: 'Сергеевич',
@@ -319,7 +319,7 @@ export const data = [
     segment: 'Активный',
   },
   {
-    id: 2145,
+    id: '2145',
     lastName: 'Катасонов',
     firstName: 'Дмитрий',
     patronym: 'Сергеевич',
@@ -330,7 +330,7 @@ export const data = [
     segment: 'Активный',
   },
   {
-    id: 2145,
+    id: '2145',
     lastName: 'Катасонов',
     firstName: 'Дмитрий',
     patronym: 'Сергеевич',
@@ -341,7 +341,7 @@ export const data = [
     segment: 'Активный',
   },
   {
-    id: 2145,
+    id: '2145',
     lastName: 'Катасонов',
     firstName: 'Дмитрий',
     patronym: 'Сергеевич',
@@ -352,7 +352,7 @@ export const data = [
     segment: 'Активный',
   },
   {
-    id: 2145,
+    id: '2145',
     lastName: 'Катасонов',
     firstName: 'Дмитрий',
     patronym: 'Сергеевич',
@@ -363,7 +363,7 @@ export const data = [
     segment: 'Активный',
   },
   {
-    id: 2145,
+    id: '2145',
     lastName: 'Катасонов',
     firstName: 'Дмитрий',
     patronym: 'Сергеевич',
@@ -374,7 +374,7 @@ export const data = [
     segment: 'Активный',
   },
   {
-    id: 2145,
+    id: '2145',
     lastName: 'Катасонов',
     firstName: 'Дмитрий',
     patronym: 'Сергеевич',
@@ -385,7 +385,7 @@ export const data = [
     segment: 'Активный',
   },
   {
-    id: 2145,
+    id: '2145',
     lastName: 'Катасонов',
     firstName: 'Дмитрий',
     patronym: 'Сергеевич',
@@ -396,7 +396,7 @@ export const data = [
     segment: 'Активный',
   },
   {
-    id: 2145,
+    id: '2145',
     lastName: 'Катасонов',
     firstName: 'Дмитрий',
     patronym: 'Сергеевич',
@@ -407,7 +407,7 @@ export const data = [
     segment: 'Активный',
   },
   {
-    id: 2145,
+    id: '2145',
     lastName: 'Катасонов',
     firstName: 'Дмитрий',
     patronym: 'Сергеевич',
@@ -418,7 +418,7 @@ export const data = [
     segment: 'Активный',
   },
   {
-    id: 2145,
+    id: '2145',
     lastName: 'Катасонов',
     firstName: 'Дмитрий',
     patronym: 'Сергеевич',
@@ -429,7 +429,7 @@ export const data = [
     segment: 'Активный',
   },
   {
-    id: 2145,
+    id: '2145',
     lastName: 'Катасонов',
     firstName: 'Дмитрий',
     patronym: 'Сергеевич',
@@ -440,7 +440,7 @@ export const data = [
     segment: 'Активный',
   },
   {
-    id: 2145,
+    id: '2145',
     lastName: 'Катасонов',
     firstName: 'Дмитрий',
     patronym: 'Сергеевич',
@@ -451,7 +451,7 @@ export const data = [
     segment: 'Активный',
   },
   {
-    id: 2145,
+    id: '2145',
     lastName: 'Катасонов',
     firstName: 'Дмитрий',
     patronym: 'Сергеевич',
@@ -462,3 +462,7 @@ export const data = [
     segment: 'Активный',
   },
 ]
+
+data = data.map((el, index) => ({ ...el, id: index.toString() }))
+
+export { data }

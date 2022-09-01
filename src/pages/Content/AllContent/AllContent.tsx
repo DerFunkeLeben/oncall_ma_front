@@ -12,10 +12,14 @@ import useTable from 'components/Table/useTable'
 
 import useAllContent from 'store/content/useAllContent'
 import useCurrentContent from 'store/content/useCurrentContent'
+import useSetContent from 'store/content/useSetContent'
+
 import { foldersConfig } from './allContentData'
 import { CONTENT_URL_HTML, CONTENT_URL_SMS, CONTENT_URL_FILE } from 'constants/url'
+import { ContentAction } from 'constants/content'
 
 import { ddmmyyyy } from '../../../utils/transformDate'
+import { getContentById } from 'utils/content'
 import { IPageData } from 'types'
 import { ContentTypes } from 'types/content'
 
@@ -23,7 +27,6 @@ import { IconCheck, IconSend, IconTrash } from 'assets/icons'
 import styles from './AllContent.module.scss'
 import tableStyles from 'components/Table/TableBase.module.scss'
 import dropDownStyles from 'components/parts/DropDown/DropDown.module.scss'
-import { getContentById } from 'utils/content'
 
 const header = ['', 'Название', 'Тип', 'Дата создания', 'Дата изменения']
 const menuIsOpen = true
@@ -36,12 +39,14 @@ const createOptions = [
 
 const AllContent: FC<IPageData> = () => {
   const history = useHistory()
-  const { allContent } = useAllContent()
+  const { allContent, allContentIds } = useAllContent()
   const { setCurrentContent } = useCurrentContent()
+  const { deleteMultipleById } = useSetContent()
 
   const totalCountOfData = allContent.length
-  const { toggleCheck, isItChecked, checkedCount, checkedAll, toggleAllChecks } =
-    useTable(totalCountOfData)
+
+  const { checkedList, toggleCheck, isItChecked, checkedCount, checkedAll, toggleAllChecks } =
+    useTable(allContentIds)
 
   const openContent = (e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation()
@@ -53,13 +58,12 @@ const AllContent: FC<IPageData> = () => {
     else url = CONTENT_URL_FILE
 
     const content = getContentById(allContent, id)
-    setCurrentContent({ content, contentAction: null })
+    setCurrentContent({ content, contentAction: ContentAction.EDIT })
 
     history.push(`${url}/${id}`)
   }
 
   const sendTestEmail = () => console.log('sendTestEmail')
-  const deleteContent = () => console.log('handleDeleteAudience')
 
   const checkMenuConfig = [
     {
@@ -70,7 +74,7 @@ const AllContent: FC<IPageData> = () => {
     {
       caption: 'Удалить',
       Icon: IconTrash,
-      handleClick: deleteContent,
+      handleClick: () => deleteMultipleById(checkedList),
       modificators: ['alarm'],
     },
   ]
@@ -116,9 +120,9 @@ const AllContent: FC<IPageData> = () => {
             handleScrollLimit={() => console.log('handleScrollLimit')}
             {...{ checkedCount, checkedAll, totalCountOfData, checkMenuConfig, toggleAllChecks }}
           >
-            {allContent.map((dataRow, index) => {
-              const { id, title, type, createDate, lastUpdateDate } = dataRow
-              const checked = isItChecked(index)
+            {allContent.map((contentItem, index) => {
+              const { id, title, type, createDate, lastUpdateDate } = contentItem
+              const checked = isItChecked(id)
               return (
                 <div
                   className={tableStyles.row}
@@ -130,7 +134,7 @@ const AllContent: FC<IPageData> = () => {
                   <div
                     className={cx(tableStyles.cell, tableStyles.cellCheck)}
                     onClick={toggleCheck}
-                    data-id={index}
+                    data-id={id}
                   >
                     <div
                       className={cx(tableStyles.check, {

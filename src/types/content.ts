@@ -7,7 +7,7 @@ export enum ContentTypes {
 }
 
 export interface IContentDefault {
-  id?: number
+  id?: string
   type: `${ContentTypes}`
   createDate?: Date | string
   lastUpdateDate?: Date | string

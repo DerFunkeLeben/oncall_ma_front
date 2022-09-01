@@ -23,7 +23,7 @@ import { data } from './audienceTerapistMarch'
 import { data as audiencesData } from '../AllAudiences/audiencesData'
 
 interface IAudienceMetaData {
-  id: number
+  id: string
   name: string
   contact_count: string
   create_date: string
@@ -43,7 +43,7 @@ const header = [
   'Сегмент',
 ]
 const initData = {
-  id: 0,
+  id: '0',
   name: '',
   contact_count: '',
   create_date: '',
@@ -123,10 +123,10 @@ const configTest: IAction = {
 
 const config = configTest
 const totalCountOfData = data.length
+const allIds = data.map((el) => el.id)
 
 const OneAudience: FC<IPageData> = () => {
-  const { toggleCheck, isItChecked, checkedCount, checkedAll, toggleAllChecks } =
-    useTable(totalCountOfData)
+  const { toggleCheck, isItChecked, checkedCount, checkedAll, toggleAllChecks } = useTable(allIds)
   const { audienceid } = useParams<{ audienceid?: string }>()
   const [audienceInfo, setAudienceInfo] = useState<IAudienceMetaData>(initData)
   const [filterisOpen, setFilterisOpen] = useState(false)
@@ -137,8 +137,8 @@ const OneAudience: FC<IPageData> = () => {
 
   useEffect(() => {
     if (!audienceid) return
-    const audienceIdNumber = Number(audienceid)
-    setAudienceInfo(audiencesData.filter((audience) => audience.id === audienceIdNumber)[0])
+
+    setAudienceInfo(audiencesData.filter((audience) => audience.id === audienceid)[0])
   }, [audienceid])
 
   // useEffect(() => {
@@ -188,13 +188,13 @@ const OneAudience: FC<IPageData> = () => {
           {data.map((dataRow, index) => {
             const { id, lastName, firstName, patronym, email, phone, city, speciality, segment } =
               dataRow
-            const checked = isItChecked(index)
+            const checked = isItChecked(id)
             return (
               <div className={cx(tableStyles.row, 'text_1')} key={index} data-id={id}>
                 <div
                   className={cx(tableStyles.cell, tableStyles.cellCheck)}
                   onClick={toggleCheck}
-                  data-id={index}
+                  data-id={id}
                 >
                   <div
                     className={cx(tableStyles.check, {

@@ -8,15 +8,12 @@ import createReduxStore from 'store'
 import { initialContentState } from 'store/content/reducers'
 
 function AppWrapper({ children }: { children: ReactElement }) {
-  const store = useMemo(
-    () =>
-      createReduxStore({
-        content: {
-          ...initialContentState,
-        },
-      }),
-    []
-  )
+  const store = createReduxStore({
+    content: {
+      ...initialContentState,
+    },
+  })
+
   return (
     <Provider store={store}>
       <WindowSizeWrap>

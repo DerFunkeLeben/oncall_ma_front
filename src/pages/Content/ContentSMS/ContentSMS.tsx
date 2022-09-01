@@ -40,7 +40,7 @@ const ContentHTML: FC<IPageData> = () => {
 
   return (
     <div className={cx(styles.pageContent)}>
-      <ContentHead title={settings.title} handleChange={handleChange} openPopUp={togglePopUp} />
+      <ContentHead settings={settings} handleChange={handleChange} openPopUp={togglePopUp} />
 
       <TextArea
         label="Текст письма"

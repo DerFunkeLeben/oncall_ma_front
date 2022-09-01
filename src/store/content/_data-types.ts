@@ -1,19 +1,20 @@
+import { ContentAction } from 'constants/content'
 import { IFolder } from 'types'
 import { IContent } from 'types/content'
 
 export enum StoreKeys {
   allContent = 'allContent',
-  folders = 'folders',
+  allFolders = 'allFolders',
   currentContent = 'currentContent',
   currentFolder = 'currentFolder',
 }
 
 export interface IStoreContent {
-  [StoreKeys.allContent]: IContent[]
-  [StoreKeys.folders]: IFolder[]
+  [StoreKeys.allContent]: { [key: string]: IContent }
+  [StoreKeys.allFolders]: IFolder[]
   [StoreKeys.currentContent]: {
     content: IContent | undefined
-    contentAction: null // TODO
+    contentAction: ContentAction
   }
   [StoreKeys.currentFolder]: {
     folder: IFolder | undefined

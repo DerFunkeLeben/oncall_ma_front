@@ -15,4 +15,9 @@ const INIT_SMS_CONTENT: IContent = {
   text: '',
 }
 
-export { INIT_HTML_CONTENT, INIT_SMS_CONTENT }
+enum ContentAction {
+  EDIT = 'edit',
+  CREATE = 'create',
+}
+
+export { INIT_HTML_CONTENT, INIT_SMS_CONTENT, ContentAction }

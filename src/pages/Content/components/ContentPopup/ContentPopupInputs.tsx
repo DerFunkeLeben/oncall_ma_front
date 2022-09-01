@@ -32,7 +32,6 @@ const ContentPopupInputs: FC<IContentPopupInputs> = ({
 
   const handleInputDelete = (event: any) => {
     const { index } = event.target.dataset
-    console.log(index)
     setInputsState((prevState) => prevState.filter((_, i) => i !== +index))
   }
 

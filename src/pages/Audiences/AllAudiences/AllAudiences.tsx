@@ -24,12 +24,12 @@ import PopupOfCreationFromExist from './PopupOfCreationFromExist/PopupOfCreation
 const header = ['', 'ID', 'Название', 'Количество контактов', 'Дата создания', 'Дата изменения']
 const menuIsOpen = true
 const totalCountOfData = data.length
+const allIds = data.map((el) => el.id)
 
 const AllAudiences: FC<IPageData> = () => {
   const history = useHistory()
   const { url } = useRouteMatch()
-  const { toggleCheck, isItChecked, checkedCount, checkedAll, toggleAllChecks } =
-    useTable(totalCountOfData)
+  const { toggleCheck, isItChecked, checkedCount, checkedAll, toggleAllChecks } = useTable(allIds)
 
   const [popupCreateFromExistIsOpen, setPopupCreateFromExist] = useState(false)
 
@@ -115,13 +115,13 @@ const AllAudiences: FC<IPageData> = () => {
           >
             {data.map((dataRow, index) => {
               const { id, name, contact_count, create_date, last_update_date } = dataRow
-              const checked = isItChecked(index)
+              const checked = isItChecked(id)
               return (
                 <div className={tableStyles.row} key={index} onClick={openAudience} data-id={id}>
                   <div
                     className={cx(tableStyles.cell, tableStyles.cellCheck)}
                     onClick={toggleCheck}
-                    data-id={index}
+                    data-id={id}
                   >
                     <div
                       className={cx(tableStyles.check, {

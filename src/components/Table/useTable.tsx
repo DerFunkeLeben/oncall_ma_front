@@ -1,37 +1,36 @@
 import { useState } from 'react'
 
-const useTable = (totalCountOfData?: number) => {
-  const [checkedList, setCheckedList] = useState<number[]>([])
+const useTable = (allIds?: string[]) => {
+  const [checkedList, setCheckedList] = useState<string[]>([])
 
-  const isItChecked = (id: number) => {
-    return checkedList.includes(id)
+  const isItChecked = (id: string | undefined) => {
+    return checkedList.includes(id || '')
   }
 
   const checkMenuIsOpen = () => checkedList.length > 0
 
   const checkedCount = checkedList.length
-  const checkedAll = totalCountOfData === checkedCount
+  const checkedAll = allIds?.length === checkedCount
 
   const toggleCheck = (e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation()
     const { id } = e.currentTarget.dataset
-    const idNum = Number(id)
-    if (isItChecked(idNum)) {
-      const newChecked = checkedList.filter((el) => el !== idNum)
+    if (!id) return
+
+    if (isItChecked(id)) {
+      const newChecked = checkedList.filter((el) => el !== id)
       setCheckedList(newChecked)
-    } else setCheckedList([...checkedList, idNum])
+    } else setCheckedList([...checkedList, id])
   }
 
   const toggleAllChecks = () => {
-    if (checkedAll) {
+    if (checkedAll || !allIds) {
       setCheckedList([])
-    } else {
-      const allIds = [...Array(totalCountOfData).keys()]
-      setCheckedList(allIds)
-    }
+    } else setCheckedList(allIds as string[])
   }
 
   return {
+    checkedList,
     toggleCheck,
     toggleAllChecks,
     isItChecked,
