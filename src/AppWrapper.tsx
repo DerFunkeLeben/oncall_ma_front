@@ -1,12 +1,22 @@
-import { ReactElement, Suspense } from 'react'
+import { ReactElement, Suspense, useMemo } from 'react'
 import { Provider } from 'react-redux'
 
 import Loading from './components/parts/Loading/Loading'
-import useStore from './store'
 import WindowSizeWrap from 'containers/WindowSizeWrap/WindowSizeWrap'
 
+import createReduxStore from 'store'
+import { initialContentState } from 'store/content/reducers'
+
 function AppWrapper({ children }: { children: ReactElement }) {
-  const store = useStore({})
+  const store = useMemo(
+    () =>
+      createReduxStore({
+        content: {
+          ...initialContentState,
+        },
+      }),
+    []
+  )
   return (
     <Provider store={store}>
       <WindowSizeWrap>

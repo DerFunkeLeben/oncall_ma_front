@@ -1,35 +1,27 @@
 import { FC, ChangeEvent, useState } from 'react'
-import { useParams } from 'react-router-dom'
 import cx from 'classnames'
 
 import TextArea from 'components/parts/TextArea/TextArea'
 import ContentHead from '../components/ContentHead/ContentHead'
 import ContentPopup from '../components/ContentPopup/ContentPopup'
 
-import { getContentById } from 'utils/content'
-import { getToday } from 'utils/transformDate'
-
-import { data } from '../AllContent/allContentData'
+import useCurrentContent from 'store/content/useCurrentContent'
+import { INIT_SMS_CONTENT } from 'constants/content'
 
 import { IPageData } from 'types'
-import { IContentSMS, ContentTypes } from 'types/content'
+import { IContentSMS } from 'types/content'
 
 import styles from './ContentSMS.module.scss'
 
-const defaultContent = {
-  title: `SMS ${getToday()}`,
-  type: ContentTypes.SMS,
-  text: '',
-}
-
 const ContentHTML: FC<IPageData> = () => {
-  const { contentId } = useParams<{ contentId?: string }>()
-  const existingContent = (getContentById(data, contentId) as IContentSMS) || defaultContent
+  const { currentContent } = useCurrentContent()
 
   const [popUpIsOpen, setPopUpIsOpen] = useState<boolean>(false)
   const [phoneNumbers, setPhoneNumbers] = useState<string[]>([''])
 
-  const [settings, setSettings] = useState<IContentSMS>(existingContent)
+  const [settings, setSettings] = useState<IContentSMS>(
+    (currentContent.content as IContentSMS) || INIT_SMS_CONTENT
+  )
 
   const handleChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = event.target

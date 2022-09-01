@@ -1,5 +1,4 @@
 import { FC, ChangeEvent, useState } from 'react'
-import { useParams } from 'react-router-dom'
 import cx from 'classnames'
 
 import InputBase from 'components/parts/InputBase/InputBase'
@@ -9,32 +8,24 @@ import ContentHead from '../components/ContentHead/ContentHead'
 import HTMLTextArea from './parts/HTMLTextArea'
 import HTMLPreview from './parts/HTMLPreview'
 
+import useCurrentContent from 'store/content/useCurrentContent'
 import useDebounce from 'hooks/useDebounce'
-import { getContentById } from 'utils/content'
-import { getToday } from 'utils/transformDate'
-
-import { data } from '../AllContent/allContentData'
+import { INIT_HTML_CONTENT } from 'constants/content'
 
 import { IPageData } from 'types'
-import { IContentHTML, ContentTypes } from 'types/content'
+import { IContentHTML } from 'types/content'
 
 import styles from './ContentHTML.module.scss'
 
-const defaultContent = {
-  title: `Письмо ${getToday()}`,
-  type: ContentTypes.HTML,
-  theme: '',
-  preheader: '',
-  HTML: undefined,
-}
-
 const ContentHTML: FC<IPageData> = () => {
-  const { contentId } = useParams<{ contentId?: string }>()
-  const existingContent = (getContentById(data, contentId) as IContentHTML) || defaultContent
+  const { currentContent } = useCurrentContent()
+
   const [popUpIsOpen, setPopUpIsOpen] = useState<boolean>(false)
   const [emails, setEmails] = useState<string[]>([''])
 
-  const [settings, setSettings] = useState<IContentHTML>(existingContent)
+  const [settings, setSettings] = useState<IContentHTML>(
+    (currentContent.content as IContentHTML) || INIT_HTML_CONTENT
+  )
 
   const handleChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = event.target

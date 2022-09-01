@@ -10,17 +10,20 @@ import Folders from 'components/Folders/Folders'
 import InputBase from 'components/parts/InputBase/InputBase'
 import useTable from 'components/Table/useTable'
 
-import { IconCheck, IconSend, IconTrash } from 'assets/icons'
-import { data, foldersConfig } from './allContentData'
+import useAllContent from 'store/content/useAllContent'
+import useCurrentContent from 'store/content/useCurrentContent'
+import { foldersConfig } from './allContentData'
 import { CONTENT_URL_HTML, CONTENT_URL_SMS, CONTENT_URL_FILE } from 'constants/url'
 
 import { ddmmyyyy } from '../../../utils/transformDate'
 import { IPageData } from 'types'
 import { ContentTypes } from 'types/content'
 
+import { IconCheck, IconSend, IconTrash } from 'assets/icons'
 import styles from './AllContent.module.scss'
 import tableStyles from 'components/Table/TableBase.module.scss'
 import dropDownStyles from 'components/parts/DropDown/DropDown.module.scss'
+import { getContentById } from 'utils/content'
 
 const header = ['', 'Название', 'Тип', 'Дата создания', 'Дата изменения']
 const menuIsOpen = true
@@ -31,10 +34,12 @@ const createOptions = [
   { title: 'Создать File', url: CONTENT_URL_FILE },
 ]
 
-const totalCountOfData = data.length
-
 const AllContent: FC<IPageData> = () => {
   const history = useHistory()
+  const { allContent } = useAllContent()
+  const { setCurrentContent } = useCurrentContent()
+
+  const totalCountOfData = allContent.length
   const { toggleCheck, isItChecked, checkedCount, checkedAll, toggleAllChecks } =
     useTable(totalCountOfData)
 
@@ -46,6 +51,9 @@ const AllContent: FC<IPageData> = () => {
     if (type === ContentTypes.HTML) url = CONTENT_URL_HTML
     else if (type === ContentTypes.SMS) url = CONTENT_URL_SMS
     else url = CONTENT_URL_FILE
+
+    const content = getContentById(allContent, id)
+    setCurrentContent({ content, contentAction: null })
 
     history.push(`${url}/${id}`)
   }
@@ -108,7 +116,7 @@ const AllContent: FC<IPageData> = () => {
             handleScrollLimit={() => console.log('handleScrollLimit')}
             {...{ checkedCount, checkedAll, totalCountOfData, checkMenuConfig, toggleAllChecks }}
           >
-            {data.map((dataRow, index) => {
+            {allContent.map((dataRow, index) => {
               const { id, title, type, createDate, lastUpdateDate } = dataRow
               const checked = isItChecked(index)
               return (

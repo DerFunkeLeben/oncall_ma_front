@@ -1,10 +1,10 @@
 import { IState } from '../data-types'
-import { StoreKeys, IStoreScenario } from './_data-types'
+import { StoreKeys, IStoreContent } from './_data-types'
 
-const getTaskIsMoving = (state: IState): IStoreScenario[StoreKeys.taskIsMoving] | void =>
-  state?.scenario?.taskIsMoving
+const getAllContent = (state: IState): IStoreContent[StoreKeys.allContent] =>
+  state.content.allContent
 
-const getTasksHeap = (state: IState): IStoreScenario[StoreKeys.tasksHeap] | void =>
-  state?.scenario?.tasksHeap
+const getCurrentContent = (state: IState): IStoreContent[StoreKeys.currentContent] =>
+  state.content[StoreKeys.currentContent]
 
-export { getTaskIsMoving, getTasksHeap }
+export { getAllContent, getCurrentContent }

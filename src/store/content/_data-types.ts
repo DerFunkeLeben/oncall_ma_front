@@ -12,11 +12,11 @@ export interface IStoreContent {
   [StoreKeys.allContent]: IContent[]
   [StoreKeys.folders]: IFolder[]
   [StoreKeys.currentContent]: {
-    content: null | IContent
+    content: IContent | undefined
     contentAction: null // TODO
   }
   [StoreKeys.currentFolder]: {
-    folder: null | IFolder
+    folder: IFolder | undefined
     folderAction: null // TODO
   }
 }
