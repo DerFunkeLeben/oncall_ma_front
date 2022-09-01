@@ -30,7 +30,7 @@ export type TObject = {
   [key: string]: any
 }
 
-export interface IFolderConfig {
+export interface IFolder {
   name: string
   id: string
   count: number

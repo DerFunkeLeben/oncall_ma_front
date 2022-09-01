@@ -4,7 +4,7 @@ import cx from 'classnames'
 import Button from 'components/parts/Button/Button'
 import FolderContextMenu from './FolderContextMenu'
 
-import { IFolderConfig } from 'types'
+import { IFolder } from 'types'
 import { reduceBigNumbers } from 'utils'
 
 import { IconPlus, IconFolderOpen, IconFolderClose } from 'assets/icons'
@@ -12,7 +12,7 @@ import buttonThemes from 'components/parts/Button/ButtonThemes.module.scss'
 import styles from './Folders.module.scss'
 
 interface IFolders {
-  config: IFolderConfig[]
+  config: IFolder[]
 }
 
 const Folders: FC<IFolders> = ({ config }) => {
