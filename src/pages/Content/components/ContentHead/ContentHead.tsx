@@ -5,6 +5,7 @@ import PageHead from 'components/PageHead/PageHead'
 import Button from 'components/parts/Button/Button'
 import MessageBox from 'components/MessageBox/MessageBox'
 
+import useAlertContext from 'context/AlertContext'
 import useToggle from 'hooks/useToggle'
 import useDidUpdateEffect from 'hooks/useDidUpdateEffect'
 import useCurrentContent from 'store/content/useCurrentContent'
@@ -13,6 +14,7 @@ import useParamSelector from 'hooks/useParamSelector'
 import { getTitleMatch } from 'store/content/selectors'
 
 import { IContent } from 'types/content'
+import { AlertBoxIcons } from 'constants/dictionary'
 import { ContentAction } from 'constants/content'
 import { CONTENT_URL } from 'constants/url'
 
@@ -35,6 +37,8 @@ const ContentHead: FC<IContentHead> = ({ settings, handleChange, openPopUp }) =>
 
   const [messageBoxDeleteShown, toggleMessageBoxDelete] = useToggle()
   const [messageBoxFilenameShown, toggleMessageBoxFilename] = useToggle()
+  const { setAlertBox } = useAlertContext()
+
   const [contentChanged, setContentChanged] = useState(false)
 
   const { contentAction } = currentContent
@@ -52,6 +56,12 @@ const ContentHead: FC<IContentHead> = ({ settings, handleChange, openPopUp }) =>
 
   const handleDelete = () => {
     if (contentAction === EDIT) deleteContent(settings)
+
+    setAlertBox({
+      message: `${settings.title} удален`,
+      icon: AlertBoxIcons.DELETE,
+      isOpen: true,
+    })
 
     history.push(`${CONTENT_URL}`)
   }

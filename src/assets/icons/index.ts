@@ -28,6 +28,8 @@ import { ReactComponent as IconRefresh } from './refresh.svg'
 import { ReactComponent as IconTriangle } from './triangle.svg'
 import { ReactComponent as IconCalendar } from './calendar.svg'
 import { ReactComponent as IconTelegram } from './telegram.svg'
+import { ReactComponent as IconWarning } from './warning.svg'
+import { ReactComponent as IconSuccess } from './success.svg'
 import { ReactComponent as IconTaskAbTest } from './task_abTest.svg'
 import { ReactComponent as IconTaskAssigment } from './task_assignment.svg'
 import { ReactComponent as IconTaskCrmMessage } from './task_crmMessage.svg'
@@ -73,6 +75,8 @@ export {
   IconTriangle,
   IconCalendar,
   IconTelegram,
+  IconWarning,
+  IconSuccess,
   IconTaskAbTest,
   IconTaskAssigment,
   IconTaskCrmMessage,

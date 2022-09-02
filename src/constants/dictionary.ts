@@ -15,3 +15,9 @@ export enum Actions {
   ATRIBUTE_ASSIGNMENT = 'Присвоение атрибута',
   CRM_MESSAGE = 'CRM сообщение',
 }
+
+export enum AlertBoxIcons {
+  SUCCESS,
+  WARNING,
+  DELETE,
+}
