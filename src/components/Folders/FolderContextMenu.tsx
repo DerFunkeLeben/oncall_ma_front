@@ -5,8 +5,6 @@ import { IconDots, IconEdit, IconTrash } from 'assets/icons'
 import styles from './Folders.module.scss'
 import dropDownStyles from 'components/parts/DropDown/DropDown.module.scss'
 
-const contextMenuActions = ['Переименовать', 'Удалить']
-
 const FolderContextMenu = () => (
   <DropDown
     triggerNode={
@@ -22,7 +20,7 @@ const FolderContextMenu = () => (
         onClick={(e) => console.log('aa')}
       >
         <IconEdit />
-        <span>{contextMenuActions[0]}</span>
+        <span>Переименовать</span>
       </button>
 
       <button
@@ -30,7 +28,7 @@ const FolderContextMenu = () => (
         onClick={(e) => console.log('aa')}
       >
         <IconTrash />
-        <span>{contextMenuActions[1]}</span>
+        <span>Удалить</span>
       </button>
     </div>
   </DropDown>

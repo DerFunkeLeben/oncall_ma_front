@@ -4,12 +4,14 @@ import cx from 'classnames'
 import Button from 'components/parts/Button/Button'
 import FolderContextMenu from './FolderContextMenu'
 
+import useToggle from 'hooks/useToggle'
 import { IFolder } from 'types'
 import { reduceBigNumbers } from 'utils'
 
 import { IconPlus, IconFolderOpen, IconFolderClose } from 'assets/icons'
 import buttonThemes from 'components/parts/Button/ButtonThemes.module.scss'
 import styles from './Folders.module.scss'
+import FolderPopup from './FolderPopup/FolderPopup'
 
 interface IFolders {
   config: IFolder[]
@@ -17,6 +19,7 @@ interface IFolders {
 
 const Folders: FC<IFolders> = ({ config }) => {
   const [activeFolderId, setActiveFolderId] = useState('61')
+  const [folderPopupOpened, toggleFolderPopup] = useToggle()
 
   const setActiveFolder = (e: React.MouseEvent<HTMLElement>) => {
     const { id } = e.currentTarget.dataset
@@ -60,6 +63,11 @@ const Folders: FC<IFolders> = ({ config }) => {
         <IconPlus />
         <span>Создать новую папку</span>
       </Button>
+      {/* <FolderPopup
+        isOpen={folderPopupOpened}
+        close={toggleFolderPopup}
+        action={FolderActions.CREATE}
+      /> */}
     </div>
   )
 }

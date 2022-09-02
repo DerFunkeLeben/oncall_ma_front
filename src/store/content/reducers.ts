@@ -1,9 +1,14 @@
+import { combineReducers } from 'redux'
+import { v4 as uuid } from 'uuid'
+
 import { ContentAction } from 'constants/content'
+import { foldersReducer } from 'store/folders/reducers'
+
 import ActionType from './action-type'
 import { IStoreContent, StoreKeys } from './_data-types'
 import { IReducer } from '../data-types'
 import { ContentTypes } from 'types/content'
-import { v4 as uuid } from 'uuid'
+import { FolderAction } from 'types'
 
 const initialContentState: IStoreContent = {
   allContent: {
@@ -77,18 +82,47 @@ const initialContentState: IStoreContent = {
       text: 'Sms text qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq',
     },
   },
-  allFolders: [],
+  allFolders: {
+    '0': {
+      name: 'Весь контент',
+      id: '0',
+      count: 147,
+    },
+    '52': {
+      name: 'Тестовые рассылки',
+      id: '52',
+      count: 50,
+    },
+    '43': {
+      name: 'Завершенные рассылки',
+      id: '43',
+      count: 999954,
+    },
+    '48': {
+      name: 'Рассылки январь февраль',
+      id: '48',
+      count: 1786,
+    },
+    '34': {
+      name: 'Medpoint',
+      id: '34',
+      count: 2,
+    },
+  },
   currentContent: {
     content: undefined,
     contentAction: ContentAction.CREATE,
   },
   currentFolder: {
     folder: undefined,
-    folderAction: null,
+    folderAction: FolderAction.CREATE,
   },
 }
 
-const reducer = (state = initialContentState, { type, payload }: IReducer): IStoreContent => {
+const contentReducer = (
+  state = initialContentState,
+  { type, payload }: IReducer
+): IStoreContent => {
   switch (type) {
     case ActionType.SET_CURRENT_CONTENT:
       return {
@@ -153,5 +187,7 @@ const reducer = (state = initialContentState, { type, payload }: IReducer): ISto
       return state
   }
 }
+
+const reducer = contentReducer //combineReducers({ contentReducer, foldersReducer })
 
 export { reducer, initialContentState }

@@ -19,4 +19,24 @@ const getTitleMatch = createSelector(getAllContent, getTitle, (content, titleToC
   content.find(({ title }) => title === titleToCheck)
 )
 
-export { getCurrentContent, getAllContent, getAllContentIds, getTitleMatch }
+const getFolders = (state: IState): IStoreContent[StoreKeys.allFolders] => state.content.allFolders
+
+const getCurrentFolder = (state: IState): IStoreContent[StoreKeys.currentFolder] =>
+  state.content[StoreKeys.currentFolder]
+
+const getAllFolders = createSelector(getFolders, (folders) => Object.values(folders).flat())
+
+const getAllFoldersIds = createSelector(
+  getAllFolders,
+  (folders) => folders.map(({ id }) => id).filter((id) => id) as string[]
+)
+
+export {
+  getCurrentContent,
+  getAllContent,
+  getAllContentIds,
+  getTitleMatch,
+  getCurrentFolder,
+  getAllFolders,
+  getAllFoldersIds,
+}

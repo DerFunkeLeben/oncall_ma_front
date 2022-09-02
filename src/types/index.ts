@@ -82,3 +82,9 @@ export enum TaskStorageFolders {
   communication = 'Коммуникация',
   scenarios = 'Сценарии',
 }
+
+export enum FolderAction {
+  CREATE,
+  DELETE,
+  RENAME,
+}

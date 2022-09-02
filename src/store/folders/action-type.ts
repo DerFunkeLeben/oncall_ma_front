@@ -1,0 +1,8 @@
+const ActionType = {
+  VIEW_FOLDER: 'VIEW_FOLDER',
+  CREATE_FOLDER: 'CREATE_FOLDER',
+  RENAME_FOLDER: 'RENAME_FOLDER',
+  DELETE_FOLDER: 'DELETE_FOLDER',
+}
+
+export default ActionType
