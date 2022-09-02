@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 import cx from 'classnames'
 
@@ -45,8 +45,15 @@ const AllContent: FC<IPageData> = () => {
 
   const totalCountOfData = allContent.length
 
-  const { checkedList, toggleCheck, isItChecked, checkedCount, checkedAll, toggleAllChecks } =
-    useTable(allContentIds)
+  const {
+    checkedList,
+    toggleCheck,
+    isItChecked,
+    checkedCount,
+    checkedAll,
+    toggleAllChecks,
+    clearChecks,
+  } = useTable(allContentIds)
 
   const openContent = (e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation()
@@ -74,10 +81,17 @@ const AllContent: FC<IPageData> = () => {
     {
       caption: 'Удалить',
       Icon: IconTrash,
-      handleClick: () => deleteMultipleById(checkedList),
+      handleClick: () => {
+        deleteMultipleById(checkedList)
+        clearChecks()
+      },
       modificators: ['alarm'],
     },
   ]
+
+  useEffect(() => {
+    setCurrentContent({ content: undefined, contentAction: ContentAction.CREATE })
+  }, [])
 
   return (
     <>

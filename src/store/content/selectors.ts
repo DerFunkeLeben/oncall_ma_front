@@ -14,4 +14,9 @@ const getAllContentIds = createSelector(
   (contents) => contents.map(({ id }) => id).filter((id) => id) as string[]
 )
 
-export { getAllContent, getAllContentIds, getCurrentContent }
+const getTitle = (_: any, title: string) => title
+const getTitleMatch = createSelector(getAllContent, getTitle, (content, titleToCheck) =>
+  content.find(({ title }) => title === titleToCheck)
+)
+
+export { getCurrentContent, getAllContent, getAllContentIds, getTitleMatch }

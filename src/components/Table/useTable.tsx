@@ -29,6 +29,8 @@ const useTable = (allIds?: string[]) => {
     } else setCheckedList(allIds as string[])
   }
 
+  const clearChecks = () => setCheckedList([])
+
   return {
     checkedList,
     toggleCheck,
@@ -37,6 +39,7 @@ const useTable = (allIds?: string[]) => {
     checkMenuIsOpen,
     checkedCount,
     checkedAll,
+    clearChecks,
   }
 }
 

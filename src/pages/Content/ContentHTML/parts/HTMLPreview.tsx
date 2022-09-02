@@ -2,14 +2,17 @@ import { FC, useRef, memo } from 'react'
 import cx from 'classnames'
 
 import ScrollArea from 'containers/ScrollArea/ScrollArea'
+import useToggle from 'hooks/useToggle'
 
 import styles from '../ContentHTML.module.scss'
 import useScrollHeight from 'hooks/useScrollHeight'
+import Loading from 'components/parts/Loading/Loading'
 
 interface IHTMLPreview {
   HTML: string | undefined
 }
 const HTMLPreview: FC<IHTMLPreview> = ({ HTML }) => {
+  const [isLoading, toggleLoading] = useToggle(true)
   const iFrameRef = useRef(document.createElement('iframe'))
   const wrapperRef = useRef<HTMLDivElement>(null)
 
@@ -17,6 +20,7 @@ const HTMLPreview: FC<IHTMLPreview> = ({ HTML }) => {
     const refNode = iFrameRef.current
     const height = (refNode.contentWindow?.document.body.scrollHeight || 0) + 10
     refNode.height = height + ''
+    toggleLoading()
   }
 
   const scrollHeight = useScrollHeight(wrapperRef)
@@ -24,6 +28,7 @@ const HTMLPreview: FC<IHTMLPreview> = ({ HTML }) => {
   return (
     <div className={cx(styles.renderedHTMLWrapper)}>
       <ScrollArea modificator={styles.scroll} customRef={wrapperRef} maxHeight={scrollHeight}>
+        {isLoading && HTML && <Loading />}
         <iframe
           srcDoc={HTML}
           className={styles.iframe}
