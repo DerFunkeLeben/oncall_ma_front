@@ -1,36 +1,86 @@
-import { FC, useState } from 'react'
+import { FC, useState, memo } from 'react'
 import cx from 'classnames'
 
 import Button from 'components/parts/Button/Button'
+import MessageBox from 'components/MessageBox/MessageBox'
 import FolderContextMenu from './FolderContextMenu'
+import FolderPopup from './FolderPopup/FolderPopup'
 
+import useAllFolders from 'store/folders/useAllFolders'
+import useSetFolder from 'store/folders/useSetFolder'
 import useToggle from 'hooks/useToggle'
-import { IFolder } from 'types'
-import { reduceBigNumbers } from 'utils'
+import useAlertContext from 'context/AlertContext'
+
+import { AlertBoxIcons } from 'constants/dictionary'
+import { FolderAction, IFolder } from 'types'
+import { findFolderById, reduceBigNumbers } from 'utils'
 
 import { IconPlus, IconFolderOpen, IconFolderClose } from 'assets/icons'
 import buttonThemes from 'components/parts/Button/ButtonThemes.module.scss'
 import styles from './Folders.module.scss'
-import FolderPopup from './FolderPopup/FolderPopup'
 
 interface IFolders {
   config: IFolder[]
+  storeKey?: string
 }
 
-const Folders: FC<IFolders> = ({ config }) => {
-  const [activeFolderId, setActiveFolderId] = useState('61')
-  const [folderPopupOpened, toggleFolderPopup] = useToggle()
+export interface ICurrentFolder {
+  folder?: IFolder
+  action?: FolderAction
+}
+
+const { RENAME, CREATE, DELETE } = FolderAction
+
+const makeMessageBoxTitle = (folderName: string) =>
+  `Вы уверены, что хотите удалить папку ${folderName}?<br><br>Данные при этом утеряны не будут`
+
+const Folders: FC<IFolders> = ({ config, storeKey }) => {
+  const { allFolders } = useAllFolders() // storeKey
+  const { activeFolderId, viewFolder, deleteFolder } = useSetFolder()
+  const { setAlertBox } = useAlertContext()
+
+  const [currentFolder, setCurrentFolder] = useState<ICurrentFolder>({})
+  const [messageBoxShown, toggleMessageBox] = useToggle()
 
   const setActiveFolder = (e: React.MouseEvent<HTMLElement>) => {
     const { id } = e.currentTarget.dataset
-    if (id) setActiveFolderId(id)
+    if (id) viewFolder(id)
   }
 
-  const handleNewFolder = () => console.log(1)
+  const { action } = currentFolder
+  const popupOpened = action !== undefined && action !== DELETE
+
+  const closePopup = () => setCurrentFolder({})
+  const openCreatePopup = () => setCurrentFolder({ action: CREATE })
+
+  const openRenamePopup = (id: string) => {
+    const folder = findFolderById(allFolders, id)
+    setCurrentFolder({ folder, action: RENAME })
+  }
+
+  const openDeletePopup = (id: string) => {
+    const folder = findFolderById(allFolders, id)
+    setCurrentFolder({ folder, action: DELETE })
+    toggleMessageBox()
+  }
+
+  const confirmDelete = () => {
+    const { folder } = currentFolder
+    if (folder) {
+      deleteFolder(folder)
+      toggleMessageBox()
+
+      setAlertBox({
+        message: `Папка ${folder.name} удаленa`,
+        icon: AlertBoxIcons.DELETE,
+        isOpen: true,
+      })
+    }
+  }
 
   return (
     <div className={styles.container}>
-      {config.map((folder) => {
+      {allFolders.map((folder) => {
         const { name, id, count } = folder
         const active = activeFolderId === id
         return (
@@ -51,24 +101,32 @@ const Folders: FC<IFolders> = ({ config }) => {
             <span className={cx(styles.count, active ? 'text_1_hl_2' : 'text_1')}>
               {reduceBigNumbers(count)}
             </span>
-            <FolderContextMenu />
+            <FolderContextMenu
+              openRenamePopup={openRenamePopup}
+              folderId={id}
+              openDeletePopup={openDeletePopup}
+            />
           </div>
         )
       })}
 
       <Button
         modificator={cx(buttonThemes.theme_additional, styles.btnAdd)}
-        onClick={handleNewFolder}
+        onClick={openCreatePopup}
       >
         <IconPlus />
         <span>Создать новую папку</span>
       </Button>
-      {/* <FolderPopup
-        isOpen={folderPopupOpened}
-        close={toggleFolderPopup}
-        action={FolderActions.CREATE}
-      /> */}
+
+      <FolderPopup isOpen={popupOpened} close={closePopup} currentFolder={currentFolder} />
+      <MessageBox
+        isOpen={messageBoxShown}
+        close={toggleMessageBox}
+        handleConfirm={confirmDelete}
+        title={makeMessageBoxTitle(currentFolder.folder?.name || '')}
+        buttons={['Отмена', 'Удалить']}
+      />
     </div>
   )
 }
-export default Folders
+export default memo(Folders)

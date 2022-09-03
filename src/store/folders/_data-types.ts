@@ -1,14 +1,11 @@
-import { FolderAction, IFolder } from 'types'
+import { IFolder } from 'types'
 
-export enum StoreKeys {
+export enum FolderKeys {
   allFolders = 'allFolders',
-  currentFolder = 'currentFolder',
+  activeFolderId = 'activeFolderId',
 }
 
 export interface IStoreFolder {
-  [StoreKeys.allFolders]: { [key: string]: IFolder }
-  [StoreKeys.currentFolder]: {
-    folder: IFolder | undefined
-    folderAction: FolderAction
-  }
+  [FolderKeys.allFolders]: { [key: string]: IFolder }
+  [FolderKeys.activeFolderId]: string
 }

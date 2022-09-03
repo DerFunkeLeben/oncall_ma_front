@@ -1,15 +1,11 @@
 import { v4 as uuid } from 'uuid'
 import ActionType from './action-type'
-import { IStoreFolder, StoreKeys } from './_data-types'
+import { IStoreFolder, FolderKeys } from './_data-types'
 import { IReducer } from '../data-types'
-import { FolderAction } from 'types'
 
 const initialFolderState: IStoreFolder = {
   allFolders: {},
-  currentFolder: {
-    folder: undefined,
-    folderAction: FolderAction.CREATE,
-  },
+  activeFolderId: '0',
 }
 
 const foldersReducer = (state = initialFolderState, { type, payload }: IReducer): IStoreFolder => {
@@ -17,7 +13,7 @@ const foldersReducer = (state = initialFolderState, { type, payload }: IReducer)
     case ActionType.VIEW_FOLDER:
       return {
         ...state,
-        [StoreKeys.currentFolder]: payload,
+        [FolderKeys.activeFolderId]: payload,
       }
 
     case ActionType.CREATE_FOLDER: {
@@ -25,7 +21,14 @@ const foldersReducer = (state = initialFolderState, { type, payload }: IReducer)
       const newFolder = { ...payload, id }
       return {
         ...state,
-        [StoreKeys.allFolders]: { ...state.allFolders, [id]: newFolder },
+        [FolderKeys.allFolders]: { ...state.allFolders, [id]: newFolder },
+      }
+    }
+
+    case ActionType.RENAME_FOLDER: {
+      return {
+        ...state,
+        [FolderKeys.allFolders]: { ...state.allFolders, [payload.id]: payload },
       }
     }
 
@@ -33,7 +36,7 @@ const foldersReducer = (state = initialFolderState, { type, payload }: IReducer)
       const { [payload.id]: _, ...otherFolders } = state.allFolders
       return {
         ...state,
-        [StoreKeys.allFolders]: otherFolders,
+        [FolderKeys.allFolders]: otherFolders,
       }
     }
 

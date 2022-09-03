@@ -1,11 +1,10 @@
 import { IFolder } from 'types'
 import ActionType from './action-type'
-import { IStoreFolder, StoreKeys } from './_data-types'
 
 const ActionCreator = {
-  viewFolder: (folder: IStoreFolder[StoreKeys.currentFolder]) => ({
+  viewFolder: (folderId: string) => ({
     type: ActionType.VIEW_FOLDER,
-    payload: folder,
+    payload: folderId,
   }),
   createFolder: (folder: IFolder) => ({
     type: ActionType.CREATE_FOLDER,

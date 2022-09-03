@@ -1,11 +1,13 @@
 import { createSelector } from 'reselect'
+import { FolderKeys, IStoreFolder } from 'store/folders/_data-types'
 import { IState } from '../data-types'
 import { StoreKeys, IStoreContent } from './_data-types'
 
-const getContent = (state: IState): IStoreContent[StoreKeys.allContent] => state.content.allContent
+const getContent = (state: IState): IStoreContent[StoreKeys.allContent] =>
+  state.content.data[StoreKeys.allContent]
 
 const getCurrentContent = (state: IState): IStoreContent[StoreKeys.currentContent] =>
-  state.content[StoreKeys.currentContent]
+  state.content.data[StoreKeys.currentContent]
 
 const getAllContent = createSelector(getContent, (contents) => Object.values(contents).flat())
 
@@ -19,10 +21,11 @@ const getTitleMatch = createSelector(getAllContent, getTitle, (content, titleToC
   content.find(({ title }) => title === titleToCheck)
 )
 
-const getFolders = (state: IState): IStoreContent[StoreKeys.allFolders] => state.content.allFolders
+const getFolders = (state: IState): IStoreFolder[FolderKeys.allFolders] =>
+  state.content.folders[FolderKeys.allFolders]
 
-const getCurrentFolder = (state: IState): IStoreContent[StoreKeys.currentFolder] =>
-  state.content[StoreKeys.currentFolder]
+const getActiveFolderId = (state: IState): string =>
+  state.content.folders[FolderKeys.activeFolderId]
 
 const getAllFolders = createSelector(getFolders, (folders) => Object.values(folders).flat())
 
@@ -36,7 +39,7 @@ export {
   getAllContent,
   getAllContentIds,
   getTitleMatch,
-  getCurrentFolder,
   getAllFolders,
   getAllFoldersIds,
+  getActiveFolderId,
 }

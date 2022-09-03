@@ -1,11 +1,23 @@
+import { FC } from 'react'
 import cx from 'classnames'
+
 import DropDown from 'components/parts/DropDown/DropDown'
+import FolderPopup from './FolderPopup/FolderPopup'
 
 import { IconDots, IconEdit, IconTrash } from 'assets/icons'
 import styles from './Folders.module.scss'
 import dropDownStyles from 'components/parts/DropDown/DropDown.module.scss'
 
-const FolderContextMenu = () => (
+interface IFolderContextMenu {
+  openRenamePopup: (id: string) => void
+  openDeletePopup: (id: string) => void
+  folderId: string
+}
+const FolderContextMenu: FC<IFolderContextMenu> = ({
+  openRenamePopup,
+  openDeletePopup,
+  folderId,
+}) => (
   <DropDown
     triggerNode={
       <button className={cx(styles.iconDots)}>
@@ -17,7 +29,7 @@ const FolderContextMenu = () => (
     <div className={cx(dropDownStyles.container, styles.dropDownContainer)}>
       <button
         className={cx(dropDownStyles.element, styles.dropDownOption, 'text_1')}
-        onClick={(e) => console.log('aa')}
+        onClick={() => openRenamePopup(folderId)}
       >
         <IconEdit />
         <span>Переименовать</span>
@@ -25,7 +37,7 @@ const FolderContextMenu = () => (
 
       <button
         className={cx(dropDownStyles.element, styles.dropDownOption, styles.alert, 'text_1')}
-        onClick={(e) => console.log('aa')}
+        onClick={() => openDeletePopup(folderId)}
       >
         <IconTrash />
         <span>Удалить</span>

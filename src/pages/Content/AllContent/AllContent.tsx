@@ -127,7 +127,7 @@ const AllContent: FC<IPageData> = () => {
             </div>
           </DropDown>
         </PageHead>
-        <Folders config={foldersConfig} />
+        <Folders config={foldersConfig} storeKey={'content'} />
         <div className={styles.tableWrapper}>
           <ScrollTable
             headers={header}

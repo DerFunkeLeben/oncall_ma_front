@@ -5,13 +5,16 @@ import Loading from './components/parts/Loading/Loading'
 import WindowSizeWrap from 'containers/WindowSizeWrap/WindowSizeWrap'
 
 import createReduxStore from 'store'
-import { initialContentState } from 'store/content/reducers'
-import { initialFolderState } from 'store/folders/reducers'
+import {
+  initialContentState,
+  initialFolderState as contentFolderState,
+} from 'store/content/reducers'
 
 function AppWrapper({ children }: { children: ReactElement }) {
   const store = createReduxStore({
     content: {
-      ...initialContentState,
+      data: { ...initialContentState },
+      folders: { ...contentFolderState },
     },
   })
 

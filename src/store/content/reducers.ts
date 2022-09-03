@@ -3,12 +3,12 @@ import { v4 as uuid } from 'uuid'
 
 import { ContentAction } from 'constants/content'
 import { foldersReducer } from 'store/folders/reducers'
+import { IStoreFolder } from 'store/folders/_data-types'
 
 import ActionType from './action-type'
 import { IStoreContent, StoreKeys } from './_data-types'
 import { IReducer } from '../data-types'
 import { ContentTypes } from 'types/content'
-import { FolderAction } from 'types'
 
 const initialContentState: IStoreContent = {
   allContent: {
@@ -82,6 +82,15 @@ const initialContentState: IStoreContent = {
       text: 'Sms text qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq',
     },
   },
+
+  currentContent: {
+    content: undefined,
+    contentAction: ContentAction.CREATE,
+  },
+}
+
+const initialFolderState: IStoreFolder = {
+  activeFolderId: '0',
   allFolders: {
     '0': {
       name: 'Весь контент',
@@ -108,14 +117,6 @@ const initialContentState: IStoreContent = {
       id: '34',
       count: 2,
     },
-  },
-  currentContent: {
-    content: undefined,
-    contentAction: ContentAction.CREATE,
-  },
-  currentFolder: {
-    folder: undefined,
-    folderAction: FolderAction.CREATE,
   },
 }
 
@@ -188,6 +189,9 @@ const contentReducer = (
   }
 }
 
-const reducer = contentReducer //combineReducers({ contentReducer, foldersReducer })
+const reducer = combineReducers({
+  data: contentReducer,
+  folders: foldersReducer,
+})
 
-export { reducer, initialContentState }
+export { reducer, initialContentState, initialFolderState }

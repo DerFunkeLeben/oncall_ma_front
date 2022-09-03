@@ -23,7 +23,6 @@ const iconVars = {
 }
 
 const AlertBox: FC<IAlertBox> = ({ isOpen, close, message, icon }) => {
-  console.log(isOpen)
   useEffect(() => {
     if (!isOpen) return
 
