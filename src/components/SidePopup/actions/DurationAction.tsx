@@ -10,13 +10,15 @@ import { TIME_OPTIONS } from 'constants/sidePopup'
 import actionsStyles from './styles.module.scss'
 
 const DurationAction: FC = () => {
-  const { action } = usePopupContext()
+  const { action, settings } = usePopupContext()
   action.options = TIME_OPTIONS
+  const preset = settings[action.name]
+  // console.log('preset', action.name, preset)
 
   return (
     <div className={actionsStyles.durationWrapper}>
-      <NumericStepAction />
-      <DropDownAction label={'Временной отрезок'} />
+      <NumericStepAction preset={preset} />
+      <DropDownAction label={'Временной отрезок'} preset={preset} optionName={'unit'} />
     </div>
   )
 }

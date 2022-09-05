@@ -20,6 +20,7 @@ export interface ITask {
   name: string
   input?: string[]
   output?: string[]
+  settings?: { [key: string]: any }
 }
 
 export interface ITasksHeap {

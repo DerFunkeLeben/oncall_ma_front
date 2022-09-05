@@ -21,7 +21,7 @@ const SIZE = {
   gap: 80,
   paddingField: 45,
   startBlockWidth: 150,
-  startBlockHeight: 200,
+  startBlockHeight: 222,
 }
 
 const { exit, list, event, start } = TasksTypes
@@ -46,7 +46,6 @@ const ScenarioBuilder: FC = () => {
     const task = stateTasksHeap[id]
     const outIds = task?.output
     const type = task?.type
-    console.log(type, rowNumber)
     const newCell = { id, columnNumber, type }
     const newRow = itsNewRow ? [newCell] : [...row, newCell]
 
@@ -78,7 +77,7 @@ const ScenarioBuilder: FC = () => {
   }
 
   const drawLine = (type: string) => {
-    const length = type === exit ? 150 : 320
+    const length = type === exit ? 150 : 160
 
     return (
       <svg
@@ -149,7 +148,7 @@ const ScenarioBuilder: FC = () => {
         const currentTask = stateTasksHeap[id]
         const outIds = currentTask?.output
 
-        const properties = { ...currentTask, status: 'default' }
+        const properties = { ...currentTask }
 
         const isStart = type === start
 

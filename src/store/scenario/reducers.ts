@@ -27,7 +27,7 @@ const initialState: IStoreScenario = {
       color: 'green',
       status: 'default',
       name: 'Выход',
-      input: ['3'],
+      input: ['2'],
       output: [],
     },
     '4': {
@@ -35,7 +35,7 @@ const initialState: IStoreScenario = {
       color: 'green',
       status: 'default',
       name: 'Выход',
-      input: ['3'],
+      input: ['2'],
       output: [],
     },
     '5': {
@@ -43,7 +43,7 @@ const initialState: IStoreScenario = {
       color: 'green',
       status: 'default',
       name: 'Выход',
-      input: ['3'],
+      input: ['2'],
       output: [],
     },
   },

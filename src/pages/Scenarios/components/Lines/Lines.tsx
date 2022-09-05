@@ -19,8 +19,6 @@ const SIZE = {
 const fieldSize = 5000
 
 const Lines: FC<ILines> = ({ matrix }) => {
-  console.log(matrix)
-
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

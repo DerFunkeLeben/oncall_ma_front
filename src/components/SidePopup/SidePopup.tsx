@@ -19,11 +19,12 @@ interface ISidePopup {
   isOpen: boolean
   close: () => void
   config: IStep
-  handleSave: React.Dispatch<React.SetStateAction<IStatePopup>>
+  handleSave: any
   title: string
+  settings?: { [key: string]: any }
 }
 
-const SidePopup: FC<ISidePopup> = ({ isOpen, close, config, handleSave, title }) => {
+const SidePopup: FC<ISidePopup> = ({ isOpen, close, config, handleSave, title, settings }) => {
   const [currentState, setState] = useState<IStatePopup>({})
 
   const createConfig = (step: IStep, acc: any[] = []): any => {
@@ -93,7 +94,7 @@ const SidePopup: FC<ISidePopup> = ({ isOpen, close, config, handleSave, title })
         <div className={styles.popupContent}>
           {/* <ScrollArea>
             <div className={styles.popupContentInnerWrapper}> */}
-          <PopupContext.Provider value={{ action, currentState, setState }}>
+          <PopupContext.Provider value={{ action, currentState, setState, settings }}>
             <SidePopupContent />
           </PopupContext.Provider>
           {/* </div>
