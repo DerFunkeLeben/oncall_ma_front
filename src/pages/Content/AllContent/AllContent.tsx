@@ -13,8 +13,8 @@ import useTable from 'components/Table/useTable'
 import useAllContent from 'store/content/useAllContent'
 import useCurrentContent from 'store/content/useCurrentContent'
 import useSetContent from 'store/content/useSetContent'
+import { MainReducerKeys } from 'store/data-types'
 
-import { foldersConfig } from './allContentData'
 import { CONTENT_URL_HTML, CONTENT_URL_SMS, CONTENT_URL_FILE } from 'constants/url'
 import { ContentAction } from 'constants/content'
 
@@ -42,9 +42,6 @@ const AllContent: FC<IPageData> = () => {
   const { allContent, allContentIds } = useAllContent()
   const { setCurrentContent } = useCurrentContent()
   const { deleteMultipleById } = useSetContent()
-
-  const totalCountOfData = allContent.length
-
   const {
     checkedList,
     toggleCheck,
@@ -54,6 +51,8 @@ const AllContent: FC<IPageData> = () => {
     toggleAllChecks,
     clearChecks,
   } = useTable(allContentIds)
+
+  const totalCountOfData = allContent.length
 
   const openContent = (e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation()
@@ -127,7 +126,7 @@ const AllContent: FC<IPageData> = () => {
             </div>
           </DropDown>
         </PageHead>
-        <Folders config={foldersConfig} storeKey={'content'} />
+        <Folders reducerName={MainReducerKeys.content} />
         <div className={styles.tableWrapper}>
           <ScrollTable
             headers={header}

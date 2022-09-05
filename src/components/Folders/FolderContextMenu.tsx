@@ -2,7 +2,6 @@ import { FC } from 'react'
 import cx from 'classnames'
 
 import DropDown from 'components/parts/DropDown/DropDown'
-import FolderPopup from './FolderPopup/FolderPopup'
 
 import { IconDots, IconEdit, IconTrash } from 'assets/icons'
 import styles from './Folders.module.scss'

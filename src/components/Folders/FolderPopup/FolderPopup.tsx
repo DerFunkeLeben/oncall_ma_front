@@ -8,6 +8,7 @@ import Popup from 'containers/Popup/Popup'
 
 import useDidUpdateEffect from 'hooks/useDidUpdateEffect'
 import useSetFolder from 'store/folders/useSetFolder'
+import { MainReducerKeys } from 'store/data-types'
 import { FolderAction } from 'types'
 import { ICurrentFolder } from '../Folders'
 
@@ -18,15 +19,16 @@ interface IFolderPopup {
   isOpen: boolean
   close: () => void
   currentFolder: ICurrentFolder
+  reducerName: MainReducerKeys
 }
 
 const { RENAME, CREATE } = FolderAction
 
-const FolderPopup: FC<IFolderPopup> = ({ isOpen, close, currentFolder }) => {
+const FolderPopup: FC<IFolderPopup> = ({ isOpen, close, currentFolder, reducerName }) => {
   const { folder, action } = currentFolder
 
   const [folderName, setFolderName] = useState<string>('')
-  const { createFolder, renameFolder } = useSetFolder()
+  const { createFolder, renameFolder } = useSetFolder(reducerName)
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     setFolderName(event.target.value)

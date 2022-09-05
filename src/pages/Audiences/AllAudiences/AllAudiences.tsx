@@ -16,9 +16,10 @@ import tableStyles from 'components/Table/TableBase.module.scss'
 import dropDownStyles from 'components/parts/DropDown/DropDown.module.scss'
 
 import { IPageData } from 'types'
+import { MainReducerKeys } from 'store/data-types'
 import { IconCheck, IconUpload, IconCopy, IconTrash } from 'assets/icons'
 
-import { data, foldersConfig } from './audiencesData'
+import { data } from './audiencesData'
 import PopupOfCreationFromExist from './PopupOfCreationFromExist/PopupOfCreationFromExist'
 
 const header = ['', 'ID', 'Название', 'Количество контактов', 'Дата создания', 'Дата изменения']
@@ -106,7 +107,7 @@ const AllAudiences: FC<IPageData> = () => {
             </div>
           </DropDown>
         </PageHead>
-        <Folders config={foldersConfig} />
+        <Folders reducerName={MainReducerKeys.audiences} />
         <div className={styles.tableWrapper}>
           <ScrollTable
             headers={header}

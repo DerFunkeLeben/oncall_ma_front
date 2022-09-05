@@ -7,6 +7,8 @@ import { IStoreFolder } from 'store/folders/_data-types'
 
 import ActionType from './action-type'
 import { IStoreContent, StoreKeys } from './_data-types'
+import { MainReducerKeys } from 'store/data-types'
+
 import { IReducer } from '../data-types'
 import { ContentTypes } from 'types/content'
 
@@ -49,30 +51,30 @@ const initialContentState: IStoreContent = {
       от «Сандоз», Вы можете <a href="%%unsub_center_url%%" target="_blank" style="text-decoration: underline; color: #ffffff;">отписаться.</a><br><br>Инструкция по препарату доступна по ссылке: <a href="https://www.linex.ru/" target="_blank" style="text-decoration: none; font-family: Arial, sans-serif; font-size: 12px; color: #ffffff;">www.linex.ru</a></td><td width="60"> </td></tr></table><table border="0" cellpadding="0" width="600" border-collapse="collapse" cellspacing="0" style="margin:0 auto; padding:0; background-color: #F08F00"><tr> <td height="25"></td></tr></table><table width="480"><tr><td height="30"></td></tr><tr><td width="220"><b style="font-family: Arial, sans-serif; font-size: 12px; color: #044267;">АО «Сандоз»</b></td></tr><tr><td height="20"></td></tr><tr style="vertical-align: top;"><td><b style="font-family: Arial, sans-serif; font-size: 12px; color: #044267;">Адрес:</b><br><span style="font-family: Arial, sans-serif; font-size: 12px; color: #044267;">125315, г. Москва,<br>Ленинградский проспект, д. 70<br><br><a href="https://www.sandoz.ru/" target="_blank" style="text-decoration: none; font-family: Arial, sans-serif; font-size: 12px; color: #044267;">www.sandoz.ru</a><br><br><span style="font-family: Arial, sans-serif; font-size: 12px; color: #044267;">RU2105282474</span></span></td><td><b style="font-family: Arial, sans-serif; font-size: 12px; color: #044267;">Тел.:</b><br><a href="tel:+74956607509" style="color: #044267; text-decoration: none; font-family: Arial, sans-serif; font-size: 12px; color: #044267;">+7 495 660 75 09</a></td><td><b style="font-family: Arial, sans-serif; font-size: 12px; color: #044267;">Факс:</b><br><span style="font-family: Arial, sans-serif; font-size: 12px; color: #044267;">+7 495 660 75 10</span></td></tr></table><table width="480"><tr><td align="right"><img width="140" src="https://i.ibb.co/gMJ4HDJ/sandoz-logo.png" alt="sandoz logo"></td></tr></table><table width="480"><tr style="background: #fff"><td height="50"></td></tr></table></td></tr></tbody></table></center></td></tr></table><div style="display:none;font-size:1px;color:#333333;line-height:1px;max-height:0px;max-width:0px;opacity:0;overflow:hidden;">This email was sent by: %%Member_Busname%% %%Member_Addr%% %%Member_City%%, %%Member_State%%, %%Member_PostalCode%%, %%Member_Country%%</div><div style="display:none;font-size:1px;color:#333333;line-height:1px;max-height:0px;max-width:0px;opacity:0;overflow:hidden;"><a href="%%profile_center_url%%" alias="Update Profile">Update Profile</a></div></body></html>
       `,
     },
-    // '9145': {
-    //   id: '9145',
-    //   title: 'Терапевты_март',
-    //   type: ContentTypes.IMAGE,
-    //   createDate: new Date('02.02.1945'),
-    //   lastUpdateDate: new Date('02.01.1946'),
-    //   filePath: 'aaa',
-    // },
-    // '9146': {
-    //   id: '9146',
-    //   title: 'Онбординг_медпоинт',
-    //   type: ContentTypes.PDF,
-    //   createDate: '12.02.1985',
-    //   lastUpdateDate: new Date('02.01.1986'),
-    //   filePath: 'aasssa',
-    // },
-    // '9147': {
-    //   id: '9147',
-    //   title: 'Digest_march',
-    //   type: ContentTypes.FILE,
-    //   createDate: '21.12.2013',
-    //   lastUpdateDate: new Date('04.05.2016'),
-    //   filePath: 'aasssa',
-    // },
+    '9145': {
+      id: '9145',
+      title: 'Терапевты_март',
+      type: ContentTypes.IMAGE,
+      createDate: new Date('02.02.1945'),
+      lastUpdateDate: new Date('02.01.1946'),
+      filePath: 'aaa',
+    },
+    '9146': {
+      id: '9146',
+      title: 'Онбординг_медпоинт',
+      type: ContentTypes.PDF,
+      createDate: '12.02.1985',
+      lastUpdateDate: new Date('02.01.1986'),
+      filePath: 'aasssa',
+    },
+    '9147': {
+      id: '9147',
+      title: 'Digest_march',
+      type: ContentTypes.FILE,
+      createDate: '21.12.2013',
+      lastUpdateDate: new Date('04.05.2016'),
+      filePath: 'aasssa',
+    },
     '2144': {
       id: '2144',
       title: 'Новогодняя рассылка sms',
@@ -90,12 +92,13 @@ const initialContentState: IStoreContent = {
 }
 
 const initialFolderState: IStoreFolder = {
-  activeFolderId: '0',
+  activeFolderId: '0_content',
   allFolders: {
-    '0': {
+    '0_content': {
       name: 'Весь контент',
-      id: '0',
+      id: '0_content',
       count: 147,
+      isMainFolder: true,
     },
     '52': {
       name: 'Тестовые рассылки',
@@ -191,7 +194,7 @@ const contentReducer = (
 
 const reducer = combineReducers({
   data: contentReducer,
-  folders: foldersReducer,
+  folders: foldersReducer(MainReducerKeys.content),
 })
 
 export { reducer, initialContentState, initialFolderState }

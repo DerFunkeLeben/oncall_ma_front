@@ -1,4 +1,4 @@
-import { FC, useState, memo } from 'react'
+import { FC, useState, memo, useEffect } from 'react'
 import cx from 'classnames'
 
 import Button from 'components/parts/Button/Button'
@@ -12,6 +12,7 @@ import useToggle from 'hooks/useToggle'
 import useAlertContext from 'context/AlertContext'
 
 import { AlertBoxIcons } from 'constants/dictionary'
+import { MainReducerKeys } from 'store/data-types'
 import { FolderAction, IFolder } from 'types'
 import { findFolderById, reduceBigNumbers } from 'utils'
 
@@ -20,8 +21,7 @@ import buttonThemes from 'components/parts/Button/ButtonThemes.module.scss'
 import styles from './Folders.module.scss'
 
 interface IFolders {
-  config: IFolder[]
-  storeKey?: string
+  reducerName: MainReducerKeys
 }
 
 export interface ICurrentFolder {
@@ -34,9 +34,9 @@ const { RENAME, CREATE, DELETE } = FolderAction
 const makeMessageBoxTitle = (folderName: string) =>
   `Вы уверены, что хотите удалить папку ${folderName}?<br><br>Данные при этом утеряны не будут`
 
-const Folders: FC<IFolders> = ({ config, storeKey }) => {
-  const { allFolders } = useAllFolders() // storeKey
-  const { activeFolderId, viewFolder, deleteFolder } = useSetFolder()
+const Folders: FC<IFolders> = ({ reducerName }) => {
+  const { allFolders } = useAllFolders(reducerName)
+  const { activeFolderId, viewFolder, deleteFolder } = useSetFolder(reducerName)
   const { setAlertBox } = useAlertContext()
 
   const [currentFolder, setCurrentFolder] = useState<ICurrentFolder>({})
@@ -81,7 +81,7 @@ const Folders: FC<IFolders> = ({ config, storeKey }) => {
   return (
     <div className={styles.container}>
       {allFolders.map((folder) => {
-        const { name, id, count } = folder
+        const { name, id, count, isMainFolder } = folder
         const active = activeFolderId === id
         return (
           <div
@@ -101,11 +101,14 @@ const Folders: FC<IFolders> = ({ config, storeKey }) => {
             <span className={cx(styles.count, active ? 'text_1_hl_2' : 'text_1')}>
               {reduceBigNumbers(count)}
             </span>
-            <FolderContextMenu
-              openRenamePopup={openRenamePopup}
-              folderId={id}
-              openDeletePopup={openDeletePopup}
-            />
+
+            {!isMainFolder && (
+              <FolderContextMenu
+                openRenamePopup={openRenamePopup}
+                folderId={id}
+                openDeletePopup={openDeletePopup}
+              />
+            )}
           </div>
         )
       })}
@@ -118,7 +121,12 @@ const Folders: FC<IFolders> = ({ config, storeKey }) => {
         <span>Создать новую папку</span>
       </Button>
 
-      <FolderPopup isOpen={popupOpened} close={closePopup} currentFolder={currentFolder} />
+      <FolderPopup
+        isOpen={popupOpened}
+        close={closePopup}
+        currentFolder={currentFolder}
+        reducerName={reducerName}
+      />
       <MessageBox
         isOpen={messageBoxShown}
         close={toggleMessageBox}

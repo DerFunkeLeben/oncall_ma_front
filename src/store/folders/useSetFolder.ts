@@ -3,37 +3,38 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import ActionCreator from './actions'
 import { IFolder } from 'types'
-import { getActiveFolderId } from 'store/content/selectors'
+import { getActiveFolderId } from './selectors'
+import { IState, MainReducerKeys } from 'store/data-types'
 
-const useSetFolders = () => {
+const useSetFolders = (reducerName: MainReducerKeys) => {
   const dispatch = useDispatch()
 
-  const activeFolderId = useSelector(getActiveFolderId)
+  const activeFolderId = useSelector((state: IState) => getActiveFolderId(state, reducerName))
 
   const viewFolder = useCallback(
     (folderId: string) => {
-      dispatch(ActionCreator.viewFolder(folderId))
+      dispatch(ActionCreator.viewFolder(folderId, reducerName))
     },
     [dispatch]
   )
 
   const createFolder = useCallback(
     (folder: IFolder) => {
-      dispatch(ActionCreator.createFolder(folder))
+      dispatch(ActionCreator.createFolder(folder, reducerName))
     },
     [dispatch]
   )
 
   const renameFolder = useCallback(
     (folder: IFolder) => {
-      dispatch(ActionCreator.renameFolder(folder))
+      dispatch(ActionCreator.renameFolder(folder, reducerName))
     },
     [dispatch]
   )
 
   const deleteFolder = useCallback(
     (folder: IFolder) => {
-      dispatch(ActionCreator.deleteFolder(folder))
+      dispatch(ActionCreator.deleteFolder(folder, reducerName))
     },
     [dispatch]
   )

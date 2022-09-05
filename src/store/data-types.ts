@@ -3,16 +3,20 @@ import { IStoreContent } from './content/_data-types'
 import { IStoreFolder } from './folders/_data-types'
 import { IStoreScenario } from './scenario/_data-types'
 
-export enum StoreKeys {
-  auth = 'auth',
-  scenario = 'scenario',
+export enum MainReducerKeys {
+  audiences = 'audiences',
   content = 'content',
+  // scenario = 'scenario',
 }
 
 export interface IState {
-  [StoreKeys.auth]?: IStoreAuth
-  [StoreKeys.scenario]?: IStoreScenario
-  [StoreKeys.content]: {
+  auth?: IStoreAuth
+  scenario?: IStoreScenario
+  [MainReducerKeys.audiences]: {
+    // data:
+    folders: IStoreFolder
+  }
+  [MainReducerKeys.content]: {
     data: IStoreContent
     folders: IStoreFolder
   }

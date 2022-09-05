@@ -1,12 +1,10 @@
 import { useSelector } from 'react-redux'
+import { getAllFolders, getAllFoldersIds } from './selectors'
+import { IState, MainReducerKeys } from 'store/data-types'
 
-import { getAllFolders, getAllFoldersIds } from 'store/content/selectors'
-// TODO импортить другие селекторы и по условию запускать их в useSelector
-// или добавить параметр в селектор -  на какой странице обрабатываем папки
-
-const useAllFolders = () => {
-  const allFolders = useSelector(getAllFolders)
-  const allFoldersIds = useSelector(getAllFoldersIds)
+const useAllFolders = (reducerName: MainReducerKeys) => {
+  const allFolders = useSelector((state: IState) => getAllFolders(state, reducerName))
+  const allFoldersIds = useSelector((state: IState) => getAllFoldersIds(state, reducerName))
 
   return {
     allFolders,

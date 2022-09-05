@@ -34,6 +34,7 @@ export interface IFolder {
   name: string
   id: string
   count: number
+  isMainFolder?: boolean
 }
 
 export interface ICheckMenuConfig {
