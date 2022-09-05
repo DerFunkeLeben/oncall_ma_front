@@ -3,10 +3,9 @@ import { useHistory } from 'react-router-dom'
 
 import PageHead from 'components/PageHead/PageHead'
 import Button from 'components/parts/Button/Button'
-import MessageBox from 'components/MessageBox/MessageBox'
 
 import useAlertContext from 'context/AlertContext'
-import useToggle from 'hooks/useToggle'
+import useMessageBoxContext from 'context/MessageBoxContext'
 import useDidUpdateEffect from 'hooks/useDidUpdateEffect'
 import useCurrentContent from 'store/content/useCurrentContent'
 import useSetContent from 'store/content/useSetContent'
@@ -33,20 +32,23 @@ const ContentHead: FC<IContentHead> = ({ settings, handleChange, openPopUp }) =>
   const history = useHistory()
   const { currentContent } = useCurrentContent()
   const { saveContent, createContent, deleteContent } = useSetContent()
-  const titleAlreadyExists = useParamSelector(getTitleMatch, settings.title)
-
-  const [messageBoxDeleteShown, toggleMessageBoxDelete] = useToggle()
-  const [messageBoxFilenameShown, toggleMessageBoxFilename] = useToggle()
   const { setAlertBox } = useAlertContext()
+  const { setMessageBox } = useMessageBoxContext()
 
   const [contentChanged, setContentChanged] = useState(false)
 
   const { contentAction } = currentContent
+  const titleAlreadyExists = useParamSelector(getTitleMatch, settings.title)
 
   const handleSave = () => {
     const notCurrentContentTitle = titleAlreadyExists?.id !== currentContent.content?.id
     const needMessageBox = titleAlreadyExists && notCurrentContentTitle
-    if (needMessageBox) return toggleMessageBoxFilename()
+    if (needMessageBox)
+      return setMessageBox({
+        isOpen: true,
+        title: `Файл с таким именем уже <br> существует`,
+        buttons: ['Ок'],
+      })
 
     if (contentAction === CREATE) createContent(settings)
     else if (contentAction === EDIT) saveContent(settings)
@@ -66,6 +68,14 @@ const ContentHead: FC<IContentHead> = ({ settings, handleChange, openPopUp }) =>
     history.push(`${CONTENT_URL}`)
   }
 
+  const showMessageBoxDelete = () =>
+    setMessageBox({
+      isOpen: true,
+      handleConfirm: handleDelete,
+      title: `Вы уверены, что хотите удалить контент ${settings.title}?`,
+      buttons: ['Отмена', 'Удалить'],
+    })
+
   useDidUpdateEffect(() => setContentChanged(true), [settings])
 
   return (
@@ -82,7 +92,7 @@ const ContentHead: FC<IContentHead> = ({ settings, handleChange, openPopUp }) =>
         <IconSend />
         <span>Отправить тестово</span>
       </Button>
-      <Button modificator={buttonStyles.theme_alert} onClick={toggleMessageBoxDelete}>
+      <Button modificator={buttonStyles.theme_alert} onClick={showMessageBoxDelete}>
         <IconTrash />
         <span>Удалить</span>
       </Button>
@@ -90,20 +100,6 @@ const ContentHead: FC<IContentHead> = ({ settings, handleChange, openPopUp }) =>
       <Button onClick={handleSave}>
         <span>Сохранить</span>
       </Button>
-
-      <MessageBox
-        isOpen={messageBoxFilenameShown}
-        close={toggleMessageBoxFilename}
-        title={`Файл с таким именем уже <br> существует`}
-        buttons={['Ок']}
-      />
-      <MessageBox
-        isOpen={messageBoxDeleteShown}
-        close={toggleMessageBoxDelete}
-        handleConfirm={handleDelete}
-        title={`Вы уверены, что хотите удалить контент ${settings.title}?`}
-        buttons={['Отмена', 'Удалить']}
-      />
     </PageHead>
   )
 }

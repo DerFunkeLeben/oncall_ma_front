@@ -1,3 +1,4 @@
+import { AlertBoxIcons } from 'constants/dictionary'
 import { FC, SVGProps } from 'react'
 
 export interface IPageData {
@@ -43,6 +44,19 @@ export interface ICheckMenuConfig {
   Icon: FC<SVGProps<SVGSVGElement>>
   handleClick: () => void
   modificators?: string[]
+}
+
+export interface IAlertBox {
+  message: string
+  isOpen: boolean
+  icon: AlertBoxIcons | undefined
+}
+
+export interface IMessageBox {
+  title: string
+  isOpen: boolean
+  buttons: string[]
+  handleConfirm?: () => void
 }
 
 export enum TasksTypes {

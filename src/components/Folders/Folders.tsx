@@ -19,6 +19,7 @@ import { findFolderById, reduceBigNumbers } from 'utils'
 import { IconPlus, IconFolderOpen, IconFolderClose } from 'assets/icons'
 import buttonThemes from 'components/parts/Button/ButtonThemes.module.scss'
 import styles from './Folders.module.scss'
+import useMessageBoxContext from 'context/MessageBoxContext'
 
 interface IFolders {
   reducerName: MainReducerKeys
@@ -38,9 +39,9 @@ const Folders: FC<IFolders> = ({ reducerName }) => {
   const { allFolders } = useAllFolders(reducerName)
   const { activeFolderId, viewFolder, deleteFolder } = useSetFolder(reducerName)
   const { setAlertBox } = useAlertContext()
+  const { setMessageBox, hideMessageBox } = useMessageBoxContext()
 
   const [currentFolder, setCurrentFolder] = useState<ICurrentFolder>({})
-  const [messageBoxShown, toggleMessageBox] = useToggle()
 
   const setActiveFolder = (e: React.MouseEvent<HTMLElement>) => {
     const { id } = e.currentTarget.dataset
@@ -61,15 +62,18 @@ const Folders: FC<IFolders> = ({ reducerName }) => {
   const openDeletePopup = (id: string) => {
     const folder = findFolderById(allFolders, id)
     setCurrentFolder({ folder, action: DELETE })
-    toggleMessageBox()
-  }
 
-  const confirmDelete = () => {
-    const { folder } = currentFolder
-    if (folder) {
+    setMessageBox({
+      isOpen: true,
+      handleConfirm: confirmDelete,
+      title: makeMessageBoxTitle(currentFolder.folder?.name || ''),
+      buttons: ['Отмена', 'Удалить'],
+    })
+
+    function confirmDelete() {
+      if (!folder) return
+
       deleteFolder(folder)
-      toggleMessageBox()
-
       setAlertBox({
         message: `Папка ${folder.name} удаленa`,
         icon: AlertBoxIcons.DELETE,
@@ -126,13 +130,6 @@ const Folders: FC<IFolders> = ({ reducerName }) => {
         close={closePopup}
         currentFolder={currentFolder}
         reducerName={reducerName}
-      />
-      <MessageBox
-        isOpen={messageBoxShown}
-        close={toggleMessageBox}
-        handleConfirm={confirmDelete}
-        title={makeMessageBoxTitle(currentFolder.folder?.name || '')}
-        buttons={['Отмена', 'Удалить']}
       />
     </div>
   )

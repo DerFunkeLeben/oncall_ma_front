@@ -1,26 +1,21 @@
-import { useCallback } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import { IStoreContent, StoreKeys } from './_data-types'
-import ActionCreator from './actions'
+import { useParams } from 'react-router-dom'
 
-import { getCurrentContent } from './selectors'
+import useParamSelector from 'hooks/useParamSelector'
+import { ContentAction } from 'constants/content'
+import { getContentById } from './selectors'
+
+const { CREATE, EDIT } = ContentAction
 
 const useCurrentContent = () => {
-  const dispatch = useDispatch()
+  const { contentId } = useParams<{ contentId?: string }>()
 
-  const currentContent = useSelector(getCurrentContent)
+  const content = useParamSelector(getContentById, contentId)
 
-  const setCurrentContent = useCallback(
-    (content: IStoreContent[StoreKeys.currentContent]) => {
-      dispatch(ActionCreator.setCurrentContent(content))
-    },
-    [dispatch]
-  )
+  let currentContent
+  if (content) currentContent = { content, contentAction: EDIT }
+  else currentContent = { content, contentAction: CREATE }
 
-  return {
-    currentContent,
-    setCurrentContent,
-  }
+  return { currentContent }
 }
 
 export default useCurrentContent

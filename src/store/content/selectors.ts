@@ -20,4 +20,14 @@ const getTitleMatch = createSelector(getAllContent, getTitle, (content, titleToC
   content.find(({ title }) => title === titleToCheck)
 )
 
-export { getCurrentContent, getAllContent, getAllContentIds, getTitleMatch }
+const getId = (_: any, id: string) => id
+const getContentById = createSelector(getContent, getId, (content, id) => content[id])
+
+export {
+  getContent,
+  getCurrentContent,
+  getAllContent,
+  getAllContentIds,
+  getTitleMatch,
+  getContentById,
+}

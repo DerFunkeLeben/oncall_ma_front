@@ -28,6 +28,7 @@ import { ReactComponent as IconRefresh } from './refresh.svg'
 import { ReactComponent as IconTriangle } from './triangle.svg'
 import { ReactComponent as IconCalendar } from './calendar.svg'
 import { ReactComponent as IconTelegram } from './telegram.svg'
+import { ReactComponent as IconMailBig } from './mail_big.svg'
 import { ReactComponent as IconWarning } from './warning.svg'
 import { ReactComponent as IconSuccess } from './success.svg'
 import { ReactComponent as IconTaskAbTest } from './task_abTest.svg'
@@ -45,6 +46,7 @@ import { ReactComponent as IconTaskTelega } from './task_telega.svg'
 import { ReactComponent as IconTaskWait } from './task_wait.svg'
 
 export {
+  IconMailBig,
   IconAnalytics,
   IconAudit,
   IconBell,

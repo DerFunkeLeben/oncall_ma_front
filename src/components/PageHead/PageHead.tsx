@@ -4,9 +4,8 @@ import { useHistory } from 'react-router-dom'
 
 import Button from 'components/parts/Button/Button'
 import EditableTitle from 'components/EditableTitle/EditableTitle'
-import MessageBox from 'components/MessageBox/MessageBox'
 
-import useToggle from 'hooks/useToggle'
+import useMessageBoxContext from 'context/MessageBoxContext'
 
 import { IconArrow } from 'assets/icons'
 import styles from './PageHead.module.scss'
@@ -40,12 +39,20 @@ const PageHead: FC<IPageHead> = ({
   buttonBackMessageBox,
 }) => {
   const history = useHistory()
-  const [messageBoxShown, toggleMessageBox] = useToggle()
+  const { setMessageBox } = useMessageBoxContext()
 
   const goBack = () => {
     if (!buttonBackUrl) return
     history.push(buttonBackUrl)
   }
+
+  const showMessageBox = () =>
+    setMessageBox({
+      isOpen: true,
+      handleConfirm: goBack,
+      title: `Хотите сохранить изменения<br>перед выходом?`,
+      buttons: ['Отмена', 'Не сохранять'],
+    })
 
   return (
     <div className={cx(styles.head, mod && styles.bigHeadMode)}>
@@ -53,7 +60,7 @@ const PageHead: FC<IPageHead> = ({
         {buttonBackName && (
           <Button
             modificator={buttonThemes.theme_additional}
-            onClick={buttonBackMessageBox ? toggleMessageBox : goBack}
+            onClick={buttonBackMessageBox ? showMessageBox : goBack}
           >
             <IconArrow className={styles.buttonBackIcon} />
             <span>{buttonBackName}</span>
@@ -83,14 +90,6 @@ const PageHead: FC<IPageHead> = ({
         {separateBlock && <div className={styles.leftBlock}>{separateBlock}</div>}
         <div className={styles.rightBlock}>{children}</div>
       </div>
-
-      <MessageBox
-        isOpen={messageBoxShown}
-        close={toggleMessageBox}
-        handleConfirm={goBack}
-        title={`Хотите сохранить изменения<br>перед выходом?`}
-        buttons={['Отмена', 'Не сохранять']}
-      />
     </div>
   )
 }

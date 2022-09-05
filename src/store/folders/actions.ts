@@ -23,6 +23,16 @@ const ActionCreator = {
     payload: folder,
     name: reducerName,
   }),
+  incrementFolder: (folderId: string, reducerName: MainReducerKeys) => ({
+    type: ActionType.INCREMENT_FOLDER,
+    payload: folderId,
+    name: reducerName,
+  }),
+  decrementFolder: (folderId: string | undefined, reducerName: MainReducerKeys) => ({
+    type: ActionType.DECREMENT_FOLDER,
+    payload: folderId,
+    name: reducerName,
+  }),
 }
 
 export default ActionCreator

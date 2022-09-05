@@ -4,21 +4,18 @@ import cx from 'classnames'
 import Button from 'components/parts/Button/Button'
 import Popup from 'containers/Popup/Popup'
 
+import useMessageBoxContext from 'context/MessageBoxContext'
+
 import styles from './MessageBox.module.scss'
 import buttonThemes from 'components/parts/Button/ButtonThemes.module.scss'
 
-interface IMessageBox {
-  title: string
-  isOpen: boolean
-  buttons: string[]
-  close: () => void
-  handleConfirm?: () => void
-}
+const MessageBox: FC = () => {
+  const { messageBox, hideMessageBox } = useMessageBoxContext()
+  const { isOpen, title, handleConfirm, buttons } = messageBox
 
-const MessageBox: FC<IMessageBox> = ({ isOpen, close, title, handleConfirm, buttons }) => {
   const [cancelBtn, okBtn] = buttons
   return (
-    <Popup isOpen={isOpen} close={close}>
+    <Popup isOpen={isOpen} close={hideMessageBox}>
       <div
         className={cx(styles.title, 'text_2_hl_1')}
         dangerouslySetInnerHTML={{ __html: title }}
@@ -26,14 +23,17 @@ const MessageBox: FC<IMessageBox> = ({ isOpen, close, title, handleConfirm, butt
       <div className={cx(styles.btnsWrap)}>
         <Button
           modificator={cx(buttonThemes.theme_secondary, styles.btn, 'text_2_hl_1')}
-          onClick={close}
+          onClick={hideMessageBox}
         >
           {cancelBtn}
         </Button>
         {okBtn && (
           <Button
             modificator={cx(buttonThemes.theme_secondary, styles.btn, 'text_2_hl_1')}
-            onClick={handleConfirm}
+            onClick={() => {
+              handleConfirm?.()
+              hideMessageBox()
+            }}
           >
             {okBtn}
           </Button>

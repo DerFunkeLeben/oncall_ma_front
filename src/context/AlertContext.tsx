@@ -1,18 +1,13 @@
-import { createContext, useContext, useState } from 'react'
+import { createContext, Dispatch, SetStateAction, useContext } from 'react'
+import { IAlertBox } from 'types'
 
-export const INIT_ALERTBOX = {
-  message: '',
-  icon: undefined,
-  isOpen: false,
+interface IAlertBoxContext {
+  alertBox: IAlertBox
+  setAlertBox: Dispatch<SetStateAction<IAlertBox>>
+  hideAlertBox: () => void
 }
 
-export const AlertContext = createContext(undefined as any)
-
-export const useAlertBox = () => {
-  const [alertBox, setAlertBox] = useState(INIT_ALERTBOX)
-  const hideAlertBox = () => setAlertBox(INIT_ALERTBOX)
-  return { alertBox, setAlertBox, hideAlertBox }
-}
+export const AlertContext = createContext({} as IAlertBoxContext)
 
 const useAlertContext = () => useContext(AlertContext)
 

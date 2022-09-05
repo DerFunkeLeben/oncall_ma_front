@@ -39,12 +39,28 @@ const useSetFolders = (reducerName: MainReducerKeys) => {
     [dispatch]
   )
 
+  const incrementFolder = useCallback(
+    (folderId: string) => {
+      dispatch(ActionCreator.incrementFolder(folderId, reducerName))
+    },
+    [dispatch]
+  )
+
+  const decrementFolder = useCallback(
+    (folderId: string) => {
+      dispatch(ActionCreator.decrementFolder(folderId, reducerName))
+    },
+    [dispatch]
+  )
+
   return {
     activeFolderId,
     viewFolder,
     createFolder,
     renameFolder,
     deleteFolder,
+    incrementFolder,
+    decrementFolder,
   }
 }
 

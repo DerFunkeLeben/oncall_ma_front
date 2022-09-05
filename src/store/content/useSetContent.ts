@@ -1,16 +1,26 @@
 import { useCallback } from 'react'
 import { useDispatch } from 'react-redux'
+import { batchActions } from 'redux-batched-actions'
 
+import useSetFolders from 'store/folders/useSetFolder'
+import FoldersActionCreator from 'store/folders/actions'
 import ActionCreator from './actions'
 
 import { IContent } from 'types/content'
+import { MainReducerKeys } from 'store/data-types'
 
 const useSetContent = () => {
   const dispatch = useDispatch()
+  const { activeFolderId } = useSetFolders(MainReducerKeys.content)
 
   const createContent = useCallback(
     (content: IContent) => {
-      dispatch(ActionCreator.createContent(content))
+      dispatch(
+        batchActions([
+          ActionCreator.createContent({ ...content, folderId: activeFolderId }),
+          FoldersActionCreator.incrementFolder(activeFolderId, MainReducerKeys.content),
+        ])
+      )
     },
     [dispatch]
   )
@@ -24,14 +34,12 @@ const useSetContent = () => {
 
   const deleteContent = useCallback(
     (content: IContent) => {
-      dispatch(ActionCreator.deleteContent(content))
-    },
-    [dispatch]
-  )
-
-  const deleteMultipleById = useCallback(
-    (ids: string[]) => {
-      dispatch(ActionCreator.deleteMultipleById(ids))
+      dispatch(
+        batchActions([
+          ActionCreator.deleteContent(content),
+          FoldersActionCreator.decrementFolder(activeFolderId, MainReducerKeys.content),
+        ])
+      )
     },
     [dispatch]
   )
@@ -40,7 +48,6 @@ const useSetContent = () => {
     createContent,
     saveContent,
     deleteContent,
-    deleteMultipleById,
   }
 }
 

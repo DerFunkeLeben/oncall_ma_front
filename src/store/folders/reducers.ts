@@ -6,6 +6,7 @@ import { IReducer, MainReducerKeys } from 'store/data-types'
 const defaultState: IStoreFolder = {
   allFolders: {},
   activeFolderId: '',
+  mainFolderId: '',
 }
 
 interface IFolderReducer extends IReducer {
@@ -21,7 +22,6 @@ const foldersReducer = (reducerName: MainReducerKeys) => {
 
     switch (type) {
       case ActionType.VIEW_FOLDER: {
-        console.log(state)
         return {
           ...state,
           [FolderKeys.activeFolderId]: payload,
@@ -51,10 +51,31 @@ const foldersReducer = (reducerName: MainReducerKeys) => {
         }
       }
 
+      case ActionType.INCREMENT_FOLDER:
+        return changeFolderSize(state, 1, payload)
+
+      case ActionType.DECREMENT_FOLDER:
+        return changeFolderSize(state, -1, payload)
+
       default:
         return state
     }
   }
 }
 
+function changeFolderSize(state = defaultState, delta = 1, payload: any) {
+  const currFolder = state.allFolders[payload]
+
+  const mainFolderId: string = state.mainFolderId
+  const mainFolder = state.allFolders[mainFolderId]
+
+  return {
+    ...state,
+    [FolderKeys.allFolders]: {
+      ...state.allFolders,
+      [mainFolderId]: { ...mainFolder, count: mainFolder.count + delta },
+      [payload]: { ...currFolder, count: currFolder.count + delta },
+    },
+  }
+}
 export { foldersReducer }

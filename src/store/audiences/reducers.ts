@@ -6,6 +6,7 @@ import { IStoreFolder } from 'store/folders/_data-types'
 
 const initialFolderState: IStoreFolder = {
   activeFolderId: '0_audience',
+  mainFolderId: '0_audience',
   allFolders: {
     '0_audience': {
       name: 'Все аудитории',

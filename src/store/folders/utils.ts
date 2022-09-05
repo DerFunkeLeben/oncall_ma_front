@@ -6,3 +6,13 @@ export function foldersSort(folders: IFolder[]) {
     return b.count - a.count
   })
 }
+
+export function getFolderNameMatch(
+  folders: IFolder[],
+  name: string,
+  id: string | undefined
+): boolean {
+  const foundFolder = folders.find((folder) => folder.name === name)
+  const notCurrentFolder = foundFolder?.id !== id
+  return Boolean(foundFolder) && notCurrentFolder
+}
