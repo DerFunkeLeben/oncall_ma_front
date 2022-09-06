@@ -10,17 +10,17 @@ import HTMLPreview from './parts/HTMLPreview'
 
 import useCurrentContent from 'store/content/useCurrentContent'
 import useDebounce from 'hooks/useDebounce'
+import useToggle from 'hooks/useToggle'
 import { INIT_HTML_CONTENT } from 'constants/content'
 
 import { IPageData } from 'types'
 import { IContentHTML } from 'types/content'
-
 import styles from './ContentHTML.module.scss'
 
 const ContentHTML: FC<IPageData> = () => {
   const { currentContent } = useCurrentContent()
 
-  const [popUpIsOpen, setPopUpIsOpen] = useState<boolean>(false)
+  const [popUpIsOpen, togglePopUp] = useToggle()
   const [emails, setEmails] = useState<string[]>([''])
 
   const [settings, setSettings] = useState<IContentHTML>(
@@ -54,8 +54,6 @@ const ContentHTML: FC<IPageData> = () => {
     }
     reader.readAsText(file)
   }
-
-  const togglePopUp = () => setPopUpIsOpen(!popUpIsOpen)
 
   const sendEmails = (inputs: string[]) => {
     console.log('send email', inputs)

@@ -3,12 +3,10 @@ import { useDropzone } from 'react-dropzone'
 import cx from 'classnames'
 import axios from 'axios'
 
+import helpMessages from 'constants/helpMessages'
 import { IconFolderYellow } from 'assets/icons'
 
 import styles from './FileDropZone.module.scss'
-
-const dropMainCaption = 'Перетащите в эту область файл для загрузки'
-const dropSecondCaption = 'Загрузить из папки'
 
 const uploadFiles = async (acceptedFiles: any) => {
   const formData = new FormData()
@@ -47,9 +45,9 @@ const FileDropZone: FC<IFileDropZone> = ({ handleDropFile }) => {
         <input {...inputProps} />
 
         <IconFolderYellow />
-        <div className={styles.dropMainCaption}>{dropMainCaption}</div>
+        <div className={styles.dropMainCaption}>{helpMessages.DROP_FILE_CAPTION}</div>
         <div className={styles.dropOrCaption}>или</div>
-        <div className={styles.dropSecondCaption}>{dropSecondCaption}</div>
+        <div className={styles.dropSecondCaption}>Загрузить из папки</div>
       </div>
     </div>
   )

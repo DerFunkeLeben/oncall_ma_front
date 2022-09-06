@@ -10,6 +10,7 @@ import CreateDropDown from './CreateDropDown'
 import useAllContent from 'store/content/useAllContent'
 import useSearch from 'hooks/useSearch'
 
+import helpMessages from 'constants/helpMessages'
 import { MainReducerKeys } from 'store/data-types'
 import { IPageData } from 'types'
 import { IContent } from 'types/content'
@@ -51,24 +52,26 @@ const AllContent: FC<IPageData> = () => {
   )
 }
 function EmptyTable() {
-  const EMPTY_TABLE = 'Вы еще не создали ни одного письма'
-
   return (
     <div className={styles.emptyTableWrapper}>
       <IconMailBig />
-      <div className={styles.emptyCaption} dangerouslySetInnerHTML={{ __html: EMPTY_TABLE }} />
+      <div
+        className={styles.emptyCaption}
+        dangerouslySetInnerHTML={{ __html: helpMessages.EMPTY_CONTENT_TABLE }}
+      />
       <CreateDropDown mode={cx(buttonStyles.theme_additional, styles.buttonCreate)} />
     </div>
   )
 }
 
 function EmptyFilter() {
-  const NO_RESULTS = 'По вашему запросу <b>не найдено</b> результатов'
-
   return (
     <div className={styles.emptyTableWrapper}>
       <IconMailBig />
-      <div className={styles.emptyCaption} dangerouslySetInnerHTML={{ __html: NO_RESULTS }} />
+      <div
+        className={styles.emptyCaption}
+        dangerouslySetInnerHTML={{ __html: helpMessages.EMPTY_FILTER_RESULT }}
+      />
     </div>
   )
 }

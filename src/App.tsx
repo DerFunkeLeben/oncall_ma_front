@@ -4,6 +4,7 @@ import { Redirect } from 'react-router'
 
 import AlertBox from 'components/AlertBox/AlertBox'
 import MessageBox from 'components/MessageBox/MessageBox'
+import HashChangeWrapper from 'containers/LocationChangeWrapper'
 
 import PAGES from 'pages'
 
@@ -24,24 +25,26 @@ function App() {
 
   return (
     <div className="App">
-      <AlertContext.Provider value={alertBox}>
-        <MessageBoxContext.Provider value={messageBox}>
-          <Switch>
-            {PAGES.map((page) => {
-              const { Component, link, route, ...rest } = page
-              return (
-                <Route path={route} exact key={link}>
-                  <Component {...rest} route={route} link={link} />
-                </Route>
-              )
-            })}
+      <HashChangeWrapper>
+        <AlertContext.Provider value={alertBox}>
+          <MessageBoxContext.Provider value={messageBox}>
+            <Switch>
+              {PAGES.map((page) => {
+                const { Component, link, route, ...rest } = page
+                return (
+                  <Route path={route} exact key={link}>
+                    <Component {...rest} route={route} link={link} />
+                  </Route>
+                )
+              })}
 
-            <Route render={() => <Redirect to="/" />} />
-          </Switch>
-          <AlertBox />
-          <MessageBox />
-        </MessageBoxContext.Provider>
-      </AlertContext.Provider>
+              <Route render={() => <Redirect to="/" />} />
+            </Switch>
+            <AlertBox />
+            <MessageBox />
+          </MessageBoxContext.Provider>
+        </AlertContext.Provider>
+      </HashChangeWrapper>
     </div>
   )
 }

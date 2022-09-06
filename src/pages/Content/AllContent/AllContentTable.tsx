@@ -9,6 +9,7 @@ import useAlertContext from 'context/AlertContext'
 import useMessageBoxContext from 'context/MessageBoxContext'
 
 import { CONTENT_URL_HTML, CONTENT_URL_SMS, CONTENT_URL_FILE } from 'constants/url'
+import { SURE_WANT_DELETE_MANY } from 'constants/helpMessages'
 import { AlertBoxIcons } from 'constants/dictionary'
 import { ddmmyyyy } from 'utils/transformDate'
 import { ContentTypes, IContent } from 'types/content'
@@ -16,8 +17,6 @@ import { IconCheck, IconSend, IconTrash } from 'assets/icons'
 import tableStyles from 'components/Table/TableBase.module.scss'
 
 const header = ['', 'Название', 'Тип', 'Дата создания', 'Дата изменения']
-const makeMessageBoxTitle = (checkedCount: number) =>
-  `Вы уверены, что хотите удалить ${checkedCount} элементов?`
 
 const getAllContentIds = (allContent: IContent[]) => allContent.map(({ id }) => id) as string[]
 
@@ -59,7 +58,7 @@ const AllContentTable: FC<{ allContent: IContent[] }> = ({ allContent }) => {
     setMessageBox({
       isOpen: true,
       handleConfirm,
-      title: makeMessageBoxTitle(checkedCount),
+      title: SURE_WANT_DELETE_MANY(checkedCount),
       buttons: ['Отмена', 'Удалить'],
     })
 

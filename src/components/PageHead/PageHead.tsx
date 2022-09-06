@@ -5,6 +5,7 @@ import { useHistory } from 'react-router-dom'
 import Button from 'components/parts/Button/Button'
 import EditableTitle from 'components/EditableTitle/EditableTitle'
 
+import helpMessages from 'constants/helpMessages'
 import useMessageBoxContext from 'context/MessageBoxContext'
 
 import { IconArrow } from 'assets/icons'
@@ -50,7 +51,7 @@ const PageHead: FC<IPageHead> = ({
     setMessageBox({
       isOpen: true,
       handleConfirm: goBack,
-      title: `Хотите сохранить изменения<br>перед выходом?`,
+      title: helpMessages.DONT_WANT_SAVE_CHANGES,
       buttons: ['Отмена', 'Не сохранять'],
     })
 

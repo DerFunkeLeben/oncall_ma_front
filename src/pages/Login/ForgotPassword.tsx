@@ -3,16 +3,12 @@ import cx from 'classnames'
 
 import Button from 'components/parts/Button/Button'
 import InputBase from 'components/parts/InputBase/InputBase'
+import ValidationError from 'constants/ValidationError'
+import HelpMessages from 'constants/helpMessages'
 import { loginInputsData } from 'types/login'
 
 import inputStyles from 'components/parts/InputBase/InputBase.module.scss'
 import styles from './Login.module.scss'
-
-const ERROR_MESSAGE = 'Пользователь с таким адресом не зарегистрирован'
-const HELP_MESSAGE =
-  '<p>Забыли пароль?</p> Введите свой электронный адрес. Вам на почту придет ссылка для восстановления пароля.'
-const CHECK_EMAIL_MESSAGE = (login: string) =>
-  `<p>Проверьте почту</p>По адресу ${login} была отправлена ссылка для восстановления пароля`
 
 const ForgotPassword: FC<IForgotPassword> = ({
   login,
@@ -29,7 +25,7 @@ const ForgotPassword: FC<IForgotPassword> = ({
       // TODO: send email
       setEmailSent(true)
     } catch (e) {
-      setLoginError(ERROR_MESSAGE)
+      setLoginError(ValidationError.USER_DOESNT_EXISTS)
       console.error(e)
     }
   }
@@ -39,7 +35,7 @@ const ForgotPassword: FC<IForgotPassword> = ({
       <form className={styles.loginForm}>
         <div
           className={cx(styles.helpCaption, 'text_1')}
-          dangerouslySetInnerHTML={{ __html: CHECK_EMAIL_MESSAGE(login) }}
+          dangerouslySetInnerHTML={{ __html: HelpMessages.CHECK_EMAIL_MESSAGE }}
         />
       </form>
     )
@@ -49,7 +45,7 @@ const ForgotPassword: FC<IForgotPassword> = ({
     <form className={styles.loginForm} onSubmit={onSubmitForgotPassword}>
       <div
         className={cx(styles.helpCaption, 'text_1')}
-        dangerouslySetInnerHTML={{ __html: HELP_MESSAGE }}
+        dangerouslySetInnerHTML={{ __html: HelpMessages.FORGOT_PASSWORD_HELP }}
       />
 
       <InputBase

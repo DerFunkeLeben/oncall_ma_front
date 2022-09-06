@@ -10,6 +10,7 @@ import useSetFolder from 'store/folders/useSetFolder'
 import useAlertContext from 'context/AlertContext'
 
 import { AlertBoxIcons } from 'constants/dictionary'
+import { SURE_WANT_DELETE_FOLDER } from 'constants/helpMessages'
 import { MainReducerKeys } from 'store/data-types'
 import { FolderAction, IFolder } from 'types'
 import { findFolderById, reduceBigNumbers } from 'utils'
@@ -29,9 +30,6 @@ export interface ICurrentFolder {
 }
 
 const { RENAME, CREATE, DELETE } = FolderAction
-
-const makeMessageBoxTitle = (folderName: string) =>
-  `Вы уверены, что хотите удалить папку ${folderName}?<br><br>Данные при этом утеряны не будут`
 
 const Folders: FC<IFolders> = ({ reducerName }) => {
   const { allFolders } = useAllFolders(reducerName)
@@ -64,7 +62,7 @@ const Folders: FC<IFolders> = ({ reducerName }) => {
     setMessageBox({
       isOpen: true,
       handleConfirm: confirmDelete,
-      title: makeMessageBoxTitle(currentFolder.folder?.name || ''),
+      title: SURE_WANT_DELETE_FOLDER(currentFolder.folder?.name),
       buttons: ['Отмена', 'Удалить'],
     })
 

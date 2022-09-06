@@ -2,11 +2,9 @@ import { FC, useRef, memo } from 'react'
 import cx from 'classnames'
 
 import ScrollArea from 'containers/ScrollArea/ScrollArea'
-import useToggle from 'hooks/useToggle'
 
 import styles from '../ContentHTML.module.scss'
 import useScrollHeight from 'hooks/useScrollHeight'
-import Loading from 'components/parts/Loading/Loading'
 
 interface IHTMLPreview {
   HTML: string | undefined

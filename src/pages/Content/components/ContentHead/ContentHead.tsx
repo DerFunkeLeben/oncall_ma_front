@@ -16,6 +16,8 @@ import { IContent } from 'types/content'
 import { AlertBoxIcons } from 'constants/dictionary'
 import { ContentAction } from 'constants/content'
 import { CONTENT_URL } from 'constants/url'
+import { SURE_WANT_DELETE_ONE } from 'constants/helpMessages'
+import ValidationError from 'constants/ValidationError'
 
 import { IconTrash, IconSend } from 'assets/icons'
 import buttonStyles from 'components/parts/Button/ButtonThemes.module.scss'
@@ -46,7 +48,7 @@ const ContentHead: FC<IContentHead> = ({ settings, handleChange, openPopUp }) =>
     if (needMessageBox)
       return setMessageBox({
         isOpen: true,
-        title: `Файл с таким именем уже <br> существует`,
+        title: ValidationError.FILE_ALREADY_EXISTS,
         buttons: ['Ок'],
       })
 
@@ -72,7 +74,7 @@ const ContentHead: FC<IContentHead> = ({ settings, handleChange, openPopUp }) =>
     setMessageBox({
       isOpen: true,
       handleConfirm: handleDelete,
-      title: `Вы уверены, что хотите удалить контент ${settings.title}?`,
+      title: SURE_WANT_DELETE_ONE(settings.title),
       buttons: ['Отмена', 'Удалить'],
     })
 

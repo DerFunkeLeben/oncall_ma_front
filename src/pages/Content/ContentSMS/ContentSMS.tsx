@@ -5,18 +5,18 @@ import TextArea from 'components/parts/TextArea/TextArea'
 import ContentHead from '../components/ContentHead/ContentHead'
 import ContentPopup from '../components/ContentPopup/ContentPopup'
 
+import useToggle from 'hooks/useToggle'
 import useCurrentContent from 'store/content/useCurrentContent'
 import { INIT_SMS_CONTENT } from 'constants/content'
 
 import { IPageData } from 'types'
 import { IContentSMS } from 'types/content'
-
 import styles from './ContentSMS.module.scss'
 
 const ContentHTML: FC<IPageData> = () => {
   const { currentContent } = useCurrentContent()
 
-  const [popUpIsOpen, setPopUpIsOpen] = useState<boolean>(false)
+  const [popUpIsOpen, togglePopUp] = useToggle()
   const [phoneNumbers, setPhoneNumbers] = useState<string[]>([''])
 
   const [settings, setSettings] = useState<IContentSMS>(
@@ -30,8 +30,6 @@ const ContentHTML: FC<IPageData> = () => {
       [name]: value,
     })
   }
-
-  const togglePopUp = () => setPopUpIsOpen(!popUpIsOpen)
 
   const sendSMS = (inputs: string[]) => {
     console.log('send sms', inputs)

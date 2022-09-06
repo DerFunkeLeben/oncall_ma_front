@@ -1,4 +1,4 @@
-import { FC, useState, FormEvent, ChangeEvent, Dispatch, SetStateAction } from 'react'
+import { FC, FormEvent, ChangeEvent, Dispatch, SetStateAction } from 'react'
 import { Redirect, useHistory } from 'react-router-dom'
 import cx from 'classnames'
 
@@ -6,15 +6,14 @@ import InputBase from 'components/parts/InputBase/InputBase'
 import Button from 'components/parts/Button/Button'
 
 import { PagesData } from 'constants/url'
+import ValidationError from 'constants/ValidationError'
+import useToggle from 'hooks/useToggle'
 import { useAuth } from 'store/auth/useAuth'
 import { ILoginAnswer, loginInputsData } from 'types/login'
 
 import { IconPasswordHide, IconPasswordShow } from 'assets/icons'
 import inputStyles from 'components/parts/InputBase/InputBase.module.scss'
 import styles from './Login.module.scss'
-
-const ERROR_MESSAGE =
-  'Неверный пароль. Повторите попытку или нажмите на ссылку "Забыли пароль?", чтобы сбросить его.'
 
 const LoginForm: FC<ILoginForm> = ({
   loginData,
@@ -25,13 +24,12 @@ const LoginForm: FC<ILoginForm> = ({
   setLoginError,
   setLoading,
 }) => {
-  const [passwordShown, setPasswordShown] = useState(false)
-  const togglePassword = () => setPasswordShown(!passwordShown)
+  const [passwordShown, togglePassword] = useToggle()
   const clearPassword = () => setLoginData({ ...loginData, password: '' })
 
-  const { setUser } = useAuth()
+  const { user, setUser } = useAuth()
   const history = useHistory()
-  const user = { email: sessionStorage.getItem('user') }
+  // const user = { email: sessionStorage.getItem('user') }
 
   if (user?.email) {
     return <Redirect to={PagesData.AUDIENCES.link} />
@@ -39,8 +37,8 @@ const LoginForm: FC<ILoginForm> = ({
 
   const loginUser = async (data: ILoginAnswer) => {
     const { userDB } = data
-
-    setUser && (await setUser(userDB))
+    setUser({ email: loginData.login })
+    // setUser && (await setUser(userDB))
 
     history.push(PagesData.AUDIENCES.link)
   }
@@ -64,7 +62,7 @@ const LoginForm: FC<ILoginForm> = ({
       })
       await loginUser(result)
     } catch (e) {
-      setLoginError(ERROR_MESSAGE)
+      setLoginError(ValidationError.WRONG_PASSWORD)
       clearPassword()
       console.error(e)
     } finally {
@@ -72,6 +70,10 @@ const LoginForm: FC<ILoginForm> = ({
     }
   }
 
+  const handleForgotPassword = () => {
+    setForgotPassword(true)
+    setLoginError('')
+  }
   return (
     <form className={styles.loginForm} onSubmit={onSubmitLogin}>
       <InputBase
@@ -100,7 +102,7 @@ const LoginForm: FC<ILoginForm> = ({
 
       <div className={cx(styles.errorMessage, 'text_05')}>{loginError}</div>
 
-      <Button type="button" onClick={() => setForgotPassword(true)} modificator={styles.btnForget}>
+      <Button type="button" onClick={handleForgotPassword} modificator={styles.btnForget}>
         Забыли пароль?
       </Button>
       <Button type="submit" modificator={styles.btn_2}>

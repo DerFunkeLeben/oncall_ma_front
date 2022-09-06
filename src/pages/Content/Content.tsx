@@ -54,4 +54,4 @@ const Content: FC<IPageData> = () => {
   )
 }
 
-export default Content
+export default memo(Content)

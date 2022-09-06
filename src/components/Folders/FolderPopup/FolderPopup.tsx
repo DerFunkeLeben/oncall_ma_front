@@ -19,6 +19,7 @@ import buttonThemes from 'components/parts/Button/ButtonThemes.module.scss'
 import inputStyles from 'components/parts/InputBase/InputBase.module.scss'
 import useAlertContext from 'context/AlertContext'
 import { AlertBoxIcons } from 'constants/dictionary'
+import ValidationError from 'constants/ValidationError'
 
 interface IFolderPopup {
   isOpen: boolean
@@ -28,8 +29,6 @@ interface IFolderPopup {
 }
 
 const { RENAME, CREATE } = FolderAction
-const EXISTS_ERROR = 'Папка с таким именем уже существует'
-const NO_NAME_ERROR = 'Нельзя создать папку без имени'
 
 const FolderPopup: FC<IFolderPopup> = ({ isOpen, close, currentFolder, reducerName }) => {
   const { folder, action } = currentFolder
@@ -47,10 +46,10 @@ const FolderPopup: FC<IFolderPopup> = ({ isOpen, close, currentFolder, reducerNa
   }
 
   const handleConfirm = () => {
-    if (!folderName) return setFolderError(NO_NAME_ERROR)
+    if (!folderName) return setFolderError(ValidationError.FOLDER_NO_NAME)
 
     const folderAlreadyExists = getFolderNameMatch(allFolders, folderName, folder?.id)
-    if (folderAlreadyExists) return setFolderError(EXISTS_ERROR)
+    if (folderAlreadyExists) return setFolderError(ValidationError.FOLDER_ALREADY_EXISTS)
 
     if (action === RENAME && folder) {
       renameFolder({ ...folder, name: folderName })
