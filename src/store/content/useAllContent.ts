@@ -5,12 +5,11 @@ import { MainReducerKeys } from 'store/data-types'
 import FoldersActionCreator from 'store/folders/actions'
 import ActionCreator from './actions'
 
-import { getAllContent, getAllContentIds, getContent } from './selectors'
+import { getAllContent, getContent } from './selectors'
 
 const useAllContent = () => {
   const allContentObj = useSelector(getContent)
   const allContent = useSelector(getAllContent)
-  const allContentIds = useSelector(getAllContentIds)
 
   const dispatch = useDispatch()
 
@@ -28,7 +27,6 @@ const useAllContent = () => {
 
   return {
     allContent,
-    allContentIds,
     deleteMultipleById,
   }
 }

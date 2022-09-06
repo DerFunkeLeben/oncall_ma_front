@@ -10,11 +10,6 @@ const getCurrentContent = (state: IState): IStoreContent[StoreKeys.currentConten
 
 const getAllContent = createSelector(getContent, (contents) => Object.values(contents).flat())
 
-const getAllContentIds = createSelector(
-  getAllContent,
-  (contents) => contents.map(({ id }) => id).filter((id) => id) as string[]
-)
-
 const getTitle = (_: any, title: string) => title
 const getTitleMatch = createSelector(getAllContent, getTitle, (content, titleToCheck) =>
   content.find(({ title }) => title === titleToCheck)
@@ -23,11 +18,4 @@ const getTitleMatch = createSelector(getAllContent, getTitle, (content, titleToC
 const getId = (_: any, id: string) => id
 const getContentById = createSelector(getContent, getId, (content, id) => content[id])
 
-export {
-  getContent,
-  getCurrentContent,
-  getAllContent,
-  getAllContentIds,
-  getTitleMatch,
-  getContentById,
-}
+export { getContent, getCurrentContent, getAllContent, getTitleMatch, getContentById }

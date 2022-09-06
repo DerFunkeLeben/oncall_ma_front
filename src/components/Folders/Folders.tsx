@@ -1,14 +1,12 @@
-import { FC, useState, memo, useEffect } from 'react'
+import { FC, useState, memo } from 'react'
 import cx from 'classnames'
 
 import Button from 'components/parts/Button/Button'
-import MessageBox from 'components/MessageBox/MessageBox'
 import FolderContextMenu from './FolderContextMenu'
 import FolderPopup from './FolderPopup/FolderPopup'
 
 import useAllFolders from 'store/folders/useAllFolders'
 import useSetFolder from 'store/folders/useSetFolder'
-import useToggle from 'hooks/useToggle'
 import useAlertContext from 'context/AlertContext'
 
 import { AlertBoxIcons } from 'constants/dictionary'
@@ -39,7 +37,7 @@ const Folders: FC<IFolders> = ({ reducerName }) => {
   const { allFolders } = useAllFolders(reducerName)
   const { activeFolderId, viewFolder, deleteFolder } = useSetFolder(reducerName)
   const { setAlertBox } = useAlertContext()
-  const { setMessageBox, hideMessageBox } = useMessageBoxContext()
+  const { setMessageBox } = useMessageBoxContext()
 
   const [currentFolder, setCurrentFolder] = useState<ICurrentFolder>({})
 

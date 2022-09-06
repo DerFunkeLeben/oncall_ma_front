@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, memo } from 'react'
 import cx from 'classnames'
 
 import styles from './Sidebar.module.scss'
@@ -71,4 +71,4 @@ const Sidebar: FC = () => {
   )
 }
 
-export default Sidebar
+export default memo(Sidebar)

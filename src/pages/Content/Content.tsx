@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, memo } from 'react'
 import cx from 'classnames'
 import { Switch, Route, Redirect } from 'react-router-dom'
 

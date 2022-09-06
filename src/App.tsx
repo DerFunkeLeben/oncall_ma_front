@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 import { Switch, Route } from 'react-router-dom'
 import { Redirect } from 'react-router'
 
@@ -12,6 +12,7 @@ import { useAlertBox } from 'hooks/useAlertBox'
 import { useMessageBox } from 'hooks/useMessageBox'
 import { AlertContext } from 'context/AlertContext'
 import { MessageBoxContext } from 'context/MessageBoxContext'
+
 // import { PagesData } from 'constants/url'
 import './assets/styles/App.scss'
 import './assets/styles/typography.scss'
@@ -23,23 +24,24 @@ function App() {
 
   return (
     <div className="App">
-      <Switch>
-        {PAGES.map((page) => {
-          const { Component, link, route, ...rest } = page
-          return (
-            <Route path={route} exact key={link}>
-              <AlertContext.Provider value={alertBox}>
-                <MessageBoxContext.Provider value={messageBox}>
+      <AlertContext.Provider value={alertBox}>
+        <MessageBoxContext.Provider value={messageBox}>
+          <Switch>
+            {PAGES.map((page) => {
+              const { Component, link, route, ...rest } = page
+              return (
+                <Route path={route} exact key={link}>
                   <Component {...rest} route={route} link={link} />
-                  <AlertBox />
-                  <MessageBox />
-                </MessageBoxContext.Provider>
-              </AlertContext.Provider>
-            </Route>
-          )
-        })}
-        <Route render={() => <Redirect to="/" />} />
-      </Switch>
+                </Route>
+              )
+            })}
+
+            <Route render={() => <Redirect to="/" />} />
+          </Switch>
+          <AlertBox />
+          <MessageBox />
+        </MessageBoxContext.Provider>
+      </AlertContext.Provider>
     </div>
   )
 }

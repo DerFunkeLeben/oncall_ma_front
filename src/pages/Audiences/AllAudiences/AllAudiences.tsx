@@ -21,6 +21,7 @@ import { IconCheck, IconUpload, IconCopy, IconTrash } from 'assets/icons'
 
 import { data } from './audiencesData'
 import PopupOfCreationFromExist from './PopupOfCreationFromExist/PopupOfCreationFromExist'
+import useSearch from 'hooks/useSearch'
 
 const header = ['', 'ID', 'Название', 'Количество контактов', 'Дата создания', 'Дата изменения']
 const menuIsOpen = true
@@ -30,6 +31,8 @@ const allIds = data.map((el) => el.id)
 const AllAudiences: FC<IPageData> = () => {
   const history = useHistory()
   const { url } = useRouteMatch()
+  const { search, filtered, onChange } = useSearch('name', data)
+
   const { toggleCheck, isItChecked, checkedCount, checkedAll, toggleAllChecks } = useTable(allIds)
 
   const [popupCreateFromExistIsOpen, setPopupCreateFromExist] = useState(false)
@@ -69,7 +72,8 @@ const AllAudiences: FC<IPageData> = () => {
             <InputBase
               placeholder="Поиск по названию"
               icon={true}
-              handleInputChange={() => console.log('asd')}
+              value={search}
+              handleInputChange={onChange}
             />
           }
         >
@@ -114,7 +118,7 @@ const AllAudiences: FC<IPageData> = () => {
             handleScrollLimit={() => console.log('handleScrollLimit')}
             {...{ checkedCount, checkedAll, totalCountOfData, checkMenuConfig, toggleAllChecks }}
           >
-            {data.map((dataRow, index) => {
+            {filtered.map((dataRow, index) => {
               const { id, name, contact_count, create_date, last_update_date } = dataRow
               const checked = isItChecked(id)
               return (

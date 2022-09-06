@@ -1,4 +1,4 @@
-import { FC, useEffect } from 'react'
+import { FC, memo, useEffect } from 'react'
 import { createPortal } from 'react-dom'
 import cx from 'classnames'
 
@@ -40,4 +40,4 @@ const AlertBox: FC = () => {
   )
 }
 
-export default AlertBox
+export default memo(AlertBox)

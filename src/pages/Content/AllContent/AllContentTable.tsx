@@ -1,9 +1,8 @@
-import { FC, useEffect } from 'react'
+import { FC } from 'react'
 import { useHistory } from 'react-router-dom'
 import cx from 'classnames'
 
 import ScrollTable from 'components/Table/ScrollTable'
-import MessageBox from 'components/MessageBox/MessageBox'
 import useTable from 'components/Table/useTable'
 import useAllContent from 'store/content/useAllContent'
 import useAlertContext from 'context/AlertContext'
@@ -12,7 +11,7 @@ import useMessageBoxContext from 'context/MessageBoxContext'
 import { CONTENT_URL_HTML, CONTENT_URL_SMS, CONTENT_URL_FILE } from 'constants/url'
 import { AlertBoxIcons } from 'constants/dictionary'
 import { ddmmyyyy } from 'utils/transformDate'
-import { ContentTypes } from 'types/content'
+import { ContentTypes, IContent } from 'types/content'
 import { IconCheck, IconSend, IconTrash } from 'assets/icons'
 import tableStyles from 'components/Table/TableBase.module.scss'
 
@@ -20,10 +19,15 @@ const header = ['', 'Название', 'Тип', 'Дата создания', '
 const makeMessageBoxTitle = (checkedCount: number) =>
   `Вы уверены, что хотите удалить ${checkedCount} элементов?`
 
-const AllContentTable: FC = () => {
+const getAllContentIds = (allContent: IContent[]) => allContent.map(({ id }) => id) as string[]
+
+const AllContentTable: FC<{ allContent: IContent[] }> = ({ allContent }) => {
   const history = useHistory()
-  const { allContent, allContentIds, deleteMultipleById } = useAllContent()
+  const { deleteMultipleById } = useAllContent()
   const { setAlertBox } = useAlertContext()
+  const { setMessageBox } = useMessageBoxContext()
+
+  const allContentIds = getAllContentIds(allContent)
 
   const {
     checkedList,
@@ -34,7 +38,6 @@ const AllContentTable: FC = () => {
     toggleAllChecks,
     clearChecks,
   } = useTable(allContentIds)
-  const { setMessageBox } = useMessageBoxContext()
 
   const totalCountOfData = allContent.length
 
@@ -52,14 +55,23 @@ const AllContentTable: FC = () => {
 
   const sendTestEmail = () => console.log('sendTestEmail')
 
-  const confirmDelete = () => {
-    deleteMultipleById(checkedList)
-    setAlertBox({
-      message: `Удалено элементов: ${checkedCount}`,
-      icon: AlertBoxIcons.DELETE,
+  const deleteContent = () => {
+    setMessageBox({
       isOpen: true,
+      handleConfirm,
+      title: makeMessageBoxTitle(checkedCount),
+      buttons: ['Отмена', 'Удалить'],
     })
-    clearChecks()
+
+    function handleConfirm() {
+      deleteMultipleById(checkedList)
+      setAlertBox({
+        message: `Удалено элементов: ${checkedCount}`,
+        icon: AlertBoxIcons.DELETE,
+        isOpen: true,
+      })
+      clearChecks()
+    }
   }
 
   const checkMenuConfig = [
@@ -72,13 +84,7 @@ const AllContentTable: FC = () => {
       caption: 'Удалить',
       Icon: IconTrash,
       modificators: ['alarm'],
-      handleClick: () =>
-        setMessageBox({
-          isOpen: true,
-          handleConfirm: confirmDelete,
-          title: makeMessageBoxTitle(checkedCount),
-          buttons: ['Отмена', 'Удалить'],
-        }),
+      handleClick: deleteContent,
     },
   ]
 
@@ -118,10 +124,10 @@ const AllContentTable: FC = () => {
                 {checked && <IconCheck />}
               </div>
             </div>
+
             <div className={cx(tableStyles.cell, tableStyles.accentCell, 'text_1_hl_1')}>
               <span>{title}</span>
             </div>
-
             <div className={cx(tableStyles.cell, 'text_1')}>{type}</div>
             <div className={cx(tableStyles.cell, 'text_1')}>{ddmmyyyy(createDate)}</div>
             <div className={cx(tableStyles.cell, 'text_1')}>{ddmmyyyy(lastUpdateDate)}</div>
