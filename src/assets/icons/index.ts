@@ -19,6 +19,7 @@ import { ReactComponent as IconFolderClose } from './folderClose.svg'
 import { ReactComponent as IconLoupe } from './loupe.svg'
 import { ReactComponent as IconEdit } from './edit.svg'
 import { ReactComponent as IconExport } from './export.svg'
+import { ReactComponent as IconSettings } from './settings.svg'
 import { ReactComponent as IconFilters } from './filters.svg'
 import { ReactComponent as IconPasswordShow } from './password_eye.svg'
 import { ReactComponent as IconPasswordHide } from './password_open.svg'
@@ -47,6 +48,7 @@ import { ReactComponent as IconTaskWait } from './task_wait.svg'
 
 export {
   IconMailBig,
+  IconSettings,
   IconAnalytics,
   IconAudit,
   IconBell,

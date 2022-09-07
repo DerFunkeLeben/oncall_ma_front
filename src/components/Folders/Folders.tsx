@@ -48,7 +48,7 @@ const Folders: FC<IFolders> = ({ reducerName }) => {
   const popupOpened = action !== undefined && action !== DELETE
 
   const closePopup = () => setCurrentFolder({})
-  const openCreatePopup = () => setCurrentFolder({ action: CREATE })
+  const openCreatePopup = () => setCurrentFolder({ folder: undefined, action: CREATE })
 
   const openRenamePopup = (id: string) => {
     const folder = findFolderById(allFolders, id)

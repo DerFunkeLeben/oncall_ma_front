@@ -22,8 +22,6 @@ const FilterAction: FC = () => {
   const attributes = action.attributes
   const title = action.title
 
-  console.log(attributes)
-
   const initFirstLevelRow = (id: string) => {
     return {
       defined: attributes[0].toLocaleLowerCase(),

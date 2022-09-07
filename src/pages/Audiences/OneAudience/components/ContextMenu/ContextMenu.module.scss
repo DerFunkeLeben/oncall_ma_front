@@ -1,12 +1,9 @@
 .iconDots {
-  position: absolute;
-  right: 7px;
   display: flex;
   width: 10px;
   height: 100%;
   align-items: center;
   justify-content: center;
-  transition: opacity 0.2s;
 
   circle {
     fill: var(--blue_4);
@@ -41,6 +38,15 @@
   svg {
     path {
       fill: var(--error_2);
+    }
+  }
+}
+
+
+.triggerContainerActive {
+  .iconDots {
+    circle {
+      fill: var(--blue_15);
     }
   }
 }

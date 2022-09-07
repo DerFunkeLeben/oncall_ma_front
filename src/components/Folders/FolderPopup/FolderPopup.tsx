@@ -89,7 +89,7 @@ const FolderPopup: FC<IFolderPopup> = ({ isOpen, close, currentFolder, reducerNa
     setFolderError(() => '')
     if (action === RENAME && folder) setFolderName(() => folder.name)
     if (action === CREATE) setFolderName(() => '')
-  }, [folder])
+  }, [action])
 
   return (
     <Popup isOpen={isOpen} close={close}>

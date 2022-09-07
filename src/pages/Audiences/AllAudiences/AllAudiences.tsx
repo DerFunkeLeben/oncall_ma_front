@@ -8,7 +8,12 @@ import DropDown from 'components/parts/DropDown/DropDown'
 import ScrollTable from 'components/Table/ScrollTable'
 import Folders from 'components/Folders/Folders'
 import InputBase from 'components/parts/InputBase/InputBase'
+import PopupOfCreationFromExist from './PopupOfCreationFromExist/PopupOfCreationFromExist'
 import useTable from 'components/Table/useTable'
+import useSearch from 'hooks/useSearch'
+import useMessageBoxContext from 'context/MessageBoxContext'
+import useAlertContext from 'context/AlertContext'
+import { SURE_WANT_DELETE_MANY } from 'constants/helpMessages'
 
 import styles from './AllAudiences.module.scss'
 import buttonStyles from 'components/parts/Button/ButtonThemes.module.scss'
@@ -20,8 +25,7 @@ import { MainReducerKeys } from 'store/data-types'
 import { IconCheck, IconUpload, IconCopy, IconTrash } from 'assets/icons'
 
 import { data } from './audiencesData'
-import PopupOfCreationFromExist from './PopupOfCreationFromExist/PopupOfCreationFromExist'
-import useSearch from 'hooks/useSearch'
+import { AlertBoxIcons } from 'constants/dictionary'
 
 const header = ['', 'ID', 'Название', 'Количество контактов', 'Дата создания', 'Дата изменения']
 const menuIsOpen = true
@@ -31,9 +35,12 @@ const allIds = data.map((el) => el.id)
 const AllAudiences: FC<IPageData> = () => {
   const history = useHistory()
   const { url } = useRouteMatch()
+  const { setMessageBox } = useMessageBoxContext()
+  const { setAlertBox } = useAlertContext()
   const { search, filtered, onChange } = useSearch('name', data)
 
-  const { toggleCheck, isItChecked, checkedCount, checkedAll, toggleAllChecks } = useTable(allIds)
+  const { toggleCheck, isItChecked, checkedCount, checkedAll, toggleAllChecks, clearChecks } =
+    useTable(allIds)
 
   const [popupCreateFromExistIsOpen, setPopupCreateFromExist] = useState(false)
 
@@ -47,7 +54,24 @@ const AllAudiences: FC<IPageData> = () => {
   const copenPopupCreateFromExist = () => setPopupCreateFromExist(true)
 
   const copyAudience = () => console.log('handleCopyAudience')
-  const deleteAudience = () => console.log('handleDeleteAudience')
+  const confirmDelete = () => {
+    console.log('DO DELETE') // TODO
+    clearChecks()
+    setAlertBox({
+      isOpen: true,
+      message: `Удалено элементов: ${checkedCount}`,
+      icon: AlertBoxIcons.DELETE,
+    })
+  }
+
+  const deleteAudience = () => {
+    setMessageBox({
+      isOpen: true,
+      handleConfirm: confirmDelete,
+      title: SURE_WANT_DELETE_MANY(checkedCount),
+      buttons: ['Отмена', 'Удалить'],
+    })
+  }
 
   const checkMenuConfig = [
     {

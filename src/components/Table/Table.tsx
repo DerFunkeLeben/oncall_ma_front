@@ -1,11 +1,13 @@
-import { FC, useState, RefObject } from 'react'
+import { FC, useState, RefObject, ChangeEvent, MouseEventHandler } from 'react'
 import cx from 'classnames'
 
 import styles from './Table.module.scss'
 import stylesTable from './TableBase.module.scss'
+import buttonStyles from 'components/parts/Button/ButtonThemes.module.scss'
 
-import { IconArrow, IconCheck } from 'assets/icons'
+import { IconArrow, IconCheck, IconPlus, IconSettings } from 'assets/icons'
 import { ASCENDING, DESCENDING } from 'constants/dictionary'
+import Button from 'components/parts/Button/Button'
 
 interface ITable {
   headers: string[]
@@ -33,16 +35,17 @@ const Table: FC<ITable> = ({
     direction: DESCENDING,
   })
 
-  const changeSorting = (index: number) => {
-    if (index === 0) return
+  const changeSorting = (event: any) => {
+    const { index } = event.target.dataset
+    if (!index) return
 
     const { columnNumber, direction } = sorting
 
-    const itIsSecondClick = columnNumber === index && direction === ASCENDING
+    const itIsSecondClick = columnNumber === +index && direction === ASCENDING
     const newDirection = itIsSecondClick ? DESCENDING : ASCENDING
 
     setSorting({
-      columnNumber: index,
+      columnNumber: +index,
       direction: newDirection,
     })
   }
@@ -52,9 +55,11 @@ const Table: FC<ITable> = ({
       <div className={styles.head}>
         <div className={styles.tableRow}>
           {headers.map((columnName, index) => {
-            return columnName === '' ? (
-              <HeaderCheckCell {...{ toggleAllChecks, checkedAll }} key={index} />
-            ) : (
+            if (columnName === '')
+              return <HeaderCheckCell {...{ toggleAllChecks, checkedAll }} key={index} />
+            if (columnName === '%%settings%%') return <HeaderSettingsCell />
+
+            return (
               <HeaderDefaultCell {...{ columnName, sorting, changeSorting, index }} key={index} />
             )
           })}
@@ -75,7 +80,7 @@ const EmptyRow = () => (
 )
 
 interface IHeaderDefaultCell {
-  changeSorting: (index: number) => void
+  changeSorting: MouseEventHandler<HTMLDivElement>
   columnName: string
   sorting: ISorting
   index: number
@@ -90,7 +95,7 @@ const HeaderDefaultCell: FC<IHeaderDefaultCell> = ({
   const sortDirection = index === sorting.columnNumber ? sorting.direction : null
 
   return (
-    <div className={cx(styles.headCell, 'text_1_hl_1')} onClick={() => changeSorting(index)}>
+    <div className={cx(styles.headCell, 'text_1_hl_1')} data-index={index} onClick={changeSorting}>
       <p>
         {columnName}
         {sortDirection && <IconArrow className={cx(styles.iconArrow, styles[sortDirection])} />}
@@ -117,6 +122,20 @@ const HeaderCheckCell: FC<IHeaderCellCheck> = ({ toggleAllChecks, checkedAll }) 
       >
         {checkedAll && <IconCheck />}
       </div>
+    </div>
+  )
+}
+
+interface IHeaderSettingsCell {
+  openSettingsPopup?: () => void
+}
+const HeaderSettingsCell: FC<IHeaderSettingsCell> = ({ openSettingsPopup }) => {
+  return (
+    <div
+      className={cx(styles.headCell, 'text_1_hl_1', stylesTable.cellCheck)}
+      onClick={openSettingsPopup}
+    >
+      <IconSettings />
     </div>
   )
 }

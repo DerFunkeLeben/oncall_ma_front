@@ -8,6 +8,7 @@ import Button from 'components/parts/Button/Button'
 
 import styles from './PopupOfCreationFromExist.module.scss'
 import tableStyles from 'components/Table/TableBase.module.scss'
+import buttonStyles from 'components/parts/Button/ButtonThemes.module.scss'
 
 import { data as tableData } from '../audiencesData'
 
@@ -52,7 +53,9 @@ const PopupOfCreationFromExist: FC<IPopupOfCreationFromExist> = ({ isOpen, close
         </ScrollTable>
       </div>
       <div className={styles.popupControls}>
-        <Button onClick={close}>Отменить</Button>
+        <Button onClick={close} modificator={buttonStyles.theme_secondary}>
+          Отменить
+        </Button>
         <Button>Выбрать</Button>
       </div>
     </Popup>
