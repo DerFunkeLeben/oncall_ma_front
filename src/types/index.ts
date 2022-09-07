@@ -12,7 +12,11 @@ export interface IPagesData {
 }
 
 export interface IUser {
+  id: string
   email: string
+  agency: string
+  role?: string
+  confirmed?: boolean
 }
 export interface ITask {
   type: TasksTypes

@@ -6,10 +6,10 @@ const ActionCreator = {
     type: ActionType.SET_USER,
     payload: { user },
   }),
+  setAuthData: (authData: IStoreAuth[StoreKeys.authData]) => ({
+    type: ActionType.SET_AUTH_DATA,
+    payload: authData,
+  }),
 }
-
-type ISetUser = { type: string; payload: { user: IStoreAuth[StoreKeys.user] } }
-
-export type IActions = ISetUser
 
 export default ActionCreator

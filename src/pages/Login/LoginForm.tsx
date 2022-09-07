@@ -5,11 +5,13 @@ import cx from 'classnames'
 import InputBase from 'components/parts/InputBase/InputBase'
 import Button from 'components/parts/Button/Button'
 
-import { PagesData } from 'constants/url'
-import ValidationError from 'constants/ValidationError'
 import useToggle from 'hooks/useToggle'
-import { useAuth } from 'store/auth/useAuth'
+import useAuth from 'store/auth/useAuth'
+import useInitData from 'hooks/useInitData'
+import { AUTH_URL_LOGIN, PagesData } from 'constants/url'
+import ValidationError from 'constants/ValidationError'
 import { ILoginAnswer, loginInputsData } from 'types/login'
+import { postAxiosSingle } from 'utils/axios'
 
 import { IconPasswordHide, IconPasswordShow } from 'assets/icons'
 import inputStyles from 'components/parts/InputBase/InputBase.module.scss'
@@ -27,28 +29,17 @@ const LoginForm: FC<ILoginForm> = ({
   const [passwordShown, togglePassword] = useToggle()
   const clearPassword = () => setLoginData({ ...loginData, password: '' })
 
-  const { user, setUser } = useAuth()
+  const { user, setAuthData } = useAuth()
   const history = useHistory()
-  // const user = { email: sessionStorage.getItem('user') }
-
-  if (user?.email) {
-    return <Redirect to={PagesData.AUDIENCES.link} />
-  }
+  const setInitData = useInitData()
 
   const loginUser = async (data: ILoginAnswer) => {
-    const { userDB } = data
-    setUser({ email: loginData.login })
-    // setUser && (await setUser(userDB))
+    const { user: userDB, token } = data
+
+    await setInitData(userDB)
+    setAuthData({ accessToken: token })
 
     history.push(PagesData.AUDIENCES.link)
-  }
-
-  const fakeRequest = ({ login }: { [key: string]: string }): Promise<ILoginAnswer> => {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve({ userDB: { email: login } })
-      }, 1000)
-    })
   }
 
   const onSubmitLogin = async (event: FormEvent<HTMLFormElement>) => {
@@ -56,14 +47,18 @@ const LoginForm: FC<ILoginForm> = ({
     event.preventDefault()
     try {
       const { login, password } = loginData
-      const result = await fakeRequest({
-        login,
-        password,
-      })
-      await loginUser(result)
+      const nestResult = await postAxiosSingle(
+        `${AUTH_URL_LOGIN}`,
+        {},
+        {
+          email: login,
+          password,
+        }
+      )
+      await loginUser(nestResult.data)
     } catch (e) {
-      setLoginError(ValidationError.WRONG_PASSWORD)
       clearPassword()
+      setLoginError(() => ValidationError.WRONG_PASSWORD)
       console.error(e)
     } finally {
       setLoading(false)
@@ -73,6 +68,10 @@ const LoginForm: FC<ILoginForm> = ({
   const handleForgotPassword = () => {
     setForgotPassword(true)
     setLoginError('')
+  }
+
+  if (user.id) {
+    return <Redirect to={PagesData.AUDIENCES.link} />
   }
   return (
     <form className={styles.loginForm} onSubmit={onSubmitLogin}>

@@ -1,13 +1,7 @@
 /* eslint-disable  @typescript-eslint/no-explicit-any */
 import axios from 'axios'
 import axiosRetry from 'axios-retry'
-import { Config } from 'constants/url'
-
-const { REACT_APP_DEBUG, NODE_ENV } = process.env
-
-let SERVER = 'http://localhost:3000'
-// if (NODE_ENV === 'production') SERVER = 'https://oncall.onpoint.ru'
-if (REACT_APP_DEBUG === 'true') SERVER = 'https://debug.oncall.onpoint.ru'
+import { Config, SERVER } from 'constants/url'
 
 const axiosInstance = axios.create({
   withCredentials: true,

@@ -1,7 +1,7 @@
 import { FC } from 'react'
 import { useHistory, useLocation } from 'react-router-dom'
 
-import { useAuth } from 'store/auth/useAuth'
+import useAuth from 'store/auth/useAuth'
 import useDidUpdateEffect from 'hooks/useDidUpdateEffect'
 
 import { PagesData } from 'constants/url'

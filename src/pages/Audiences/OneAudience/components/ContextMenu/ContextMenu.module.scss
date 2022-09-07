@@ -1,0 +1,46 @@
+.iconDots {
+  position: absolute;
+  right: 7px;
+  display: flex;
+  width: 10px;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.2s;
+
+  circle {
+    fill: var(--blue_4);
+    transition: 0.1s;
+  }
+
+  &:hover {
+    circle {
+      fill: var(--blue_15);
+    }
+  }
+}
+
+.dropDownContainer {
+  padding: 5px;
+}
+
+.dropDownOption {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 10px;
+
+  svg {
+    margin-right: 10px;
+  }
+}
+
+.alert {
+  color: var(--error_2);
+
+  svg {
+    path {
+      fill: var(--error_2);
+    }
+  }
+}

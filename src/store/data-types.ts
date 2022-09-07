@@ -10,7 +10,7 @@ export enum MainReducerKeys {
 }
 
 export interface IState {
-  auth?: IStoreAuth
+  auth: IStoreAuth
   scenario?: IStoreScenario
   [MainReducerKeys.audiences]: {
     // data:

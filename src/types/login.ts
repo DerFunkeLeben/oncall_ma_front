@@ -32,5 +32,6 @@ export const loginInputsData: { [key: string]: ILoginInputData } = {
 }
 
 export interface ILoginAnswer {
-  userDB: IUser
+  user: IUser
+  token: string
 }

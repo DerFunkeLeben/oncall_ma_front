@@ -1,11 +1,19 @@
 import { IPagesData } from 'types'
 
+const { REACT_APP_DEBUG, NODE_ENV } = process.env
 export const Config = {
   HEADERS: {
     'Content-Type': 'application/json; charset=utf-8',
   },
   MULTIPART_HEADERS: { 'Content-Type': 'multipart/form-data; charset= utf-8; boundary=---sad' },
 }
+
+export let SERVER = 'http://localhost:3000'
+if (REACT_APP_DEBUG === 'true') SERVER = 'http://217.25.89.6'
+
+export const AUTH_URL = `/auth`
+export const AUTH_URL_LOGIN = `${AUTH_URL}/local/login`
+export const AUTH_URL_RELOGIN = `${AUTH_URL}/local/me`
 
 export const audencesRoutes = ['/audences', '/audences/:audienceid', '/audences/create_new']
 
