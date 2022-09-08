@@ -12,7 +12,7 @@ const useInitData = () => {
     async (userData: IUser) => {
       // const { id, email, agency, role, confirmed } = userData
 
-      setUser({ ...userData })
+      setUser(userData)
     },
     [setUser]
   )

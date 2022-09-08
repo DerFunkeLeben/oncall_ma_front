@@ -4,9 +4,6 @@ import { IStoreAuth } from './_data-types'
 
 const initialAuthState: IStoreAuth = {
   user: {},
-  authData: {
-    accessToken: '',
-  },
 }
 
 const reducer = (state = initialAuthState, { type, payload }: IReducer): IStoreAuth => {
@@ -15,11 +12,6 @@ const reducer = (state = initialAuthState, { type, payload }: IReducer): IStoreA
       return {
         ...state,
         user: payload.user,
-      }
-    case ActionType.SET_AUTH_DATA:
-      return {
-        ...state,
-        authData: payload,
       }
     default:
       return state

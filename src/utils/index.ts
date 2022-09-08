@@ -9,3 +9,9 @@ export function reduceBigNumbers(num: number) {
 export function findFolderById(data: IFolder[], id: string | undefined) {
   return data.find((el) => el.id == id)
 }
+
+const getCookie = (name: string) =>
+  document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)')?.pop() || ''
+
+export const getToken = () => getCookie('TK')
+export const setToken = (token: string) => (document.cookie = `TK=${token}`)

@@ -1,7 +1,19 @@
 /* eslint-disable  @typescript-eslint/no-explicit-any */
 import axios from 'axios'
 import axiosRetry from 'axios-retry'
-import { Config, SERVER } from 'constants/url'
+import { SERVER } from 'constants/url'
+import { getToken } from 'utils'
+
+const Config = {
+  HEADERS: {
+    'Content-Type': 'application/json; charset=utf-8',
+    Authorization: `Bearer ${getToken()}`,
+  },
+  MULTIPART_HEADERS: {
+    'Content-Type': 'multipart/form-data; charset= utf-8; boundary=---sad',
+    Authorization: `Bearer ${getToken()}`,
+  },
+}
 
 const axiosInstance = axios.create({
   withCredentials: true,
@@ -168,15 +180,6 @@ const deleteAxiosSingle = async (URL: string, signal?: AbortSignal): Promise<any
   }
 }
 
-const setHeader = (token?: string) => {
-  if (token) axios.defaults.headers.common = { Authorization: `Bearer ${token}` }
-  else axios.defaults.headers.common = { Authorization: '' }
-}
-
-const setCookie = async (token?: string) => {
-  await getAxiosSingle(`/setCookie?access=${token || ''}`)
-}
-
 export {
   getRequest,
   getAxiosArr,
@@ -189,6 +192,4 @@ export {
   putRequest,
   putAxiosSingle,
   patchAxiosSingle,
-  setHeader,
-  setCookie,
 }

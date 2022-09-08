@@ -15,7 +15,6 @@ const UserRefreshWrapper: FC = ({ children }) => {
   useEffect(() => {
     const fetchData = async () => {
       const userData: null | IUser = await resfreshUserOnLoad()
-      console.log(userData)
       if (!userData?.id) history.push(PagesData.LOGIN.link)
       else await setInitData(userData)
     }

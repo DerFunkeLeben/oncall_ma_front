@@ -12,6 +12,7 @@ import { AUTH_URL_LOGIN, PagesData } from 'constants/url'
 import ValidationError from 'constants/ValidationError'
 import { ILoginAnswer, loginInputsData } from 'types/login'
 import { postAxiosSingle } from 'utils/axios'
+import { setToken } from 'utils'
 
 import { IconPasswordHide, IconPasswordShow } from 'assets/icons'
 import inputStyles from 'components/parts/InputBase/InputBase.module.scss'
@@ -29,7 +30,7 @@ const LoginForm: FC<ILoginForm> = ({
   const [passwordShown, togglePassword] = useToggle()
   const clearPassword = () => setLoginData({ ...loginData, password: '' })
 
-  const { user, setAuthData } = useAuth()
+  const { user } = useAuth()
   const history = useHistory()
   const setInitData = useInitData()
 
@@ -37,8 +38,7 @@ const LoginForm: FC<ILoginForm> = ({
     const { user: userDB, token } = data
 
     await setInitData(userDB)
-    setAuthData({ accessToken: token })
-
+    setToken(token)
     history.push(PagesData.AUDIENCES.link)
   }
 

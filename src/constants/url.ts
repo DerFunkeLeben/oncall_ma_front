@@ -1,12 +1,6 @@
 import { IPagesData } from 'types'
 
-const { REACT_APP_DEBUG, NODE_ENV } = process.env
-export const Config = {
-  HEADERS: {
-    'Content-Type': 'application/json; charset=utf-8',
-  },
-  MULTIPART_HEADERS: { 'Content-Type': 'multipart/form-data; charset= utf-8; boundary=---sad' },
-}
+const { REACT_APP_DEBUG } = process.env
 
 export let SERVER = 'http://localhost:3000'
 if (REACT_APP_DEBUG === 'true') SERVER = 'http://217.25.89.6'
