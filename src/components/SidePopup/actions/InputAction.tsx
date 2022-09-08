@@ -7,32 +7,36 @@ import styles from '../SidePopup.module.scss'
 interface IInputAction {
   stateKey?: string
   type?: string
+  label?: string
 }
 
-const InputAction: FC<IInputAction> = ({ type, stateKey = 'text' }) => {
-  const { action, currentState, setState } = usePopupContext()
+const InputAction: FC<IInputAction> = ({ type, stateKey = 'text', label }) => {
+  const { action, currentState, setState, settings, setSettings } = usePopupContext()
 
   const actionName = action.name
-  const { title } = action
-  const text = currentState[actionName]?.[stateKey] || ''
+
+  const currentValue =
+    settings && settings[actionName] && settings[actionName][stateKey]
+      ? settings[actionName][stateKey]
+      : ''
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target
     const newState = {
       ...currentState,
       [actionName]: {
-        ...currentState[actionName],
+        ...(settings && settings[actionName]),
         [stateKey]: value,
       },
     }
-    setState(newState)
+    setSettings(newState)
   }
 
   return (
     <InputBase
-      label={title}
+      label={label}
       name={actionName}
-      value={text}
+      value={currentValue}
       handleInputChange={handleChange}
       modificator={styles.popupInput}
       type={type || 'text'}

@@ -185,6 +185,7 @@ const OneAudience: FC<IPageData> = () => {
           handleScrollLimit={() => console.log('handleScrollLimit')}
           checkedCount={checkedCount}
           totalCountOfData={totalCountOfData}
+          leftRightScrollEnabled={true}
         >
           {data.map((dataRow, index) => {
             const { id, lastName, firstName, patronym, email, phone, city, speciality, segment } =
@@ -219,13 +220,13 @@ const OneAudience: FC<IPageData> = () => {
           })}
         </ScrollTable>
       </div>
-      <SidePopup
+      {/* <SidePopup
         isOpen={filterisOpen}
         close={closeFilter}
         config={config}
         handleSave={setSidePopupState}
         title={title}
-      />
+      /> */}
     </>
   )
 }

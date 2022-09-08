@@ -11,8 +11,9 @@ import actionsStyles from './styles.module.scss'
 
 const DurationAction: FC = () => {
   const { action, settings } = usePopupContext()
+  const { name } = action
   action.options = TIME_OPTIONS
-  const preset = settings[action.name]
+  const preset = settings?.name
   // console.log('preset', action.name, preset)
 
   return (

@@ -12,6 +12,8 @@ import DurationAction from './actions/DurationAction'
 import FilterAction from './actions/FilterAction/FilterAction'
 import NumericStepAction from './actions/NumericStepAction'
 import AttributeAction from './actions/AttributeAction/AttributeAction'
+import EmailConfigAction from './actions/EmailConfigAction'
+import TableAction from './actions/TableAction'
 
 import { SidePopupActions } from 'constants/sidePopup'
 
@@ -38,17 +40,15 @@ const SidePopupContent: FC = () => {
     case SidePopupActions.NUMERIC_STEP:
       return <NumericStepAction key={name} />
     case SidePopupActions.TEXTAREA:
-      return <TextAreaAction key={name} subtitle={'Приглашение впч'} />
+      return <TextAreaAction key={name} />
     case SidePopupActions.DATE:
       return <DatePickAction key={name} />
     case SidePopupActions.FILTER:
       return <FilterAction key={name} />
     case SidePopupActions.TABLE:
-      return (
-        <div key={name}>
-          <p>table</p>
-        </div>
-      )
+      return <TableAction key={name} />
+    case SidePopupActions.EMAIL:
+      return <EmailConfigAction key={name} />
     default:
       return null
   }

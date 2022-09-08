@@ -8,38 +8,30 @@ interface INumericStepAction {
 }
 
 const NumericStepAction: FC<INumericStepAction> = ({ preset }) => {
-  const { action, currentState, setState } = usePopupContext()
+  const { action, settings, setSettings } = usePopupContext()
 
   const actionName = action.name
   const { title } = action
 
-  let numValue = 0
-  if (currentState[actionName]?.amount) {
-    numValue = Number(currentState[actionName]?.amount)
-  }
+  const currentValue =
+    settings && settings[actionName] && settings[actionName].amount
+      ? settings[actionName].amount
+      : 0
 
   const handleChange = (value: number | null) => {
     const newState = {
-      ...currentState,
+      ...settings,
       [actionName]: {
-        ...currentState[actionName],
+        ...(settings && settings[actionName]),
         ...preset,
         amount: (value || 0).toString(),
       },
     }
-    console.log('handleChange', currentState, preset, value)
-    setState(newState)
+    setSettings(newState)
   }
 
-  useEffect(() => {
-    const presetAmount = preset?.amount
-
-    const result = presetAmount || 0
-    handleChange(result)
-  }, [])
-
   return (
-    <NumericStep label={title} name={actionName} value={numValue} handleChange={handleChange} />
+    <NumericStep label={title} name={actionName} value={currentValue} handleChange={handleChange} />
   )
 }
 

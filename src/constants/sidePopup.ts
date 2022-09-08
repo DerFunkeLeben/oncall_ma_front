@@ -30,6 +30,7 @@ export enum SidePopupActions {
   DURATION = 'duration',
   ATTRIBUTES = 'attributes',
   DATE = 'datePick',
+  EMAIL = 'email',
 }
 
 export enum PositiveLogicalOperators {

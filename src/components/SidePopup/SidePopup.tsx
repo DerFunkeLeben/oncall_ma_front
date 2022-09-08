@@ -1,11 +1,10 @@
-import { FC, useEffect, useState } from 'react'
+import { FC, useEffect, useState, Dispatch } from 'react'
 import { createPortal } from 'react-dom'
 import cx from 'classnames'
 
 import { PopupContext } from 'context/SidePopupContext'
 
 import Button from 'components/parts/Button/Button'
-import ScrollArea from 'containers/ScrollArea/ScrollArea'
 
 import styles from './SidePopup.module.scss'
 import buttonThemes from 'components/parts/Button/ButtonThemes.module.scss'
@@ -14,6 +13,7 @@ import SidePopupContent from './SidePopupContent'
 import { IconPlus } from 'assets/icons'
 
 import { IStep, IStatePopup } from 'types/sidePopup'
+import { useSidePopup } from 'store/sidePopupStore/useSidePopup'
 
 interface ISidePopup {
   isOpen: boolean
@@ -21,19 +21,22 @@ interface ISidePopup {
   config: IStep
   handleSave: any
   title: string
-  settings?: { [key: string]: any }
+  savedSettings?: any
 }
 
-const SidePopup: FC<ISidePopup> = ({ isOpen, close, config, handleSave, title, settings }) => {
-  const [currentState, setState] = useState<IStatePopup>({})
+const SidePopup: FC<ISidePopup> = ({ isOpen, close, config, handleSave, title, savedSettings }) => {
+  const [tempSettings, setTempSettings] = useState<IStatePopup>({})
+  const [currentStep, setCurrentStep] = useState(1)
+
+  const currentSettings = savedSettings ? savedSettings : tempSettings
 
   const createConfig = (step: IStep, acc: any[] = []): any => {
     const { name, getNextStep } = step
 
-    acc = [...acc, { ...step, value: currentState[name] }]
+    acc = [...acc, { ...step, value: tempSettings[name] }]
 
     if (getNextStep) {
-      const nextStep = getNextStep(currentState)
+      const nextStep = getNextStep(currentSettings)
       const children = createConfig(nextStep, acc)
       return [...children]
     }
@@ -43,8 +46,6 @@ const SidePopup: FC<ISidePopup> = ({ isOpen, close, config, handleSave, title, s
 
   const configArray = createConfig(config)
 
-  const [currentStep, setCurrentStep] = useState(1)
-
   const action = configArray[currentStep - 1]
 
   const countOfSteps = configArray.length
@@ -53,7 +54,7 @@ const SidePopup: FC<ISidePopup> = ({ isOpen, close, config, handleSave, title, s
   const itsOnlyStep = countOfSteps === 1
 
   const closePopup = () => {
-    setState({})
+    setTempSettings({})
     setCurrentStep(1)
     close()
   }
@@ -69,16 +70,13 @@ const SidePopup: FC<ISidePopup> = ({ isOpen, close, config, handleSave, title, s
 
   const save = () => {
     console.log('save')
-    handleSave(currentState)
+    handleSave(tempSettings)
     setCurrentStep(1)
     closePopup()
   }
 
-  useEffect(() => {
-    console.log(currentState)
-  }, [currentState])
-
   if (!isOpen) return null
+
   return createPortal(
     <div className={styles.popupWrapper}>
       <div className={styles.popupBackground} onClick={closePopup} />
@@ -92,13 +90,9 @@ const SidePopup: FC<ISidePopup> = ({ isOpen, close, config, handleSave, title, s
           </div>
         </div>
         <div className={styles.popupContent}>
-          {/* <ScrollArea>
-            <div className={styles.popupContentInnerWrapper}> */}
-          <PopupContext.Provider value={{ action, currentState, setState, settings }}>
+          <PopupContext.Provider value={{ action, currentSettings, setTempSettings }}>
             <SidePopupContent />
           </PopupContext.Provider>
-          {/* </div>
-          </ScrollArea> */}
         </div>
         <div className={styles.footer}>
           <div className={styles.footerStepCounter}>

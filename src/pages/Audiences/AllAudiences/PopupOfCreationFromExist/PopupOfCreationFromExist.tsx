@@ -35,6 +35,7 @@ const PopupOfCreationFromExist: FC<IPopupOfCreationFromExist> = ({ isOpen, close
         <ScrollTable
           headers={tableHeader}
           handleScrollLimit={() => console.log('handleScrollLimit')}
+          leftRightScrollEnabled={true}
         >
           {tableData.map((dataRow, index) => {
             const { id, name, contact_count, create_date, last_update_date } = dataRow

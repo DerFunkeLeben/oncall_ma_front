@@ -26,16 +26,17 @@ const DropDownAction: FC<IDropDownAction> = ({
   preset,
   optionName,
 }) => {
-  const { action, currentState, setState } = usePopupContext()
+  const { action, settings, setSettings } = usePopupContext()
   const actionName = action.name
   const options = action.options as IOption[]
 
-  const defaultOption = preset ? preset[optionName] : options[0].name
-
-  const [pickedOption, setPickedOption] = useState<string>(id || defaultOption)
+  const currentValue =
+    settings && settings[actionName] && settings[actionName][optionName]
+      ? settings[actionName][optionName]
+      : options[0].name
 
   useEffect(() => {
-    changeSettings(pickedOption)
+    changeSettings(currentValue)
   }, [])
 
   const replaceOption = (prevOption: string, newOption: string): void => {
@@ -56,26 +57,25 @@ const DropDownAction: FC<IDropDownAction> = ({
   const handleChange = (event: SyntheticEvent<HTMLButtonElement>) => {
     const selectOption = event.currentTarget.dataset.option
 
-    if (!selectOption || selectOption === pickedOption) return
+    if (!selectOption || selectOption === currentValue) return
 
-    const optionValue = selectOption ? selectOption : pickedOption
+    const optionValue = selectOption ? selectOption : currentValue
 
     changeSettings(optionValue)
   }
 
   const changeSettings = (selectOption: any) => {
     const newState = {
-      ...currentState,
+      ...settings,
       [actionName]: {
-        ...currentState[actionName],
+        ...(settings && settings[actionName]),
         ...preset,
         [optionName]: selectOption,
       },
     }
 
-    replaceOption(pickedOption, selectOption)
-    setPickedOption(selectOption)
-    setState(newState)
+    replaceOption(currentValue, selectOption)
+    setSettings(newState)
   }
 
   return (
@@ -84,14 +84,14 @@ const DropDownAction: FC<IDropDownAction> = ({
       <DropDown
         triggerNode={
           <button className={dropDownStyles.triggerButton}>
-            <span>{getOptionLabel(pickedOption)}</span>
+            <span>{getOptionLabel(currentValue)}</span>
           </button>
         }
       >
         <div className={dropDownStyles.container}>
           {options.map((option) => {
             const { name } = option
-            const isDisabled = pickedOption !== name && disabledOptions.find((opt) => opt === name)
+            const isDisabled = currentValue !== name && disabledOptions.find((opt) => opt === name)
 
             return (
               <button

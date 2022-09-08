@@ -18,7 +18,8 @@
   top: 0;
   display: table-header-group;
   height: 40px;
-  background-color: var(--blue_3);
+  background-color: var(--white);
+  box-shadow: 0px -1px 0px 0px var(--blue_3) inset, 0px 6px 11px 0px rgba(128, 159, 211, 0.1);
 }
 
 .tableRow {

@@ -5,6 +5,7 @@
   display: flex;
   width: calc(100% - 70px);
   height: 100%;
+  z-index: 200;
 }
 .popupBackground {
   position: absolute;

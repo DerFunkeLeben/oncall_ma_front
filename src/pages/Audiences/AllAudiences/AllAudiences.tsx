@@ -94,6 +94,7 @@ const AllAudiences: FC<IPageData> = () => {
             handleScrollLimit={() => console.log('handleScrollLimit')}
             checkedCount={checkedCount}
             totalCountOfData={totalCountOFData}
+            leftRightScrollEnabled={true}
           >
             {data.map((dataRow, index) => {
               const { id, name, contact_count, create_date, last_update_date } = dataRow

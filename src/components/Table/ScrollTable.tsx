@@ -17,6 +17,7 @@ interface ITable {
   checkedCount?: number
   totalCountOfData?: number
   checkBoxesEnabled?: boolean
+  leftRightScrollEnabled?: boolean
 }
 
 const stepWidth = 2
@@ -27,7 +28,8 @@ const ScrollTable: FC<ITable> = ({
   children,
   headers,
   handleScrollLimit,
-  checkBoxesEnabled,
+  checkBoxesEnabled = false,
+  leftRightScrollEnabled = false,
 }) => {
   const innerRef = useRef<HTMLDivElement>(null)
   const wrapperRef = useRef<HTMLDivElement>(null)
@@ -82,7 +84,7 @@ const ScrollTable: FC<ITable> = ({
           {children}
         </Table>
       </ScrollArea>
-      {!tableIsFit && (
+      {!tableIsFit && leftRightScrollEnabled && (
         <>
           <button
             className={cx(styles.hoverZone, styles.hoverZoneLeft)}

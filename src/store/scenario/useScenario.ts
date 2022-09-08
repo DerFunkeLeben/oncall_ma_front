@@ -2,7 +2,7 @@ import { useCallback } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { v4 as uuid } from 'uuid'
 
-import TaskCreator from './actions'
+import ActionCreator from './actions'
 import { getTaskIsMoving, getTasksHeap } from './selectors'
 
 import { IStoreScenario, StoreKeys } from './_data-types'
@@ -54,7 +54,7 @@ const useScenario = () => {
     }
 
     dispatch(
-      TaskCreator.setTasksHeap({
+      ActionCreator.setTasksHeap({
         ...tasksHeap,
         [leftTaskId]: leftTaskUpd,
         [rightTaskId]: rightTaskUpd,
@@ -69,8 +69,10 @@ const useScenario = () => {
     const currentTask = tasksHeapUpd[taskId]
     const status = Object.keys(settings).length === 0 ? 'default' : 'validated'
 
+    console.log('updateSettings', taskId, settings)
+
     dispatch(
-      TaskCreator.setTasksHeap({
+      ActionCreator.setTasksHeap({
         ...tasksHeap,
         [taskId]: { ...currentTask, settings, status },
       })
@@ -103,7 +105,7 @@ const useScenario = () => {
     delete tasksHeapUpd[taskId]
 
     dispatch(
-      TaskCreator.setTasksHeap({
+      ActionCreator.setTasksHeap({
         ...tasksHeapUpd,
         [leftId]: leftNodeUpd,
         [rightId]: rightNodeUpd,
@@ -113,7 +115,7 @@ const useScenario = () => {
 
   const setTaskIsMoving = useCallback(
     (useData: IStoreScenario[StoreKeys.taskIsMoving]) => {
-      dispatch(TaskCreator.setTaskIsMoving(useData))
+      dispatch(ActionCreator.setTaskIsMoving(useData))
     },
     [dispatch]
   )

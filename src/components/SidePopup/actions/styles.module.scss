@@ -21,6 +21,18 @@
   }
 }
 
+.tableWrapper {
+  display: flex;
+  height: 100%;
+  align-items: flex-start;
+}
+.emailWrapper {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
 .dropDownOption {
   min-width: 15rem;
   padding: 10px 15px;
