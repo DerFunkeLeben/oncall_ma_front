@@ -15,6 +15,8 @@ interface ITable {
   checkBoxesEnabled?: boolean
   checkedAll?: boolean
   toggleAllChecks?: () => void
+  addBtnEnabled?: boolean
+  handleAddBtn?: () => void
 }
 
 interface ISorting {
@@ -29,6 +31,8 @@ const Table: FC<ITable> = ({
   checkBoxesEnabled,
   toggleAllChecks,
   checkedAll,
+  addBtnEnabled,
+  handleAddBtn,
 }) => {
   const [sorting, setSorting] = useState<ISorting>({
     columnNumber: 4,
@@ -57,7 +61,7 @@ const Table: FC<ITable> = ({
           {headers.map((columnName, index) => {
             if (columnName === '')
               return <HeaderCheckCell {...{ toggleAllChecks, checkedAll }} key={index} />
-            if (columnName === '%%settings%%') return <HeaderSettingsCell />
+            if (columnName === '%%settings%%') return <HeaderSettingsCell key={index} />
 
             return (
               <HeaderDefaultCell {...{ columnName, sorting, changeSorting, index }} key={index} />
@@ -65,6 +69,14 @@ const Table: FC<ITable> = ({
           })}
         </div>
       </div>
+      {addBtnEnabled && (
+        <div className={styles.underHeader}>
+          <Button modificator={buttonStyles.theme_additional} onClick={handleAddBtn}>
+            <IconPlus />
+            <span>Добавить строку</span>
+          </Button>
+        </div>
+      )}
       <div className={styles.tbody} ref={innerRef}>
         {children}
         {checkBoxesEnabled && <EmptyRow />}

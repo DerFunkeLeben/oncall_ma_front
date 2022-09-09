@@ -8,12 +8,11 @@ import styles from './ContextMenu.module.scss'
 import dropDownStyles from 'components/parts/DropDown/DropDown.module.scss'
 
 interface IContextMenu {
-  handleEdit: (id: string) => void
-  handleRemove: (id: string) => void
-  id: string
+  handleEdit: () => void
+  handleRemove: () => void
 }
 
-const ContextMenu: FC<IContextMenu> = ({ handleEdit, handleRemove, id }) => (
+const ContextMenu: FC<IContextMenu> = ({ handleEdit, handleRemove }) => (
   <DropDown
     triggerNode={
       <button className={cx(styles.iconDots)}>
@@ -25,7 +24,7 @@ const ContextMenu: FC<IContextMenu> = ({ handleEdit, handleRemove, id }) => (
     <div className={cx(dropDownStyles.container, styles.dropDownContainer)}>
       <button
         className={cx(dropDownStyles.element, styles.dropDownOption, 'text_1')}
-        onClick={() => handleEdit(id)}
+        onClick={handleEdit}
       >
         <IconEdit />
         <span>Редактировать</span>
@@ -33,7 +32,7 @@ const ContextMenu: FC<IContextMenu> = ({ handleEdit, handleRemove, id }) => (
 
       <button
         className={cx(dropDownStyles.element, styles.dropDownOption, styles.alert, 'text_1')}
-        onClick={() => handleRemove(id)}
+        onClick={handleRemove}
       >
         <IconTrash />
         <span>Удалить</span>

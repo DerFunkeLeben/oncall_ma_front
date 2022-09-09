@@ -50,6 +50,12 @@ export interface ICheckMenuConfig {
   modificators?: string[]
 }
 
+export interface IEmptyTableConfig {
+  isActive: boolean
+  caption: string
+  Icon: FC<SVGProps<SVGSVGElement>>
+}
+
 export interface IAlertBox {
   message: string
   isOpen: boolean
@@ -61,6 +67,12 @@ export interface IMessageBox {
   isOpen: boolean
   buttons: string[]
   handleConfirm?: () => void
+}
+
+export interface ICreateOption {
+  title: string
+  url?: string
+  action?: () => void
 }
 
 export enum TasksTypes {

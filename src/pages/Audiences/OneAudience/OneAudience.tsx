@@ -1,10 +1,10 @@
-import { FC, useEffect, useState } from 'react'
+import { ChangeEvent, FC, useEffect, useState } from 'react'
 import cx from 'classnames'
 import { useParams } from 'react-router-dom'
 
 import SidePopup from 'components/SidePopup/SidePopup'
-import { OneAudienceHead } from './components/OneAudienceHead/OneAudienceHead'
-import { OneAudienceTable } from './components/OneAudienceTable/OneAudienceTable'
+import AudienceHead from '../components/AudienceHead/AudienceHead'
+import { OneAudienceTable } from './OneAudienceTable'
 
 import useToggle from 'hooks/useToggle'
 import { data as audiencesData } from '../AllAudiences/audiencesData'
@@ -47,6 +47,13 @@ const OneAudience: FC<IPageData> = () => {
   const [filterisOpen, toggleFilterPopup] = useToggle()
   const [sidePopupState, setSidePopupState] = useState({})
 
+  const handleTitleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setAudienceInfo({
+      ...audienceInfo,
+      name: event.target.value,
+    })
+  }
+
   useEffect(() => {
     if (!audienceid) return
 
@@ -56,7 +63,11 @@ const OneAudience: FC<IPageData> = () => {
   return (
     <>
       <div className={cx(styles.pageContent)}>
-        <OneAudienceHead audienceInfo={audienceInfo} openFilter={toggleFilterPopup} />
+        <AudienceHead
+          audienceInfo={audienceInfo}
+          openFilter={toggleFilterPopup}
+          handleChange={handleTitleChange}
+        />
         <OneAudienceTable />
       </div>
       <SidePopup

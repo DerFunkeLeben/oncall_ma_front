@@ -5,31 +5,43 @@ import cx from 'classnames'
 import Button from 'components/parts/Button/Button'
 import DropDown from 'components/parts/DropDown/DropDown'
 
-import { createContentOptions } from 'constants/content'
 import dropDownStyles from 'components/parts/DropDown/DropDown.module.scss'
+import { ICreateOption } from 'types'
 
 interface ICreateDropDown {
+  createOptions: ICreateOption[]
+  btnTitle?: string
   mode?: string
   alignRight?: boolean
 }
 
-const CreateDropDown: FC<ICreateDropDown> = ({ mode, alignRight }) => {
+const CreateDropDown: FC<ICreateDropDown> = ({
+  mode,
+  alignRight,
+  createOptions,
+  btnTitle = 'Создать',
+}) => {
   const history = useHistory()
+
+  const handleClick = (createOption: ICreateOption) => {
+    if (createOption.url) history.push(createOption.url)
+    else createOption?.action?.()
+  }
 
   return (
     <DropDown
       alignRight={alignRight}
       triggerNode={
         <Button modificator={mode}>
-          <span>Создать</span>
+          <span>{btnTitle}</span>
         </Button>
       }
     >
       <div className={dropDownStyles.container}>
-        {createContentOptions.map((createOption, index) => (
+        {createOptions.map((createOption, index) => (
           <button
             className={cx(dropDownStyles.element, 'text_1')}
-            onClick={() => history.push(createOption.url)}
+            onClick={() => handleClick(createOption)}
             key={index}
           >
             {createOption.title}

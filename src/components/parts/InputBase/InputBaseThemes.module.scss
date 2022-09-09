@@ -65,3 +65,22 @@
     }
   }
 }
+
+.wrapper_table_cell {
+  padding-left: 5px !important;
+}
+
+.theme_table_cell {
+  padding: 8px 15px;
+  border-color: transparent;
+  background: transparent;
+  color: var(--blue_8);
+  &:focus {
+    box-shadow: none;
+  }
+}
+
+.disabled {
+  pointer-events: none;
+
+}

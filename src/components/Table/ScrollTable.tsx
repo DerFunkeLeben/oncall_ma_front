@@ -8,7 +8,7 @@ import screenSizeContext from 'context/screenSizeContext'
 import CheckMenu from './CheckMenu/CheckMenu'
 
 import { IconArrow } from 'assets/icons'
-import { ICheckMenuConfig } from 'types'
+import { ICheckMenuConfig, IEmptyTableConfig } from 'types'
 
 import styles from './Table.module.scss'
 import tableStyles from './TableBase.module.scss'
@@ -22,6 +22,8 @@ interface ITable {
   totalCountOfData?: number
   checkBoxesEnabled?: boolean
   checkMenuConfig?: ICheckMenuConfig[]
+  addBtnEnabled?: boolean
+  handleAddBtn?: () => void
 }
 
 const stepWidth = 2
@@ -36,6 +38,8 @@ const ScrollTable: FC<ITable> = ({
   handleScrollLimit,
   checkBoxesEnabled,
   checkMenuConfig,
+  addBtnEnabled,
+  handleAddBtn,
 }) => {
   const innerRef = useRef<HTMLDivElement>(null)
   const wrapperRef = useRef<HTMLDivElement>(null)
@@ -92,6 +96,8 @@ const ScrollTable: FC<ITable> = ({
           checkBoxesEnabled={checkBoxesEnabled}
           checkedAll={checkedAll}
           toggleAllChecks={toggleAllChecks}
+          addBtnEnabled={addBtnEnabled}
+          handleAddBtn={handleAddBtn}
         >
           {children}
         </Table>

@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { ChangeEvent, FC, memo, useEffect, useState } from 'react'
 
 import PageHead from 'components/PageHead/PageHead'
 import Button from 'components/parts/Button/Button'
@@ -8,22 +8,39 @@ import { IconExport, IconFilters } from 'assets/icons'
 import { IAudienceMetaData } from 'types/audience'
 
 import buttonStyles from 'components/parts/Button/ButtonThemes.module.scss'
+import { DOCTORS_URL_ADD, PagesData } from 'constants/url'
+import useDoctors from 'store/doctors/useDoctors'
+import { postAxiosSingle } from 'utils/axios'
+import useDidUpdateEffect from 'hooks/useDidUpdateEffect'
 
-interface IOneAudienceHead {
+interface IAudienceHead {
   audienceInfo: IAudienceMetaData
   openFilter: () => void
+  handleChange: (event: ChangeEvent<HTMLInputElement>) => void
 }
 
-export const OneAudienceHead: FC<IOneAudienceHead> = ({ audienceInfo, openFilter }) => {
+const AudienceHead: FC<IAudienceHead> = ({ audienceInfo, handleChange, openFilter }) => {
+  const { allDoctors, doctorsCount } = useDoctors()
+  const [contentChanged, setContentChanged] = useState(false)
+
+  const handleSave = async () => {
+    await postAxiosSingle(DOCTORS_URL_ADD, {}, allDoctors)
+  }
+
+  useDidUpdateEffect(() => setContentChanged(true), [doctorsCount, audienceInfo.name])
+
   return (
     <PageHead
       mod={true}
       title={audienceInfo.name}
-      contactCount={audienceInfo.contact_count}
+      handleTitleChange={handleChange}
+      contactCount={`${doctorsCount}` || audienceInfo.contact_count}
       createDate={audienceInfo.create_date}
       lastUpdateDate={audienceInfo.last_update_date}
+      buttonBackUrl={PagesData.AUDIENCES.link}
       buttonBackName="К списку аудиторий"
-      buttonBackUrl="/audences"
+      titleEditable={true}
+      buttonBackMessageBox={contentChanged}
       separateBlock={
         <InputBase
           placeholder="Поиск по названию"
@@ -40,10 +57,11 @@ export const OneAudienceHead: FC<IOneAudienceHead> = ({ audienceInfo, openFilter
         <IconExport />
         <span>Экспорт</span>
       </Button>
-
-      <Button>
+      <Button onClick={handleSave}>
         <span>Сохранить</span>
       </Button>
     </PageHead>
   )
 }
+
+export default memo(AudienceHead)

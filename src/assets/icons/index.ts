@@ -32,6 +32,7 @@ import { ReactComponent as IconTelegram } from './telegram.svg'
 import { ReactComponent as IconMailBig } from './mail_big.svg'
 import { ReactComponent as IconWarning } from './warning.svg'
 import { ReactComponent as IconSuccess } from './success.svg'
+import { ReactComponent as IconAudiences } from './audiences.svg'
 import { ReactComponent as IconTaskAbTest } from './task_abTest.svg'
 import { ReactComponent as IconTaskAssigment } from './task_assignment.svg'
 import { ReactComponent as IconTaskCrmMessage } from './task_crmMessage.svg'
@@ -81,6 +82,7 @@ export {
   IconTelegram,
   IconWarning,
   IconSuccess,
+  IconAudiences,
   IconTaskAbTest,
   IconTaskAssigment,
   IconTaskCrmMessage,

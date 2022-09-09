@@ -9,6 +9,15 @@ export const AUTH_URL = `/auth`
 export const AUTH_URL_LOGIN = `${AUTH_URL}/local/login`
 export const AUTH_URL_RELOGIN = `${AUTH_URL}/local/me`
 
+export const DOCTORS_URL = `/doctors`
+export const DOCTORS_URL_ADD = `${DOCTORS_URL}/add`
+export const DOCTORS_URL_UPDATE = `${DOCTORS_URL}/update`
+export const DOCTORS_URL_CSV = `${DOCTORS_URL}/csv`
+
+export const AUDIENCE_URL = `/audience`
+export const AUDIENCE_URL_CREATE = `${AUDIENCE_URL}/create`
+export const AUDIENCE_URL_GROUPS = `${AUDIENCE_URL}/groups`
+
 export const audencesRoutes = ['/audences', '/audences/:audienceid', '/audences/create_new']
 
 export const CONTENT_URL = '/content'

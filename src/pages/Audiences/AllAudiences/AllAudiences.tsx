@@ -1,91 +1,43 @@
-import { FC, useState } from 'react'
-import { useHistory, useRouteMatch } from 'react-router-dom'
+import { FC } from 'react'
 import cx from 'classnames'
 
 import PageHead from 'components/PageHead/PageHead'
 import Button from 'components/parts/Button/Button'
-import DropDown from 'components/parts/DropDown/DropDown'
-import ScrollTable from 'components/Table/ScrollTable'
 import Folders from 'components/Folders/Folders'
 import InputBase from 'components/parts/InputBase/InputBase'
+import CreateDropDown from 'components/CreateDropDown/CreateDropDown'
+import { AllAudiencesTable } from './AllAudiencesTable'
+import { PagesData } from 'constants/url'
+import helpMessages from 'constants/helpMessages'
 import PopupOfCreationFromExist from './PopupOfCreationFromExist/PopupOfCreationFromExist'
-import useTable from 'components/Table/useTable'
+import useToggle from 'hooks/useToggle'
 import useSearch from 'hooks/useSearch'
-import useMessageBoxContext from 'context/MessageBoxContext'
-import useAlertContext from 'context/AlertContext'
-import { SURE_WANT_DELETE_MANY } from 'constants/helpMessages'
 
 import styles from './AllAudiences.module.scss'
 import buttonStyles from 'components/parts/Button/ButtonThemes.module.scss'
-import tableStyles from 'components/Table/TableBase.module.scss'
-import dropDownStyles from 'components/parts/DropDown/DropDown.module.scss'
 
-import { IPageData } from 'types'
+import { ICreateOption, IPageData } from 'types'
 import { MainReducerKeys } from 'store/data-types'
-import { IconCheck, IconUpload, IconCopy, IconTrash } from 'assets/icons'
+import { IconAudiences, IconUpload } from 'assets/icons'
 
 import { data } from './audiencesData'
-import { AlertBoxIcons } from 'constants/dictionary'
 
-const header = ['', 'ID', 'Название', 'Количество контактов', 'Дата создания', 'Дата изменения']
 const menuIsOpen = true
-const totalCountOfData = data.length
-const allIds = data.map((el) => el.id)
 
 const AllAudiences: FC<IPageData> = () => {
-  const history = useHistory()
-  const { url } = useRouteMatch()
-  const { setMessageBox } = useMessageBoxContext()
-  const { setAlertBox } = useAlertContext()
   const { search, filtered, onChange } = useSearch('name', data)
 
-  const { toggleCheck, isItChecked, checkedCount, checkedAll, toggleAllChecks, clearChecks } =
-    useTable(allIds)
+  const [popupCreateFromExistIsOpen, togglePopupCreateFromExist] = useToggle()
 
-  const [popupCreateFromExistIsOpen, setPopupCreateFromExist] = useState(false)
-
-  const openAudience = (e: React.MouseEvent<HTMLElement>) => {
-    e.stopPropagation()
-    const { id } = e.currentTarget.dataset
-    history.push(`${url}/${id}`)
-  }
-
-  const closePopupCreateFromExist = () => setPopupCreateFromExist(false)
-  const copenPopupCreateFromExist = () => setPopupCreateFromExist(true)
-
-  const copyAudience = () => console.log('handleCopyAudience')
-  const confirmDelete = () => {
-    console.log('DO DELETE') // TODO
-    clearChecks()
-    setAlertBox({
-      isOpen: true,
-      message: `Удалено элементов: ${checkedCount}`,
-      icon: AlertBoxIcons.DELETE,
-    })
-  }
-
-  const deleteAudience = () => {
-    setMessageBox({
-      isOpen: true,
-      handleConfirm: confirmDelete,
-      title: SURE_WANT_DELETE_MANY(checkedCount),
-      buttons: ['Отмена', 'Удалить'],
-    })
-  }
-
-  const checkMenuConfig = [
-    {
-      caption: 'Копировать',
-      Icon: IconCopy,
-      handleClick: copyAudience,
-    },
-    {
-      caption: 'Удалить',
-      Icon: IconTrash,
-      handleClick: deleteAudience,
-      modificators: ['alarm'],
-    },
+  const createAudienceOptions: ICreateOption[] = [
+    { title: 'Из CRM', url: '' },
+    { title: 'Из готовой аудитории', action: togglePopupCreateFromExist },
+    { title: 'Новая', url: PagesData.CREATE_AUDIENCE.link },
   ]
+
+  const totalCountOfData = data.length
+  const totalCountOfFilteredData = filtered.length
+  const emptyFilterResult = totalCountOfData && !totalCountOfFilteredData
 
   return (
     <>
@@ -105,79 +57,52 @@ const AllAudiences: FC<IPageData> = () => {
             <IconUpload />
             <span>Загрузить аудиторию</span>
           </Button>
-          <DropDown
-            alignRight={true}
-            triggerNode={
-              <Button>
-                <span>Создать аудиторию</span>
-              </Button>
-            }
-          >
-            <div className={dropDownStyles.container}>
-              <button
-                className={cx(dropDownStyles.element, 'text_1')}
-                onClick={() => history.push(`${url}/newId`)}
-              >
-                Из CRM
-              </button>
-              <button
-                className={cx(dropDownStyles.element, 'text_1')}
-                onClick={copenPopupCreateFromExist}
-              >
-                Из готовой аудитории
-              </button>
-              <button
-                className={cx(dropDownStyles.element, 'text_1')}
-                onClick={() => history.push(`${url}/create_new`)}
-              >
-                Новая
-              </button>
-            </div>
-          </DropDown>
+          <CreateDropDown
+            alignRight
+            createOptions={createAudienceOptions}
+            btnTitle={'Создать аудиторию'}
+          />
         </PageHead>
         <Folders reducerName={MainReducerKeys.audiences} />
         <div className={styles.tableWrapper}>
-          <ScrollTable
-            headers={header}
-            handleScrollLimit={() => console.log('handleScrollLimit')}
-            {...{ checkedCount, checkedAll, totalCountOfData, checkMenuConfig, toggleAllChecks }}
-          >
-            {filtered.map((dataRow, index) => {
-              const { id, name, contact_count, create_date, last_update_date } = dataRow
-              const checked = isItChecked(id)
-              return (
-                <div className={tableStyles.row} key={index} onClick={openAudience} data-id={id}>
-                  <div
-                    className={cx(tableStyles.cell, tableStyles.cellCheck)}
-                    onClick={toggleCheck}
-                    data-id={id}
-                  >
-                    <div
-                      className={cx(tableStyles.check, {
-                        [tableStyles.checked]: checked,
-                      })}
-                    >
-                      {checked && <IconCheck />}
-                    </div>
-                  </div>
-                  <div className={cx(tableStyles.cell, 'text_1')}>{index}</div>
-                  <div className={cx(tableStyles.cell, tableStyles.accentCell, 'text_1_hl_1')}>
-                    <span>{name}</span>
-                  </div>
-                  <div className={cx(tableStyles.cell, 'text_1')}>{contact_count}</div>
-                  <div className={cx(tableStyles.cell, 'text_1')}>{create_date}</div>
-                  <div className={cx(tableStyles.cell, 'text_1')}>{last_update_date}</div>
-                </div>
-              )
-            })}
-          </ScrollTable>
+          {totalCountOfFilteredData ? <AllAudiencesTable allAudiencesData={filtered} /> : null}
+          {!totalCountOfData ? <EmptyTable createOptions={createAudienceOptions} /> : null}
+          {emptyFilterResult ? <EmptyFilter /> : null}
         </div>
       </div>
       <PopupOfCreationFromExist
-        close={closePopupCreateFromExist}
+        close={togglePopupCreateFromExist}
         isOpen={popupCreateFromExistIsOpen}
       />
     </>
+  )
+}
+function EmptyTable({ createOptions }: { createOptions: ICreateOption[] }) {
+  return (
+    <div className={styles.emptyTableWrapper}>
+      <IconAudiences />
+      <div
+        className={styles.emptyCaption}
+        dangerouslySetInnerHTML={{ __html: helpMessages.EMPTY_AUDIENCES_TABLE }}
+      />
+      <CreateDropDown
+        mode={cx(buttonStyles.theme_additional, styles.buttonCreate)}
+        createOptions={createOptions}
+        btnTitle={'Создать аудиторию'}
+      />
+    </div>
+  )
+}
+
+function EmptyFilter() {
+  return (
+    <div className={styles.emptyTableWrapper}>
+      <IconAudiences />
+      <div
+        className={styles.emptyCaption}
+        dangerouslySetInnerHTML={{ __html: helpMessages.EMPTY_FILTER_RESULT }}
+      />
+    </div>
   )
 }
 

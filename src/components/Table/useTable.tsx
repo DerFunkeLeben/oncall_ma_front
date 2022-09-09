@@ -10,7 +10,7 @@ const useTable = (allIds?: string[]) => {
   const checkMenuIsOpen = () => checkedList.length > 0
 
   const checkedCount = checkedList.length
-  const checkedAll = allIds?.length === checkedCount
+  const checkedAll = allIds?.length === checkedCount && checkedCount !== 0
 
   const toggleCheck = (e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation()

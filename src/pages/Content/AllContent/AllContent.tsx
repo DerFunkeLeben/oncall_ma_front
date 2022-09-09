@@ -5,12 +5,13 @@ import PageHead from 'components/PageHead/PageHead'
 import Folders from 'components/Folders/Folders'
 import InputBase from 'components/parts/InputBase/InputBase'
 import AllContentTable from './AllContentTable'
-import CreateDropDown from './CreateDropDown'
+import CreateDropDown from '../../../components/CreateDropDown/CreateDropDown'
 
 import useAllContent from 'store/content/useAllContent'
 import useSearch from 'hooks/useSearch'
 
 import helpMessages from 'constants/helpMessages'
+import { createContentOptions } from 'constants/content'
 import { MainReducerKeys } from 'store/data-types'
 import { IPageData } from 'types'
 import { IContent } from 'types/content'
@@ -18,6 +19,7 @@ import { IContent } from 'types/content'
 import { IconMailBig } from 'assets/icons'
 import styles from './AllContent.module.scss'
 import buttonStyles from 'components/parts/Button/ButtonThemes.module.scss'
+import tableStyles from 'components/Table/TableBase.module.scss'
 
 const AllContent: FC<IPageData> = () => {
   const { allContent } = useAllContent()
@@ -40,7 +42,7 @@ const AllContent: FC<IPageData> = () => {
           />
         }
       >
-        <CreateDropDown alignRight />
+        <CreateDropDown alignRight createOptions={createContentOptions} />
       </PageHead>
       <Folders reducerName={MainReducerKeys.content} />
       <div className={styles.tableWrapper}>
@@ -53,23 +55,26 @@ const AllContent: FC<IPageData> = () => {
 }
 function EmptyTable() {
   return (
-    <div className={styles.emptyTableWrapper}>
+    <div className={tableStyles.emptyTableWrapper}>
       <IconMailBig />
       <div
-        className={styles.emptyCaption}
+        className={tableStyles.emptyCaption}
         dangerouslySetInnerHTML={{ __html: helpMessages.EMPTY_CONTENT_TABLE }}
       />
-      <CreateDropDown mode={cx(buttonStyles.theme_additional, styles.buttonCreate)} />
+      <CreateDropDown
+        mode={cx(buttonStyles.theme_additional, styles.buttonCreate)}
+        createOptions={createContentOptions}
+      />
     </div>
   )
 }
 
 function EmptyFilter() {
   return (
-    <div className={styles.emptyTableWrapper}>
+    <div className={tableStyles.emptyTableWrapper}>
       <IconMailBig />
       <div
-        className={styles.emptyCaption}
+        className={tableStyles.emptyCaption}
         dangerouslySetInnerHTML={{ __html: helpMessages.EMPTY_FILTER_RESULT }}
       />
     </div>

@@ -2,19 +2,18 @@ import cx from 'classnames'
 
 import ScrollTable from 'components/Table/ScrollTable'
 import useTable from 'components/Table/useTable'
-import ContextMenu from '../ContextMenu/ContextMenu'
 import useMessageBoxContext from 'context/MessageBoxContext'
 import useAlertContext from 'context/AlertContext'
 import { AlertBoxIcons } from 'constants/dictionary'
 import { SURE_WANT_DELETE_MANY } from 'constants/helpMessages'
 
-import { data } from '../../audienceTerapistMarch'
+import { data } from './audienceTerapistMarch'
 import { IconCheck, IconCopy, IconTrash } from 'assets/icons'
 import tableStyles from 'components/Table/TableBase.module.scss'
 
 const header = [
   '',
-  '%%settings%%',
+  // '%%settings%%',
   'ID',
   'Фамилия',
   'Имя',
@@ -115,9 +114,6 @@ export const OneAudienceTable = () => {
               >
                 {checked && <IconCheck />}
               </div>
-            </div>
-            <div className={cx(tableStyles.cell, tableStyles.dotsCell)}>
-              <ContextMenu id={id} handleRemove={handleRemove} handleEdit={handleEdit} />
             </div>
             <div className={cx(tableStyles.cell)}>{index}</div>
             {editableFields.map((field, i) => {
