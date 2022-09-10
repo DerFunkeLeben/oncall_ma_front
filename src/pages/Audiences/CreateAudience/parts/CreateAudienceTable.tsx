@@ -13,8 +13,9 @@ import useAlertContext from 'context/AlertContext'
 import { AlertBoxIcons } from 'constants/dictionary'
 import { SURE_WANT_DELETE_MANY } from 'constants/helpMessages'
 import { IDoctor } from 'types/audience'
+import { CheckMenuAction } from 'types'
 
-import { IconCheck, IconCopy, IconTrash } from 'assets/icons'
+import { IconCheck } from 'assets/icons'
 import tableStyles from 'components/Table/TableBase.module.scss'
 
 export const header = [
@@ -96,15 +97,12 @@ export const CreateAudienceTable = () => {
 
   const checkMenuConfig = [
     {
-      caption: 'Копировать',
-      Icon: IconCopy,
+      option: CheckMenuAction.COPY,
       handleClick: handleCopyMultiple,
     },
     {
-      caption: 'Удалить',
-      Icon: IconTrash,
+      option: CheckMenuAction.DELETE,
       handleClick: handleDeleteMultiple,
-      modificators: ['alarm'],
     },
   ]
 
@@ -171,14 +169,14 @@ export const CreateAudienceTable = () => {
                 handleEdit={() => handleEdit(id)}
               />
             </div>
-            {/* <div className={cx(tableStyles.cell)}>{index}</div> */}
+            {/* <div className={cx(tableStyles.cell)}>{id}</div> */}
             {fields.map((field, i) => {
               const fieldName = fieldsKeys[i] as keyof IDoctor
               return (
                 <TableOneInput
                   key={i}
                   id={id}
-                  // value={field}
+                  value={field}
                   name={fieldName}
                   editDoctor={editDoctor}
                 />

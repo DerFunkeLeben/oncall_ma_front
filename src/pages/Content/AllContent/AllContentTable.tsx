@@ -13,8 +13,10 @@ import { SURE_WANT_DELETE_MANY } from 'constants/helpMessages'
 import { AlertBoxIcons } from 'constants/dictionary'
 import { ddmmyyyy } from 'utils/transformDate'
 import { ContentTypes, IContent } from 'types/content'
-import { IconCheck, IconSend, IconTrash } from 'assets/icons'
+import { CheckMenuAction } from 'types'
+import { IconCheck } from 'assets/icons'
 import tableStyles from 'components/Table/TableBase.module.scss'
+import { MainReducerKeys } from 'store/data-types'
 
 const header = ['', 'Название', 'Тип', 'Дата создания', 'Дата изменения']
 
@@ -75,14 +77,15 @@ const AllContentTable: FC<{ allContent: IContent[] }> = ({ allContent }) => {
 
   const checkMenuConfig = [
     {
-      caption: 'Отправить тестовое письмо',
-      Icon: IconSend,
+      option: CheckMenuAction.SEND_TEST,
       handleClick: sendTestEmail,
     },
     {
-      caption: 'Удалить',
-      Icon: IconTrash,
-      modificators: ['alarm'],
+      option: CheckMenuAction.MOVE_TO_FOLDER,
+      reducerName: MainReducerKeys.content,
+    },
+    {
+      option: CheckMenuAction.DELETE,
       handleClick: deleteContent,
     },
   ]

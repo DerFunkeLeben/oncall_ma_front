@@ -5,19 +5,21 @@ import cx from 'classnames'
 import Button from 'components/parts/Button/Button'
 import DropDown from 'components/parts/DropDown/DropDown'
 
-import dropDownStyles from 'components/parts/DropDown/DropDown.module.scss'
+import { Align } from 'constants/dictionary'
 import { ICreateOption } from 'types'
+
+import dropDownStyles from 'components/parts/DropDown/DropDown.module.scss'
 
 interface ICreateDropDown {
   createOptions: ICreateOption[]
+  align: Align
   btnTitle?: string
   mode?: string
-  alignRight?: boolean
 }
 
 const CreateDropDown: FC<ICreateDropDown> = ({
   mode,
-  alignRight,
+  align,
   createOptions,
   btnTitle = 'Создать',
 }) => {
@@ -30,7 +32,7 @@ const CreateDropDown: FC<ICreateDropDown> = ({
 
   return (
     <DropDown
-      alignRight={alignRight}
+      align={align}
       triggerNode={
         <Button modificator={mode}>
           <span>{btnTitle}</span>

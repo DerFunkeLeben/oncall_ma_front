@@ -1,15 +1,12 @@
 import { useCallback } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 
 import ActionCreator from './actions'
 import { IFolder } from 'types'
-import { getActiveFolderId } from './selectors'
-import { IState, MainReducerKeys } from 'store/data-types'
+import { MainReducerKeys } from 'store/data-types'
 
 const useSetFolders = (reducerName: MainReducerKeys) => {
   const dispatch = useDispatch()
-
-  const activeFolderId = useSelector((state: IState) => getActiveFolderId(state, reducerName))
 
   const viewFolder = useCallback(
     (folderId: string) => {
@@ -54,7 +51,6 @@ const useSetFolders = (reducerName: MainReducerKeys) => {
   )
 
   return {
-    activeFolderId,
     viewFolder,
     createFolder,
     renameFolder,

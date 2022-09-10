@@ -39,17 +39,14 @@ const Table: FC<ITable> = ({
     direction: DESCENDING,
   })
 
-  const changeSorting = (event: any) => {
-    const { index } = event.target.dataset
-    if (!index) return
-
+  const changeSorting = (index: number) => {
     const { columnNumber, direction } = sorting
 
-    const itIsSecondClick = columnNumber === +index && direction === ASCENDING
+    const itIsSecondClick = columnNumber === index && direction === ASCENDING
     const newDirection = itIsSecondClick ? DESCENDING : ASCENDING
 
     setSorting({
-      columnNumber: +index,
+      columnNumber: index,
       direction: newDirection,
     })
   }
@@ -92,7 +89,7 @@ const EmptyRow = () => (
 )
 
 interface IHeaderDefaultCell {
-  changeSorting: MouseEventHandler<HTMLDivElement>
+  changeSorting: (index: number) => void //MouseEventHandler<HTMLDivElement>
   columnName: string
   sorting: ISorting
   index: number
@@ -107,7 +104,7 @@ const HeaderDefaultCell: FC<IHeaderDefaultCell> = ({
   const sortDirection = index === sorting.columnNumber ? sorting.direction : null
 
   return (
-    <div className={cx(styles.headCell, 'text_1_hl_1')} data-index={index} onClick={changeSorting}>
+    <div className={cx(styles.headCell, 'text_1_hl_1')} onClick={() => changeSorting(index)}>
       <p>
         {columnName}
         {sortDirection && <IconArrow className={cx(styles.iconArrow, styles[sortDirection])} />}

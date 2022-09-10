@@ -2,7 +2,7 @@ import { useCallback } from 'react'
 import { useDispatch } from 'react-redux'
 import { batchActions } from 'redux-batched-actions'
 
-import useSetFolders from 'store/folders/useSetFolder'
+import useAllFolders from 'store/folders/useAllFolders'
 import FoldersActionCreator from 'store/folders/actions'
 import ActionCreator from './actions'
 
@@ -11,7 +11,7 @@ import { MainReducerKeys } from 'store/data-types'
 
 const useSetContent = () => {
   const dispatch = useDispatch()
-  const { activeFolderId } = useSetFolders(MainReducerKeys.content)
+  const { activeFolderId } = useAllFolders(MainReducerKeys.content)
 
   const createContent = useCallback(
     (content: IContent) => {

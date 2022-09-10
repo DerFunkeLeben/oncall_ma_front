@@ -6,10 +6,12 @@ import Button from 'components/parts/Button/Button'
 import Folders from 'components/Folders/Folders'
 import InputBase from 'components/parts/InputBase/InputBase'
 import CreateDropDown from 'components/CreateDropDown/CreateDropDown'
-import { AllAudiencesTable } from './AllAudiencesTable'
+import { AllAudiencesTable } from './parts/AllAudiencesTable'
+import { EmptyFilter } from './parts/EmptyTable/EmptyFilter'
+import { EmptyTable } from './parts/EmptyTable/EmptyTable'
+import PopupOfCreationFromExist from './parts/PopupOfCreationFromExist/PopupOfCreationFromExist'
 import { PagesData } from 'constants/url'
-import helpMessages from 'constants/helpMessages'
-import PopupOfCreationFromExist from './PopupOfCreationFromExist/PopupOfCreationFromExist'
+import { Align } from 'constants/dictionary'
 import useToggle from 'hooks/useToggle'
 import useSearch from 'hooks/useSearch'
 
@@ -18,7 +20,7 @@ import buttonStyles from 'components/parts/Button/ButtonThemes.module.scss'
 
 import { ICreateOption, IPageData } from 'types'
 import { MainReducerKeys } from 'store/data-types'
-import { IconAudiences, IconUpload } from 'assets/icons'
+import { IconUpload } from 'assets/icons'
 
 import { data } from './audiencesData'
 
@@ -58,7 +60,7 @@ const AllAudiences: FC<IPageData> = () => {
             <span>Загрузить аудиторию</span>
           </Button>
           <CreateDropDown
-            alignRight
+            align={Align.RIGHT}
             createOptions={createAudienceOptions}
             btnTitle={'Создать аудиторию'}
           />
@@ -77,33 +79,4 @@ const AllAudiences: FC<IPageData> = () => {
     </>
   )
 }
-function EmptyTable({ createOptions }: { createOptions: ICreateOption[] }) {
-  return (
-    <div className={styles.emptyTableWrapper}>
-      <IconAudiences />
-      <div
-        className={styles.emptyCaption}
-        dangerouslySetInnerHTML={{ __html: helpMessages.EMPTY_AUDIENCES_TABLE }}
-      />
-      <CreateDropDown
-        mode={cx(buttonStyles.theme_additional, styles.buttonCreate)}
-        createOptions={createOptions}
-        btnTitle={'Создать аудиторию'}
-      />
-    </div>
-  )
-}
-
-function EmptyFilter() {
-  return (
-    <div className={styles.emptyTableWrapper}>
-      <IconAudiences />
-      <div
-        className={styles.emptyCaption}
-        dangerouslySetInnerHTML={{ __html: helpMessages.EMPTY_FILTER_RESULT }}
-      />
-    </div>
-  )
-}
-
 export default AllAudiences

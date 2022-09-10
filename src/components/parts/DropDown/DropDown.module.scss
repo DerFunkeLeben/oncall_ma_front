@@ -63,3 +63,14 @@
     transition: 0.2s;
   }
 }
+
+.dropDownOption {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 10px;
+
+  svg {
+    margin-right: 10px;
+  }
+}

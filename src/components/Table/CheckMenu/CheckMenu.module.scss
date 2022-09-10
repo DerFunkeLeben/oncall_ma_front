@@ -15,7 +15,7 @@
   align-items: center;
   justify-content: flex-start;
   & > *:not(:last-child) {
-    margin-right: 100px;
+    margin-right: 70px;
   }
 }
 
@@ -25,7 +25,8 @@
   flex-direction: row;
   align-items: center;
   color: var(--blue_5);
-  font-weight: 500;
+  transition: 0.1s;
+  
   path {
     fill: var(--blue_5);
   }

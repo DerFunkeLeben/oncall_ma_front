@@ -23,7 +23,7 @@ const ContextMenu: FC<IContextMenu> = ({ handleEdit, handleRemove }) => (
   >
     <div className={cx(dropDownStyles.container, styles.dropDownContainer)}>
       <button
-        className={cx(dropDownStyles.element, styles.dropDownOption, 'text_1')}
+        className={cx(dropDownStyles.element, dropDownStyles.dropDownOption, 'text_1')}
         onClick={handleEdit}
       >
         <IconEdit />
@@ -31,7 +31,12 @@ const ContextMenu: FC<IContextMenu> = ({ handleEdit, handleRemove }) => (
       </button>
 
       <button
-        className={cx(dropDownStyles.element, styles.dropDownOption, styles.alert, 'text_1')}
+        className={cx(
+          dropDownStyles.element,
+          dropDownStyles.dropDownOption,
+          styles.alert,
+          'text_1'
+        )}
         onClick={handleRemove}
       >
         <IconTrash />

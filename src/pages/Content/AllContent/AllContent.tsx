@@ -12,6 +12,7 @@ import useSearch from 'hooks/useSearch'
 
 import helpMessages from 'constants/helpMessages'
 import { createContentOptions } from 'constants/content'
+import { Align } from 'constants/dictionary'
 import { MainReducerKeys } from 'store/data-types'
 import { IPageData } from 'types'
 import { IContent } from 'types/content'
@@ -42,7 +43,7 @@ const AllContent: FC<IPageData> = () => {
           />
         }
       >
-        <CreateDropDown alignRight createOptions={createContentOptions} />
+        <CreateDropDown align={Align.RIGHT} createOptions={createContentOptions} />
       </PageHead>
       <Folders reducerName={MainReducerKeys.content} />
       <div className={styles.tableWrapper}>
@@ -63,6 +64,7 @@ function EmptyTable() {
       />
       <CreateDropDown
         mode={cx(buttonStyles.theme_additional, styles.buttonCreate)}
+        align={Align.TOP_CENTER}
         createOptions={createContentOptions}
       />
     </div>

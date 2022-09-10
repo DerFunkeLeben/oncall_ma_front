@@ -66,7 +66,7 @@ const LoginForm: FC<ILoginForm> = ({
   }
 
   const handleForgotPassword = () => {
-    setForgotPassword(true)
+    setForgotPassword(() => true)
     setLoginError('')
   }
 

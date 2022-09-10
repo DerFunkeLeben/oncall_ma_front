@@ -21,17 +21,6 @@
   padding: 5px;
 }
 
-.dropDownOption {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  padding: 10px;
-
-  svg {
-    margin-right: 10px;
-  }
-}
-
 .alert {
   color: var(--error_2);
 

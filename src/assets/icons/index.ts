@@ -16,6 +16,7 @@ import { ReactComponent as IconUpload } from './upload.svg'
 import { ReactComponent as IconFolderYellow } from './folder_yellow.svg'
 import { ReactComponent as IconFolderOpen } from './folderOpen.svg'
 import { ReactComponent as IconFolderClose } from './folderClose.svg'
+import { ReactComponent as IconMoveToFolder } from './move_to_folder.svg'
 import { ReactComponent as IconLoupe } from './loupe.svg'
 import { ReactComponent as IconEdit } from './edit.svg'
 import { ReactComponent as IconExport } from './export.svg'
@@ -68,6 +69,7 @@ export {
   IconFolderOpen,
   IconFolderClose,
   IconFolderYellow,
+  IconMoveToFolder,
   IconLoupe,
   IconEdit,
   IconExport,

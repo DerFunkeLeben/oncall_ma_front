@@ -16,6 +16,13 @@ export enum Actions {
   CRM_MESSAGE = 'CRM сообщение',
 }
 
+export enum Align {
+  LEFT,
+  RIGHT,
+  TOP_CENTER,
+  BOTTOM_CENTER,
+}
+
 export enum AlertBoxIcons {
   SUCCESS,
   WARNING,

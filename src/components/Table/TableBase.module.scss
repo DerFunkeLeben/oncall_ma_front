@@ -54,6 +54,10 @@
 .cellCheck {
   width: 10px;
   min-width: 10px !important;
+
+  &:hover {
+    background-color: transparent;
+  }
 }
 
 .emptyTableWrapper {

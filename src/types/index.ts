@@ -1,5 +1,6 @@
 import { AlertBoxIcons } from 'constants/dictionary'
 import { FC, SVGProps } from 'react'
+import { MainReducerKeys } from 'store/data-types'
 
 export interface IPageData {
   link: string
@@ -44,10 +45,9 @@ export interface IFolder {
 }
 
 export interface ICheckMenuConfig {
-  caption: string
-  Icon: FC<SVGProps<SVGSVGElement>>
-  handleClick: () => void
-  modificators?: string[]
+  option: CheckMenuAction
+  handleClick?: () => void
+  reducerName?: MainReducerKeys
 }
 
 export interface IEmptyTableConfig {
@@ -119,4 +119,11 @@ export enum FolderAction {
   CREATE,
   DELETE,
   RENAME,
+}
+
+export enum CheckMenuAction {
+  COPY,
+  DELETE,
+  MOVE_TO_FOLDER,
+  SEND_TEST,
 }

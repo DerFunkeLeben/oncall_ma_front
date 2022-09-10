@@ -6,9 +6,10 @@ import useMessageBoxContext from 'context/MessageBoxContext'
 import useAlertContext from 'context/AlertContext'
 import { AlertBoxIcons } from 'constants/dictionary'
 import { SURE_WANT_DELETE_MANY } from 'constants/helpMessages'
+import { CheckMenuAction } from 'types'
 
 import { data } from './audienceTerapistMarch'
-import { IconCheck, IconCopy, IconTrash } from 'assets/icons'
+import { IconCheck } from 'assets/icons'
 import tableStyles from 'components/Table/TableBase.module.scss'
 
 const header = [
@@ -62,15 +63,12 @@ export const OneAudienceTable = () => {
 
   const checkMenuConfig = [
     {
-      caption: 'Копировать',
-      Icon: IconCopy,
+      option: CheckMenuAction.COPY,
       handleClick: () => console.log('HANDLE COPY'),
     },
     {
-      caption: 'Удалить',
-      Icon: IconTrash,
+      option: CheckMenuAction.DELETE,
       handleClick: deleteAudience,
-      modificators: ['alarm'],
     },
   ]
 

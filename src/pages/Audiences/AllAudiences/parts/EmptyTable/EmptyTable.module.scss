@@ -1,0 +1,23 @@
+.emptyTableWrapper {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--white);
+}
+
+.emptyCaption {
+  margin: 30px 0;
+  color: var(--gray_5);
+  font-size: 17px;
+  font-weight: 400;
+}
+
+.buttonCreate {
+  color: var(--blue_6);
+
+  &:hover {
+    color: var(--blue_13);
+  }
+}

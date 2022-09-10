@@ -7,10 +7,12 @@ import useMessageBoxContext from 'context/MessageBoxContext'
 import useAlertContext from 'context/AlertContext'
 import { SURE_WANT_DELETE_MANY } from 'constants/helpMessages'
 import tableStyles from 'components/Table/TableBase.module.scss'
-import { IconCheck, IconCopy, IconTrash } from 'assets/icons'
+import { CheckMenuAction } from 'types'
+import { IconCheck } from 'assets/icons'
 import { AlertBoxIcons } from 'constants/dictionary'
 import { IAudienceMetaData } from 'types/audience'
-import { data } from './audiencesData'
+import { data } from '../audiencesData'
+import { MainReducerKeys } from 'store/data-types'
 
 const totalCountOfData = data.length
 
@@ -55,15 +57,16 @@ export const AllAudiencesTable: FC<{ allAudiencesData: IAudienceMetaData[] }> = 
 
   const checkMenuConfig = [
     {
-      caption: 'Копировать',
-      Icon: IconCopy,
+      option: CheckMenuAction.COPY,
       handleClick: copyAudience,
     },
     {
-      caption: 'Удалить',
-      Icon: IconTrash,
+      option: CheckMenuAction.MOVE_TO_FOLDER,
+      reducerName: MainReducerKeys.audiences,
+    },
+    {
+      option: CheckMenuAction.DELETE,
       handleClick: deleteAudience,
-      modificators: ['alarm'],
     },
   ]
 

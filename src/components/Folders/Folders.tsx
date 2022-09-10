@@ -32,8 +32,8 @@ export interface ICurrentFolder {
 const { RENAME, CREATE, DELETE } = FolderAction
 
 const Folders: FC<IFolders> = ({ reducerName }) => {
-  const { allFolders } = useAllFolders(reducerName)
-  const { activeFolderId, viewFolder, deleteFolder } = useSetFolder(reducerName)
+  const { allFolders, activeFolderId } = useAllFolders(reducerName)
+  const { viewFolder, deleteFolder } = useSetFolder(reducerName)
   const { setAlertBox } = useAlertContext()
   const { setMessageBox } = useMessageBoxContext()
 

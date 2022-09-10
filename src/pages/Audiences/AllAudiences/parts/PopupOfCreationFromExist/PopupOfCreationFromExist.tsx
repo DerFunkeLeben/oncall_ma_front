@@ -10,7 +10,7 @@ import styles from './PopupOfCreationFromExist.module.scss'
 import tableStyles from 'components/Table/TableBase.module.scss'
 import buttonStyles from 'components/parts/Button/ButtonThemes.module.scss'
 
-import { data as tableData } from '../audiencesData'
+import { data as tableData } from '../../audiencesData'
 
 interface IPopupOfCreationFromExist {
   isOpen: boolean
