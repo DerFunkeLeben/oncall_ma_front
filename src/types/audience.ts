@@ -1,4 +1,10 @@
 import { DoctorKeys } from 'constants/audience'
+import {
+  Conditions,
+  LogicalOperators,
+  NegativeLogicalOperators,
+  PositiveLogicalOperators,
+} from 'constants/sidePopup'
 
 export interface IAudienceMetaData {
   id: string
@@ -27,4 +33,19 @@ export interface IDoctorEditInfo {
   id: string
   field: string
   value: string
+}
+
+export type ILogicalOperator = PositiveLogicalOperators | NegativeLogicalOperators
+export interface AudienceSingleQuery {
+  field: string
+  type: Conditions
+  value: string
+}
+
+export type AudienceFullQuery = {
+  [key in ILogicalOperator]: AudienceSingleQuery[]
+}
+
+export type AudienceQuery = {
+  [key in ILogicalOperator]: AudienceFullQuery[]
 }

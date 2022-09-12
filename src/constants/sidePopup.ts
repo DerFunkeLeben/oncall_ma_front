@@ -33,33 +33,34 @@ export enum SidePopupActions {
 }
 
 export enum PositiveLogicalOperators {
-  AND = 'и',
-  OR = 'или',
+  AND = 'and',
+  OR = 'or',
 }
 export enum NegativeLogicalOperators {
-  NAND = 'не и',
-  NOR = 'не или',
+  NAND = 'notAnd',
+  NOR = 'notOr',
 }
 export const LogicalOperators = {
   ...PositiveLogicalOperators,
   ...NegativeLogicalOperators,
 }
 export enum Conditions {
-  CONTAINS = 'содержит',
-  NOT_CONTAINS = 'не содержит',
-  EQUAL = 'равно',
-  NOT_EQUAL = 'не равно',
+  CONTAINS = 'contain',
+  NOT_CONTAINS = 'not contain',
+  EQUAL = 'equal',
+  NOT_EQUAL = 'not equal',
 }
 
-// export const LogicalOperators = {
-//   AND: 'and',
-//   OR: 'or',
-//   NAND: 'notAnd',
-//   NOR: 'notOr',
-// }
-// export enum Conditions {
-//   CONTAINS = 'contain',
-//   EQUAL = 'equal',
-//   NOT_CONTAINS = 'не содержит',
-//   NOT_EQUAL = 'не равно',
-// }
+export const LogicLabels = {
+  [PositiveLogicalOperators.AND]: 'и',
+  [PositiveLogicalOperators.OR]: 'или',
+  [NegativeLogicalOperators.NAND]: 'не и',
+  [NegativeLogicalOperators.NOR]: 'не или',
+}
+
+export const ConditionsLabels = {
+  [Conditions.CONTAINS]: 'содержит',
+  [Conditions.NOT_CONTAINS]: 'не содержит',
+  [Conditions.EQUAL]: 'равно',
+  [Conditions.NOT_EQUAL]: 'не равно',
+}

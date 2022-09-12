@@ -11,11 +11,18 @@ import buttonThemes from 'components/parts/Button/ButtonThemes.module.scss'
 import dropDownStyles from 'components/parts/DropDown/DropDown.module.scss'
 import inputThemes from 'components/parts/InputBase/InputBaseThemes.module.scss'
 
-import { PositiveLogicalOperators, Conditions } from 'constants/sidePopup'
+import {
+  PositiveLogicalOperators,
+  Conditions,
+  LogicLabels,
+  ConditionsLabels,
+  LogicalOperators,
+} from 'constants/sidePopup'
 
 import { IconPlus } from '../../../../assets/icons'
 import InputBase from 'components/parts/InputBase/InputBase'
 import { Align } from 'constants/dictionary'
+import { DoctorKeyLabels } from 'constants/audience'
 
 const FirstLevel: FC<IFirstLevel> = ({
   row,
@@ -70,20 +77,21 @@ const FirstLevel: FC<IFirstLevel> = ({
             align={Align.LEFT}
             triggerNode={
               <Button modificator={buttonThemes.theme_filter_accent}>
-                {defined.toLowerCase()}
+                {DoctorKeyLabels[defined].toLowerCase()}
               </Button>
             }
           >
             <div className={dropDownStyles.container}>
               {headers.map((headerElement) => {
+                const headerEl = headerElement as keyof typeof DoctorKeyLabels
                 return (
                   <button
                     key={headerElement}
                     className={cx(dropDownStyles.element, 'text_1')}
                     onClick={handleChangeDefined}
-                    data-defined={headerElement}
+                    data-defined={headerEl}
                   >
-                    {headerElement.toLowerCase()}
+                    {DoctorKeyLabels[headerEl].toLowerCase()}
                   </button>
                 )
               })}
@@ -94,7 +102,7 @@ const FirstLevel: FC<IFirstLevel> = ({
             align={Align.LEFT}
             triggerNode={
               <Button modificator={buttonThemes.theme_filter_accent}>
-                {logicalOperator.toLowerCase()}
+                {LogicLabels[logicalOperator]}
               </Button>
             }
           >
@@ -107,7 +115,7 @@ const FirstLevel: FC<IFirstLevel> = ({
                     onClick={handleChangeOperator}
                     data-operator={operator}
                   >
-                    {operator.toLowerCase()}
+                    {LogicLabels[operator]}
                   </button>
                 )
               })}
@@ -117,7 +125,7 @@ const FirstLevel: FC<IFirstLevel> = ({
         <DropDown
           align={Align.LEFT}
           triggerNode={
-            <Button modificator={buttonThemes.theme_filter}>{condition.toLowerCase()}</Button>
+            <Button modificator={buttonThemes.theme_filter}>{ConditionsLabels[condition]}</Button>
           }
         >
           <div className={dropDownStyles.container}>
@@ -129,7 +137,7 @@ const FirstLevel: FC<IFirstLevel> = ({
                   onClick={handleChangeCondition}
                   data-condition={currentCondition}
                 >
-                  {currentCondition.toLowerCase()}
+                  {ConditionsLabels[currentCondition]}
                 </button>
               )
             })}

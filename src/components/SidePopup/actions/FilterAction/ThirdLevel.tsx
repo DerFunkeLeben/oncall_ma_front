@@ -11,7 +11,7 @@ import dropDownStyles from 'components/parts/DropDown/DropDown.module.scss'
 
 import { IThirdLevel } from './types'
 
-import { LogicalOperators } from 'constants/sidePopup'
+import { LogicalOperators, LogicLabels } from 'constants/sidePopup'
 
 import { IconPlusWithBorder } from '../../../../assets/icons'
 
@@ -47,7 +47,7 @@ const ThirdLevel: FC<IThirdLevel> = ({
           <DropDown
             triggerNode={
               <Button modificator={cx(buttonThemes.theme_filter_accent)}>
-                {logicalOperator.toUpperCase()}
+                {LogicLabels[logicalOperator].toUpperCase()}
               </Button>
             }
           >
@@ -60,7 +60,7 @@ const ThirdLevel: FC<IThirdLevel> = ({
                     onClick={handleChangeOperator}
                     data-operator={operator}
                   >
-                    {operator.toUpperCase()}
+                    {LogicLabels[operator].toUpperCase()}
                   </button>
                 )
               })}

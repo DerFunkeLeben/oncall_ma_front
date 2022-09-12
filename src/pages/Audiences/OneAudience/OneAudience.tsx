@@ -13,6 +13,10 @@ import { ISidePopupStep } from 'types/sidePopup'
 import { IAudienceMetaData } from 'types/audience'
 
 import styles from './OneAudience.module.scss'
+import useFilterState, {
+  IFilterState,
+} from 'components/SidePopup/actions/FilterAction/useFilterState'
+import { DoctorKeys } from 'constants/audience'
 
 const initData = {
   id: '0',
@@ -27,23 +31,15 @@ const title = 'Фильтры'
 const configFilter: ISidePopupStep = {
   name: 'filter',
   type: 'filter',
-  attributes: [
-    'Фамилия',
-    'Имя',
-    'Отчество',
-    'Email',
-    'Телефон',
-    'Город',
-    'Специальность',
-    'Сегмент',
-  ],
+  attributes: Object.keys(DoctorKeys),
 }
 
 const OneAudience: FC<IPageData> = () => {
   const { audienceid } = useParams<{ audienceid?: string }>()
   const [audienceInfo, setAudienceInfo] = useState<IAudienceMetaData>(initData)
   const [filterisOpen, toggleFilterPopup] = useToggle()
-  const [sidePopupState, setSidePopupState] = useState({})
+  const filterStateManager = useFilterState()
+  const { parseStateToQuery } = filterStateManager
 
   const handleTitleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setAudienceInfo({
@@ -52,7 +48,6 @@ const OneAudience: FC<IPageData> = () => {
     })
   }
 
-  console.log(sidePopupState)
   useEffect(() => {
     if (!audienceid) return
 
@@ -73,8 +68,9 @@ const OneAudience: FC<IPageData> = () => {
         isOpen={filterisOpen}
         close={toggleFilterPopup}
         config={configFilter}
-        handleSave={setSidePopupState}
+        handleSave={parseStateToQuery}
         title={title}
+        settings={filterStateManager}
       />
     </>
   )

@@ -1,4 +1,7 @@
+import { DoctorKeys } from 'constants/audience'
+import { Conditions, NegativeLogicalOperators, PositiveLogicalOperators } from 'constants/sidePopup'
 import { Dispatch, SetStateAction } from 'react'
+import { ILogicalOperator } from 'types/audience'
 import { IStepFilter, IState } from 'types/sidePopup'
 export interface IFilterAction {
   currentState: IState
@@ -8,24 +11,24 @@ export interface IFilterAction {
 
 export interface IFirstLevelObj {
   id: string
-  defined: string
-  condition: string
+  defined: DoctorKeys
+  condition: Conditions
   determinant: string
-  type: string
-  logicalOperator: string
+  type?: string
+  logicalOperator: PositiveLogicalOperators
 }
 
 export interface ISecondLevelObj {
   id: string
-  type: string
-  logicalOperator: string
+  type?: string
+  logicalOperator: ILogicalOperator
   childIds: any[]
 }
 
 export interface IThirdLevelObj {
   id: string
-  type: string
-  logicalOperator: string
+  type?: string
+  logicalOperator: ILogicalOperator
   childIds: any[]
 }
 

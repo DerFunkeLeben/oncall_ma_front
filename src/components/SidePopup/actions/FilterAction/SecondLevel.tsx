@@ -11,7 +11,7 @@ import styles from './FilterAction.module.scss'
 
 import { ISecondLevel } from './types'
 
-import { LogicalOperators } from 'constants/sidePopup'
+import { ConditionsLabels, LogicalOperators, LogicLabels } from 'constants/sidePopup'
 
 const SecondLevel: FC<ISecondLevel> = ({
   secondLevel,
@@ -40,7 +40,7 @@ const SecondLevel: FC<ISecondLevel> = ({
           <DropDown
             triggerNode={
               <Button modificator={cx(buttonThemes.theme_filter_accent)}>
-                {logicalOperator.toLowerCase()}
+                {LogicLabels[logicalOperator]}
               </Button>
             }
           >
@@ -53,7 +53,7 @@ const SecondLevel: FC<ISecondLevel> = ({
                     onClick={handleChangeOperator}
                     data-operator={operator}
                   >
-                    {operator.toLowerCase()}
+                    {LogicLabels[operator]}
                   </button>
                 )
               })}

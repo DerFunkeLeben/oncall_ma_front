@@ -32,7 +32,7 @@ const DoctorKeyLabels = {
   [DoctorKeys.email]: 'Email',
   [DoctorKeys.phone]: 'Телефон',
   [DoctorKeys.specialty]: 'Специальность',
-  [DoctorKeys.secondSpecialty]: 'II Специальность',
+  [DoctorKeys.secondSpecialty]: '2-ая специальность',
   [DoctorKeys.firstName]: 'Имя',
   [DoctorKeys.lastName]: 'Фамилия',
   [DoctorKeys.middleName]: 'Отчество',

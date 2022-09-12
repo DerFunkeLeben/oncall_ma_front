@@ -13,12 +13,13 @@ import { IconPlus } from '../../../../assets/icons'
 
 import { IFilterAction, IFirstLevelObj, ISecondLevelObj, IThirdLevelObj, IConfig } from './types'
 
-import { LogicalOperators, Conditions } from 'constants/sidePopup'
+import { LogicalOperators, Conditions, LogicLabels } from 'constants/sidePopup'
 import ScrollArea from 'containers/ScrollArea/ScrollArea'
+import { IFilterState } from './useFilterState'
+import { ILogicalOperator } from 'types/audience'
 
 const FilterAction: FC = () => {
-  const { action, currentState, setState } = usePopupContext()
-  console.log(action)
+  const { action, currentState, setState, settings } = usePopupContext()
   const actionName = action.name
   const attributes = action.attributes
   const title = action.title
@@ -41,7 +42,7 @@ const FilterAction: FC = () => {
     }
   }
 
-  const initThirdLevelRow = (id: string, childId: string, operator: string) => {
+  const initThirdLevelRow = (id: string, childId: string, operator: ILogicalOperator) => {
     return {
       id: id,
       logicalOperator: operator,
@@ -49,21 +50,14 @@ const FilterAction: FC = () => {
     }
   }
 
-  const [firstLevelElements, setFirstLevelElements] = useState<any[]>([
-    {
-      defined: attributes[0].toLocaleLowerCase(),
-      logicalOperator: LogicalOperators.AND,
-      condition: Conditions.EQUAL,
-      determinant: '',
-      id: '11',
-    },
-  ])
-  const [secondLevelElements, setSecondLevelElements] = useState<any[]>([
-    { id: '21', logicalOperator: LogicalOperators.AND, childIds: ['11'] },
-  ])
-  const [thirdLevelElements, setThirdLevelElements] = useState<any[]>([
-    { id: '31', logicalOperator: LogicalOperators.AND, childIds: ['21'] },
-  ])
+  const {
+    firstLevelElements,
+    setFirstLevelElements,
+    secondLevelElements,
+    setSecondLevelElements,
+    thirdLevelElements,
+    setThirdLevelElements,
+  } = settings as IFilterState
 
   //*TODO переписать все функции */
 
@@ -153,7 +147,7 @@ const FilterAction: FC = () => {
                   }
                 } else return thirdElement
               })
-              .filter((element) => element)
+              .filter((element) => element) as IThirdLevelObj[]
             setThirdLevelElements(newThirdLevelElements)
             return null
           } else {
@@ -164,7 +158,7 @@ const FilterAction: FC = () => {
           }
         } else return secondLevelElement
       })
-      .filter((element) => element)
+      .filter((element) => element) as ISecondLevelObj[]
     setFirstLevelElements(newFirstLevelElements)
     setSecondLevelElements(newSecondLevelElements)
   }
@@ -258,7 +252,7 @@ const FilterAction: FC = () => {
               onClick={handleCreateThirdLevel}
               data-operator={operator}
             >
-              {operator.toLocaleUpperCase()}
+              {LogicLabels[operator].toLocaleUpperCase()}
             </Button>
           )
         })}
