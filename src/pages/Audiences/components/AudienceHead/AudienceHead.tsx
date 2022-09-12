@@ -24,7 +24,8 @@ const AudienceHead: FC<IAudienceHead> = ({ audienceInfo, handleChange, openFilte
   const [contentChanged, setContentChanged] = useState(false)
 
   const handleSave = async () => {
-    await postAxiosSingle(DOCTORS_URL_ADD, {}, allDoctors)
+    const result = await postAxiosSingle(DOCTORS_URL_ADD, {}, allDoctors)
+    console.log(result)
   }
 
   useDidUpdateEffect(() => setContentChanged(true), [doctorsCount, audienceInfo.name])

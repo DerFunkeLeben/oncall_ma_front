@@ -24,7 +24,7 @@ const initData = {
 
 const title = 'Фильтры'
 
-const configTest: ISidePopupStep = {
+const configFilter: ISidePopupStep = {
   name: 'filter',
   type: 'filter',
   attributes: [
@@ -39,8 +39,6 @@ const configTest: ISidePopupStep = {
   ],
 }
 
-const config = configTest
-
 const OneAudience: FC<IPageData> = () => {
   const { audienceid } = useParams<{ audienceid?: string }>()
   const [audienceInfo, setAudienceInfo] = useState<IAudienceMetaData>(initData)
@@ -54,6 +52,7 @@ const OneAudience: FC<IPageData> = () => {
     })
   }
 
+  console.log(sidePopupState)
   useEffect(() => {
     if (!audienceid) return
 
@@ -73,7 +72,7 @@ const OneAudience: FC<IPageData> = () => {
       <SidePopup
         isOpen={filterisOpen}
         close={toggleFilterPopup}
-        config={config}
+        config={configFilter}
         handleSave={setSidePopupState}
         title={title}
       />

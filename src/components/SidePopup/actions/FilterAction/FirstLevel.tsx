@@ -15,6 +15,7 @@ import { PositiveLogicalOperators, Conditions } from 'constants/sidePopup'
 
 import { IconPlus } from '../../../../assets/icons'
 import InputBase from 'components/parts/InputBase/InputBase'
+import { Align } from 'constants/dictionary'
 
 const FirstLevel: FC<IFirstLevel> = ({
   row,
@@ -66,6 +67,7 @@ const FirstLevel: FC<IFirstLevel> = ({
         </div>
         {itsFirstChild ? (
           <DropDown
+            align={Align.LEFT}
             triggerNode={
               <Button modificator={buttonThemes.theme_filter_accent}>
                 {defined.toLowerCase()}
@@ -89,6 +91,7 @@ const FirstLevel: FC<IFirstLevel> = ({
           </DropDown>
         ) : (
           <DropDown
+            align={Align.LEFT}
             triggerNode={
               <Button modificator={buttonThemes.theme_filter_accent}>
                 {logicalOperator.toLowerCase()}
@@ -112,6 +115,7 @@ const FirstLevel: FC<IFirstLevel> = ({
           </DropDown>
         )}
         <DropDown
+          align={Align.LEFT}
           triggerNode={
             <Button modificator={buttonThemes.theme_filter}>{condition.toLowerCase()}</Button>
           }

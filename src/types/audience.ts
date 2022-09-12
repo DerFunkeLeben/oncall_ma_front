@@ -1,3 +1,5 @@
+import { DoctorKeys } from 'constants/audience'
+
 export interface IAudienceMetaData {
   id: string
   name: string
@@ -7,18 +9,18 @@ export interface IAudienceMetaData {
 }
 
 export interface IDoctor {
-  email?: string
-  phone?: string
-  specialty?: string
-  secondSpecialty?: string
-  firstName?: string
-  lastName?: string
-  middleName?: string
-  organization?: string
-  city?: string
-  region?: string
-  district?: string
-  meta?: string
+  [DoctorKeys.email]?: string
+  [DoctorKeys.phone]?: string
+  [DoctorKeys.specialty]?: string
+  [DoctorKeys.secondSpecialty]?: string
+  [DoctorKeys.firstName]?: string
+  [DoctorKeys.lastName]?: string
+  [DoctorKeys.middleName]?: string
+  [DoctorKeys.organization]?: string
+  [DoctorKeys.city]?: string
+  [DoctorKeys.region]?: string
+  [DoctorKeys.district]?: string
+  [DoctorKeys.meta]?: string
 }
 
 export interface IDoctorEditInfo {

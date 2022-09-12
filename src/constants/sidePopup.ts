@@ -50,3 +50,16 @@ export enum Conditions {
   EQUAL = 'равно',
   NOT_EQUAL = 'не равно',
 }
+
+// export const LogicalOperators = {
+//   AND: 'and',
+//   OR: 'or',
+//   NAND: 'notAnd',
+//   NOR: 'notOr',
+// }
+// export enum Conditions {
+//   CONTAINS = 'contain',
+//   EQUAL = 'equal',
+//   NOT_CONTAINS = 'не содержит',
+//   NOT_EQUAL = 'не равно',
+// }

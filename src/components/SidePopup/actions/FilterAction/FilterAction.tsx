@@ -18,6 +18,7 @@ import ScrollArea from 'containers/ScrollArea/ScrollArea'
 
 const FilterAction: FC = () => {
   const { action, currentState, setState } = usePopupContext()
+  console.log(action)
   const actionName = action.name
   const attributes = action.attributes
   const title = action.title
