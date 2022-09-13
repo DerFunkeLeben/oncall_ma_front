@@ -16,8 +16,8 @@ const useAllContent = () => {
   const deleteMultipleById = useCallback(
     (ids: string[]) => {
       const folderActions = ids.map((contentId) => {
-        const { folderId } = allContentObj[contentId]
-        return FoldersActionCreator.decrementFolder(folderId, MainReducerKeys.content)
+        const { folderName } = allContentObj[contentId]
+        return FoldersActionCreator.decrementFolder(folderName, MainReducerKeys.content)
       })
 
       dispatch(batchActions([ActionCreator.deleteMultipleById(ids), ...folderActions]))

@@ -2,12 +2,12 @@ import { IFolder } from 'types'
 
 export enum FolderKeys {
   allFolders = 'allFolders',
-  activeFolderId = 'activeFolderId',
-  mainFolderId = 'mainFolderId',
+  activeFolderName = 'activeFolderName',
+  mainFolderName = 'mainFolderName',
 }
 
 export interface IStoreFolder {
   [FolderKeys.allFolders]: { [key: string]: IFolder }
-  [FolderKeys.activeFolderId]: string
-  [FolderKeys.mainFolderId]: string
+  [FolderKeys.activeFolderName]: string
+  [FolderKeys.mainFolderName]: string
 }

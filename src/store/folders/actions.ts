@@ -3,6 +3,11 @@ import { IFolder } from 'types'
 import ActionType from './action-type'
 
 const ActionCreator = {
+  initFolders: (data: any[], reducerName: MainReducerKeys) => ({
+    type: ActionType.INIT_ALL_FOLDERS,
+    payload: data,
+    name: reducerName,
+  }),
   viewFolder: (folderId: string, reducerName: MainReducerKeys) => ({
     type: ActionType.VIEW_FOLDER,
     payload: folderId,

@@ -20,7 +20,7 @@ const initialContentState: IStoreContent = {
       type: ContentTypes.HTML,
       createDate: new Date('08.22.2022'),
       lastUpdateDate: new Date('11.30.2022'),
-      folderId: '52',
+      folderName: 'Весь контент',
       theme: 'Тема',
       preheader: 'Прехедер111',
       HTML: `
@@ -56,7 +56,7 @@ const initialContentState: IStoreContent = {
       id: '9145',
       title: 'Терапевты_март',
       type: ContentTypes.IMAGE,
-      folderId: '52',
+      folderName: 'Завершенные рассылки',
       createDate: new Date('02.02.1945'),
       lastUpdateDate: new Date('02.01.1946'),
       filePath: 'aaa',
@@ -65,7 +65,7 @@ const initialContentState: IStoreContent = {
       id: '9146',
       title: 'Онбординг_медпоинт',
       type: ContentTypes.PDF,
-      folderId: '43',
+      folderName: 'Завершенные рассылки',
       createDate: '12.02.1985',
       lastUpdateDate: new Date('02.01.1986'),
       filePath: 'aasssa',
@@ -77,7 +77,7 @@ const initialContentState: IStoreContent = {
       createDate: '21.12.2013',
       lastUpdateDate: new Date('04.05.2016'),
       filePath: 'aasssa',
-      folderId: '34',
+      folderName: 'Тестовые рассылки',
     },
     '2144': {
       id: '2144',
@@ -86,7 +86,7 @@ const initialContentState: IStoreContent = {
       createDate: new Date('02.02.1985'),
       lastUpdateDate: new Date('02.01.1986'),
       text: 'Sms text qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq',
-      folderId: '34',
+      folderName: 'Тестовые рассылки',
     },
   },
 
@@ -97,33 +97,28 @@ const initialContentState: IStoreContent = {
 }
 
 const initialFolderState: IStoreFolder = {
-  activeFolderId: '0_content',
-  mainFolderId: '0_content',
+  activeFolderName: 'Весь контент',
+  mainFolderName: 'Весь контент',
   allFolders: {
-    '0_content': {
+    'Весь контент': {
       name: 'Весь контент',
-      id: '0_content',
       count: 147,
       isMainFolder: true,
     },
-    '52': {
+    'Тестовые рассылки': {
       name: 'Тестовые рассылки',
-      id: '52',
       count: 50,
     },
-    '43': {
+    'Завершенные рассылки': {
       name: 'Завершенные рассылки',
-      id: '43',
       count: 999954,
     },
-    '48': {
+    'Рассылки январь февраль': {
       name: 'Рассылки январь февраль',
-      id: '48',
       count: 1786,
     },
-    '34': {
+    Medpoint: {
       name: 'Medpoint',
-      id: '34',
       count: 2,
     },
   },

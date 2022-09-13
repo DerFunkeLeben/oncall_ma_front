@@ -9,9 +9,10 @@ import {
 export interface IAudienceMetaData {
   id: string
   name: string
-  contact_count: string
-  create_date: string
-  last_update_date: string
+  createdat: string
+  peoplecount: string
+  updatedat: string
+  filterQuery: any // TODO
 }
 
 export interface IDoctor {
@@ -48,4 +49,10 @@ export type AudienceFullQuery = {
 
 export type AudienceQuery = {
   [key in ILogicalOperator]: AudienceFullQuery[]
+}
+
+export type TCreateAudience = {
+  name: string
+  group: string
+  query: AudienceQuery
 }

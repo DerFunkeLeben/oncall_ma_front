@@ -26,6 +26,22 @@ const initOneDoctor: IDoctor = {
 
 const reducer = (state = initialDoctorState, { type, payload }: IReducer): IStoreDoctors => {
   switch (type) {
+    case ActionType.ADD_MANY_DOCTORS: {
+      const newIndex = payload.length
+      const startIndex = Object.keys(state.allDoctors).length
+
+      const newDoctors = {} as { [key: string]: IDoctor }
+
+      payload?.map((doc: IDoctor, index: number) => {
+        newDoctors[startIndex + index] = doc
+      })
+
+      return {
+        ...state,
+        [StoreKeys.newDoctorIndex]: `${1 + Number(newIndex)}`,
+        [StoreKeys.allDoctors]: { ...state.allDoctors, ...newDoctors },
+      }
+    }
     case ActionType.ADD_DOCTOR: {
       const newIndex = state.newDoctorIndex
 

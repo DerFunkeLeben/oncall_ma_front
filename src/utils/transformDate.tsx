@@ -1,6 +1,6 @@
 export function ddmmyyyy(dateIn: Date | string | undefined) {
   if (typeof dateIn === 'undefined') return ''
-  if (typeof dateIn === 'string') return dateIn // ?
+  if (typeof dateIn === 'string') dateIn = new Date(dateIn)
 
   const yyyy = dateIn.getFullYear()
   const mm = (dateIn.getMonth() + 1).toString().padStart(2, '0')

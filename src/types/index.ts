@@ -39,9 +39,9 @@ export type TObject = {
 
 export interface IFolder {
   name: string
-  id: string
   count: number
   isMainFolder?: boolean
+  newName?: string
 }
 
 export interface ICheckMenuConfig {

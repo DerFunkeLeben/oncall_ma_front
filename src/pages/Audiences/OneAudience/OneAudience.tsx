@@ -7,26 +7,26 @@ import AudienceHead from '../components/AudienceHead/AudienceHead'
 import { OneAudienceTable } from './OneAudienceTable'
 
 import useToggle from 'hooks/useToggle'
-import { data as audiencesData } from '../AllAudiences/audiencesData'
+import useDoctors from 'store/doctors/useDoctors'
+import useFilterState from 'components/SidePopup/actions/FilterAction/useFilterState'
+
+import { DoctorKeys } from 'constants/audience'
+import { AUDIENCE_URL_ONE, PagesData } from 'constants/url'
 import { IPageData } from 'types'
 import { ISidePopupStep } from 'types/sidePopup'
 import { IAudienceMetaData } from 'types/audience'
 
 import styles from './OneAudience.module.scss'
-import useFilterState, {
-  IFilterState,
-} from 'components/SidePopup/actions/FilterAction/useFilterState'
-import { DoctorKeys } from 'constants/audience'
+import { getAxiosSingle } from 'utils/axios'
 
 const initData = {
   id: '0',
-  name: '',
-  contact_count: '',
-  create_date: '',
-  last_update_date: '',
+  name: 'Аудитория',
+  peoplecount: '',
+  createdat: '',
+  updatedat: '',
+  filterQuery: {},
 }
-
-const title = 'Фильтры'
 
 const configFilter: ISidePopupStep = {
   name: 'filter',
@@ -35,7 +35,8 @@ const configFilter: ISidePopupStep = {
 }
 
 const OneAudience: FC<IPageData> = () => {
-  const { audienceid } = useParams<{ audienceid?: string }>()
+  const { audienceid } = useParams<{ audienceid: string }>()
+  const { allDoctors, fetchDoctors, clearDoctors } = useDoctors()
   const [audienceInfo, setAudienceInfo] = useState<IAudienceMetaData>(initData)
   const [filterisOpen, toggleFilterPopup] = useToggle()
   const filterStateManager = useFilterState()
@@ -48,11 +49,36 @@ const OneAudience: FC<IPageData> = () => {
     })
   }
 
-  useEffect(() => {
-    if (!audienceid) return
+  const handleFiltersSave = () => {
+    setAudienceInfo({
+      ...audienceInfo,
+      filterQuery: parseStateToQuery(),
+    })
+  }
 
-    setAudienceInfo(audiencesData.filter((audience) => audience.id === audienceid)[0])
+  useEffect(() => {
+    const isCreateCrm = PagesData.CREATE_AUDIENCE_CRM.link.includes(audienceid)
+
+    const getAudience = async () => {
+      const data = await getAxiosSingle(`${AUDIENCE_URL_ONE}/${audienceid}`)
+      console.log(data)
+    }
+
+    if (isCreateCrm) {
+      fetchDoctors()
+    } else {
+      getAudience()
+    }
+
+    return clearDoctors
   }, [audienceid])
+
+  useEffect(() => {
+    setAudienceInfo({
+      ...initData,
+      peoplecount: `${allDoctors.length}`,
+    })
+  }, [allDoctors])
 
   return (
     <>
@@ -62,14 +88,14 @@ const OneAudience: FC<IPageData> = () => {
           openFilter={toggleFilterPopup}
           handleChange={handleTitleChange}
         />
-        <OneAudienceTable />
+        <OneAudienceTable allDoctors={allDoctors} />
       </div>
       <SidePopup
         isOpen={filterisOpen}
         close={toggleFilterPopup}
         config={configFilter}
-        handleSave={parseStateToQuery}
-        title={title}
+        handleSave={handleFiltersSave}
+        title={'Фильтры'}
         settings={filterStateManager}
       />
     </>

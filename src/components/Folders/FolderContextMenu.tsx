@@ -8,14 +8,14 @@ import styles from './Folders.module.scss'
 import dropDownStyles from 'components/parts/DropDown/DropDown.module.scss'
 
 interface IFolderContextMenu {
-  openRenamePopup: (id: string) => void
-  openDeletePopup: (id: string) => void
-  folderId: string
+  openRenamePopup: (name: string) => void
+  openDeletePopup: (name: string) => void
+  folderName: string
 }
 const FolderContextMenu: FC<IFolderContextMenu> = ({
   openRenamePopup,
   openDeletePopup,
-  folderId,
+  folderName,
 }) => (
   <DropDown
     triggerNode={
@@ -28,7 +28,7 @@ const FolderContextMenu: FC<IFolderContextMenu> = ({
     <div className={cx(dropDownStyles.container, styles.dropDownContainer)}>
       <button
         className={cx(dropDownStyles.element, dropDownStyles.dropDownOption, 'text_1')}
-        onClick={() => openRenamePopup(folderId)}
+        onClick={() => openRenamePopup(folderName)}
       >
         <IconEdit />
         <span>Переименовать</span>
@@ -41,7 +41,7 @@ const FolderContextMenu: FC<IFolderContextMenu> = ({
           styles.alert,
           'text_1'
         )}
-        onClick={() => openDeletePopup(folderId)}
+        onClick={() => openDeletePopup(folderName)}
       >
         <IconTrash />
         <span>Удалить</span>

@@ -48,11 +48,11 @@ const FolderPopup: FC<IFolderPopup> = ({ isOpen, close, currentFolder, reducerNa
   const handleConfirm = () => {
     if (!folderName) return setFolderError(ValidationError.FOLDER_NO_NAME)
 
-    const folderAlreadyExists = getFolderNameMatch(allFolders, folderName, folder?.id)
+    const folderAlreadyExists = getFolderNameMatch(allFolders, folderName, folder?.name)
     if (folderAlreadyExists) return setFolderError(ValidationError.FOLDER_ALREADY_EXISTS)
 
     if (action === RENAME && folder) {
-      renameFolder({ ...folder, name: folderName })
+      renameFolder({ ...folder, newName: folderName })
       setAlertBox({
         message: `Папка ${folderName} успешно переименована`,
         icon: AlertBoxIcons.SUCCESS,
@@ -63,7 +63,6 @@ const FolderPopup: FC<IFolderPopup> = ({ isOpen, close, currentFolder, reducerNa
       createFolder({
         count: 0,
         name: folderName,
-        id: uuid(),
       })
       setAlertBox({
         message: `Создана папка ${folderName}`,

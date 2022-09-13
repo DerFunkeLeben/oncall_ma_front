@@ -13,12 +13,13 @@ import { AlertBoxIcons } from 'constants/dictionary'
 import { SURE_WANT_DELETE_FOLDER } from 'constants/helpMessages'
 import { MainReducerKeys } from 'store/data-types'
 import { FolderAction, IFolder } from 'types'
-import { findFolderById, reduceBigNumbers } from 'utils'
+import { reduceBigNumbers } from 'utils'
 
 import { IconPlus, IconFolderOpen, IconFolderClose } from 'assets/icons'
 import buttonThemes from 'components/parts/Button/ButtonThemes.module.scss'
 import styles from './Folders.module.scss'
 import useMessageBoxContext from 'context/MessageBoxContext'
+import { findFolderById } from 'store/folders/utils'
 
 interface IFolders {
   reducerName: MainReducerKeys
@@ -32,7 +33,7 @@ export interface ICurrentFolder {
 const { RENAME, CREATE, DELETE } = FolderAction
 
 const Folders: FC<IFolders> = ({ reducerName }) => {
-  const { allFolders, activeFolderId } = useAllFolders(reducerName)
+  const { allFolders, activeFolderName } = useAllFolders(reducerName)
   const { viewFolder, deleteFolder } = useSetFolder(reducerName)
   const { setAlertBox } = useAlertContext()
   const { setMessageBox } = useMessageBoxContext()
@@ -81,12 +82,12 @@ const Folders: FC<IFolders> = ({ reducerName }) => {
   return (
     <div className={styles.container}>
       {allFolders.map((folder) => {
-        const { name, id, count, isMainFolder } = folder
-        const active = activeFolderId === id
+        const { name, count, isMainFolder } = folder
+        const active = activeFolderName === name
         return (
           <div
-            key={id}
-            data-id={id}
+            key={name}
+            data-id={name}
             className={cx(styles.folder, active && styles.activeFolder)}
             onClick={setActiveFolder}
           >
@@ -105,7 +106,7 @@ const Folders: FC<IFolders> = ({ reducerName }) => {
             {!isMainFolder && (
               <FolderContextMenu
                 openRenamePopup={openRenamePopup}
-                folderId={id}
+                folderName={name}
                 openDeletePopup={openDeletePopup}
               />
             )}

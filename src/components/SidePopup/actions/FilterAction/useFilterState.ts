@@ -1,7 +1,6 @@
+import React, { useState, Dispatch, SetStateAction } from 'react'
 import { DoctorKeys } from 'constants/audience'
 import { Conditions, LogicalOperators } from 'constants/sidePopup'
-import React, { useState, Dispatch, SetStateAction } from 'react'
-import { AudienceFullQuery, AudienceQuery, ILogicalOperator } from 'types/audience'
 import { IFirstLevelObj, ISecondLevelObj, IThirdLevelObj } from './types'
 
 export interface IFilterState {
@@ -11,7 +10,7 @@ export interface IFilterState {
   setFirstLevelElements: Dispatch<SetStateAction<IFirstLevelObj[]>>
   setSecondLevelElements: Dispatch<SetStateAction<ISecondLevelObj[]>>
   setThirdLevelElements: Dispatch<SetStateAction<IThirdLevelObj[]>>
-  parseStateToQuery: () => void
+  parseStateToQuery: () => any
 }
 
 export default function useFilterState() {
@@ -48,14 +47,24 @@ export default function useFilterState() {
         const secondLevelKey = secondLevelItem.logicalOperator
         const secondLevelChildIds = secondLevelItem?.childIds
 
-        if (!query[thirdLevelKey][secondLevelKey]) query[thirdLevelKey][secondLevelKey] = []
+        query[thirdLevelKey][secondLevelKey] = query[thirdLevelKey][secondLevelKey] || {}
 
-        secondLevelChildIds?.map((secondLevelChildId) => {
+        let defined: DoctorKeys | undefined = undefined
+
+        secondLevelChildIds.map((secondLevelChildId) => {
           const firstLevelItem = firstLevelElements.find(
             (item) => item.id === secondLevelChildId
           ) as IFirstLevelObj
-          const { condition, defined, determinant } = firstLevelItem
-          query[thirdLevelKey][secondLevelKey].push({
+
+          if (!defined) defined = firstLevelItem.defined
+
+          const firstLevelKey = firstLevelItem.logicalOperator
+
+          if (!query[thirdLevelKey][secondLevelKey][firstLevelKey])
+            query[thirdLevelKey][secondLevelKey][firstLevelKey] = []
+
+          const { condition, determinant } = firstLevelItem
+          query[thirdLevelKey][secondLevelKey][firstLevelKey].push({
             field: defined,
             type: condition,
             value: determinant,
@@ -67,6 +76,8 @@ export default function useFilterState() {
     console.log(secondLevelElements)
     console.log(thirdLevelElements)
     console.log(query)
+
+    return query
   }
 
   return {
@@ -80,7 +91,7 @@ export default function useFilterState() {
   } as IFilterState
 }
 
-type Query = { [key: string]: { [key: string]: any[] } }
+type Query = { [key: string]: { [key: string]: any } }
 
 const q = {
   and: {

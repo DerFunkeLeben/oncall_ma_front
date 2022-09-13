@@ -48,11 +48,13 @@ const SendOption = ({ handleClick }: { handleClick?: () => void }) => {
 }
 
 const MoveOption = ({ reducerName }: { reducerName: MainReducerKeys | undefined }) => {
-  const { allFolders, activeFolderId } = useAllFolders(reducerName || MainReducerKeys.audiences)
+  const { allFolders, activeFolderName } = useAllFolders(reducerName || MainReducerKeys.audiences)
 
   const availableFolders = allFolders.filter(
-    (folder) => !folder.isMainFolder && folder.id !== activeFolderId
+    (folder) => !folder.isMainFolder && folder.name !== activeFolderName
   )
+
+  if (!availableFolders.length) return null
 
   return (
     <DropDown

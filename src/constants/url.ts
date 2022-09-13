@@ -9,16 +9,23 @@ export const AUTH_URL = `/auth`
 export const AUTH_URL_LOGIN = `${AUTH_URL}/local/login`
 export const AUTH_URL_RELOGIN = `${AUTH_URL}/local/me`
 
-export const DOCTORS_URL = `/doctors`
-export const DOCTORS_URL_ADD = `${DOCTORS_URL}/add`
-export const DOCTORS_URL_UPDATE = `${DOCTORS_URL}/update`
-export const DOCTORS_URL_CSV = `${DOCTORS_URL}/csv`
+const DOCTORS_BASE_URL = '/doctors'
+export const DOCTORS_URL = `${DOCTORS_BASE_URL}?limit=20&offset=0`
+export const DOCTORS_URL_ADD = `${DOCTORS_BASE_URL}/add`
+export const DOCTORS_URL_UPDATE = `${DOCTORS_BASE_URL}/update`
 
-export const AUDIENCE_URL = `/audience`
+export const AUDIENCE_URL = `${DOCTORS_BASE_URL}/audience`
 export const AUDIENCE_URL_CREATE = `${AUDIENCE_URL}/create`
-export const AUDIENCE_URL_GROUPS = `${AUDIENCE_URL}/groups`
+export const AUDIENCE_URL_ALL = `${AUDIENCE_URL}/groups`
+export const AUDIENCE_URL_ONE = `${AUDIENCE_URL}/group`
+export const AUDIENCE_URL_ONE_GROUP = `${AUDIENCE_URL}/group`
 
-export const audencesRoutes = ['/audences', '/audences/:audienceid', '/audences/create_new']
+export const audiencesRoutes = [
+  '/audiences',
+  '/audiences/:audienceid',
+  '/audiences/create_new',
+  '/audiences/create_crm',
+]
 
 export const CONTENT_URL = '/content'
 export const CONTENT_URL_HTML = `${CONTENT_URL}/html`
@@ -45,18 +52,23 @@ export const PagesData: IPagesData = {
     name: 'Логин',
   },
   AUDIENCES: {
-    link: audencesRoutes[0],
-    route: audencesRoutes,
+    link: audiencesRoutes[0],
+    route: audiencesRoutes,
     name: 'Аудитории',
   },
   AUDIENCE: {
-    link: audencesRoutes[1],
-    route: audencesRoutes,
+    link: audiencesRoutes[1],
+    route: audiencesRoutes,
     name: 'Аудитория',
   },
   CREATE_AUDIENCE: {
-    link: audencesRoutes[2],
-    route: audencesRoutes,
+    link: audiencesRoutes[2],
+    route: audiencesRoutes,
+    name: 'Аудитория',
+  },
+  CREATE_AUDIENCE_CRM: {
+    link: audiencesRoutes[3],
+    route: audiencesRoutes,
     name: 'Аудитория',
   },
   ALL_CONTENT: {

@@ -6,9 +6,7 @@ export function reduceBigNumbers(num: number) {
   return Math.round(num / 100) / 10 + 'K'
 }
 
-export function findFolderById(data: IFolder[], id: string | undefined) {
-  return data.find((el) => el.id == id)
-}
+export const getIds = (all: any[]) => all.map(({ id }) => id) as string[]
 
 const getCookie = (name: string) =>
   document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)')?.pop() || ''

@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, useEffect, useState } from 'react'
 import cx from 'classnames'
 
 import PageHead from 'components/PageHead/PageHead'
@@ -10,8 +10,9 @@ import { AllAudiencesTable } from './parts/AllAudiencesTable'
 import { EmptyFilter } from './parts/EmptyTable/EmptyFilter'
 import { EmptyTable } from './parts/EmptyTable/EmptyTable'
 import PopupOfCreationFromExist from './parts/PopupOfCreationFromExist/PopupOfCreationFromExist'
-import { PagesData } from 'constants/url'
+import { AUDIENCE_URL_ALL, PagesData } from 'constants/url'
 import { Align } from 'constants/dictionary'
+import useAllFolders from 'store/folders/useAllFolders'
 import useToggle from 'hooks/useToggle'
 import useSearch from 'hooks/useSearch'
 
@@ -22,24 +23,35 @@ import { ICreateOption, IPageData } from 'types'
 import { MainReducerKeys } from 'store/data-types'
 import { IconUpload } from 'assets/icons'
 
-import { data } from './audiencesData'
+import { getAxiosArr } from 'utils/axios'
 
 const menuIsOpen = true
 
 const AllAudiences: FC<IPageData> = () => {
-  const { search, filtered, onChange } = useSearch('name', data)
+  const [allAudiences, setAllAudiences] = useState<any[]>([])
+  const { search, filtered, onChange } = useSearch('name', allAudiences)
+  const { initFolders } = useAllFolders(MainReducerKeys.audiences)
 
   const [popupCreateFromExistIsOpen, togglePopupCreateFromExist] = useToggle()
 
   const createAudienceOptions: ICreateOption[] = [
-    { title: 'Из CRM', url: '' },
+    { title: 'Из CRM', url: PagesData.CREATE_AUDIENCE_CRM.link },
     { title: 'Из готовой аудитории', action: togglePopupCreateFromExist },
     { title: 'Новая', url: PagesData.CREATE_AUDIENCE.link },
   ]
 
-  const totalCountOfData = data.length
+  const totalCountOfData = allAudiences.length
   const totalCountOfFilteredData = filtered.length
   const emptyFilterResult = totalCountOfData && !totalCountOfFilteredData
+
+  useEffect(() => {
+    const getAllAudiences = async () => {
+      const data = await getAxiosArr(AUDIENCE_URL_ALL)
+      setAllAudiences(data)
+      initFolders(data)
+    }
+    getAllAudiences()
+  }, [])
 
   return (
     <>
@@ -75,6 +87,7 @@ const AllAudiences: FC<IPageData> = () => {
       <PopupOfCreationFromExist
         close={togglePopupCreateFromExist}
         isOpen={popupCreateFromExistIsOpen}
+        allAudiences={allAudiences}
       />
     </>
   )

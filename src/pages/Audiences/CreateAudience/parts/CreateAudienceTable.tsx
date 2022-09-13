@@ -21,6 +21,7 @@ import tableStyles from 'components/Table/TableBase.module.scss'
 export const header = [
   '',
   '%%settings%%',
+  'ID',
   'Фамилия',
   'Имя',
   'Отчество',
@@ -107,7 +108,7 @@ export const CreateAudienceTable = () => {
   ]
 
   useEffect(() => {
-    clearDoctors()
+    return clearDoctors
   }, [])
 
   if (!doctorsCount) return <EmptyTable handleAddBtn={addDoctor} />
@@ -169,7 +170,7 @@ export const CreateAudienceTable = () => {
                 handleEdit={() => handleEdit(id)}
               />
             </div>
-            {/* <div className={cx(tableStyles.cell)}>{id}</div> */}
+            <div className={cx(tableStyles.cell)}>{id}</div>
             {fields.map((field, i) => {
               const fieldName = fieldsKeys[i] as keyof IDoctor
               return (

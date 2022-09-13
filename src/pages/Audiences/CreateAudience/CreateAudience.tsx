@@ -16,9 +16,10 @@ import styles from './CreateAudience.module.scss'
 const initData = {
   id: '0',
   name: 'Аудитория',
-  contact_count: '0',
-  create_date: getToday(),
-  last_update_date: '',
+  peoplecount: '0',
+  createdat: getToday(),
+  updatedat: '',
+  filterQuery: '',
 }
 
 const title = 'Фильтры'

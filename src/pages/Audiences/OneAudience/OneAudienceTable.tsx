@@ -8,9 +8,10 @@ import { AlertBoxIcons } from 'constants/dictionary'
 import { SURE_WANT_DELETE_MANY } from 'constants/helpMessages'
 import { CheckMenuAction } from 'types'
 
-import { data } from './audienceTerapistMarch'
 import { IconCheck } from 'assets/icons'
 import tableStyles from 'components/Table/TableBase.module.scss'
+import { IDoctor } from 'types/audience'
+import useDoctors from 'store/doctors/useDoctors'
 
 const header = [
   '',
@@ -22,15 +23,14 @@ const header = [
   'Email',
   'Телефон',
   'Город',
-  'Специальность',
-  'Сегмент',
+  // 'Специальность',
+  // 'Сегмент',
 ]
-const totalCountOfData = data.length
-const allIds = data.map((el) => el.id)
 
-export const OneAudienceTable = () => {
+export const OneAudienceTable = ({ allDoctors }: { allDoctors: IDoctor[] }) => {
+  const { doctorsIds, doctorsCount } = useDoctors()
   const { toggleCheck, isItChecked, checkedCount, checkedAll, toggleAllChecks, clearChecks } =
-    useTable(allIds)
+    useTable(doctorsIds)
   const { setMessageBox } = useMessageBoxContext()
   const { setAlertBox } = useAlertContext()
 
@@ -80,23 +80,31 @@ export const OneAudienceTable = () => {
         checkedCount,
         checkedAll,
         checkMenuConfig,
-        totalCountOfData,
+        totalCountOfData: doctorsCount,
         toggleAllChecks,
       }}
     >
-      {data.map((dataRow, index) => {
-        const { id, lastName, firstName, patronym, email, phone, city, speciality, segment } =
-          dataRow
-        const editableFields = [
-          lastName,
-          firstName,
-          patronym,
+      {allDoctors.map((dataRow, index) => {
+        const id = doctorsIds[index]
+        const {
           email,
           phone,
+          specialty,
+          secondSpecialty,
+          firstName,
+          lastName,
+          middleName,
+          organization,
           city,
-          speciality,
-          segment,
-        ]
+          region,
+          district,
+          meta,
+        } = dataRow
+
+        // TODO срочно исправить
+        const fieldsKeys = ['firstName', 'lastName', 'middleName', 'email', 'phone', 'city']
+        const fields = [firstName, lastName, middleName, email, phone, city]
+
         const checked = isItChecked(id)
         return (
           <div className={cx(tableStyles.row, 'text_1')} key={index} data-id={id}>
@@ -113,8 +121,8 @@ export const OneAudienceTable = () => {
                 {checked && <IconCheck />}
               </div>
             </div>
-            <div className={cx(tableStyles.cell)}>{index}</div>
-            {editableFields.map((field, i) => {
+            <div className={cx(tableStyles.cell)}>{id}</div>
+            {fields.map((field, i) => {
               return (
                 <div className={cx(tableStyles.cell)} key={i}>
                   {field}

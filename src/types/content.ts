@@ -12,7 +12,7 @@ export interface IContentDefault {
   createDate?: Date | string
   lastUpdateDate?: Date | string
   title: string
-  folderId?: string
+  folderName?: string
 }
 
 export interface IContentHTML extends IContentDefault {
