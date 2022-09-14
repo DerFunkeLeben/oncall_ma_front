@@ -116,4 +116,9 @@ export const PagesData: IPagesData = {
     route: scenariosRoutes,
     name: 'Сценарии',
   },
+  ERROR404: {
+    link: '/404',
+    route: ['/404'],
+    name: 'Not found ',
+  },
 }

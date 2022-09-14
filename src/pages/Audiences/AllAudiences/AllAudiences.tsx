@@ -1,4 +1,4 @@
-import { FC, useCallback, useEffect, useMemo, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import cx from 'classnames'
 
 import PageHead from 'components/PageHead/PageHead'
@@ -12,19 +12,17 @@ import { EmptyTable } from './parts/EmptyTable/EmptyTable'
 import PopupOfCreationFromExist from './parts/PopupOfCreationFromExist/PopupOfCreationFromExist'
 import { AUDIENCE_URL_ALL, PagesData } from 'constants/url'
 import { Align } from 'constants/dictionary'
-import useAllFolders, { useAudienceFolders } from 'store/folders/useAllFolders'
+import { useAudienceFolders } from 'store/folders/useAllFolders'
+import useAllAudiences from 'store/audiences/useAllAudiences'
 import useToggle from 'hooks/useToggle'
 import useSearch from 'hooks/useSearch'
-
-import styles from './AllAudiences.module.scss'
-import buttonStyles from 'components/parts/Button/ButtonThemes.module.scss'
-
 import { ICreateOption, IPageData } from 'types'
 import { MainReducerKeys } from 'store/data-types'
-import { IconUpload } from 'assets/icons'
-
 import { getAxiosArr } from 'utils/axios'
-import useAllAudiences from 'store/audiences/useAllAudiences'
+
+import { IconUpload } from 'assets/icons'
+import styles from './AllAudiences.module.scss'
+import buttonStyles from 'components/parts/Button/ButtonThemes.module.scss'
 
 const menuIsOpen = true
 
@@ -45,15 +43,13 @@ const AllAudiences: FC<IPageData> = () => {
   const totalCountOfFilteredData = filtered.length
   const emptyFilterResult = totalCountOfData && !totalCountOfFilteredData
 
-  const filterAudiences = useCallback(
-    (audience: any) => audience.group === activeFolderName,
-    [activeFolderName]
-  )
-
   useEffect(() => {
     if (activeFolderName === mainFolderName) return setOneFolderAudiences(allAudiences)
 
-    setOneFolderAudiences(allAudiences.filter(filterAudiences))
+    const filteredAudiences = allAudiences.filter(
+      (audience: any) => audience.group === activeFolderName
+    )
+    setOneFolderAudiences(filteredAudiences)
   }, [activeFolderName, allAudiences])
 
   useEffect(() => {

@@ -17,6 +17,7 @@ import { MessageBoxContext } from 'context/MessageBoxContext'
 import './assets/styles/App.scss'
 import './assets/styles/typography.scss'
 import './assets/styles/fonts.scss'
+import { PagesData } from 'constants/url'
 
 function App() {
   const alertBox = useAlertBox()
@@ -38,7 +39,7 @@ function App() {
                   )
                 })}
 
-                <Route render={() => <Redirect to="/" />} />
+                <Route render={() => <Redirect to={PagesData.ERROR404.link} />} />
               </Switch>
               <AlertBox />
               <MessageBox />

@@ -6,6 +6,7 @@ import Audiences from './Audiences/Audiences'
 import Content from './Content/Content'
 import Analytics from './Analytics/Analytics'
 import Scenarios from './Scenarios/Scenarios'
+import Error404 from './404/404'
 // const Login = lazy(() => import('./Login/Login'))
 
 const PAGES = [
@@ -28,6 +29,10 @@ const PAGES = [
   {
     Component: Scenarios,
     ...PagesData.SCENARIOS,
+  },
+  {
+    Component: Error404,
+    ...PagesData.ERROR404,
   },
 ]
 
