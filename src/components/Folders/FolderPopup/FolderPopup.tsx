@@ -6,7 +6,6 @@ import InputBase from 'components/parts/InputBase/InputBase'
 import Button from 'components/parts/Button/Button'
 import Popup from 'containers/Popup/Popup'
 
-import useDidUpdateEffect from 'hooks/useDidUpdateEffect'
 import useSetFolder from 'store/folders/useSetFolder'
 import useAllFolders from 'store/folders/useAllFolders'
 import { getFolderNameMatch } from 'store/folders/utils'

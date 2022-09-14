@@ -2,7 +2,6 @@ import { useCallback } from 'react'
 
 import useAuth from 'store/auth/useAuth'
 
-import { getAxiosSingle, postAxiosSingle } from 'utils/axios'
 import { IUser } from 'types'
 
 const useInitData = () => {

@@ -21,7 +21,7 @@ export function getFolderNameMatch(
   return Boolean(foundFolder) && notCurrentFolder
 }
 
-export function calculateFolders(payload: any[]) {
+export function calculateFolders(payload: any[], mainFolderName: string) {
   const newFoldersSet = payload.reduce((acc: any, el: any) => {
     acc[el.group] = (acc[el.group] || 0) + 1
     return acc
@@ -29,12 +29,20 @@ export function calculateFolders(payload: any[]) {
 
   const newFoldersObj = Object.entries(newFoldersSet).reduce((acc: any, el: any) => {
     const [folderName, count] = el
-    acc[folderName] = {
-      name: folderName,
-      count,
-    }
+
+    if (mainFolderName !== folderName)
+      acc[folderName] = {
+        name: folderName,
+        count,
+      }
     return acc
   }, {})
+
+  newFoldersObj[mainFolderName] = {
+    name: mainFolderName,
+    count: payload.length,
+    isMainFolder: true,
+  }
 
   return newFoldersObj
 }

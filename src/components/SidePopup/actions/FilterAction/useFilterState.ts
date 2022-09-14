@@ -2,6 +2,7 @@ import React, { useState, Dispatch, SetStateAction } from 'react'
 import { DoctorKeys } from 'constants/audience'
 import { Conditions, LogicalOperators } from 'constants/sidePopup'
 import { IFirstLevelObj, ISecondLevelObj, IThirdLevelObj } from './types'
+import { v4 as uuid } from 'uuid'
 
 export interface IFilterState {
   firstLevelElements: IFirstLevelObj[]
@@ -11,15 +12,17 @@ export interface IFilterState {
   setSecondLevelElements: Dispatch<SetStateAction<ISecondLevelObj[]>>
   setThirdLevelElements: Dispatch<SetStateAction<IThirdLevelObj[]>>
   parseStateToQuery: () => any
+  test: () => void
+  parseQueryToState: (query: Query) => void
 }
 
 export default function useFilterState() {
   const [firstLevelElements, setFirstLevelElements] = useState<IFirstLevelObj[]>([
     {
-      defined: DoctorKeys.lastName,
+      defined: DoctorKeys.specialty,
       logicalOperator: LogicalOperators.AND,
-      condition: Conditions.EQUAL,
-      determinant: '',
+      condition: Conditions.CONTAINS,
+      determinant: ' ',
       id: '11',
     },
   ])
@@ -80,6 +83,60 @@ export default function useFilterState() {
     return query
   }
 
+  const parseQueryToState = (query: Query) => {
+    const thirdLevel = [] as any[]
+    const secondLevel = [] as any[]
+    const firstLevel = [] as any[]
+
+    const thirdLevelKeys = Object.keys(query)
+    thirdLevelKeys.map((thirdLevelKey) => {
+      const secondLevelKeys = Object.keys(query[thirdLevelKey])
+      const thirdLevelChildIds = [] as any[]
+
+      secondLevelKeys.map((secondLevelKey) => {
+        const firstLevelKeys = Object.keys(query[thirdLevelKey][secondLevelKey])
+        const secondLevelChildIds = [] as any[]
+
+        firstLevelKeys.map((firstLevelKey) => {
+          const firstLevelChildren = query[thirdLevelKey][secondLevelKey][firstLevelKey] as any[]
+
+          firstLevelChildren.map((firstLevelChild) => {
+            const firstLevelId = uuid()
+            firstLevel.push({
+              defined: firstLevelChild.field,
+              logicalOperator: firstLevelKey,
+              condition: firstLevelChild.type,
+              determinant: firstLevelChild.value,
+              id: firstLevelId,
+            })
+            secondLevelChildIds.push(firstLevelId)
+          })
+        })
+
+        const secondLevelId = uuid()
+        secondLevel.push({
+          id: secondLevelId,
+          logicalOperator: secondLevelKey,
+          childIds: secondLevelChildIds,
+        })
+        thirdLevelChildIds.push(secondLevelId)
+      })
+
+      const thirdLevelId = uuid()
+      thirdLevel.push({
+        id: thirdLevelId,
+        logicalOperator: thirdLevelKey,
+        childIds: thirdLevelChildIds,
+      })
+    })
+    console.log(thirdLevel)
+    console.log(secondLevel)
+    console.log(firstLevel)
+    // setThirdLevelElements(thirdLevel)
+    // setSecondLevelElements(secondLevel)
+    // setFirstLevelElements(firstLevel)
+  }
+
   return {
     firstLevelElements,
     setFirstLevelElements,
@@ -88,6 +145,7 @@ export default function useFilterState() {
     thirdLevelElements,
     setThirdLevelElements,
     parseStateToQuery,
+    parseQueryToState,
   } as IFilterState
 }
 
@@ -95,10 +153,12 @@ type Query = { [key: string]: { [key: string]: any } }
 
 const q = {
   and: {
-    and: [
-      { field: 'specialty', type: 'contain', value: 'хир' },
-      { field: 'firstName', type: 'equal', value: 'Андрей' },
-    ],
-    or: [{ field: 'organization', type: 'contain', value: 'ЦКБ' }],
+    and: {
+      and: [
+        { field: 'specialty', type: 'contain', value: 'хир' },
+        { field: 'firstName', type: 'equal', value: 'Андрей' },
+      ],
+      or: [{ field: 'organization', type: 'contain', value: 'ЦКБ' }],
+    },
   },
 }

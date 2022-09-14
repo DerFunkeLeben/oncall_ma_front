@@ -10,22 +10,27 @@ import useToggle from 'hooks/useToggle'
 import useDoctors from 'store/doctors/useDoctors'
 import useFilterState from 'components/SidePopup/actions/FilterAction/useFilterState'
 
-import { DoctorKeys } from 'constants/audience'
-import { AUDIENCE_URL_ONE, PagesData } from 'constants/url'
+import { AudienceAction, DoctorKeys } from 'constants/audience'
+import { AUDIENCE_URL_CREATE, PagesData } from 'constants/url'
 import { IPageData } from 'types'
 import { ISidePopupStep } from 'types/sidePopup'
 import { IAudienceMetaData } from 'types/audience'
 
 import styles from './OneAudience.module.scss'
-import { getAxiosSingle } from 'utils/axios'
+import useCurrentAudience from 'store/audiences/useCurrentAudience'
+import { Conditions } from 'constants/sidePopup'
+import { postAxiosSingle } from 'utils/axios'
+import { useAudienceFolders } from 'store/folders/useAllFolders'
 
 const initData = {
   id: '0',
   name: 'Аудитория',
-  peoplecount: '',
+  peoplecount: '0',
   createdat: '',
   updatedat: '',
-  filterQuery: {},
+  query: {
+    and: [{ field: DoctorKeys.specialty, type: Conditions.CONTAINS, value: ' ' }],
+  },
 }
 
 const configFilter: ISidePopupStep = {
@@ -35,10 +40,12 @@ const configFilter: ISidePopupStep = {
 }
 
 const OneAudience: FC<IPageData> = () => {
-  const { audienceid } = useParams<{ audienceid: string }>()
-  const { allDoctors, fetchDoctors, clearDoctors } = useDoctors()
+  const { currentAudience } = useCurrentAudience()
+  const { allDoctors, fetchAllDoctors, clearDoctors, fetchAudienceDoctors } = useDoctors()
   const [audienceInfo, setAudienceInfo] = useState<IAudienceMetaData>(initData)
   const [filterisOpen, toggleFilterPopup] = useToggle()
+  const { activeFolderName } = useAudienceFolders()
+
   const filterStateManager = useFilterState()
   const { parseStateToQuery } = filterStateManager
 
@@ -52,30 +59,37 @@ const OneAudience: FC<IPageData> = () => {
   const handleFiltersSave = () => {
     setAudienceInfo({
       ...audienceInfo,
-      filterQuery: parseStateToQuery(),
+      query: parseStateToQuery(),
     })
   }
 
-  useEffect(() => {
-    const isCreateCrm = PagesData.CREATE_AUDIENCE_CRM.link.includes(audienceid)
-
-    const getAudience = async () => {
-      const data = await getAxiosSingle(`${AUDIENCE_URL_ONE}/${audienceid}`)
-      console.log(data)
+  const handleSave = async () => {
+    const audienceCreateDto = {
+      query: audienceInfo.query,
+      name: audienceInfo.name,
+      group: activeFolderName,
     }
 
-    if (isCreateCrm) {
-      fetchDoctors()
-    } else {
-      getAudience()
+    const result = await postAxiosSingle(AUDIENCE_URL_CREATE, {}, audienceCreateDto)
+    console.log(result)
+  }
+
+  useEffect(() => {
+    if (currentAudience.action === AudienceAction.CREATE_CRM) {
+      fetchAllDoctors()
+    } else if (currentAudience.action === AudienceAction.EDIT) {
+      fetchAudienceDoctors(currentAudience.audience.id)
     }
 
     return clearDoctors
-  }, [audienceid])
+  }, [currentAudience.audience])
 
   useEffect(() => {
     setAudienceInfo({
       ...initData,
+      name: currentAudience?.audience?.name || initData.name,
+      createdat: currentAudience?.audience?.createdat || initData.createdat,
+      updatedat: currentAudience?.audience?.updatedat || initData.updatedat,
       peoplecount: `${allDoctors.length}`,
     })
   }, [allDoctors])
@@ -87,6 +101,7 @@ const OneAudience: FC<IPageData> = () => {
           audienceInfo={audienceInfo}
           openFilter={toggleFilterPopup}
           handleChange={handleTitleChange}
+          handleSave={handleSave}
         />
         <OneAudienceTable allDoctors={allDoctors} />
       </div>

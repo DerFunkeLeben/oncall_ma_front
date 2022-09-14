@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react'
+import { FC, useCallback, useEffect, useMemo, useState } from 'react'
 import cx from 'classnames'
 
 import PageHead from 'components/PageHead/PageHead'
@@ -12,7 +12,7 @@ import { EmptyTable } from './parts/EmptyTable/EmptyTable'
 import PopupOfCreationFromExist from './parts/PopupOfCreationFromExist/PopupOfCreationFromExist'
 import { AUDIENCE_URL_ALL, PagesData } from 'constants/url'
 import { Align } from 'constants/dictionary'
-import useAllFolders from 'store/folders/useAllFolders'
+import useAllFolders, { useAudienceFolders } from 'store/folders/useAllFolders'
 import useToggle from 'hooks/useToggle'
 import useSearch from 'hooks/useSearch'
 
@@ -24,14 +24,15 @@ import { MainReducerKeys } from 'store/data-types'
 import { IconUpload } from 'assets/icons'
 
 import { getAxiosArr } from 'utils/axios'
+import useAllAudiences from 'store/audiences/useAllAudiences'
 
 const menuIsOpen = true
 
 const AllAudiences: FC<IPageData> = () => {
-  const [allAudiences, setAllAudiences] = useState<any[]>([])
-  const { search, filtered, onChange } = useSearch('name', allAudiences)
-  const { initFolders } = useAllFolders(MainReducerKeys.audiences)
-
+  const { initFolders, activeFolderName, mainFolderName } = useAudienceFolders()
+  const { allAudiences, initAllAudiences } = useAllAudiences()
+  const [oneFolderAudiences, setOneFolderAudiences] = useState<any[]>(allAudiences)
+  const { search, filtered, onChange } = useSearch('name', oneFolderAudiences)
   const [popupCreateFromExistIsOpen, togglePopupCreateFromExist] = useToggle()
 
   const createAudienceOptions: ICreateOption[] = [
@@ -40,16 +41,29 @@ const AllAudiences: FC<IPageData> = () => {
     { title: 'Новая', url: PagesData.CREATE_AUDIENCE.link },
   ]
 
-  const totalCountOfData = allAudiences.length
+  const totalCountOfData = oneFolderAudiences.length
   const totalCountOfFilteredData = filtered.length
   const emptyFilterResult = totalCountOfData && !totalCountOfFilteredData
+
+  const filterAudiences = useCallback(
+    (audience: any) => audience.group === activeFolderName,
+    [activeFolderName]
+  )
+
+  useEffect(() => {
+    if (activeFolderName === mainFolderName) return setOneFolderAudiences(allAudiences)
+
+    setOneFolderAudiences(allAudiences.filter(filterAudiences))
+  }, [activeFolderName, allAudiences])
 
   useEffect(() => {
     const getAllAudiences = async () => {
       const data = await getAxiosArr(AUDIENCE_URL_ALL)
-      setAllAudiences(data)
+
+      initAllAudiences(data)
       initFolders(data)
     }
+
     getAllAudiences()
   }, [])
 

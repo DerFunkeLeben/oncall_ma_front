@@ -12,6 +12,9 @@ const getFolders = (
 const getActiveFolderName = (state: IState, reducerName: keyof typeof MainReducerKeys): string =>
   state[reducerName].folders[FolderKeys.activeFolderName]
 
+const getMainFolderName = (state: IState, reducerName: keyof typeof MainReducerKeys): string =>
+  state[reducerName].folders[FolderKeys.mainFolderName]
+
 const getAllFolders = createSelector(getFolders, (folders) =>
   foldersSort(Object.values(folders).flat())
 )
@@ -21,4 +24,4 @@ const getAllFoldersNames = createSelector(
   (folders) => folders.map(({ name }) => name).filter((name) => name) as string[]
 )
 
-export { getActiveFolderName, getAllFolders, getAllFoldersNames }
+export { getActiveFolderName, getAllFolders, getAllFoldersNames, getMainFolderName }

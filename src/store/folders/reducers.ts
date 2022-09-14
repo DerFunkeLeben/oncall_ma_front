@@ -23,12 +23,13 @@ const foldersReducer = (reducerName: MainReducerKeys) => {
     if (reducerName !== name) return state
 
     switch (type) {
-      case ActionType.INIT_ALL_FOLDERS:
+      case ActionType.INIT_ALL_FOLDERS: {
+        const newFolders = calculateFolders(payload, state.mainFolderName)
         return {
           ...state,
-          [FolderKeys.allFolders]: { ...state.allFolders, ...calculateFolders(payload) },
+          [FolderKeys.allFolders]: { ...state.allFolders, ...newFolders },
         }
-
+      }
       case ActionType.VIEW_FOLDER:
         return {
           ...state,

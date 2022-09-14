@@ -28,7 +28,7 @@ export const header = [
   'Email',
   'Телефон',
   'Город',
-  // 'Специальность',
+  'Специальность',
   // 'Сегмент',
 ]
 
@@ -145,8 +145,16 @@ export const CreateAudienceTable = () => {
         } = dataRow
 
         // TODO срочно исправить
-        const fieldsKeys = ['firstName', 'lastName', 'middleName', 'email', 'phone', 'city']
-        const fields = [firstName, lastName, middleName, email, phone, city]
+        const fieldsKeys = [
+          'firstName',
+          'lastName',
+          'middleName',
+          'email',
+          'phone',
+          'city',
+          'specialty',
+        ]
+        const fields = [firstName, lastName, middleName, email, phone, city, specialty]
 
         const checked = isItChecked(id)
         return (

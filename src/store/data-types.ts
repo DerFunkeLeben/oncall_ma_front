@@ -1,3 +1,4 @@
+import { IStoreAudiences } from './audiences/_data-types'
 import { IStoreAuth } from './auth/_data-types'
 import { IStoreContent } from './content/_data-types'
 import { IStoreDoctors } from './doctors/_data-types'
@@ -15,7 +16,7 @@ export interface IState {
   doctors?: IStoreDoctors
   scenario?: IStoreScenario
   [MainReducerKeys.audiences]: {
-    // data:
+    data: IStoreAudiences
     folders: IStoreFolder
   }
   [MainReducerKeys.content]: {

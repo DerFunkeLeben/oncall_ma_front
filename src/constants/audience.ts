@@ -14,33 +14,39 @@ enum DoctorsAction {
 }
 
 enum DoctorKeys {
-  email = 'email',
-  phone = 'phone',
   specialty = 'specialty',
   secondSpecialty = 'secondSpecialty',
-  firstName = 'firstName',
-  lastName = 'lastName',
-  middleName = 'middleName',
   organization = 'organization',
   city = 'city',
   region = 'region',
   district = 'district',
+  email = 'email',
+  phone = 'phone',
+  firstName = 'firstName',
+  lastName = 'lastName',
+  middleName = 'middleName',
   meta = 'meta',
 }
 
 const DoctorKeyLabels = {
-  [DoctorKeys.email]: 'Email',
-  [DoctorKeys.phone]: 'Телефон',
   [DoctorKeys.specialty]: 'Специальность',
   [DoctorKeys.secondSpecialty]: '2-ая специальность',
-  [DoctorKeys.firstName]: 'Имя',
-  [DoctorKeys.lastName]: 'Фамилия',
-  [DoctorKeys.middleName]: 'Отчество',
   [DoctorKeys.organization]: 'Организация',
   [DoctorKeys.city]: 'Город',
   [DoctorKeys.region]: 'Регион',
   [DoctorKeys.district]: 'Округ',
+  [DoctorKeys.email]: 'Email',
+  [DoctorKeys.phone]: 'Телефон',
+  [DoctorKeys.firstName]: 'Имя',
+  [DoctorKeys.lastName]: 'Фамилия',
+  [DoctorKeys.middleName]: 'Отчество',
   [DoctorKeys.meta]: 'Метаданные',
 }
 
-export { createAudienceOptions, DoctorsAction, DoctorKeys, DoctorKeyLabels }
+enum AudienceAction {
+  EDIT = 'edit',
+  CREATE_CRM = 'create_crm',
+  CREATE_NEW = 'create_new',
+}
+
+export { createAudienceOptions, DoctorsAction, DoctorKeys, DoctorKeyLabels, AudienceAction }

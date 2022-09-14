@@ -17,19 +17,18 @@ import { LogicalOperators, Conditions, LogicLabels } from 'constants/sidePopup'
 import ScrollArea from 'containers/ScrollArea/ScrollArea'
 import { IFilterState } from './useFilterState'
 import { ILogicalOperator } from 'types/audience'
+import { DoctorKeys } from 'constants/audience'
 
 const FilterAction: FC = () => {
-  const { action, currentState, setState, settings } = usePopupContext()
-  const actionName = action.name
+  const { action, settings } = usePopupContext()
   const attributes = action.attributes
-  const title = action.title
 
   const initFirstLevelRow = (id: string) => {
     return {
-      defined: attributes[0].toLocaleLowerCase(),
+      defined: DoctorKeys.specialty,
       logicalOperator: LogicalOperators.AND,
-      condition: Conditions.EQUAL,
-      determinant: '',
+      condition: Conditions.CONTAINS,
+      determinant: ' ',
       id: id,
     }
   }

@@ -6,6 +6,7 @@ import WindowSizeWrap from 'containers/WindowSizeWrap/WindowSizeWrap'
 
 import createReduxStore from 'store'
 import { initialContentState } from 'store/content/reducers'
+import { initialAudienceState } from 'store/audiences/reducers'
 import { initialAuthState } from 'store/auth/reducers'
 import { initialFolderState as contentFolderState } from 'store/content/reducers'
 import { initialFolderState as audiencesFolderState } from 'store/audiences/reducers'
@@ -18,6 +19,7 @@ function AppWrapper({ children }: { children: ReactElement }) {
       folders: contentFolderState,
     },
     audiences: {
+      data: initialAudienceState,
       folders: audiencesFolderState,
     },
   })

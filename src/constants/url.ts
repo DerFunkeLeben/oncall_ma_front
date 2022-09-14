@@ -17,7 +17,7 @@ export const DOCTORS_URL_UPDATE = `${DOCTORS_BASE_URL}/update`
 export const AUDIENCE_URL = `${DOCTORS_BASE_URL}/audience`
 export const AUDIENCE_URL_CREATE = `${AUDIENCE_URL}/create`
 export const AUDIENCE_URL_ALL = `${AUDIENCE_URL}/groups`
-export const AUDIENCE_URL_ONE = `${AUDIENCE_URL}/group`
+export const AUDIENCE_URL_ONE = `${AUDIENCE_URL}/get`
 export const AUDIENCE_URL_ONE_GROUP = `${AUDIENCE_URL}/group`
 
 export const audiencesRoutes = [

@@ -11,6 +11,7 @@ import useMessageBoxContext from 'context/MessageBoxContext'
 import { IconArrow } from 'assets/icons'
 import styles from './PageHead.module.scss'
 import buttonThemes from 'components/parts/Button/ButtonThemes.module.scss'
+import { ddmmyyyy } from 'utils/transformDate'
 
 interface IPageHead {
   title: string
@@ -81,7 +82,7 @@ const PageHead: FC<IPageHead> = ({
             )}
             {createDate && (
               <div className={cx(styles.infoBlock, 'text_1')}>
-                <span>{`Дата создания: ${createDate}`}</span>
+                <span>{`Дата создания: ${ddmmyyyy(createDate)}`}</span>
               </div>
             )}
           </div>

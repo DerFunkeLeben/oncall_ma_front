@@ -12,6 +12,9 @@ import { IAudienceMetaData } from 'types/audience'
 import { getToday } from 'utils/transformDate'
 
 import styles from './CreateAudience.module.scss'
+import { postAxiosSingle } from 'utils/axios'
+import { DOCTORS_URL_ADD } from 'constants/url'
+import useDoctors from 'store/doctors/useDoctors'
 
 const initData = {
   id: '0',
@@ -19,7 +22,7 @@ const initData = {
   peoplecount: '0',
   createdat: getToday(),
   updatedat: '',
-  filterQuery: '',
+  query: '',
 }
 
 const title = 'Фильтры'
@@ -45,6 +48,7 @@ const CreateAudience: FC<IPageData> = () => {
   const [audienceInfo, setAudienceInfo] = useState<IAudienceMetaData>(initData)
   const [filterisOpen, toggleFilterPopup] = useToggle()
   const [sidePopupState, setSidePopupState] = useState({})
+  const { allDoctors, doctorsCount } = useDoctors()
 
   const handleTitleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setAudienceInfo({
@@ -53,6 +57,18 @@ const CreateAudience: FC<IPageData> = () => {
     })
   }
 
+  const handleSave = async () => {
+    const result = await postAxiosSingle(DOCTORS_URL_ADD, {}, allDoctors)
+    console.log(result)
+  }
+
+  useEffect(() => {
+    setAudienceInfo({
+      ...audienceInfo,
+      peoplecount: `${doctorsCount}`,
+    })
+  }, [doctorsCount])
+
   return (
     <>
       <div className={cx(styles.pageContent)}>
@@ -60,6 +76,7 @@ const CreateAudience: FC<IPageData> = () => {
           audienceInfo={audienceInfo}
           openFilter={toggleFilterPopup}
           handleChange={handleTitleChange}
+          handleSave={handleSave}
         />
         <CreateAudienceTable />
       </div>
