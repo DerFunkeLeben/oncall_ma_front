@@ -91,7 +91,7 @@ const FirstLevel: FC<IFirstLevel> = ({
                     onClick={handleChangeDefined}
                     data-defined={headerEl}
                   >
-                    {DoctorKeyLabels[headerEl].toLowerCase()}
+                    {DoctorKeyLabels[headerEl]}
                   </button>
                 )
               })}

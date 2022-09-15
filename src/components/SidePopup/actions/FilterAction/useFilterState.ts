@@ -22,7 +22,7 @@ export default function useFilterState() {
       defined: DoctorKeys.specialty,
       logicalOperator: LogicalOperators.AND,
       condition: Conditions.CONTAINS,
-      determinant: ' ',
+      determinant: '',
       id: '11',
     },
   ])

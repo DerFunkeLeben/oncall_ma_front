@@ -1,18 +1,3 @@
-import { ICreateOption } from 'types'
-
-import { PagesData } from 'constants/url'
-
-const createAudienceOptions: ICreateOption[] = [
-  { title: 'Из CRM', url: PagesData.CONTENT_HTML.link },
-  { title: 'Из готовой аудитории', url: PagesData.CONTENT_SMS.link },
-  { title: 'Новая', url: PagesData.CONTENT_FILE.link },
-]
-
-enum DoctorsAction {
-  EDIT = 'edit',
-  DELETE = 'delete',
-}
-
 enum DoctorKeys {
   specialty = 'specialty',
   secondSpecialty = 'secondSpecialty',
@@ -43,10 +28,15 @@ const DoctorKeyLabels = {
   [DoctorKeys.meta]: 'Метаданные',
 }
 
+enum DoctorsAction {
+  EDIT = 'edit',
+  DELETE = 'delete',
+}
+
 enum AudienceAction {
   EDIT = 'edit',
   CREATE_CRM = 'create_crm',
   CREATE_NEW = 'create_new',
 }
 
-export { createAudienceOptions, DoctorsAction, DoctorKeys, DoctorKeyLabels, AudienceAction }
+export { DoctorsAction, DoctorKeys, DoctorKeyLabels, AudienceAction }

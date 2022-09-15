@@ -28,7 +28,7 @@ const FilterAction: FC = () => {
       defined: DoctorKeys.specialty,
       logicalOperator: LogicalOperators.AND,
       condition: Conditions.CONTAINS,
-      determinant: ' ',
+      determinant: '',
       id: id,
     }
   }
