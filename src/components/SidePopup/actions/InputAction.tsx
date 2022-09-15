@@ -3,33 +3,23 @@ import { FC, ChangeEvent } from 'react'
 import usePopupContext from 'context/SidePopupContext'
 import InputBase from 'components/parts/InputBase/InputBase'
 import styles from '../SidePopup.module.scss'
+import { IAction } from 'types/sidePopup'
+import { useSidePopup } from 'store/sidePopupStore/useSidePopup'
 
-interface IInputAction {
-  stateKey?: string
-  type?: string
-  label?: string
-}
+const InputAction: FC<IAction> = ({ settingName, label, applySettings }) => {
+  const { step, currentState, tempSettings, setSettings } = usePopupContext()
+  const { updateTempSettings } = useSidePopup()
 
-const InputAction: FC<IInputAction> = ({ type, stateKey = 'text', label }) => {
-  const { action, currentState, setState, settings, setSettings } = usePopupContext()
-
-  const actionName = action.name
+  const actionName = step.name
 
   const currentValue =
-    settings && settings[actionName] && settings[actionName][stateKey]
-      ? settings[actionName][stateKey]
+    tempSettings && tempSettings[actionName] && tempSettings[actionName][settingName]
+      ? tempSettings[actionName][settingName]
       : ''
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target
-    const newState = {
-      ...currentState,
-      [actionName]: {
-        ...(settings && settings[actionName]),
-        [stateKey]: value,
-      },
-    }
-    setSettings(newState)
+    applySettings(value, tempSettings, updateTempSettings)
   }
 
   return (
@@ -39,7 +29,7 @@ const InputAction: FC<IInputAction> = ({ type, stateKey = 'text', label }) => {
       value={currentValue}
       handleInputChange={handleChange}
       modificator={styles.popupInput}
-      type={type || 'text'}
+      type={'text'}
     />
   )
 }

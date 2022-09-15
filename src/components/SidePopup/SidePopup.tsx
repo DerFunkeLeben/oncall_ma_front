@@ -14,6 +14,7 @@ import { IconPlus } from 'assets/icons'
 
 import { IStep, IStatePopup } from 'types/sidePopup'
 import { useSidePopup } from 'store/sidePopupStore/useSidePopup'
+import SidePopupFooter from './SidePopupFooter'
 
 interface ISidePopup {
   isOpen: boolean
@@ -22,56 +23,71 @@ interface ISidePopup {
   handleSave: any
   title: string
   savedSettings?: any
+  type?: any
 }
 
 const SidePopup: FC<ISidePopup> = ({ isOpen, close, config, handleSave, title, savedSettings }) => {
-  const [tempSettings, setTempSettings] = useState<IStatePopup>({})
-  const [currentStep, setCurrentStep] = useState(1)
+  const {
+    incrementStep,
+    decrementStep,
+    resetStep,
+    stepNumber,
+    tempSettings,
+    setTempSettings,
+    resetTempSettings,
+    updateTempSettings,
+  } = useSidePopup()
 
-  const currentSettings = savedSettings ? savedSettings : tempSettings
+  const createConfig = (stepConfig: IStep, acc: any[] = []): any => {
+    if (!tempSettings) return
+    const { name, getNextStep } = stepConfig
 
-  const createConfig = (step: IStep, acc: any[] = []): any => {
-    const { name, getNextStep } = step
-
-    acc = [...acc, { ...step, value: tempSettings[name] }]
+    acc = [...acc, { ...stepConfig }]
 
     if (getNextStep) {
-      const nextStep = getNextStep(currentSettings)
-      const children = createConfig(nextStep, acc)
-      return [...children]
+      const nextStep = getNextStep(tempSettings, updateTempSettings)
+      if (nextStep) {
+        const children = createConfig(nextStep, acc)
+        return [...children]
+      }
     }
 
     return acc
   }
 
+  // const [configArray, setConfigArray] = useState([])
+  // setConfigArray(createConfig(config))
   const configArray = createConfig(config)
 
-  const action = configArray[currentStep - 1]
+  useEffect(() => {
+    setTempSettings(savedSettings)
+
+    // setConfigArray(createConfig(config))
+  }, [isOpen])
+
+  const step = configArray[stepNumber - 1]
 
   const countOfSteps = configArray.length
-  const itsLastStep = currentStep === countOfSteps
-  const itsFirstStep = currentStep === 1
-  const itsOnlyStep = countOfSteps === 1
 
   const closePopup = () => {
-    setTempSettings({})
-    setCurrentStep(1)
+    resetTempSettings()
+    resetStep()
     close()
   }
 
   const goToNextStep = () => {
     console.log('validate!')
-    setCurrentStep(currentStep + 1)
+    incrementStep()
   }
 
   const goToPrevStep = () => {
-    setCurrentStep(currentStep - 1)
+    decrementStep()
   }
 
   const save = () => {
     console.log('save')
     handleSave(tempSettings)
-    setCurrentStep(1)
+    resetStep()
     closePopup()
   }
 
@@ -90,33 +106,19 @@ const SidePopup: FC<ISidePopup> = ({ isOpen, close, config, handleSave, title, s
           </div>
         </div>
         <div className={styles.popupContent}>
-          <PopupContext.Provider value={{ action, currentSettings, setTempSettings }}>
+          <PopupContext.Provider value={{ step, tempSettings, setTempSettings, savedSettings }}>
             <SidePopupContent />
           </PopupContext.Provider>
         </div>
-        <div className={styles.footer}>
-          <div className={styles.footerStepCounter}>
-            {!itsOnlyStep && (
-              <div className="text_1">{`Шаг ${currentStep} из ${countOfSteps}`}</div>
-            )}
-          </div>
-          <div className={styles.footerButtons}>
-            {itsFirstStep ? (
-              <Button onClick={closePopup} modificator={buttonThemes.theme_secondary}>
-                Отменить
-              </Button>
-            ) : (
-              <Button onClick={goToPrevStep} modificator={buttonThemes.theme_secondary}>
-                Назад
-              </Button>
-            )}
-            {itsLastStep ? (
-              <Button onClick={save}>Сохранить</Button>
-            ) : (
-              <Button onClick={goToNextStep}>Далее</Button>
-            )}
-          </div>
-        </div>
+        <SidePopupFooter
+          stepNumber={stepNumber}
+          countOfSteps={countOfSteps}
+          closePopup={closePopup}
+          goToPrevStep={goToPrevStep}
+          save={save}
+          goToNextStep={goToNextStep}
+          counterEnabled={true}
+        />
       </div>
     </div>,
     document.body

@@ -8,50 +8,58 @@ import InputAction from './actions/InputAction'
 import SliderAction from './actions/SliderAction'
 import RadioGroupAction from './actions/RadioGroupAction'
 import SliderRelation from './actions/SliderRelationAction'
-import DurationAction from './actions/DurationAction'
+
 import FilterAction from './actions/FilterAction/FilterAction'
 import NumericStepAction from './actions/NumericStepAction'
 import AttributeAction from './actions/AttributeAction/AttributeAction'
 import EmailConfigAction from './actions/EmailConfigAction'
 import TableAction from './actions/TableAction'
+import DropDownAction from './actions/DropDownAction'
+import AttibuteConditionAction from './actions/AttibuteConditionAction'
 
 import { SidePopupActions } from 'constants/sidePopup'
 
 import styles from './SidePopup.module.scss'
 
 const SidePopupContent: FC = () => {
-  const { action } = usePopupContext()
+  const { step } = usePopupContext()
+  const actions = step.actions
 
-  const { type, name } = action
+  const nodes = actions.map((action: any, index: number) => {
+    const { type } = action
 
-  switch (type) {
-    case SidePopupActions.ATTRIBUTES:
-      return <AttributeAction key={name} />
-    case SidePopupActions.DURATION:
-      return <DurationAction key={name} />
-    case SidePopupActions.RADIO:
-      return <RadioGroupAction key={name} />
-    case SidePopupActions.SLIDER:
-      return <SliderAction key={name} />
-    case SidePopupActions.SLIDER_RELATION:
-      return <SliderRelation key={name} />
-    case SidePopupActions.INPUT:
-      return <InputAction key={name} />
-    case SidePopupActions.NUMERIC_STEP:
-      return <NumericStepAction key={name} />
-    case SidePopupActions.TEXTAREA:
-      return <TextAreaAction key={name} />
-    case SidePopupActions.DATE:
-      return <DatePickAction key={name} />
-    case SidePopupActions.FILTER:
-      return <FilterAction key={name} />
-    case SidePopupActions.TABLE:
-      return <TableAction key={name} />
-    case SidePopupActions.EMAIL:
-      return <EmailConfigAction key={name} />
-    default:
-      return null
-  }
+    switch (type) {
+      case SidePopupActions.ATTRIBUTES:
+        return <AttributeAction key={index} {...action} />
+      case SidePopupActions.RADIO:
+        return <RadioGroupAction key={index} {...action} />
+      case SidePopupActions.SLIDER:
+        return <SliderAction key={index} {...action} />
+      case SidePopupActions.SLIDER_RELATION:
+        return <SliderRelation key={index} {...action} />
+      case SidePopupActions.INPUT:
+        return <InputAction key={index} {...action} />
+      case SidePopupActions.NUMERIC_STEP:
+        return <NumericStepAction key={index} {...action} />
+      case SidePopupActions.TEXTAREA:
+        return <TextAreaAction key={index} {...action} />
+      case SidePopupActions.DATE:
+        return <DatePickAction key={index} {...action} />
+      case SidePopupActions.FILTER:
+        return <FilterAction key={index} {...action} />
+      case SidePopupActions.TABLE:
+        return <TableAction key={index} {...action} />
+      case SidePopupActions.EMAIL:
+        return <EmailConfigAction key={index} {...action} />
+      case SidePopupActions.DROP_DOWN:
+        return <DropDownAction key={index} {...action} />
+      case SidePopupActions.ATTRIBUTE_CONDITION:
+        return <AttibuteConditionAction key={index} {...action} />
+      default:
+        return null
+    }
+  })
+  return <div className="actions">{nodes}</div>
 }
 
 export default SidePopupContent

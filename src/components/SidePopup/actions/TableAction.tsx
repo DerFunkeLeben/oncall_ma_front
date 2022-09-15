@@ -1,44 +1,37 @@
-import { FC, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import cx from 'classnames'
 
 import usePopupContext from 'context/SidePopupContext'
 import ScrollTable from 'components/Table/ScrollTable'
 
-import { IStepTable } from 'types/sidePopup'
+import { IAction } from 'types/sidePopup'
 
 import actionsStyles from './styles.module.scss'
 import tableStyles from 'components/Table/TableBase.module.scss'
 import useTable from 'components/Table/useTable'
 import radioStyles from 'components/parts/RadioGroup/RadioGroup.module.scss'
+import { useSidePopup } from 'store/sidePopupStore/useSidePopup'
 
 const header = ['', 'Название', 'Дата редактирования']
 
-const TableAction: FC = () => {
-  const { action, setTempSettings, currentSettings } = usePopupContext()
-  const settingName = 'smsId'
-  const actionName = action.name
+const TableAction: FC<IAction> = ({ settingName, applySettings }) => {
+  const { step, setTempSettings, tempSettings, savedSettings } = usePopupContext()
+  const { updateTempSettings } = useSidePopup()
+  const actionName = step.name
   const defaultValue = null
 
   const [radioSelected, setRadioSelected] = useState<string | undefined | null>(null)
 
   const currentValue =
-    currentSettings && currentSettings[actionName] && currentSettings[actionName][settingName]
-      ? currentSettings[actionName][settingName]
+    tempSettings && tempSettings[actionName] && tempSettings[actionName][settingName]
+      ? tempSettings[actionName][settingName]
       : defaultValue
 
   const handleChange = (e: React.MouseEvent<HTMLElement>) => {
     const { id } = e.currentTarget.dataset
     const newValue = id === radioSelected ? null : (id || 0).toString()
 
-    const newState = {
-      ...currentSettings,
-      [actionName]: {
-        ...(currentSettings && currentSettings[actionName]),
-        [settingName]: newValue,
-      },
-    }
-
-    setTempSettings(newState)
+    applySettings(newValue, tempSettings, updateTempSettings)
     setRadioSelected(newValue)
   }
 

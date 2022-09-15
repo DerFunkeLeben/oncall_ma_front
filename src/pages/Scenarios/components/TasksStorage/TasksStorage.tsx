@@ -7,29 +7,16 @@ import styles from './TasksStorage.module.scss'
 
 import { TasksTypes, TaskStorageFolders, TasksDefaultNames } from 'types'
 
-const {
-  list,
-  event,
-  email,
-  sms,
-  telegram,
-  push,
-  condition,
-  wait,
-  join,
-  ab_test,
-  assignment,
-  crm_message,
-} = TasksTypes
+const { email, sms, telegram, condition, wait, ab_test, crm_message } = TasksTypes
 
 const { scenario_creation, communication, scenarios } = TaskStorageFolders
 
 const taskStorage = [
   // { title: scenario_creation, tasks: [list, event], color: 'orange' },
-  { title: communication, tasks: [email, sms, telegram, push], color: 'cyan' },
+  { title: communication, tasks: [email, sms, telegram], color: 'cyan' },
   {
     title: scenarios,
-    tasks: [condition, wait, join, ab_test, assignment, crm_message],
+    tasks: [condition, wait, ab_test, crm_message],
     color: 'pink',
   },
 ]

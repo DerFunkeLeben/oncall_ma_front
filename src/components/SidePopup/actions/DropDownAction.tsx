@@ -5,34 +5,36 @@ import usePopupContext from 'context/SidePopupContext'
 
 import DropDown from 'components/parts/DropDown/DropDown'
 import { IOption } from 'types/sidePopup'
+import { useSidePopup } from 'store/sidePopupStore/useSidePopup'
 
 import dropDownStyles from 'components/parts/DropDown/DropDown.module.scss'
 import styles from './styles.module.scss'
 
 interface IDropDownAction {
   label?: string
-  id?: string
   disabledOptions?: string[]
   setDisabledOptions?: Dispatch<SetStateAction<string[]>>
-  preset?: { [key: string]: any }
-  optionName: string
+  settingName: string
+  options: IOption[]
+  applySettings: any
 }
 
 const DropDownAction: FC<IDropDownAction> = ({
   label,
-  id,
   disabledOptions = [],
   setDisabledOptions,
-  preset,
-  optionName,
+  settingName,
+  options,
+  applySettings,
 }) => {
-  const { action, settings, setSettings } = usePopupContext()
-  const actionName = action.name
-  const options = action.options as IOption[]
+  const { step, tempSettings, setTempSettings } = usePopupContext()
+  const { updateTempSettings } = useSidePopup()
+  const actionName = step.name
+  // const options = step.options as IOption[]
 
   const currentValue =
-    settings && settings[actionName] && settings[actionName][optionName]
-      ? settings[actionName][optionName]
+    tempSettings && tempSettings[actionName] && tempSettings[actionName][settingName]
+      ? tempSettings[actionName][settingName]
       : options[0].name
 
   useEffect(() => {
@@ -56,6 +58,7 @@ const DropDownAction: FC<IDropDownAction> = ({
 
   const handleChange = (event: SyntheticEvent<HTMLButtonElement>) => {
     const selectOption = event.currentTarget.dataset.option
+    console.log(selectOption)
 
     if (!selectOption || selectOption === currentValue) return
 
@@ -65,17 +68,7 @@ const DropDownAction: FC<IDropDownAction> = ({
   }
 
   const changeSettings = (selectOption: any) => {
-    const newState = {
-      ...settings,
-      [actionName]: {
-        ...(settings && settings[actionName]),
-        ...preset,
-        [optionName]: selectOption,
-      },
-    }
-
-    replaceOption(currentValue, selectOption)
-    setSettings(newState)
+    applySettings(selectOption, tempSettings, updateTempSettings)
   }
 
   return (

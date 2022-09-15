@@ -20,9 +20,9 @@ const EmailConfigAction: FC = () => {
 
   return (
     <div className={actionsStyles.emailWrapper}>
-      <p>{emailName}</p>
+      {/* <p>{emailName}</p>
       <InputAction label={emailTitle} stateKey={'title'} />
-      <InputAction label={emailSubTitle} stateKey={'subTitle'} />
+      <InputAction label={emailSubTitle} stateKey={'subTitle'} /> */}
     </div>
   )
 }

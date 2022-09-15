@@ -5,6 +5,7 @@ import { TasksTypes } from 'types'
 
 const initialState: IStoreSidePopup = {
   tempSettings: {},
+  stepNumber: 1,
 }
 
 const reducer = (state = initialState, { type, payload }: IReducer): IStoreSidePopup => {
@@ -13,6 +14,11 @@ const reducer = (state = initialState, { type, payload }: IReducer): IStoreSideP
       return {
         ...state,
         tempSettings: payload.tempSettings,
+      }
+    case ActionType.SET_STEP:
+      return {
+        ...state,
+        stepNumber: payload.stepNumber,
       }
     default:
       return state

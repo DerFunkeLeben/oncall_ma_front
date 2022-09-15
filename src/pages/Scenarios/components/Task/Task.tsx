@@ -119,6 +119,7 @@ const Task: FC<ITaskNode> = ({ properties, id }) => {
           handleSave={save}
           title={config.title ? config.title : config.name}
           savedSettings={settings}
+          type={type}
         />
       )}
     </>

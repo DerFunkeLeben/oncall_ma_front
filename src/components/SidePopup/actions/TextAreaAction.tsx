@@ -3,44 +3,28 @@ import { FC, ChangeEvent, useEffect } from 'react'
 import usePopupContext from 'context/SidePopupContext'
 import TextArea from 'components/parts/TextArea/TextArea'
 import styles from '../SidePopup.module.scss'
+import { useSidePopup } from 'store/sidePopupStore/useSidePopup'
+import { IAction } from 'types/sidePopup'
 
-const TextAreaAction: FC = () => {
-  const { action, currentSettings, setTempSettings } = usePopupContext()
-  const actionName = action.name
-  const subtitle = action.subtitle
-  const label = action.label
-  const initText = action.text
+const TextAreaAction: FC<IAction> = ({ settingName, applySettings }) => {
+  const { step, tempSettings, setTempSettings, savedSettings } = usePopupContext()
+  const { updateTempSettings } = useSidePopup()
+  const actionName = step.name
+  const subtitle = step.subtitle
+  const label = step.label
 
-  const text = currentSettings[actionName]?.text || initText
-
-  useEffect(() => {
-    if (initText) {
-      const newState = {
-        ...currentSettings,
-        [actionName]: {
-          ...currentSettings[actionName],
-          text: initText,
-        },
-      }
-      setTempSettings(newState)
-    }
-  }, [])
+  const text = tempSettings?.[actionName]?.[settingName]
+    ? tempSettings[actionName][settingName]
+    : ''
 
   const handleChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
     const { value } = event.target
-    const newState = {
-      ...currentSettings,
-      [actionName]: {
-        ...currentSettings[actionName],
-        text: value,
-      },
-    }
-    setTempSettings(newState)
+    applySettings(value, tempSettings, updateTempSettings)
   }
 
   return (
     <div>
-      <div className={styles.popupSubtitle}>{subtitle}</div>
+      <div className={styles.popupSubtitle}>{label}</div>
       <TextArea
         label={label}
         name={actionName}

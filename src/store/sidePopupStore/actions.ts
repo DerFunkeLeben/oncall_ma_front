@@ -6,6 +6,10 @@ const ActionCreator = {
     type: ActionType.SET_TEMPSETTINGS,
     payload: { tempSettings },
   }),
+  setStep: (stepNumber: IStoreSidePopup[StoreKeys.stepNumber]) => ({
+    type: ActionType.SET_STEP,
+    payload: { stepNumber },
+  }),
 }
 
 type ISetTempSettings = {
@@ -13,6 +17,11 @@ type ISetTempSettings = {
   payload: { tempSettings: IStoreSidePopup[StoreKeys.tempSettings] }
 }
 
-export type IActions = ISetTempSettings
+type ISetStep = {
+  type: string
+  payload: { stepNumber: IStoreSidePopup[StoreKeys.stepNumber] }
+}
+
+export type IActions = ISetTempSettings | ISetStep
 
 export default ActionCreator

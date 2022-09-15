@@ -2,32 +2,22 @@ import { FC, useEffect } from 'react'
 
 import usePopupContext from 'context/SidePopupContext'
 import NumericStep from 'components/parts/NumericStep/NumericStep'
+import { useSidePopup } from 'store/sidePopupStore/useSidePopup'
+import { IAction } from 'types/sidePopup'
 
-interface INumericStepAction {
-  preset?: { [key: string]: any }
-}
-
-const NumericStepAction: FC<INumericStepAction> = ({ preset }) => {
-  const { action, settings, setSettings } = usePopupContext()
-
-  const actionName = action.name
-  const { title } = action
+const NumericStepAction: FC<IAction> = ({ settingName, applySettings }) => {
+  const { step, tempSettings } = usePopupContext()
+  const { updateTempSettings } = useSidePopup()
+  const actionName = step.name
+  const { title } = step
 
   const currentValue =
-    settings && settings[actionName] && settings[actionName].amount
-      ? settings[actionName].amount
+    tempSettings && tempSettings[actionName] && tempSettings[actionName][settingName]
+      ? tempSettings[actionName][settingName]
       : 0
 
   const handleChange = (value: number | null) => {
-    const newState = {
-      ...settings,
-      [actionName]: {
-        ...(settings && settings[actionName]),
-        ...preset,
-        amount: (value || 0).toString(),
-      },
-    }
-    setSettings(newState)
+    applySettings(value, tempSettings, updateTempSettings)
   }
 
   return (

@@ -21,13 +21,13 @@ const SingleAttribute: FC<ISingleAtr> = ({ id, prevAttrs, setPrevAttrs }) => {
 
   return (
     <>
-      <DropDownAction
+      {/* <DropDownAction
         disabledOptions={prevAttrs}
         setDisabledOptions={setPrevAttrs}
         id={id}
         optionName={'attr'}
-      />
-      <InputAction type={type} stateKey={id} />
+      /> */}
+      {/* <InputAction type={type} stateKey={id} /> */}
     </>
   )
 }

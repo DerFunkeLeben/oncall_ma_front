@@ -16,13 +16,16 @@ import { IFilterAction, IFirstLevelObj, ISecondLevelObj, IThirdLevelObj, IConfig
 import { LogicalOperators, Conditions } from 'constants/sidePopup'
 import ScrollArea from 'containers/ScrollArea/ScrollArea'
 
-const FilterAction: FC = () => {
-  const { action, currentState, setState } = usePopupContext()
-  const actionName = action.name
-  const attributes = action.attributes
-  const title = action.title
+import { IAction } from 'types/sidePopup'
+import { useSidePopup } from 'store/sidePopupStore/useSidePopup'
+interface IRadioGroupAction extends IAction {
+  attributes: any
+}
 
-  console.log(attributes)
+const FilterAction: FC<IRadioGroupAction> = ({ settingName, applySettings, attributes }) => {
+  const { step, tempSettings } = usePopupContext()
+  const { updateTempSettings } = useSidePopup()
+  const actionName = step.name
 
   const initFirstLevelRow = (id: string) => {
     return {
@@ -33,7 +36,6 @@ const FilterAction: FC = () => {
       id: id,
     }
   }
-
   const initSecondLevelRow = (id: string, childId: string) => {
     return {
       id: id,
@@ -41,7 +43,6 @@ const FilterAction: FC = () => {
       childIds: [childId],
     }
   }
-
   const initThirdLevelRow = (id: string, childId: string, operator: string) => {
     return {
       id: id,
@@ -50,27 +51,45 @@ const FilterAction: FC = () => {
     }
   }
 
-  const [firstLevelElements, setFirstLevelElements] = useState<any[]>([
-    {
-      defined: attributes[0].toLocaleLowerCase(),
-      logicalOperator: LogicalOperators.AND,
-      condition: Conditions.EQUAL,
-      determinant: '',
-      id: '11',
-    },
-  ])
-  const [secondLevelElements, setSecondLevelElements] = useState<any[]>([
-    { id: '21', logicalOperator: LogicalOperators.AND, childIds: ['11'] },
-  ])
-  const [thirdLevelElements, setThirdLevelElements] = useState<any[]>([
-    { id: '31', logicalOperator: LogicalOperators.AND, childIds: ['21'] },
-  ])
+  const initState = () => {
+    const newThirdLevelId = uuid()
+    const newFirstLevelId = uuid()
+    const newSecondLevelId = uuid()
+    const newFirstLevelElements = [initFirstLevelRow(newFirstLevelId)]
+    const newSecondLevelElements = [initSecondLevelRow(newSecondLevelId, newFirstLevelId)]
+    const newThirdLevelElements = [
+      initThirdLevelRow(newThirdLevelId, newSecondLevelId, LogicalOperators.AND),
+    ]
+    const newlevel = {
+      firstLevel: newFirstLevelElements,
+      secondLevel: newSecondLevelElements,
+      thirdLevel: newThirdLevelElements,
+    }
+    applySettings(newlevel, tempSettings, updateTempSettings)
+  }
+
+  useEffect(() => {
+    if (!tempSettings?.[actionName]?.[settingName]) {
+      initState()
+    }
+  }, [])
+
+  const filterState =
+    tempSettings && tempSettings[actionName] && tempSettings[actionName][settingName]
+      ? tempSettings[actionName][settingName]
+      : ''
+
+  const { firstLevel, secondLevel, thirdLevel } = filterState
+
+  const updateState = (newlevel: any) => {
+    applySettings(newlevel, tempSettings, updateTempSettings)
+  }
 
   //*TODO переписать все функции */
 
   const handleCreateFirstLevel = (secondLevelId: string) => {
     const newFirstLevelId = uuid()
-    const newSecondLevelElements = secondLevelElements.map((element) => {
+    const newSecondLevelElements = secondLevel.map((element: any) => {
       if (element.id !== secondLevelId) return element
       else {
         return {
@@ -79,20 +98,19 @@ const FilterAction: FC = () => {
         }
       }
     })
-    const newFirstLevelElements = [...firstLevelElements, initFirstLevelRow(newFirstLevelId)]
-    setSecondLevelElements(newSecondLevelElements)
-    setFirstLevelElements(newFirstLevelElements)
+    const newFirstLevelElements = [...firstLevel, initFirstLevelRow(newFirstLevelId)]
+    updateState({ firstLevel: newFirstLevelElements, secondLevel: newSecondLevelElements })
   }
 
   const handleCreateSecondLevel = (thirdLevelId: string) => {
     const newFirstLevelId = uuid()
     const newSecondLevelId = uuid()
-    const newFirstLevelElements = [...firstLevelElements, initFirstLevelRow(newFirstLevelId)]
+    const newFirstLevelElements = [...firstLevel, initFirstLevelRow(newFirstLevelId)]
     const newSecondLevelElements = [
-      ...secondLevelElements,
+      ...secondLevel,
       initSecondLevelRow(newSecondLevelId, newFirstLevelId),
     ]
-    const newThirdLevelElements = thirdLevelElements.map((element) => {
+    const newThirdLevelElements = thirdLevel.map((element: any) => {
       console.log(element.id, thirdLevelId)
       if (element.id !== thirdLevelId) return element
       else {
@@ -102,9 +120,11 @@ const FilterAction: FC = () => {
         }
       }
     })
-    setThirdLevelElements(newThirdLevelElements)
-    setSecondLevelElements(newSecondLevelElements)
-    setFirstLevelElements(newFirstLevelElements)
+    updateState({
+      firstLevel: newFirstLevelElements,
+      secondLevel: newSecondLevelElements,
+      thirdLevel: newThirdLevelElements,
+    })
   }
 
   const handleCreateThirdLevel = (e: any) => {
@@ -112,35 +132,35 @@ const FilterAction: FC = () => {
     const newThirdLevelId = uuid()
     const newFirstLevelId = uuid()
     const newSecondLevelId = uuid()
-    const newFirstLevelElements = [...firstLevelElements, initFirstLevelRow(newFirstLevelId)]
+    const newFirstLevelElements = [...firstLevel, initFirstLevelRow(newFirstLevelId)]
     const newSecondLevelElements = [
-      ...secondLevelElements,
+      ...secondLevel,
       initSecondLevelRow(newSecondLevelId, newFirstLevelId),
     ]
     const newThirdLevelElements = [
-      ...thirdLevelElements,
+      ...thirdLevel,
       initThirdLevelRow(newThirdLevelId, newSecondLevelId, operator),
     ]
-    setThirdLevelElements(newThirdLevelElements)
-    setSecondLevelElements(newSecondLevelElements)
-    setFirstLevelElements(newFirstLevelElements)
+    updateState({
+      firstLevel: newFirstLevelElements,
+      secondLevel: newSecondLevelElements,
+      thirdLevel: newThirdLevelElements,
+    })
   }
 
   const handleDeleteFirstLevelRow = (id: string, parentId: string, itsFirstChildren: boolean) => {
-    const newFirstLevelElements = firstLevelElements.filter((firstLevelElement) => {
-      // if (itsFirstChildren) return false
-      // else
+    const newFirstLevelElements = firstLevel.filter((firstLevelElement: any) => {
       return firstLevelElement.id !== id
     })
-    const newSecondLevelElements = secondLevelElements
-      .map((secondLevelElement) => {
+    const newSecondLevelElements = secondLevel
+      .map((secondLevelElement: any) => {
         if (secondLevelElement.id === parentId) {
           const childsArrayWithoutTarget = secondLevelElement.childIds.filter(
             (childId: any) => childId !== id
           )
           if (childsArrayWithoutTarget.length === 0) {
-            const newThirdLevelElements = thirdLevelElements
-              .map((thirdElement) => {
+            const newThirdLevelElements = thirdLevel
+              .map((thirdElement: any) => {
                 if (thirdElement.childIds.includes(parentId)) {
                   const childsArrayWithoutSecond = thirdElement.childIds.filter(
                     (childId: any) => childId !== parentId
@@ -154,8 +174,8 @@ const FilterAction: FC = () => {
                   }
                 } else return thirdElement
               })
-              .filter((element) => element)
-            setThirdLevelElements(newThirdLevelElements)
+              .filter((element: any) => element)
+            updateState({ firstLevel: newThirdLevelElements })
             return null
           } else {
             return {
@@ -165,14 +185,13 @@ const FilterAction: FC = () => {
           }
         } else return secondLevelElement
       })
-      .filter((element) => element)
-    setFirstLevelElements(newFirstLevelElements)
-    setSecondLevelElements(newSecondLevelElements)
+      .filter((element: any) => element)
+    updateState({ firstLevel: newFirstLevelElements, secondLevel: newSecondLevelElements })
   }
 
   const updateElement = (id: string, level: string, update: { [key: string]: string }) => {
     if (level === 'first') {
-      const updatedFirst = firstLevelElements.map((element) => {
+      const updatedFirst = firstLevel.map((element: any) => {
         if (element.id === id) {
           console.log('!s', update)
           return {
@@ -181,9 +200,9 @@ const FilterAction: FC = () => {
           }
         } else return element
       })
-      setFirstLevelElements(updatedFirst)
+      updateState({ firstLevel: updatedFirst })
     } else if (level === 'second') {
-      const updatedSecond = secondLevelElements.map((element) => {
+      const updatedSecond = secondLevel.map((element: any) => {
         if (element.id === id) {
           return {
             ...element,
@@ -191,9 +210,9 @@ const FilterAction: FC = () => {
           }
         } else return element
       })
-      setSecondLevelElements(updatedSecond)
+      updateState({ firstLevel: updatedSecond })
     } else if (level === 'third') {
-      const updatedThird = thirdLevelElements.map((element) => {
+      const updatedThird = thirdLevel.map((element: any) => {
         if (element.id === id) {
           return {
             ...element,
@@ -201,29 +220,9 @@ const FilterAction: FC = () => {
           }
         } else return element
       })
-      setThirdLevelElements(updatedThird)
+      updateState({ firstLevel: updatedThird })
     }
   }
-
-  const createLevelHandler =
-    (elements: any, setter: any) => (id: string, update: { [key: string]: string }) => {
-      const updatedFirst = elements.map((element: any) => {
-        if (element.id === id) {
-          console.log('!s', update)
-          return {
-            ...element,
-            ...update,
-          }
-        } else return element
-      })
-      setter(updatedFirst)
-    }
-
-  const [updateFirstLevel, updateSecondLevel, updateThirdLevel] = [
-    createLevelHandler(firstLevelElements, setFirstLevelElements),
-    createLevelHandler(secondLevelElements, secondLevelElements),
-    createLevelHandler(thirdLevelElements, setThirdLevelElements),
-  ]
 
   return (
     <div className={styles.wrapper}>
@@ -231,22 +230,23 @@ const FilterAction: FC = () => {
         <div className={styles.verticalLine} />
         <ScrollArea>
           <div className={styles.filterContainer}>
-            {thirdLevelElements.map((thirdLevelElement, thirdLevelIndex) => {
-              return (
-                <ThirdLevel
-                  index={thirdLevelIndex}
-                  key={thirdLevelIndex}
-                  thirdLevel={thirdLevelElement}
-                  secondLevelElements={secondLevelElements}
-                  firstLevelElements={firstLevelElements}
-                  handleCreateFirstLevel={handleCreateFirstLevel}
-                  handleCreateSecondLevel={handleCreateSecondLevel}
-                  handleDeleteFirstLevelRow={handleDeleteFirstLevelRow}
-                  updateElement={updateElement}
-                  headers={attributes}
-                />
-              )
-            })}
+            {thirdLevel &&
+              thirdLevel.map((thirdLevelElement: any, thirdLevelIndex: any) => {
+                return (
+                  <ThirdLevel
+                    index={thirdLevelIndex}
+                    key={thirdLevelIndex}
+                    thirdLevel={thirdLevelElement}
+                    secondLevelElements={secondLevel}
+                    firstLevelElements={firstLevel}
+                    handleCreateFirstLevel={handleCreateFirstLevel}
+                    handleCreateSecondLevel={handleCreateSecondLevel}
+                    handleDeleteFirstLevelRow={handleDeleteFirstLevelRow}
+                    updateElement={updateElement}
+                    headers={attributes}
+                  />
+                )
+              })}
           </div>
         </ScrollArea>
       </div>
