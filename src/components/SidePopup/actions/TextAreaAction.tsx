@@ -1,34 +1,30 @@
-import { FC, ChangeEvent } from 'react'
+import { FC, ChangeEvent, useEffect } from 'react'
 
 import usePopupContext from 'context/SidePopupContext'
 import TextArea from 'components/parts/TextArea/TextArea'
 import styles from '../SidePopup.module.scss'
+import { useSidePopup } from 'store/sidePopupStore/useSidePopup'
+import { IAction } from 'types/sidePopup'
 
-interface ITextAreaAction {
-  subtitle: string
-  label?: string
-}
+const TextAreaAction: FC<IAction> = ({ settingName, applySettings }) => {
+  const { step, tempSettings, setTempSettings, savedSettings } = usePopupContext()
+  const { updateTempSettings } = useSidePopup()
+  const actionName = step.name
+  const subtitle = step.subtitle
+  const label = step.label
 
-const TextAreaAction: FC<ITextAreaAction> = ({ subtitle, label = 'Текст' }) => {
-  const { action, currentState, setState } = usePopupContext()
-  const actionName = action.name
-  const text = currentState[actionName]?.text || ''
+  const text = tempSettings?.[actionName]?.[settingName]
+    ? tempSettings[actionName][settingName]
+    : ''
 
   const handleChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
     const { value } = event.target
-    const newState = {
-      ...currentState,
-      [actionName]: {
-        ...currentState[actionName],
-        text: value,
-      },
-    }
-    setState(newState)
+    applySettings(value, tempSettings, updateTempSettings)
   }
 
   return (
     <div>
-      <div className={styles.popupSubtitle}>{subtitle}</div>
+      <div className={styles.popupSubtitle}>{label}</div>
       <TextArea
         label={label}
         name={actionName}

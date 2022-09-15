@@ -24,6 +24,7 @@ interface ITable {
   checkMenuConfig?: ICheckMenuConfig[]
   addBtnEnabled?: boolean
   handleAddBtn?: () => void
+  leftRightScrollEnabled?: boolean
 }
 
 const stepWidth = 2
@@ -36,7 +37,8 @@ const ScrollTable: FC<ITable> = ({
   children,
   headers,
   handleScrollLimit,
-  checkBoxesEnabled,
+  checkBoxesEnabled = false,
+  leftRightScrollEnabled = false,
   checkMenuConfig,
   addBtnEnabled,
   handleAddBtn,
@@ -102,7 +104,7 @@ const ScrollTable: FC<ITable> = ({
           {children}
         </Table>
       </ScrollArea>
-      {!tableIsFit && (
+      {!tableIsFit && leftRightScrollEnabled && (
         <>
           <button
             className={cx(styles.hoverZone, styles.hoverZoneLeft)}

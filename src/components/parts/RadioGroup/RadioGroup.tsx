@@ -45,18 +45,15 @@ const RadioInput: FC<IRadioInput> = ({ name, label, id, isChecked, handleChange,
 }
 
 const RadioGroup: FC<IRadioGroup> = ({ options, modificator, value, handleChange }) => {
-  const [selectedInput, setSelectedInput] = useState<string>(value || '')
-
   const handleGroupChange = (inputValue: string) => {
     handleChange?.(inputValue)
-    setSelectedInput(inputValue)
   }
 
   return (
     <div className={styles.wrapper}>
       {options.map((option, index) => {
         const { name, label } = option
-        const isChecked = selectedInput === name
+        const isChecked = value === name
         return (
           <RadioInput
             name="option"

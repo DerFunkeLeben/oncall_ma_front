@@ -1,11 +1,10 @@
-import { FC, useEffect, useState } from 'react'
+import { FC, useEffect, useState, Dispatch } from 'react'
 import { createPortal } from 'react-dom'
 import cx from 'classnames'
 
 import { PopupContext } from 'context/SidePopupContext'
 
 import Button from 'components/parts/Button/Button'
-import ScrollArea from 'containers/ScrollArea/ScrollArea'
 
 import styles from './SidePopup.module.scss'
 import buttonThemes from 'components/parts/Button/ButtonThemes.module.scss'
@@ -14,6 +13,8 @@ import SidePopupContent from './SidePopupContent'
 import { IconPlus } from 'assets/icons'
 
 import { IStep, IStatePopup } from 'types/sidePopup'
+import { useSidePopup } from 'store/sidePopupStore/useSidePopup'
+import SidePopupFooter from './SidePopupFooter'
 
 interface ISidePopup {
   isOpen: boolean
@@ -21,64 +22,77 @@ interface ISidePopup {
   config: IStep
   handleSave: any
   title: string
-  settings?: { [key: string]: any }
+  savedSettings?: any
+  type?: any
 }
 
-const SidePopup: FC<ISidePopup> = ({ isOpen, close, config, handleSave, title, settings }) => {
-  const [currentState, setState] = useState<IStatePopup>({})
+const SidePopup: FC<ISidePopup> = ({ isOpen, close, config, handleSave, title, savedSettings }) => {
+  const {
+    incrementStep,
+    decrementStep,
+    resetStep,
+    stepNumber,
+    tempSettings,
+    setTempSettings,
+    resetTempSettings,
+    updateTempSettings,
+  } = useSidePopup()
 
-  const createConfig = (step: IStep, acc: any[] = []): any => {
-    const { name, getNextStep } = step
+  const createConfig = (stepConfig: IStep, acc: any[] = []): any => {
+    if (!tempSettings) return
+    const { name, getNextStep } = stepConfig
 
-    acc = [...acc, { ...step, value: currentState[name] }]
+    acc = [...acc, { ...stepConfig }]
 
     if (getNextStep) {
-      const nextStep = getNextStep(currentState)
-      const children = createConfig(nextStep, acc)
-      return [...children]
+      const nextStep = getNextStep(tempSettings, updateTempSettings)
+      if (nextStep) {
+        const children = createConfig(nextStep, acc)
+        return [...children]
+      }
     }
 
     return acc
   }
 
+  // const [configArray, setConfigArray] = useState([])
+  // setConfigArray(createConfig(config))
   const configArray = createConfig(config)
 
-  const [currentStep, setCurrentStep] = useState(1)
+  useEffect(() => {
+    setTempSettings(savedSettings)
 
-  const action = configArray[currentStep - 1]
+    // setConfigArray(createConfig(config))
+  }, [isOpen])
+
+  const step = configArray[stepNumber - 1]
 
   const countOfSteps = configArray.length
-  const itsLastStep = currentStep === countOfSteps
-  const itsFirstStep = currentStep === 1
-  const itsOnlyStep = countOfSteps === 1
 
   const closePopup = () => {
-    setState({})
-    setCurrentStep(1)
+    resetTempSettings()
+    resetStep()
     close()
   }
 
   const goToNextStep = () => {
     console.log('validate!')
-    setCurrentStep(currentStep + 1)
+    incrementStep()
   }
 
   const goToPrevStep = () => {
-    setCurrentStep(currentStep - 1)
+    decrementStep()
   }
 
   const save = () => {
     console.log('save')
-    handleSave(currentState)
-    setCurrentStep(1)
+    handleSave(tempSettings)
+    resetStep()
     closePopup()
   }
 
-  useEffect(() => {
-    console.log(currentState)
-  }, [currentState])
-
   if (!isOpen) return null
+
   return createPortal(
     <div className={styles.popupWrapper}>
       <div className={styles.popupBackground} onClick={closePopup} />
@@ -92,37 +106,19 @@ const SidePopup: FC<ISidePopup> = ({ isOpen, close, config, handleSave, title, s
           </div>
         </div>
         <div className={styles.popupContent}>
-          {/* <ScrollArea>
-            <div className={styles.popupContentInnerWrapper}> */}
-          <PopupContext.Provider value={{ action, currentState, setState, settings }}>
+          <PopupContext.Provider value={{ step, tempSettings, setTempSettings, savedSettings }}>
             <SidePopupContent />
           </PopupContext.Provider>
-          {/* </div>
-          </ScrollArea> */}
         </div>
-        <div className={styles.footer}>
-          <div className={styles.footerStepCounter}>
-            {!itsOnlyStep && (
-              <div className="text_1">{`Шаг ${currentStep} из ${countOfSteps}`}</div>
-            )}
-          </div>
-          <div className={styles.footerButtons}>
-            {itsFirstStep ? (
-              <Button onClick={closePopup} modificator={buttonThemes.theme_secondary}>
-                Отменить
-              </Button>
-            ) : (
-              <Button onClick={goToPrevStep} modificator={buttonThemes.theme_secondary}>
-                Назад
-              </Button>
-            )}
-            {itsLastStep ? (
-              <Button onClick={save}>Сохранить</Button>
-            ) : (
-              <Button onClick={goToNextStep}>Далее</Button>
-            )}
-          </div>
-        </div>
+        <SidePopupFooter
+          stepNumber={stepNumber}
+          countOfSteps={countOfSteps}
+          closePopup={closePopup}
+          goToPrevStep={goToPrevStep}
+          save={save}
+          goToNextStep={goToNextStep}
+          counterEnabled={true}
+        />
       </div>
     </div>,
     document.body

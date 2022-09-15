@@ -27,9 +27,8 @@ const initData = {
 
 const title = 'Фильтры'
 
-const configTest: ISidePopupStep = {
+const configTest: any = {
   name: 'filter',
-  type: 'filter',
   attributes: [
     'Фамилия',
     'Имя',

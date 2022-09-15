@@ -33,10 +33,15 @@ const initData = {
   },
 }
 
-const configFilter: ISidePopupStep = {
+const configFilter: any = {
   name: 'filter',
-  type: 'filter',
-  attributes: Object.keys(DoctorKeys),
+  actions: [
+    {
+      type: 'filter',
+      settingName: 'filter',
+      attributes: Object.keys(DoctorKeys),
+    },
+  ],
 }
 
 const OneAudience: FC<IPageData> = () => {
@@ -111,7 +116,6 @@ const OneAudience: FC<IPageData> = () => {
         config={configFilter}
         handleSave={handleFiltersSave}
         title={'Фильтры'}
-        settings={filterStateManager}
       />
     </>
   )
