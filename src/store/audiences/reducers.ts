@@ -1,4 +1,4 @@
-import { AudienceAction } from 'constants/audience'
+import { AudienceAction, INIT_AUDIENCE } from 'constants/audience'
 import { combineReducers } from 'redux'
 import { IReducer, MainReducerKeys } from 'store/data-types'
 
@@ -11,7 +11,7 @@ import { IStoreAudiences, StoreKeys } from './_data-types'
 const initialAudienceState: IStoreAudiences = {
   allAudiences: {},
   currentAudience: {
-    audience: undefined,
+    audience: INIT_AUDIENCE,
     action: AudienceAction.CREATE_CRM,
   },
 }
@@ -50,6 +50,18 @@ const audienceReducer = (
       return {
         ...state,
         [StoreKeys.currentAudience]: payload,
+      }
+
+    case ActionType.UPDATE_AUDIENCE_INFO:
+      return {
+        ...state,
+        [StoreKeys.currentAudience]: {
+          ...state.currentAudience,
+          audience: {
+            ...state.currentAudience.audience,
+            ...payload,
+          },
+        },
       }
 
     default:

@@ -5,7 +5,7 @@ import { StoreKeys, IStoreAudiences } from './_data-types'
 const getAudiences = (state: IState): IStoreAudiences[StoreKeys.allAudiences] =>
   state.audiences.data[StoreKeys.allAudiences]
 
-const getCurrentAudiences = (state: IState): IStoreAudiences[StoreKeys.currentAudience] =>
+const getCurrentAudience = (state: IState): IStoreAudiences[StoreKeys.currentAudience] =>
   state.audiences.data[StoreKeys.currentAudience]
 
 const getAllAudiences = createSelector(getAudiences, (aud) => Object.values(aud).flat())
@@ -18,4 +18,4 @@ const getTitleMatch = createSelector(getAllAudiences, getTitle, (audiences, titl
 const getId = (_: any, id: string) => id
 const getAudiencesById = createSelector(getAudiences, getId, (audiences, id) => audiences[id])
 
-export { getAudiences, getCurrentAudiences, getAllAudiences, getTitleMatch, getAudiencesById }
+export { getAudiences, getCurrentAudience, getAllAudiences, getTitleMatch, getAudiencesById }

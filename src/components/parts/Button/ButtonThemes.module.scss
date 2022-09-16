@@ -78,6 +78,7 @@
   background: transparent;
   border-radius: 0;
   color: var(--blue_8);
+  white-space: nowrap;
   &:hover {
     border-bottom: 2px dotted var(--black);
     background-color: transparent;
@@ -94,6 +95,7 @@
   background: transparent;
   border-radius: 0;
   color: var(--blue_6);
+  white-space: nowrap;
   &:hover {
     border-bottom: 2px dotted var(--blue_7);
     background-color: transparent;

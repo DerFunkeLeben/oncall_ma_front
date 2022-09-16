@@ -7,6 +7,10 @@ const ActionCreator = {
     type: ActionType.SET_CURRENT_AUDIENCE,
     payload: aud,
   }),
+  updateAudienceInfo: (aud: IAudienceMetaData) => ({
+    type: ActionType.UPDATE_AUDIENCE_INFO,
+    payload: aud,
+  }),
   initAllAudiences: (aud: IAudienceMetaData[]) => ({
     type: ActionType.INIT_ALL_AUDIENCES,
     payload: aud,

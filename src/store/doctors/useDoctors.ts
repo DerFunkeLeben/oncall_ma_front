@@ -1,7 +1,7 @@
 import { AUDIENCE_URL_ONE, DOCTORS_URL } from 'constants/url'
 import { useCallback } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { IDoctorEditInfo } from 'types/audience'
+import { IDoctor, IDoctorEditInfo } from 'types/audience'
 import { getAxiosArr } from 'utils/axios'
 import ActionCreator from './actions'
 
@@ -14,15 +14,9 @@ const useDoctors = () => {
 
   const dispatch = useDispatch()
 
-  const fetchAllDoctors = useCallback(async () => {
-    const doctors = await getAxiosArr(DOCTORS_URL)
-    dispatch(ActionCreator.fetchAllDoctors(doctors))
-  }, [dispatch])
-
-  const fetchAudienceDoctors = useCallback(
-    async (audienceId: string) => {
-      const doctors = await getAxiosArr(`${AUDIENCE_URL_ONE}/${audienceId}`)
-      dispatch(ActionCreator.fetchAllDoctors(doctors))
+  const addManyDoctors = useCallback(
+    async (doctors: IDoctor[] | undefined) => {
+      dispatch(ActionCreator.addManyDoctors(doctors))
     },
     [dispatch]
   )
@@ -73,8 +67,7 @@ const useDoctors = () => {
     deleteDoctor,
     deleteMultipleDoctors,
     copyMultipleDoctors,
-    fetchAllDoctors,
-    fetchAudienceDoctors,
+    addManyDoctors,
   }
 }
 

@@ -46,6 +46,7 @@ export interface IAction {
   label?: string
   applySettings: (newState: any, tempSettings: any, updateTempSettings: any) => any
   url?: string
+  attributes?: string[]
 }
 
 export interface IStep {

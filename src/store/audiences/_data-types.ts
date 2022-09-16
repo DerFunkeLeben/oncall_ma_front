@@ -10,7 +10,7 @@ export enum StoreKeys {
 export interface IStoreAudiences {
   [StoreKeys.allAudiences]: { [key: string]: IAudienceMetaData }
   [StoreKeys.currentAudience]: {
-    audience: IAudienceMetaData | undefined
+    audience: IAudienceMetaData
     action: AudienceAction
   }
 }

@@ -2,7 +2,7 @@ import { IDoctor, IDoctorEditInfo } from 'types/audience'
 import ActionType from './action-type'
 
 const ActionCreator = {
-  fetchAllDoctors: (doctors: IDoctor[]) => ({
+  addManyDoctors: (doctors: IDoctor[] | undefined) => ({
     type: ActionType.ADD_MANY_DOCTORS,
     payload: doctors,
   }),
