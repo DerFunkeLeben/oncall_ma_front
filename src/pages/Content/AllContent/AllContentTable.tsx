@@ -8,7 +8,6 @@ import useAllContent from 'store/content/useAllContent'
 import useAlertContext from 'context/AlertContext'
 import useMessageBoxContext from 'context/MessageBoxContext'
 
-import { CONTENT_URL_HTML, CONTENT_URL_SMS, CONTENT_URL_FILE } from 'constants/url'
 import { SURE_WANT_DELETE_MANY } from 'constants/helpMessages'
 import { AlertBoxIcons } from 'constants/dictionary'
 import { ddmmyyyy } from 'utils/transformDate'
@@ -17,6 +16,7 @@ import { CheckMenuAction } from 'types'
 import { IconCheck } from 'assets/icons'
 import tableStyles from 'components/Table/TableBase.module.scss'
 import { MainReducerKeys } from 'store/data-types'
+import { PagesData } from 'constants/url'
 
 const header = ['', 'Название', 'Тип', 'Дата создания', 'Дата изменения']
 
@@ -47,9 +47,9 @@ const AllContentTable: FC<{ allContent: IContent[] }> = ({ allContent }) => {
     const { id, type } = e.currentTarget.dataset
 
     let url
-    if (type === ContentTypes.HTML) url = CONTENT_URL_HTML
-    else if (type === ContentTypes.SMS) url = CONTENT_URL_SMS
-    else url = CONTENT_URL_FILE
+    if (type === ContentTypes.HTML) url = PagesData.CONTENT_HTML.link
+    else if (type === ContentTypes.SMS) url = PagesData.CONTENT_SMS.link
+    // else url = PagesData.CONTENT_FILE.link
 
     history.push(`${url}/${id}`)
   }

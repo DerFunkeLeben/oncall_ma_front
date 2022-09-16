@@ -2,6 +2,8 @@ enum ValidationError {
   // Login
   WRONG_PASSWORD = 'Неверный пароль. Повторите попытку или нажмите на ссылку "Забыли пароль?", чтобы сбросить его.',
   USER_DOESNT_EXISTS = 'Пользователь с таким адресом не зарегистрирован',
+  // Audiences
+  AUDIENCE_ALREADY_EXISTS = `Аудитория с таким именем уже <br> существует`,
   // Content
   FILE_ALREADY_EXISTS = `Файл с таким именем уже <br> существует`,
   // common

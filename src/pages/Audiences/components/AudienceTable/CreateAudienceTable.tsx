@@ -1,21 +1,26 @@
+import { useEffect } from 'react'
 import cx from 'classnames'
 
 import ScrollTable from 'components/Table/ScrollTable'
+import ContextMenu from '../ContextMenu/ContextMenu'
+import TableOneInput from './TableOneInput'
+import EmptyTable from './EmptyTable'
+
 import useTable from 'components/Table/useTable'
+import useDoctors from 'store/doctors/useDoctors'
 import useMessageBoxContext from 'context/MessageBoxContext'
 import useAlertContext from 'context/AlertContext'
 import { AlertBoxIcons } from 'constants/dictionary'
 import { SURE_WANT_DELETE_MANY } from 'constants/helpMessages'
+import { IDoctor } from 'types/audience'
 import { CheckMenuAction } from 'types'
 
 import { IconCheck } from 'assets/icons'
 import tableStyles from 'components/Table/TableBase.module.scss'
-import { IDoctor } from 'types/audience'
-import useDoctors from 'store/doctors/useDoctors'
 
-const header = [
+export const header = [
   '',
-  // '%%settings%%',
+  '%%settings%%',
   'ID',
   'Фамилия',
   'Имя',
@@ -23,19 +28,38 @@ const header = [
   'Email',
   'Телефон',
   'Город',
-  // 'Специальность',
+  'Специальность',
   // 'Сегмент',
 ]
 
-export const OneAudienceTable = ({ allDoctors }: { allDoctors: IDoctor[] }) => {
-  const { doctorsIds, doctorsCount } = useDoctors()
-  const { toggleCheck, isItChecked, checkedCount, checkedAll, toggleAllChecks, clearChecks } =
-    useTable(doctorsIds)
+export const CreateAudienceTable = () => {
+  const {
+    allDoctors,
+    addDoctor,
+    doctorsCount,
+    doctorsIds,
+    editDoctor,
+    deleteDoctor,
+    deleteMultipleDoctors,
+    copyMultipleDoctors,
+    clearDoctors,
+  } = useDoctors()
+
+  const {
+    checkedList,
+    toggleCheck,
+    isItChecked,
+    checkedCount,
+    checkedAll,
+    toggleAllChecks,
+    clearChecks,
+  } = useTable(doctorsIds)
+
   const { setMessageBox } = useMessageBoxContext()
   const { setAlertBox } = useAlertContext()
 
-  const confirmDelete = () => {
-    console.log('DO DELETE') // TODO
+  const confirmDeleteMultiple = () => {
+    deleteMultipleDoctors(checkedList)
     clearChecks()
     setAlertBox({
       isOpen: true,
@@ -44,33 +68,50 @@ export const OneAudienceTable = ({ allDoctors }: { allDoctors: IDoctor[] }) => {
     })
   }
 
-  const deleteAudience = () => {
+  const handleDeleteMultiple = () => {
     setMessageBox({
       isOpen: true,
-      handleConfirm: confirmDelete,
+      handleConfirm: confirmDeleteMultiple,
       title: SURE_WANT_DELETE_MANY(checkedCount),
       buttons: ['Отмена', 'Удалить'],
     })
   }
 
-  const handleRemove = () => {
-    console.log('DO DELETE') // TODO
+  const handleCopyMultiple = () => {
+    copyMultipleDoctors(checkedList)
+    clearChecks()
+    setAlertBox({
+      isOpen: true,
+      message: `Скопировано элементов: ${checkedCount}`,
+      icon: AlertBoxIcons.SUCCESS,
+    })
   }
 
-  const handleEdit = () => {
+  const handleDeleteOne = (id: string) => {
+    deleteDoctor(id)
+    clearChecks()
+  }
+
+  const handleEdit = (id: string) => {
     console.log('DO EDIT') // TODO
   }
 
   const checkMenuConfig = [
     {
       option: CheckMenuAction.COPY,
-      handleClick: () => console.log('HANDLE COPY'),
+      handleClick: handleCopyMultiple,
     },
     {
       option: CheckMenuAction.DELETE,
-      handleClick: deleteAudience,
+      handleClick: handleDeleteMultiple,
     },
   ]
+
+  useEffect(() => {
+    return clearDoctors
+  }, [])
+
+  if (!doctorsCount) return <EmptyTable handleAddBtn={addDoctor} />
 
   return (
     <ScrollTable
@@ -82,6 +123,8 @@ export const OneAudienceTable = ({ allDoctors }: { allDoctors: IDoctor[] }) => {
         checkMenuConfig,
         totalCountOfData: doctorsCount,
         toggleAllChecks,
+        addBtnEnabled: true,
+        handleAddBtn: addDoctor,
       }}
     >
       {allDoctors.map((dataRow, index) => {
@@ -102,8 +145,16 @@ export const OneAudienceTable = ({ allDoctors }: { allDoctors: IDoctor[] }) => {
         } = dataRow
 
         // TODO срочно исправить
-        const fieldsKeys = ['firstName', 'lastName', 'middleName', 'email', 'phone', 'city']
-        const fields = [firstName, lastName, middleName, email, phone, city]
+        const fieldsKeys = [
+          'firstName',
+          'lastName',
+          'middleName',
+          'email',
+          'phone',
+          'city',
+          'specialty',
+        ]
+        const fields = [firstName, lastName, middleName, email, phone, city, specialty]
 
         const checked = isItChecked(id)
         return (
@@ -121,12 +172,23 @@ export const OneAudienceTable = ({ allDoctors }: { allDoctors: IDoctor[] }) => {
                 {checked && <IconCheck />}
               </div>
             </div>
+            <div className={cx(tableStyles.cell, tableStyles.dotsCell)}>
+              <ContextMenu
+                handleRemove={() => handleDeleteOne(id)}
+                handleEdit={() => handleEdit(id)}
+              />
+            </div>
             <div className={cx(tableStyles.cell)}>{id}</div>
             {fields.map((field, i) => {
+              const fieldName = fieldsKeys[i] as keyof IDoctor
               return (
-                <div className={cx(tableStyles.cell)} key={i}>
-                  {field}
-                </div>
+                <TableOneInput
+                  key={i}
+                  id={id}
+                  value={field}
+                  name={fieldName}
+                  editDoctor={editDoctor}
+                />
               )
             })}
           </div>

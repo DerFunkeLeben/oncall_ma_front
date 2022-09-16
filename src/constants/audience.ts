@@ -1,4 +1,5 @@
 import { IAudienceMetaData } from 'types/audience'
+import { Conditions } from './sidePopup'
 
 enum DoctorKeys {
   specialty = 'specialty',

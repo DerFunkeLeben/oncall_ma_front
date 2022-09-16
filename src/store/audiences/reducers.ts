@@ -15,13 +15,13 @@ const initialAudienceState: IStoreAudiences = {
     action: AudienceAction.CREATE_CRM,
   },
 }
-
+const mainFolder = 'Все аудитории'
 const initialFolderState: IStoreFolder = {
-  activeFolderName: 'Все аудитории',
-  mainFolderName: 'Все аудитории',
+  activeFolderName: mainFolder,
+  mainFolderName: mainFolder,
   allFolders: {
-    'Все аудитории': {
-      name: 'Все аудитории',
+    [mainFolder]: {
+      name: mainFolder,
       count: 0,
       isMainFolder: true,
     },

@@ -1,31 +1,38 @@
 import { ChangeEvent, FC, useEffect, useState } from 'react'
+import { useHistory, useLocation, useParams } from 'react-router-dom'
 import cx from 'classnames'
 
 import SidePopup from 'components/SidePopup/SidePopup'
 import AudienceHead from '../components/AudienceHead/AudienceHead'
-import { OneAudienceTable } from './OneAudienceTable'
+import { OneAudienceTable } from '../components/AudienceTable/OneAudienceTable'
+import { CreateAudienceTable } from '../components/AudienceTable/CreateAudienceTable'
 
 import useToggle from 'hooks/useToggle'
 import useDoctors from 'store/doctors/useDoctors'
-
+import useCurrentAudience from 'store/audiences/useCurrentAudience'
+import { useMessageBox } from 'hooks/useMessageBox'
+import { useAudienceFolders } from 'store/folders/useAllFolders'
+import {
+  AUDIENCE_URL_CREATE,
+  AUDIENCE_URL_ONE,
+  AUDIENCE_URL_VALID_NAME,
+  DOCTORS_URL,
+  DOCTORS_URL_ADD,
+  PagesData,
+} from 'constants/url'
 import { AudienceAction, DoctorKeys, INIT_AUDIENCE } from 'constants/audience'
-import { AUDIENCE_URL_CREATE, AUDIENCE_URL_ONE, DOCTORS_URL, PagesData } from 'constants/url'
+import { SidePopupActions } from 'constants/sidePopup'
+import { IFilterState } from 'components/SidePopup/actions/FilterAction/types'
 import { IPageData } from 'types'
 import { IStep } from 'types/sidePopup'
-import { IAudienceMetaData } from 'types/audience'
-
-import styles from './OneAudience.module.scss'
-import useCurrentAudience from 'store/audiences/useCurrentAudience'
-import { SidePopupActions } from 'constants/sidePopup'
-
 import { getAxiosArr, getAxiosSingle, postAxiosSingle } from 'utils/axios'
-import { useAudienceFolders } from 'store/folders/useAllFolders'
 import {
   parseStateToQuery,
   parseQueryToState,
 } from '../../../components/SidePopup/actions/FilterAction/utils'
-import { IFilterState } from 'components/SidePopup/actions/FilterAction/types'
-import { useHistory, useLocation, useParams } from 'react-router-dom'
+
+import styles from './OneAudience.module.scss'
+import ValidationError from 'constants/ValidationError'
 
 const configFilter: IStep = {
   name: 'filter',
@@ -51,9 +58,13 @@ const OneAudience: FC<IPageData> = () => {
   const { currentAudience, setCurrentAudience, updateAudienceInfo } = useCurrentAudience()
   const { allDoctors, clearDoctors, addManyDoctors } = useDoctors()
   const { activeFolderName } = useAudienceFolders()
+  const { setMessageBox } = useMessageBox()
 
   const [filterisOpen, toggleFilterPopup] = useToggle()
   const [filterState, setFilterState] = useState({})
+
+  const isCrm = location.pathname === PagesData.CREATE_AUDIENCE_CRM.link
+  const isNew = location.pathname === PagesData.CREATE_AUDIENCE.link
 
   const handleTitleChange = (event: ChangeEvent<HTMLInputElement>) => {
     updateAudienceInfo({
@@ -70,20 +81,37 @@ const OneAudience: FC<IPageData> = () => {
   }
 
   const handleSave = async () => {
+    const promiseArr = []
+
     const audienceCreateDto = {
       query: currentAudience.audience.query,
       name: currentAudience.audience.name,
       group: activeFolderName,
     }
 
-    const result = await postAxiosSingle(AUDIENCE_URL_CREATE, {}, audienceCreateDto)
-    console.log(result)
+    const isValidName = await getAxiosSingle(AUDIENCE_URL_VALID_NAME)
+    if (!isValidName) {
+      return setMessageBox({
+        isOpen: true,
+        title: ValidationError.AUDIENCE_ALREADY_EXISTS,
+        buttons: ['Ок'],
+      })
+    }
+
+    const audienceCreatePromise = postAxiosSingle(AUDIENCE_URL_CREATE, {}, audienceCreateDto)
+    promiseArr.push(audienceCreatePromise)
+
+    if (isNew) {
+      const docsAddPromise = postAxiosSingle(DOCTORS_URL_ADD, {}, allDoctors)
+      promiseArr.push(docsAddPromise)
+    }
+
+    await Promise.all(promiseArr)
   }
 
   useEffect(() => {
     const query = currentAudience.audience.query
     const state = parseQueryToState(query)
-
     setFilterState(state)
   }, [filterisOpen])
 
@@ -118,10 +146,8 @@ const OneAudience: FC<IPageData> = () => {
       )
     }
 
-    const isCrm = location.pathname === PagesData.CREATE_AUDIENCE_CRM.link
-    // const isNew = location.pathname === PagesData.CREATE_AUDIENCE.link
-
-    if (isCrm) getAllDoctors()
+    if (isNew) setCurrentAudience(INIT_AUDIENCE, AudienceAction.CREATE_NEW)
+    else if (isCrm) getAllDoctors()
     else getAudienceDoctors()
 
     return clearDoctors
@@ -136,7 +162,7 @@ const OneAudience: FC<IPageData> = () => {
           handleChange={handleTitleChange}
           handleSave={handleSave}
         />
-        <OneAudienceTable allDoctors={allDoctors} />
+        {isNew ? <CreateAudienceTable /> : <OneAudienceTable allDoctors={allDoctors} />}
       </div>
       <SidePopup
         isOpen={filterisOpen}

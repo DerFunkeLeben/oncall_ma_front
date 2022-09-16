@@ -13,9 +13,9 @@ import useParamSelector from 'hooks/useParamSelector'
 import { getTitleMatch } from 'store/content/selectors'
 
 import { IContent } from 'types/content'
+import { PagesData } from 'constants/url'
 import { AlertBoxIcons } from 'constants/dictionary'
 import { ContentAction } from 'constants/content'
-import { CONTENT_URL } from 'constants/url'
 import { SURE_WANT_DELETE_ONE } from 'constants/helpMessages'
 import ValidationError from 'constants/ValidationError'
 
@@ -55,7 +55,7 @@ const ContentHead: FC<IContentHead> = ({ settings, handleChange, openPopUp }) =>
     if (contentAction === CREATE) createContent(settings)
     else if (contentAction === EDIT) saveContent(settings)
 
-    history.push(`${CONTENT_URL}`)
+    history.push(PagesData.ALL_CONTENT.link)
   }
 
   const handleDelete = () => {
@@ -67,7 +67,7 @@ const ContentHead: FC<IContentHead> = ({ settings, handleChange, openPopUp }) =>
       isOpen: true,
     })
 
-    history.push(`${CONTENT_URL}`)
+    history.push(PagesData.ALL_CONTENT.link)
   }
 
   const showMessageBoxDelete = () =>
@@ -87,7 +87,7 @@ const ContentHead: FC<IContentHead> = ({ settings, handleChange, openPopUp }) =>
       title={settings.title}
       handleTitleChange={handleChange}
       buttonBackName="К списку всего контента"
-      buttonBackUrl={CONTENT_URL}
+      buttonBackUrl={PagesData.ALL_CONTENT.link}
       buttonBackMessageBox={contentChanged}
     >
       <Button modificator={buttonStyles.theme_secondary} onClick={openPopUp}>

@@ -10,15 +10,18 @@ export const AUTH_URL_LOGIN = `${AUTH_URL}/local/login`
 export const AUTH_URL_RELOGIN = `${AUTH_URL}/local/me`
 
 const DOCTORS_BASE_URL = '/doctors'
-export const DOCTORS_URL = `${DOCTORS_BASE_URL}?limit=20&offset=0`
+export const DOCTORS_URL = `${DOCTORS_BASE_URL}?limit=30&offset=0` // TODO
 export const DOCTORS_URL_ADD = `${DOCTORS_BASE_URL}/add`
 export const DOCTORS_URL_UPDATE = `${DOCTORS_BASE_URL}/update`
 
-export const AUDIENCE_URL = `${DOCTORS_BASE_URL}/audience`
-export const AUDIENCE_URL_CREATE = `${AUDIENCE_URL}/create`
-export const AUDIENCE_URL_ALL = `${AUDIENCE_URL}/groups`
-export const AUDIENCE_URL_ONE = `${AUDIENCE_URL}/get`
-export const AUDIENCE_URL_ONE_GROUP = `${AUDIENCE_URL}/group`
+const AUDIENCE_BASE_URL = `${DOCTORS_BASE_URL}/audience`
+export const AUDIENCE_URL_CREATE = `${AUDIENCE_BASE_URL}/create`
+export const AUDIENCE_URL_ONE = `${AUDIENCE_BASE_URL}/get` // {id}
+export const AUDIENCE_URL_VALID_NAME = `${AUDIENCE_BASE_URL}/valid/name` // {name}
+export const AUDIENCE_URL_DELETE = `${AUDIENCE_BASE_URL}/delete`
+export const AUDIENCE_URL_ALL = `${AUDIENCE_BASE_URL}/groups`
+export const AUDIENCE_URL_FOLDERS = `${AUDIENCE_BASE_URL}/groups/count`
+export const AUDIENCE_URL_ONE_GROUP = `${AUDIENCE_BASE_URL}/group` // {name}
 
 export const audiencesRoutes = [
   '/audiences',
@@ -27,19 +30,14 @@ export const audiencesRoutes = [
   '/audiences/create_crm',
 ]
 
-export const CONTENT_URL = '/content'
-export const CONTENT_URL_HTML = `${CONTENT_URL}/html`
-export const CONTENT_URL_SMS = `${CONTENT_URL}/sms`
-export const CONTENT_URL_FILE = `${CONTENT_URL}/file`
-
 export const contentRoutes = [
-  CONTENT_URL,
-  CONTENT_URL_HTML,
-  CONTENT_URL_SMS,
-  CONTENT_URL_FILE,
-  `${CONTENT_URL_HTML}/:contentId`,
-  `${CONTENT_URL_SMS}/:contentId`,
-  `${CONTENT_URL_FILE}/:contentId`,
+  '/content',
+  `/content/html`,
+  `/content/sms`,
+  `/content/file`,
+  `/content/html/:contentId`,
+  `/content/sms/:contentId`,
+  `/content/file/:contentId`,
 ]
 
 export const analyticsRoutes = ['/analytics']
@@ -72,22 +70,22 @@ export const PagesData: IPagesData = {
     name: 'Аудитория',
   },
   ALL_CONTENT: {
-    link: CONTENT_URL,
+    link: contentRoutes[0],
     route: contentRoutes,
     name: 'Контент',
   },
   CONTENT_HTML: {
-    link: CONTENT_URL_HTML,
+    link: contentRoutes[1],
     route: contentRoutes,
     name: 'Контент',
   },
   CONTENT_SMS: {
-    link: CONTENT_URL_SMS,
+    link: contentRoutes[2],
     route: contentRoutes,
     name: 'Контент',
   },
   CONTENT_FILE: {
-    link: CONTENT_URL_FILE,
+    link: contentRoutes[3],
     route: contentRoutes,
     name: 'Контент',
   },
