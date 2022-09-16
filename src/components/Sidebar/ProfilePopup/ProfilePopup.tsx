@@ -51,7 +51,7 @@ const ProfilePopup: FC<ISidePopup> = ({ close }) => {
         </div>
 
         <div className={cx(sidePopupStyles.popupContent, styles.popupContent)}>
-          {/* <ProfilePopupContent /> */}
+          <ProfilePopupContent {...{ inputsState, setInputsState }} />
         </div>
 
         {showFooterBtns && (
