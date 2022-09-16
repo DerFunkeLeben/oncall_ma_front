@@ -39,12 +39,20 @@ export interface IStatePopup {
   [key: string]: { [key: string]: string | undefined } | undefined
 }
 
+export interface IAction {
+  settingName: string
+  options?: IOption[]
+  type: string
+  label?: string
+  applySettings: (newState: any, tempSettings: any, updateTempSettings: any) => any
+  url?: string
+}
+
 export interface IStep {
   name: string
-  type: string
-  getNextStep?: (value: IStatePopup) => IStep
+  getNextStep?: (value: IStatePopup, a: any) => IStep | null | undefined
   title?: string
-  options?: IOption[]
+  actions: IAction[]
 }
 
 export interface IOption {

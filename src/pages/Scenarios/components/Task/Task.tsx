@@ -17,17 +17,14 @@ import configs from './configs'
 const { exit } = TasksTypes
 
 const Task: FC<ITaskNode> = ({ properties, id }) => {
-  const { type, color, status, name } = properties
+  const { type, color, status, name, settings } = properties
   const { setTaskIsMoving, addTask, deleteTask, updateSettings } = useScenario()
+  // const [popupTempSettings, setPopupTempSettings] = useState<{ [key: string]: string } | null>(null)
   const [wasMoved, setWasMoved] = useState(false)
   const [popupIsOpen, setPopupIsOpen] = useState(false)
-  const [settings, setSettings] = useState({})
   const config = configs[type]
 
-  useEffect(() => {
-    if (!id) return
-    updateSettings(id, settings)
-  }, [settings])
+  // const currentPopupSettings = popupTempSettings ? popupTempSettings : settings
 
   const position = { x: 0, y: 0 }
 
@@ -76,6 +73,19 @@ const Task: FC<ITaskNode> = ({ properties, id }) => {
     setWasMoved(false)
   }
 
+  const save = (newSettings: any) => {
+    if (!id) return
+    if (!newSettings) return
+    console.log('save', newSettings)
+    // setPopupTempSettings(null)
+    updateSettings(id, newSettings)
+  }
+
+  const closePopup = () => {
+    // setPopupTempSettings(null)
+    setPopupIsOpen(false)
+  }
+
   return (
     <>
       <Draggable
@@ -104,11 +114,12 @@ const Task: FC<ITaskNode> = ({ properties, id }) => {
       {config && (
         <SidePopup
           isOpen={popupIsOpen}
-          close={() => setPopupIsOpen(false)}
+          close={closePopup}
           config={config}
-          handleSave={setSettings}
+          handleSave={save}
           title={config.title ? config.title : config.name}
-          settings={settings}
+          savedSettings={settings}
+          type={type}
         />
       )}
     </>

@@ -1,4 +1,3 @@
-
 .wrapper {
   position: relative;
   margin: 1rem 0;
@@ -8,6 +7,7 @@
   position: absolute;
   display: inline-block;
   opacity: 0;
+  width: 14px;
 
   & + label {
     position: relative;
@@ -28,13 +28,14 @@
       position: absolute;
       top: 0;
       left: 0;
-      height: calc(100% - 2px);
+      width: 14px;
       box-sizing: content-box;
       border: 1px solid var(--blue_11);
       aspect-ratio: 1 / 1;
       border-radius: 50%;
       content: '';
-      transition: 0.3s;
+      transition: 0.1s;
+      box-sizing: border-box;
     }
 
     &:focus,
@@ -46,7 +47,8 @@
   &:focus,
   &:checked {
     & + label::before {
-      box-shadow: inset 0 0 0 1px var(--white), inset 0 0 0 1rem var(--blue_6);
+      // box-shadow: inset 0 0 0 1px var(--white), inset 0 0 0 1rem var(--blue_6);
+      border: 4px solid var(--blue_6);
     }
   }
 }

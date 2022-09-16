@@ -20,7 +20,7 @@ const initialState: IStoreScenario = {
       status: 'default',
       name: 'Выход',
       input: ['1'],
-      output: ['3', '4', '5'],
+      output: ['3', '4'],
     },
     '3': {
       type: TasksTypes.exit,
@@ -31,14 +31,6 @@ const initialState: IStoreScenario = {
       output: [],
     },
     '4': {
-      type: TasksTypes.exit,
-      color: 'green',
-      status: 'default',
-      name: 'Выход',
-      input: ['2'],
-      output: [],
-    },
-    '5': {
       type: TasksTypes.exit,
       color: 'green',
       status: 'default',

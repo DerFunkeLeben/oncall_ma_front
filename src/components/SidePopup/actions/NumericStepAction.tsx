@@ -2,44 +2,26 @@ import { FC, useEffect } from 'react'
 
 import usePopupContext from 'context/SidePopupContext'
 import NumericStep from 'components/parts/NumericStep/NumericStep'
+import { useSidePopup } from 'store/sidePopupStore/useSidePopup'
+import { IAction } from 'types/sidePopup'
 
-interface INumericStepAction {
-  preset?: { [key: string]: any }
-}
+const NumericStepAction: FC<IAction> = ({ settingName, applySettings }) => {
+  const { step, tempSettings } = usePopupContext()
+  const { updateTempSettings } = useSidePopup()
+  const actionName = step.name
+  const { title } = step
 
-const NumericStepAction: FC<INumericStepAction> = ({ preset }) => {
-  const { action, currentState, setState } = usePopupContext()
-
-  const actionName = action.name
-  const { title } = action
-
-  let numValue = 0
-  if (currentState[actionName]?.amount) {
-    numValue = Number(currentState[actionName]?.amount)
-  }
+  const currentValue =
+    tempSettings && tempSettings[actionName] && tempSettings[actionName][settingName]
+      ? tempSettings[actionName][settingName]
+      : 0
 
   const handleChange = (value: number | null) => {
-    const newState = {
-      ...currentState,
-      [actionName]: {
-        ...currentState[actionName],
-        ...preset,
-        amount: (value || 0).toString(),
-      },
-    }
-    console.log('handleChange', currentState, preset, value)
-    setState(newState)
+    applySettings(value, tempSettings, updateTempSettings)
   }
 
-  useEffect(() => {
-    const presetAmount = preset?.amount
-
-    const result = presetAmount || 0
-    handleChange(result)
-  }, [])
-
   return (
-    <NumericStep label={title} name={actionName} value={numValue} handleChange={handleChange} />
+    <NumericStep label={title} name={actionName} value={currentValue} handleChange={handleChange} />
   )
 }
 

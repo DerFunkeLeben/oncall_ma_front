@@ -5,37 +5,40 @@ import usePopupContext from 'context/SidePopupContext'
 
 import DropDown from 'components/parts/DropDown/DropDown'
 import { IOption } from 'types/sidePopup'
+import { useSidePopup } from 'store/sidePopupStore/useSidePopup'
 
 import dropDownStyles from 'components/parts/DropDown/DropDown.module.scss'
 import styles from './styles.module.scss'
 
 interface IDropDownAction {
   label?: string
-  id?: string
   disabledOptions?: string[]
   setDisabledOptions?: Dispatch<SetStateAction<string[]>>
-  preset?: { [key: string]: any }
-  optionName: string
+  settingName: string
+  options: IOption[]
+  applySettings: any
 }
 
 const DropDownAction: FC<IDropDownAction> = ({
   label,
-  id,
   disabledOptions = [],
   setDisabledOptions,
-  preset,
-  optionName,
+  settingName,
+  options,
+  applySettings,
 }) => {
-  const { action, currentState, setState } = usePopupContext()
-  const actionName = action.name
-  const options = action.options as IOption[]
+  const { step, tempSettings, setTempSettings } = usePopupContext()
+  const { updateTempSettings } = useSidePopup()
+  const actionName = step.name
+  // const options = step.options as IOption[]
 
-  const defaultOption = preset ? preset[optionName] : options[0].name
-
-  const [pickedOption, setPickedOption] = useState<string>(id || defaultOption)
+  const currentValue =
+    tempSettings && tempSettings[actionName] && tempSettings[actionName][settingName]
+      ? tempSettings[actionName][settingName]
+      : options[0].name
 
   useEffect(() => {
-    changeSettings(pickedOption)
+    changeSettings(currentValue)
   }, [])
 
   const replaceOption = (prevOption: string, newOption: string): void => {
@@ -55,27 +58,17 @@ const DropDownAction: FC<IDropDownAction> = ({
 
   const handleChange = (event: SyntheticEvent<HTMLButtonElement>) => {
     const selectOption = event.currentTarget.dataset.option
+    console.log(selectOption)
 
-    if (!selectOption || selectOption === pickedOption) return
+    if (!selectOption || selectOption === currentValue) return
 
-    const optionValue = selectOption ? selectOption : pickedOption
+    const optionValue = selectOption ? selectOption : currentValue
 
     changeSettings(optionValue)
   }
 
   const changeSettings = (selectOption: any) => {
-    const newState = {
-      ...currentState,
-      [actionName]: {
-        ...currentState[actionName],
-        ...preset,
-        [optionName]: selectOption,
-      },
-    }
-
-    replaceOption(pickedOption, selectOption)
-    setPickedOption(selectOption)
-    setState(newState)
+    applySettings(selectOption, tempSettings, updateTempSettings)
   }
 
   return (
@@ -84,14 +77,14 @@ const DropDownAction: FC<IDropDownAction> = ({
       <DropDown
         triggerNode={
           <button className={dropDownStyles.triggerButton}>
-            <span>{getOptionLabel(pickedOption)}</span>
+            <span>{getOptionLabel(currentValue)}</span>
           </button>
         }
       >
         <div className={dropDownStyles.container}>
           {options.map((option) => {
             const { name } = option
-            const isDisabled = pickedOption !== name && disabledOptions.find((opt) => opt === name)
+            const isDisabled = currentValue !== name && disabledOptions.find((opt) => opt === name)
 
             return (
               <button

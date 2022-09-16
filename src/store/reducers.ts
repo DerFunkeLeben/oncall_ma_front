@@ -5,6 +5,7 @@ import Audiences from './audiences'
 import Scenario from './scenario'
 import Content from './content'
 import Doctors from './doctors'
+import SidePopupStore from './sidePopupStore'
 
 export const reducer = combineReducers({
   auth: Auth.reducer,
@@ -12,4 +13,5 @@ export const reducer = combineReducers({
   content: Content.reducer,
   audiences: Audiences.reducer,
   doctors: Doctors.reducer,
+  sidePopup: SidePopupStore.reducer,
 })
