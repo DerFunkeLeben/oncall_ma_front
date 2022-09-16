@@ -8,9 +8,12 @@ import { IStoreAuth, StoreKeys } from './_data-types'
 import { IUser } from 'types'
 import { getAxiosSingle } from 'utils/axios'
 import { AUTH_URL_RELOGIN } from 'constants/url'
+import { deleteToken } from 'utils'
+import { useHistory } from 'react-router-dom'
 
 const useAuth = () => {
   const dispatch = useDispatch()
+  const history = useHistory()
 
   const user = useSelector(getUser) as IUser
 
@@ -20,6 +23,12 @@ const useAuth = () => {
     },
     [dispatch]
   )
+
+  const logout = () => {
+    deleteToken()
+    setUser({})
+    history.push('/')
+  }
 
   const resfreshUserOnLoad = useCallback(async () => {
     const result = await getAxiosSingle(AUTH_URL_RELOGIN)
@@ -34,6 +43,7 @@ const useAuth = () => {
   return {
     user,
     setUser,
+    logout,
     resfreshUserOnLoad,
   }
 }

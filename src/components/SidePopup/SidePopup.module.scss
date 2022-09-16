@@ -53,6 +53,7 @@
 }
 .title {
   margin-left: calc(30px - 16px);
+  flex-grow: 1;
   color: var(--blue_8);
 }
 .footer {

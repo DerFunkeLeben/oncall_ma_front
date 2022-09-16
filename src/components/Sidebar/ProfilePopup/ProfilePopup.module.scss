@@ -1,0 +1,53 @@
+.popupContentainer {
+  width: 33%;
+}
+
+.popupContent {
+  width: unset;
+}
+
+.popupFooter {
+  justify-content: flex-end;
+}
+
+.scrollWrapper {
+  padding: 0 10px;
+}
+
+.input {
+  width: calc(100% - 16px - 20px);
+  max-width: 90%;
+  padding: 10px 15px;
+}
+
+.inputWrapper {
+  margin-bottom: 15px;
+  svg {
+    margin: 1px 10px 0;
+    cursor: pointer;
+    path {
+      fill: var(--error_2);
+      pointer-events: none;
+      transition: 0.2s;
+    }
+
+    &:hover{
+      path {
+        fill: var(--error_3)
+      }
+    }
+  }
+}
+
+.logoutBtn {
+  color: var(--error_2);
+
+  svg {
+    margin-right: 10px;
+  }
+}
+
+
+.header {
+  border-bottom: 1px solid var(--blue_3);
+}

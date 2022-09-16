@@ -10,4 +10,5 @@ const getCookie = (name: string) =>
   document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)')?.pop() || ''
 
 export const getToken = () => getCookie('TK')
+export const deleteToken = () => (document.cookie = `TK=; Max-Age=0`)
 export const setToken = (token: string) => (document.cookie = `TK=${token}`)
