@@ -1,4 +1,4 @@
-import { ChangeEvent, FC, memo, useEffect, useState } from 'react'
+import { ChangeEvent, FC, memo, useState } from 'react'
 
 import PageHead from 'components/PageHead/PageHead'
 import Button from 'components/parts/Button/Button'
@@ -10,7 +10,6 @@ import { IAudienceMetaData } from 'types/audience'
 import buttonStyles from 'components/parts/Button/ButtonThemes.module.scss'
 import { PagesData } from 'constants/url'
 import useDidUpdateEffect from 'hooks/useDidUpdateEffect'
-import { useHistory } from 'react-router-dom'
 
 interface IAudienceHead {
   audienceInfo: IAudienceMetaData
@@ -26,12 +25,6 @@ const AudienceHead: FC<IAudienceHead> = ({
   handleSave,
 }) => {
   const [contentChanged, setContentChanged] = useState(false)
-  const history = useHistory()
-
-  const save = () => {
-    handleSave()
-    history.push(PagesData.AUDIENCES.link)
-  }
 
   useDidUpdateEffect(() => {
     setContentChanged(true)
@@ -65,7 +58,7 @@ const AudienceHead: FC<IAudienceHead> = ({
         <IconExport />
         <span>Экспорт</span>
       </Button>
-      <Button onClick={save}>
+      <Button onClick={handleSave}>
         <span>Сохранить</span>
       </Button>
     </PageHead>

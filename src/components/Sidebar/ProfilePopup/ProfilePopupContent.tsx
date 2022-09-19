@@ -11,9 +11,16 @@ import styles from './ProfilePopup.module.scss'
 interface IProfilePopupContent {
   inputsState: { [key: string]: string }
   setInputsState: Dispatch<SetStateAction<{ [key: string]: string }>>
+  editableBlock: number
+  setEditableBlock: Dispatch<SetStateAction<number>>
 }
 
-const ProfilePopupContent: FC<IProfilePopupContent> = ({ inputsState, setInputsState }) => {
+const ProfilePopupContent: FC<IProfilePopupContent> = ({
+  inputsState,
+  setInputsState,
+  editableBlock,
+  setEditableBlock,
+}) => {
   const config = [
     [
       { label: 'ФИО', name: 'fio' },
@@ -30,6 +37,8 @@ const ProfilePopupContent: FC<IProfilePopupContent> = ({ inputsState, setInputsS
     setInputsState((prevState) => ({ ...prevState, [name]: value }))
   }
 
+  const isEditable = editableBlock !== -1
+
   return (
     <ScrollArea modificator={styles.scrollWrapper}>
       {config.map((block, index) => {
@@ -42,7 +51,9 @@ const ProfilePopupContent: FC<IProfilePopupContent> = ({ inputsState, setInputsS
                 <div className={styles.oneInputWrapper} key={inputIndex}>
                   <div className={cx(styles.label, 'text_05')}>{label}</div>
                   <InputBase
-                    modificator={cx(styles.input)}
+                    modificator={cx(styles.input, {
+                      [styles.inputDisabled]: !isEditable,
+                    })}
                     wrapperModificator={styles.inputWrapper}
                     key={index}
                     name={name}

@@ -2,9 +2,11 @@ import { IFolder } from 'types'
 import { v4 as uuid } from 'uuid'
 
 export function foldersSort(folders: IFolder[]) {
-  const [mainFolder, ...otherFolders] = folders
-  const sortedFolders = otherFolders.sort((a, b) => b.count - a.count)
-  return [mainFolder, ...sortedFolders]
+  const sortedFolders = folders.sort((a, b) => {
+    if (a.isMainFolder) return -Infinity
+    return b.count - a.count
+  })
+  return sortedFolders
 }
 
 export function findFolderById(data: IFolder[], id: string | undefined) {
@@ -22,27 +24,24 @@ export function getFolderNameMatch(
 }
 
 export function calculateFolders(payload: any[], mainFolderName: string) {
-  const newFoldersSet = payload.reduce((acc: any, el: any) => {
-    acc[el.group] = (acc[el.group] || 0) + 1
-    return acc
-  }, {})
+  const newFoldersObj = payload.reduce((acc: any, el: any) => {
+    const { group, count } = el
 
-  const newFoldersObj = Object.entries(newFoldersSet).reduce((acc: any, el: any) => {
-    const [folderName, count] = el
-
-    if (mainFolderName !== folderName)
-      acc[folderName] = {
-        name: folderName,
-        count,
+    if (mainFolderName !== group)
+      acc[group] = {
+        name: group,
+        count: +count,
       }
     return acc
   }, {})
 
+  const allFoldersCount = payload.reduce((acc: any, el: any) => acc + Number(el.count), 0)
+
   newFoldersObj[mainFolderName] = {
     name: mainFolderName,
-    count: payload.length,
+    count: allFoldersCount,
     isMainFolder: true,
   }
 
-  return newFoldersObj
+  return newFoldersObj as { [key: string]: IFolder }
 }

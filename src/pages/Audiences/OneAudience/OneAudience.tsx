@@ -10,7 +10,6 @@ import { CreateAudienceTable } from '../components/AudienceTable/CreateAudienceT
 import useToggle from 'hooks/useToggle'
 import useDoctors from 'store/doctors/useDoctors'
 import useCurrentAudience from 'store/audiences/useCurrentAudience'
-import { useMessageBox } from 'hooks/useMessageBox'
 import { useAudienceFolders } from 'store/folders/useAllFolders'
 import {
   AUDIENCE_URL_CREATE,
@@ -33,6 +32,8 @@ import {
 
 import styles from './OneAudience.module.scss'
 import ValidationError from 'constants/ValidationError'
+import useMessageBoxContext from 'context/MessageBoxContext'
+import { timeDelay } from 'utils'
 
 const configFilter: IStep = {
   name: 'filter',
@@ -58,7 +59,7 @@ const OneAudience: FC<IPageData> = () => {
   const { currentAudience, setCurrentAudience, updateAudienceInfo } = useCurrentAudience()
   const { allDoctors, clearDoctors, addManyDoctors } = useDoctors()
   const { activeFolderName } = useAudienceFolders()
-  const { setMessageBox } = useMessageBox()
+  const { setMessageBox } = useMessageBoxContext()
 
   const [filterisOpen, toggleFilterPopup] = useToggle()
   const [filterState, setFilterState] = useState({})
@@ -81,6 +82,17 @@ const OneAudience: FC<IPageData> = () => {
   }
 
   const handleSave = async () => {
+    const nameIsTaken = await getAxiosSingle(
+      `${AUDIENCE_URL_VALID_NAME}/${currentAudience.audience.name}`
+    )
+    if (nameIsTaken) {
+      return setMessageBox({
+        isOpen: true,
+        title: ValidationError.AUDIENCE_ALREADY_EXISTS,
+        buttons: ['Ок'],
+      })
+    }
+
     const promiseArr = []
 
     const audienceCreateDto = {
@@ -88,17 +100,6 @@ const OneAudience: FC<IPageData> = () => {
       name: currentAudience.audience.name,
       group: activeFolderName,
     }
-
-    // TODO: проверка на валидное имя
-    // const isValidName = await getAxiosSingle(AUDIENCE_URL_VALID_NAME)
-    // console.log('isValidName', isValidName)
-    // if (Object.keys(isValidName).length == 0) {
-    //   return setMessageBox({
-    //     isOpen: true,
-    //     title: ValidationError.AUDIENCE_ALREADY_EXISTS,
-    //     buttons: ['Ок'],
-    //   })
-    // }
 
     if (isCrm || isNew) {
       const audienceCreatePromise = postAxiosSingle(AUDIENCE_URL_CREATE, {}, audienceCreateDto)
@@ -110,6 +111,8 @@ const OneAudience: FC<IPageData> = () => {
     }
 
     await Promise.all(promiseArr)
+    await timeDelay(350) // TODO ???
+    history.push(PagesData.AUDIENCES.link)
   }
 
   useEffect(() => {

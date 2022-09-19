@@ -10,7 +10,7 @@ export const AUTH_URL_LOGIN = `${AUTH_URL}/local/login`
 export const AUTH_URL_RELOGIN = `${AUTH_URL}/local/me`
 
 const DOCTORS_BASE_URL = '/doctors'
-export const DOCTORS_URL = `${DOCTORS_BASE_URL}?limit=30&offset=0` // TODO
+export const DOCTORS_URL = `${DOCTORS_BASE_URL}?limit=50&offset=0` // TODO
 export const DOCTORS_URL_ADD = `${DOCTORS_BASE_URL}/add`
 export const DOCTORS_URL_UPDATE = `${DOCTORS_BASE_URL}/update`
 

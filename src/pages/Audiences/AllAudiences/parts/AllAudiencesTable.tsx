@@ -19,9 +19,10 @@ import tableStyles from 'components/Table/TableBase.module.scss'
 
 const header = ['', 'Название', 'Количество контактов', 'Дата создания', 'Дата изменения']
 
-export const AllAudiencesTable: FC<{ allAudiencesData: IAudienceMetaData[] }> = ({
-  allAudiencesData,
-}) => {
+export const AllAudiencesTable: FC<{
+  allAudiencesData: IAudienceMetaData[]
+  deleteAudiences: (ids: string[]) => void
+}> = ({ allAudiencesData, deleteAudiences }) => {
   const history = useHistory()
   const { url } = useRouteMatch()
   const { setMessageBox } = useMessageBoxContext()
@@ -29,8 +30,15 @@ export const AllAudiencesTable: FC<{ allAudiencesData: IAudienceMetaData[] }> = 
 
   const allIds = getIds(allAudiencesData)
 
-  const { toggleCheck, isItChecked, checkedCount, checkedAll, toggleAllChecks, clearChecks } =
-    useTable(allIds)
+  const {
+    toggleCheck,
+    isItChecked,
+    checkedCount,
+    checkedAll,
+    toggleAllChecks,
+    clearChecks,
+    checkedList,
+  } = useTable(allIds)
 
   const openAudience = (e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation()
@@ -38,7 +46,7 @@ export const AllAudiencesTable: FC<{ allAudiencesData: IAudienceMetaData[] }> = 
     history.push(`${url}/${id}`)
   }
 
-  const deleteAudience = () => {
+  const handleDeleteAudience = () => {
     setMessageBox({
       isOpen: true,
       handleConfirm: confirmDelete,
@@ -49,7 +57,7 @@ export const AllAudiencesTable: FC<{ allAudiencesData: IAudienceMetaData[] }> = 
 
   const copyAudience = () => console.log('handleCopyAudience')
   const confirmDelete = () => {
-    console.log('DO DELETE') // TODO
+    deleteAudiences(checkedList)
     clearChecks()
     setAlertBox({
       isOpen: true,
@@ -69,7 +77,7 @@ export const AllAudiencesTable: FC<{ allAudiencesData: IAudienceMetaData[] }> = 
     },
     {
       option: CheckMenuAction.DELETE,
-      handleClick: deleteAudience,
+      handleClick: handleDeleteAudience,
     },
   ]
 

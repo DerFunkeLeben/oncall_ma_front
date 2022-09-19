@@ -96,13 +96,14 @@ const initialContentState: IStoreContent = {
   },
 }
 
+const mainFolder = 'Весь контент'
 const initialFolderState: IStoreFolder = {
-  activeFolderName: 'Весь контент',
-  mainFolderName: 'Весь контент',
+  activeFolderName: mainFolder,
+  mainFolderName: mainFolder,
   allFolders: {
-    'Весь контент': {
-      name: 'Весь контент',
-      count: 147,
+    mainFolder: {
+      name: mainFolder,
+      count: 1000,
       isMainFolder: true,
     },
     'Тестовые рассылки': {
@@ -111,11 +112,11 @@ const initialFolderState: IStoreFolder = {
     },
     'Завершенные рассылки': {
       name: 'Завершенные рассылки',
-      count: 999954,
+      count: 954,
     },
     'Рассылки январь февраль': {
       name: 'Рассылки январь февраль',
-      count: 1786,
+      count: 110,
     },
     Medpoint: {
       name: 'Medpoint',

@@ -75,16 +75,16 @@ const PageHead: FC<IPageHead> = ({
         )}
         {(contactCount || createDate) && (
           <div className={cx(styles.infoBlockContainer)}>
-            {contactCount && (
+            {contactCount != undefined && (
               <div className={cx(styles.infoBlock, 'text_1')}>
                 <span>{`Количество контактов: ${contactCount}`}</span>
               </div>
             )}
-            {createDate && (
+            {createDate ? (
               <div className={cx(styles.infoBlock, 'text_1')}>
                 <span>{`Дата создания: ${ddmmyyyy(createDate)}`}</span>
               </div>
-            )}
+            ) : null}
           </div>
         )}
       </div>

@@ -9,7 +9,6 @@ import ActionType from './action-type'
 import { IStoreAudiences, StoreKeys } from './_data-types'
 
 const initialAudienceState: IStoreAudiences = {
-  allAudiences: {},
   currentAudience: {
     audience: INIT_AUDIENCE,
     action: AudienceAction.CREATE_CRM,
@@ -33,19 +32,6 @@ const audienceReducer = (
   { type, payload }: IReducer
 ): IStoreAudiences => {
   switch (type) {
-    case ActionType.INIT_ALL_AUDIENCES: {
-      const newAudiences = {} as { [key: string]: IAudienceMetaData }
-
-      payload?.map((aud: IAudienceMetaData) => {
-        newAudiences[aud.id] = aud
-      })
-
-      return {
-        ...state,
-        [StoreKeys.allAudiences]: newAudiences,
-      }
-    }
-
     case ActionType.SET_CURRENT_AUDIENCE:
       return {
         ...state,

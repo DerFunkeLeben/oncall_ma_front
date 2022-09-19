@@ -19,7 +19,12 @@ interface ISidePopup {
 const ProfilePopup: FC<ISidePopup> = ({ close }) => {
   const { logout } = useAuth()
   const [editableBlock, setEditableBlock] = useState<number>(-1)
-  const [inputsState, setInputsState] = useState<{ [key: string]: string }>({})
+  const [inputsState, setInputsState] = useState<{ [key: string]: string }>({
+    fio: 'Администратор',
+    job: 'Терапевт',
+    email: 'admin@example.com',
+    phone: '+78998998999',
+  })
 
   const save = () => {
     console.log('save')
@@ -51,7 +56,9 @@ const ProfilePopup: FC<ISidePopup> = ({ close }) => {
         </div>
 
         <div className={cx(sidePopupStyles.popupContent, styles.popupContent)}>
-          <ProfilePopupContent {...{ inputsState, setInputsState }} />
+          <ProfilePopupContent
+            {...{ inputsState, setInputsState, editableBlock, setEditableBlock }}
+          />
         </div>
 
         {showFooterBtns && (

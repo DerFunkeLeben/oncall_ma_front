@@ -3,7 +3,7 @@
 }
 
 .popupContent {
-  width: unset;
+  width: unset !important;
 }
 
 .popupFooter {
@@ -18,6 +18,13 @@
   flex-grow: 1;
   padding: 10px 15px;
   margin-left: 10px;
+  color: var(--blue_8);
+}
+
+.inputDisabled {
+  border-color: transparent;
+  pointer-events: none;
+  user-select: none;
 }
 
 // .inputWrapper {
