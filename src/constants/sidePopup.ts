@@ -60,9 +60,9 @@ export const LogicalOperators = {
 }
 export enum Conditions {
   CONTAINS = 'contain',
-  NOT_CONTAINS = 'not contain',
+  NOT_CONTAINS = 'notContain',
   EQUAL = 'equal',
-  NOT_EQUAL = 'not equal',
+  NOT_EQUAL = 'notEqual',
 }
 
 export const LogicLabels = {
