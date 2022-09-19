@@ -89,18 +89,21 @@ const OneAudience: FC<IPageData> = () => {
       group: activeFolderName,
     }
 
-    const isValidName = await getAxiosSingle(AUDIENCE_URL_VALID_NAME)
-    if (!isValidName) {
-      return setMessageBox({
-        isOpen: true,
-        title: ValidationError.AUDIENCE_ALREADY_EXISTS,
-        buttons: ['Ок'],
-      })
+    // TODO: проверка на валидное имя
+    // const isValidName = await getAxiosSingle(AUDIENCE_URL_VALID_NAME)
+    // console.log('isValidName', isValidName)
+    // if (Object.keys(isValidName).length == 0) {
+    //   return setMessageBox({
+    //     isOpen: true,
+    //     title: ValidationError.AUDIENCE_ALREADY_EXISTS,
+    //     buttons: ['Ок'],
+    //   })
+    // }
+
+    if (isCrm || isNew) {
+      const audienceCreatePromise = postAxiosSingle(AUDIENCE_URL_CREATE, {}, audienceCreateDto)
+      promiseArr.push(audienceCreatePromise)
     }
-
-    const audienceCreatePromise = postAxiosSingle(AUDIENCE_URL_CREATE, {}, audienceCreateDto)
-    promiseArr.push(audienceCreatePromise)
-
     if (isNew) {
       const docsAddPromise = postAxiosSingle(DOCTORS_URL_ADD, {}, allDoctors)
       promiseArr.push(docsAddPromise)
@@ -110,6 +113,7 @@ const OneAudience: FC<IPageData> = () => {
   }
 
   useEffect(() => {
+    if (!filterisOpen) return
     const query = currentAudience.audience.query
     const state = parseQueryToState(query)
     setFilterState(state)
@@ -126,7 +130,7 @@ const OneAudience: FC<IPageData> = () => {
         {
           name,
           id,
-          query,
+          query: JSON.parse(query || '{}'),
           createdat: createdAt,
           updatedat: updatedAt,
           peoplecount: peopleCount,
