@@ -16,9 +16,14 @@ import { INIT_HTML_CONTENT } from 'constants/content'
 import { IPageData } from 'types'
 import { IContentHTML } from 'types/content'
 import styles from './ContentHTML.module.scss'
+import { postAxiosSingle } from 'utils/axios'
+import { SEND_EMAIL_URL } from 'constants/url'
+import useAlertContext from 'context/AlertContext'
+import { AlertBoxIcons } from 'constants/dictionary'
 
 const ContentHTML: FC<IPageData> = () => {
   const { currentContent } = useCurrentContent()
+  const { setAlertBox } = useAlertContext()
 
   const [popUpIsOpen, togglePopUp] = useToggle()
   const [emails, setEmails] = useState<string[]>([''])
@@ -55,8 +60,19 @@ const ContentHTML: FC<IPageData> = () => {
     reader.readAsText(file)
   }
 
-  const sendEmails = (inputs: string[]) => {
-    console.log('send email', inputs)
+  const sendEmails = async (inputs: string[]) => {
+    const sendData = {
+      html: settings.HTML,
+      header: settings.preheader,
+      title: settings.theme,
+      emails: inputs,
+    }
+    await postAxiosSingle(SEND_EMAIL_URL, {}, sendData)
+    setAlertBox({
+      message: `Письмо успешно отправлено!`,
+      icon: AlertBoxIcons.SUCCESS,
+      isOpen: true,
+    })
     togglePopUp()
   }
 
