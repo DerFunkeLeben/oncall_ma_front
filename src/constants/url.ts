@@ -24,6 +24,8 @@ export const AUDIENCE_URL_ALL = `${AUDIENCE_BASE_URL}/groups`
 export const AUDIENCE_URL_FOLDERS = `${AUDIENCE_BASE_URL}/groups/count`
 export const AUDIENCE_URL_ONE_GROUP = `${AUDIENCE_BASE_URL}/group` // {name}
 
+export const SEND_EMAIL_URL = `/comm/mail/test`
+
 export const audiencesRoutes = [
   '/audiences',
   '/audiences/:audienceid',
