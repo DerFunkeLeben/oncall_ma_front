@@ -16,6 +16,7 @@ export const DOCTORS_URL_UPDATE = `${DOCTORS_BASE_URL}/update`
 
 const AUDIENCE_BASE_URL = `${DOCTORS_BASE_URL}/audience`
 export const AUDIENCE_URL_CREATE = `${AUDIENCE_BASE_URL}/create`
+export const AUDIENCE_URL_TEST = `${AUDIENCE_BASE_URL}/test`
 export const AUDIENCE_URL_ONE = `${AUDIENCE_BASE_URL}/get` // {id}
 export const AUDIENCE_URL_VALID_NAME = `${AUDIENCE_BASE_URL}/valid/name` // {name}
 export const AUDIENCE_URL_DELETE = `${AUDIENCE_BASE_URL}/delete`

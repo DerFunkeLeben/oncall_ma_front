@@ -14,6 +14,7 @@ import { useAudienceFolders } from 'store/folders/useAllFolders'
 import {
   AUDIENCE_URL_CREATE,
   AUDIENCE_URL_ONE,
+  AUDIENCE_URL_TEST,
   AUDIENCE_URL_VALID_NAME,
   DOCTORS_URL,
   DOCTORS_URL_ADD,
@@ -57,7 +58,7 @@ const OneAudience: FC<IPageData> = () => {
   const location = useLocation()
 
   const { currentAudience, setCurrentAudience, updateAudienceInfo } = useCurrentAudience()
-  const { allDoctors, clearDoctors, addManyDoctors } = useDoctors()
+  const { allDoctors, clearDoctors, addManyDoctors, setAllDoctors } = useDoctors()
   const { activeFolderName } = useAudienceFolders()
   const { setMessageBox } = useMessageBoxContext()
 
@@ -74,10 +75,15 @@ const OneAudience: FC<IPageData> = () => {
     })
   }
 
-  const handleFiltersSave = (tempSettings: { filter: IFilterState }) => {
+  const handleFiltersSave = async (tempSettings: { filter: IFilterState }) => {
+    const query = parseStateToQuery(tempSettings.filter)
+    const response = await postAxiosSingle(AUDIENCE_URL_TEST, {}, { query })
+
+    setAllDoctors(response.data)
     updateAudienceInfo({
       ...currentAudience.audience,
-      query: parseStateToQuery(tempSettings.filter),
+      query,
+      peoplecount: response.data.length,
     })
   }
 
