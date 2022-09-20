@@ -2,7 +2,7 @@ import { IPagesData } from 'types'
 
 const { REACT_APP_DEBUG } = process.env
 
-export let SERVER = 'http://localhost:3000'
+export let SERVER = 'http://217.25.89.6'
 if (REACT_APP_DEBUG === 'true') SERVER = 'http://217.25.89.6'
 
 export const AUTH_URL = `/auth`
