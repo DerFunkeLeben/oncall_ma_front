@@ -1,8 +1,7 @@
-import { AUDIENCE_URL_ONE, DOCTORS_URL } from 'constants/url'
 import { useCallback } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { batchActions } from 'redux-batched-actions'
 import { IDoctor, IDoctorEditInfo } from 'types/audience'
-import { getAxiosArr } from 'utils/axios'
 import ActionCreator from './actions'
 
 import { getAllDoctors, getDoctorsCount, getDoctorsIds } from './selectors'
@@ -13,6 +12,13 @@ const useDoctors = () => {
   const doctorsIds = useSelector(getDoctorsIds)
 
   const dispatch = useDispatch()
+
+  const setAllDoctors = useCallback(
+    async (doctors: IDoctor[] | undefined) => {
+      dispatch(batchActions([ActionCreator.clearDoctors(), ActionCreator.addManyDoctors(doctors)]))
+    },
+    [dispatch]
+  )
 
   const addManyDoctors = useCallback(
     async (doctors: IDoctor[] | undefined) => {
@@ -68,6 +74,7 @@ const useDoctors = () => {
     deleteMultipleDoctors,
     copyMultipleDoctors,
     addManyDoctors,
+    setAllDoctors,
   }
 }
 
