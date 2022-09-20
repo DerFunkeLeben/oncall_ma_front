@@ -91,7 +91,7 @@ const OneAudience: FC<IPageData> = () => {
     const nameIsTaken = await getAxiosSingle(
       `${AUDIENCE_URL_VALID_NAME}/${currentAudience.audience.name}`
     )
-    if (nameIsTaken) {
+    if (nameIsTaken && isCrm) {
       return setMessageBox({
         isOpen: true,
         title: ValidationError.AUDIENCE_ALREADY_EXISTS,
