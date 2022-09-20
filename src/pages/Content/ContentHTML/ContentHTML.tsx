@@ -1,4 +1,5 @@
-import { FC, ChangeEvent, useState } from 'react'
+import { FC, ChangeEvent, useState, useEffect } from 'react'
+import { useHistory, useLocation, useParams } from 'react-router-dom'
 import cx from 'classnames'
 
 import InputBase from 'components/parts/InputBase/InputBase'
@@ -8,29 +9,40 @@ import ContentHead from '../components/ContentHead/ContentHead'
 import HTMLTextArea from './parts/HTMLTextArea'
 import HTMLPreview from './parts/HTMLPreview'
 
-import useCurrentContent from 'store/content/useCurrentContent'
 import useDebounce from 'hooks/useDebounce'
 import useToggle from 'hooks/useToggle'
+import useAlertContext from 'context/AlertContext'
+import { useContentFolders } from 'store/folders/useAllFolders'
 import { INIT_HTML_CONTENT } from 'constants/content'
+import { AlertBoxIcons } from 'constants/dictionary'
+import { PagesData } from 'constants/url'
 
 import { IPageData } from 'types'
-import { IContentHTML } from 'types/content'
+import { IContent } from 'types/content'
+import {
+  getContentHTML,
+  sendContentHTML,
+  updateContentHTML,
+  uploadContentHTML,
+} from 'utils/axiosQueries/content'
+import { timeDelay } from 'utils'
 import styles from './ContentHTML.module.scss'
-import { postAxiosSingle } from 'utils/axios'
-import { SEND_EMAIL_URL } from 'constants/url'
-import useAlertContext from 'context/AlertContext'
-import { AlertBoxIcons } from 'constants/dictionary'
 
 const ContentHTML: FC<IPageData> = () => {
-  const { currentContent } = useCurrentContent()
-  const { setAlertBox } = useAlertContext()
+  const { contentId } = useParams<{ contentId?: string }>()
+  const history = useHistory()
+  const location = useLocation()
 
+  const { activeFolderName } = useContentFolders()
+  const { setAlertBox } = useAlertContext()
+  // const { setMessageBox } = useMessageBoxContext()
+
+  const [settings, setSettings] = useState<IContent>(INIT_HTML_CONTENT)
   const [popUpIsOpen, togglePopUp] = useToggle()
   const [emails, setEmails] = useState<string[]>([''])
 
-  const [settings, setSettings] = useState<IContentHTML>(
-    (currentContent.content as IContentHTML) || INIT_HTML_CONTENT
-  )
+  const isNew = location.pathname === PagesData.CONTENT_HTML.link
+  const showTextArea = settings.HTML != undefined
 
   const handleChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = event.target
@@ -39,8 +51,6 @@ const ContentHTML: FC<IPageData> = () => {
       [name]: value,
     })
   }
-
-  const showTextArea = settings.HTML != undefined
 
   const handleDropHTML = (acceptedFiles: Array<File>) => {
     const file = acceptedFiles[0]
@@ -61,13 +71,7 @@ const ContentHTML: FC<IPageData> = () => {
   }
 
   const sendEmails = async (inputs: string[]) => {
-    const sendData = {
-      html: settings.HTML,
-      header: settings.preheader,
-      title: settings.theme,
-      emails: inputs,
-    }
-    await postAxiosSingle(SEND_EMAIL_URL, {}, sendData)
+    await sendContentHTML(settings, inputs)
     setAlertBox({
       message: `Письмо успешно отправлено!`,
       icon: AlertBoxIcons.SUCCESS,
@@ -76,11 +80,52 @@ const ContentHTML: FC<IPageData> = () => {
     togglePopUp()
   }
 
+  const handleSave = async () => {
+    // const notCurrentContentTitle = titleAlreadyExists?.id !== currentContent.content?.id
+    // const needMessageBox = titleAlreadyExists && notCurrentContentTitle
+    // if (needMessageBox)
+    //   return setMessageBox({
+    //     isOpen: true,
+    //     title: ValidationError.FILE_ALREADY_EXISTS,
+    //     buttons: ['Ок'],
+    //   })
+
+    if (isNew) {
+      await uploadContentHTML(settings, activeFolderName)
+
+      setAlertBox({
+        message: `Контент успешно загружен!`,
+        icon: AlertBoxIcons.SUCCESS,
+        isOpen: true,
+      })
+    } else {
+      await updateContentHTML(settings, activeFolderName)
+
+      setAlertBox({
+        message: `Контент успешно обновлен!`,
+        icon: AlertBoxIcons.SUCCESS,
+        isOpen: true,
+      })
+    }
+
+    await timeDelay(350)
+    history.push(PagesData.ALL_CONTENT.link)
+  }
+
   const debouncedHTML = useDebounce(settings.HTML, 1000)
+
+  useEffect(() => {
+    if (!isNew) getContentHTML(contentId, setSettings)
+  }, [])
 
   return (
     <div className={cx(styles.pageContent)}>
-      <ContentHead settings={settings} handleChange={handleChange} openPopUp={togglePopUp} />
+      <ContentHead
+        settings={settings}
+        handleChange={handleChange}
+        openPopUp={togglePopUp}
+        handleSave={handleSave}
+      />
 
       {showTextArea ? (
         <HTMLTextArea HTML={settings.HTML} handleChange={handleChange} />

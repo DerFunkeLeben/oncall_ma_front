@@ -99,6 +99,15 @@ const OneAudience: FC<IPageData> = () => {
       })
     }
 
+    const filterQueryIsEmpty = Object.keys(currentAudience.audience.query).length === 0
+    if (filterQueryIsEmpty) {
+      return setMessageBox({
+        isOpen: true,
+        title: ValidationError.FILTERS_NOT_SET,
+        buttons: ['Ок'],
+      })
+    }
+
     const promiseArr = []
 
     const audienceCreateDto = {

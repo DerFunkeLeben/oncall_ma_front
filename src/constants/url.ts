@@ -24,6 +24,12 @@ export const AUDIENCE_URL_ALL = `${AUDIENCE_BASE_URL}/groups`
 export const AUDIENCE_URL_FOLDERS = `${AUDIENCE_BASE_URL}/groups/count`
 export const AUDIENCE_URL_ONE_GROUP = `${AUDIENCE_BASE_URL}/group` // {name}
 
+export const CONTENT_URL_UPLOAD = `/comm/file`
+export const CONTENT_URL_UPDATE = `${CONTENT_URL_UPLOAD}/update`
+export const CONTENT_URL_ONE = `${CONTENT_URL_UPLOAD}/get` // {id}
+export const CONTENT_URL_ALL = `${CONTENT_URL_UPLOAD}/files`
+export const CONTENT_URL_FOLDERS = `${CONTENT_URL_UPLOAD}/groups`
+
 export const SEND_EMAIL_URL = `/comm/mail/test`
 
 export const audiencesRoutes = [

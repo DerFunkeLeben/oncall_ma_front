@@ -38,13 +38,18 @@ const ContentHTML: FC<IPageData> = () => {
 
   return (
     <div className={cx(styles.pageContent)}>
-      <ContentHead settings={settings} handleChange={handleChange} openPopUp={togglePopUp} />
+      <ContentHead
+        settings={settings}
+        handleChange={handleChange}
+        openPopUp={togglePopUp}
+        handleSave={() => 'save'}
+      />
 
       <TextArea
         label="Текст письма"
         placeholder={'Введите текст'}
         modificator={cx(styles.textArea)}
-        value={settings.text}
+        value={settings.SMStext}
         onChange={handleChange}
         name="text"
         spellCheck={false}

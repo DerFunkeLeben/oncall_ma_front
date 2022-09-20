@@ -11,12 +11,13 @@ import useMessageBoxContext from 'context/MessageBoxContext'
 import { SURE_WANT_DELETE_MANY } from 'constants/helpMessages'
 import { AlertBoxIcons } from 'constants/dictionary'
 import { ddmmyyyy } from 'utils/transformDate'
-import { ContentTypes, IContent } from 'types/content'
+import { ContentTypeLabels, ContentTypes, IContent } from 'types/content'
 import { CheckMenuAction } from 'types'
 import { IconCheck } from 'assets/icons'
-import tableStyles from 'components/Table/TableBase.module.scss'
 import { MainReducerKeys } from 'store/data-types'
 import { PagesData } from 'constants/url'
+import { decodeFileName } from 'utils'
+import tableStyles from 'components/Table/TableBase.module.scss'
 
 const header = ['', 'Название', 'Тип', 'Дата создания', 'Дата изменения']
 
@@ -24,7 +25,7 @@ const getAllContentIds = (allContent: IContent[]) => allContent.map(({ id }) => 
 
 const AllContentTable: FC<{ allContent: IContent[] }> = ({ allContent }) => {
   const history = useHistory()
-  const { deleteMultipleById } = useAllContent()
+  // const { deleteMultipleById } = useAllContent()
   const { setAlertBox } = useAlertContext()
   const { setMessageBox } = useMessageBoxContext()
 
@@ -65,7 +66,7 @@ const AllContentTable: FC<{ allContent: IContent[] }> = ({ allContent }) => {
     })
 
     function handleConfirm() {
-      deleteMultipleById(checkedList)
+      // deleteMultipleById(checkedList)
       setAlertBox({
         message: `Удалено элементов: ${checkedCount}`,
         icon: AlertBoxIcons.DELETE,
@@ -103,8 +104,14 @@ const AllContentTable: FC<{ allContent: IContent[] }> = ({ allContent }) => {
       }}
     >
       {allContent.map((contentItem, index) => {
-        const { id, title, type, createDate, lastUpdateDate } = contentItem
+        const { id, type, createdAt, updatedAt, originalName } = contentItem
         const checked = isItChecked(id)
+
+        const title = decodeFileName(originalName)
+        const typeToShow = ContentTypeLabels[type]
+        const createdDate = ddmmyyyy(createdAt)
+        const updatedDate = ddmmyyyy(updatedAt)
+
         return (
           <div
             className={tableStyles.row}
@@ -118,11 +125,7 @@ const AllContentTable: FC<{ allContent: IContent[] }> = ({ allContent }) => {
               onClick={toggleCheck}
               data-id={id}
             >
-              <div
-                className={cx(tableStyles.check, {
-                  [tableStyles.checked]: checked,
-                })}
-              >
+              <div className={cx(tableStyles.check, { [tableStyles.checked]: checked })}>
                 {checked && <IconCheck />}
               </div>
             </div>
@@ -130,9 +133,9 @@ const AllContentTable: FC<{ allContent: IContent[] }> = ({ allContent }) => {
             <div className={cx(tableStyles.cell, tableStyles.accentCell, 'text_1_hl_1')}>
               <span>{title}</span>
             </div>
-            <div className={cx(tableStyles.cell, 'text_1')}>{type}</div>
-            <div className={cx(tableStyles.cell, 'text_1')}>{ddmmyyyy(createDate)}</div>
-            <div className={cx(tableStyles.cell, 'text_1')}>{ddmmyyyy(lastUpdateDate)}</div>
+            <div className={cx(tableStyles.cell, 'text_1')}>{typeToShow}</div>
+            <div className={cx(tableStyles.cell, 'text_1')}>{createdDate}</div>
+            <div className={cx(tableStyles.cell, 'text_1')}>{updatedDate}</div>
           </div>
         )
       })}

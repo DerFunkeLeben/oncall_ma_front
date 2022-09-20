@@ -10,7 +10,7 @@ const Config = {
     Authorization: `Bearer ${getToken()}`,
   },
   MULTIPART_HEADERS: {
-    'Content-Type': 'multipart/form-data; charset= utf-8; boundary=---sad',
+    'Content-Type': 'multipart/form-data; charset=utf-8; boundary=---sad',
     Authorization: `Bearer ${getToken()}`,
   },
 }
@@ -140,6 +140,21 @@ const postAxiosSingle = async (
   }
 }
 
+const postAxiosFormData = async (
+  URL: string,
+  headers?: any,
+  data?: any,
+  signal?: AbortSignal
+): Promise<any> => {
+  try {
+    const result = await postRequest(URL, { ...Config.MULTIPART_HEADERS, ...headers }, data, signal)
+    return result
+  } catch (err) {
+    console.warn(err)
+    return err
+  }
+}
+
 const putAxiosSingle = async (
   URL: string,
   headers?: any,
@@ -192,4 +207,5 @@ export {
   putRequest,
   putAxiosSingle,
   patchAxiosSingle,
+  postAxiosFormData,
 }
