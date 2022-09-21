@@ -3,7 +3,6 @@ import cx from 'classnames'
 
 import styles from './SourceTask.module.scss'
 import PopupWithTable from './parts/PopupWithTable/PopupWithTable'
-import useAllAudiences from 'store/audiences/useAllAudiences'
 import { useScenario } from 'store/scenario/useScenario'
 import { ITask } from 'types'
 import { getAxiosArr } from 'utils/axios'
@@ -44,8 +43,8 @@ const SourceTask: FC<ISourceTask> = ({ style, id, properties }) => {
   const [settings, setSettings] = useState<{ name: string; peoplecount: string } | undefined>(
     undefined
   )
-  const { allAudiences, initAllAudiences } = useAllAudiences()
   const { updateSettings } = useScenario()
+  const [allAudiences, setAllAudiences] = useState<any[]>([])
 
   const closePopup = () => {
     console.log('closePopup')
@@ -77,11 +76,11 @@ const SourceTask: FC<ISourceTask> = ({ style, id, properties }) => {
 
   useEffect(() => {
     const getAllAudiences = async () => {
-      const data = await getAxiosArr(AUDIENCE_URL_ALL)
-
-      initAllAudiences(data)
+      return await getAxiosArr(AUDIENCE_URL_ALL)
     }
-    getAllAudiences()
+    getAllAudiences().then((res) => {
+      setAllAudiences(res)
+    })
   }, [])
 
   useEffect(() => {
