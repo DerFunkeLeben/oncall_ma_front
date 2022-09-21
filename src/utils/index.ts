@@ -4,10 +4,22 @@ export function reduceBigNumbers(num: number) {
   return Math.round(num / 100) / 10 + 'K'
 }
 
+export function decodeFileName(fileName: string | undefined) {
+  return decodeURIComponent(fileName || '')
+    .split('.')
+    .slice(0, -1)
+    .join('.')
+}
+
+export const timeDelay = (delayInms: number) => {
+  return new Promise((resolve) => setTimeout(resolve, delayInms))
+}
+
 export const getIds = (all: any[]) => all.map(({ id }) => id) as string[]
 
 const getCookie = (name: string) =>
   document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)')?.pop() || ''
 
 export const getToken = () => getCookie('TK')
+export const deleteToken = () => (document.cookie = `TK=; Max-Age=0`)
 export const setToken = (token: string) => (document.cookie = `TK=${token}`)

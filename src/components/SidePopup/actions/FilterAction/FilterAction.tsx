@@ -11,11 +11,10 @@ import styles from './FilterAction.module.scss'
 import buttonThemes from 'components/parts/Button/ButtonThemes.module.scss'
 import { IconPlus } from '../../../../assets/icons'
 
-import { IFilterAction, IFirstLevelObj, ISecondLevelObj, IThirdLevelObj, IConfig } from './types'
+import { ISecondLevelObj, IThirdLevelObj } from './types'
 
 import { LogicalOperators, Conditions, LogicLabels } from 'constants/sidePopup'
 import ScrollArea from 'containers/ScrollArea/ScrollArea'
-import { IFilterState } from './useFilterState'
 import { ILogicalOperator } from 'types/audience'
 import { DoctorKeys } from 'constants/audience'
 
@@ -25,7 +24,7 @@ interface IRadioGroupAction extends IAction {
   attributes: any
 }
 
-const FilterAction: FC<IRadioGroupAction> = ({ settingName, applySettings, attributes }) => {
+const FilterAction: FC<IRadioGroupAction> = ({ applySettings, attributes }) => {
   const { step, tempSettings } = usePopupContext()
   const { updateTempSettings } = useSidePopup()
 
@@ -80,7 +79,6 @@ const FilterAction: FC<IRadioGroupAction> = ({ settingName, applySettings, attri
   const filterState = tempSettings && tempSettings[settingName] ? tempSettings[settingName] : ''
 
   const { firstLevel, secondLevel, thirdLevel } = filterState
-
   const updateState = (newlevel: any) => {
     applySettings(newlevel, tempSettings, updateTempSettings)
   }
@@ -111,7 +109,6 @@ const FilterAction: FC<IRadioGroupAction> = ({ settingName, applySettings, attri
       initSecondLevelRow(newSecondLevelId, newFirstLevelId),
     ]
     const newThirdLevelElements = thirdLevel.map((element: any) => {
-      console.log(element.id, thirdLevelId)
       if (element.id !== thirdLevelId) return element
       else {
         return {
@@ -148,7 +145,8 @@ const FilterAction: FC<IRadioGroupAction> = ({ settingName, applySettings, attri
     })
   }
 
-  const handleDeleteFirstLevelRow = (id: string, parentId: string, itsFirstChildren: boolean) => {
+  const handleDeleteFirstLevelRow = (id: string, parentId: string, itsFirstChild: boolean) => {
+    console.log(itsFirstChild)
     const newFirstLevelElements = firstLevel.filter((firstLevelElement: any) => {
       return firstLevelElement.id !== id
     })
@@ -193,7 +191,6 @@ const FilterAction: FC<IRadioGroupAction> = ({ settingName, applySettings, attri
     if (level === 'first') {
       const updatedFirst = firstLevel.map((element: any) => {
         if (element.id === id) {
-          console.log('!s', update)
           return {
             ...element,
             ...update,
@@ -210,7 +207,7 @@ const FilterAction: FC<IRadioGroupAction> = ({ settingName, applySettings, attri
           }
         } else return element
       })
-      updateState({ firstLevel: updatedSecond })
+      updateState({ secondLevel: updatedSecond })
     } else if (level === 'third') {
       const updatedThird = thirdLevel.map((element: any) => {
         if (element.id === id) {
@@ -220,7 +217,7 @@ const FilterAction: FC<IRadioGroupAction> = ({ settingName, applySettings, attri
           }
         } else return element
       })
-      updateState({ firstLevel: updatedThird })
+      updateState({ thirdLevel: updatedThird })
     }
   }
 

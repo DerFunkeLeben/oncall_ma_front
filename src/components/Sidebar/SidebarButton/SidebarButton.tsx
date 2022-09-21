@@ -7,20 +7,28 @@ export interface ISidebarButton {
   name: string
   Icon: React.FunctionComponent<React.SVGProps<SVGSVGElement>>
   path?: string
+  handleClick?: () => void
 }
 
-const SidebarButton: FC<ISidebarButton> = ({ Icon, name, path = '/' }) => {
+const SidebarButton: FC<ISidebarButton> = ({ Icon, name, path, handleClick }) => {
+  if (path)
+    return (
+      <NavLink
+        exact
+        to={path}
+        className={styles.Button}
+        activeClassName={styles.Button_active}
+        key={name}
+        data-tooltip={name}
+      >
+        <Icon className={styles.icon} />
+      </NavLink>
+    )
+
   return (
-    <NavLink
-      exact
-      to={path}
-      className={styles.Button}
-      activeClassName={styles.Button_active}
-      key={name}
-      data-tooltip={name}
-    >
+    <div className={styles.Button} key={name} data-tooltip={name} onClick={handleClick}>
       <Icon className={styles.icon} />
-    </NavLink>
+    </div>
   )
 }
 

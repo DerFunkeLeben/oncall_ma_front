@@ -1,25 +1,29 @@
-import { useHistory, useLocation, useParams } from 'react-router-dom'
-
-import useParamSelector from 'hooks/useParamSelector'
+import { useCallback } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { AudienceAction } from 'constants/audience'
-import { getAudiencesById } from './selectors'
-import { PagesData } from 'constants/url'
-
-const { CREATE_CRM, CREATE_NEW, EDIT } = AudienceAction
+import { getCurrentAudience } from './selectors'
+import ActionCreator from './actions'
+import { IAudienceMetaData } from 'types/audience'
 
 const useCurrentAudience = () => {
-  const { audienceid } = useParams<{ audienceid?: string }>()
-  const location = useLocation()
-  const audience = useParamSelector(getAudiencesById, audienceid)
+  const dispatch = useDispatch()
+  const currentAudience = useSelector(getCurrentAudience)
 
-  const isCrm = location.pathname === PagesData.CREATE_AUDIENCE_CRM.link
+  const setCurrentAudience = useCallback(
+    (audience: IAudienceMetaData, action: AudienceAction) => {
+      dispatch(ActionCreator.setCurrentAudience({ audience, action }))
+    },
+    [dispatch]
+  )
 
-  let currentAudience
-  if (audience) currentAudience = { audience, action: EDIT }
-  else if (isCrm) currentAudience = { audience, action: CREATE_CRM }
-  else currentAudience = { audience, action: CREATE_NEW }
+  const updateAudienceInfo = useCallback(
+    (newAudience: IAudienceMetaData) => {
+      dispatch(ActionCreator.updateAudienceInfo(newAudience))
+    },
+    [dispatch]
+  )
 
-  return { currentAudience }
+  return { currentAudience, setCurrentAudience, updateAudienceInfo }
 }
 
 export default useCurrentAudience

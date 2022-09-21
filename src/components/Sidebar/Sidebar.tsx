@@ -13,6 +13,8 @@ import {
 } from 'assets/icons'
 import { PagesData } from 'constants/url'
 import SidebarButton from './SidebarButton/SidebarButton'
+import ProfilePopup from './ProfilePopup/ProfilePopup'
+import useToggle from 'hooks/useToggle'
 
 const buttons = [
   {
@@ -36,20 +38,23 @@ const buttons = [
     path: PagesData.ANALYTICS.link,
   },
 ]
-const buttonsBottomMenu = [
-  {
-    Icon: IconBell,
-    name: 'Уведомления',
-    path: '/',
-  },
-  {
-    Icon: IconProfile,
-    name: 'Профиль',
-    path: '/',
-  },
-]
 
 const Sidebar: FC = () => {
+  const [profileOpened, toggleProfile] = useToggle()
+
+  const buttonsBottomMenu = [
+    {
+      Icon: IconBell,
+      name: 'Уведомления',
+      handleClick: () => console.log('a'),
+    },
+    {
+      Icon: IconProfile,
+      name: 'Профиль',
+      handleClick: toggleProfile,
+    },
+  ]
+
   return (
     <div className={cx(styles.Sidebar)}>
       <div className={cx(styles.logContainer)}>
@@ -63,10 +68,11 @@ const Sidebar: FC = () => {
       </div>
       <div className={cx(styles.flexContainer)}>
         {buttonsBottomMenu.map((element) => {
-          const { name, Icon, path } = element
-          return <SidebarButton name={name} Icon={Icon} path={path} key={name} />
+          const { name, Icon, handleClick } = element
+          return <SidebarButton name={name} Icon={Icon} key={name} handleClick={handleClick} />
         })}
       </div>
+      {profileOpened && <ProfilePopup close={toggleProfile} />}
     </div>
   )
 }

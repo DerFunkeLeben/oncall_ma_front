@@ -4,10 +4,10 @@ import { IconAudiences } from 'assets/icons'
 import tableStyles from 'components/Table/TableBase.module.scss'
 import { header } from './CreateAudienceTable'
 
-function EmptyTable({ handleAddBtn }: { handleAddBtn: () => void }) {
+function EmptyTable({ handleAddBtn }: { handleAddBtn?: () => void }) {
   return (
     <>
-      <Table headers={header} handleAddBtn={handleAddBtn} addBtnEnabled />
+      <Table headers={header} handleAddBtn={handleAddBtn} addBtnEnabled={Boolean(handleAddBtn)} />
       <div className={tableStyles.emptyTableWrapper}>
         <IconAudiences />
         <div

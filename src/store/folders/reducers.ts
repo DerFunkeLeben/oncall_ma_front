@@ -27,7 +27,7 @@ const foldersReducer = (reducerName: MainReducerKeys) => {
         const newFolders = calculateFolders(payload, state.mainFolderName)
         return {
           ...state,
-          [FolderKeys.allFolders]: { ...state.allFolders, ...newFolders },
+          [FolderKeys.allFolders]: newFolders,
         }
       }
       case ActionType.VIEW_FOLDER:
@@ -39,6 +39,7 @@ const foldersReducer = (reducerName: MainReducerKeys) => {
       case ActionType.CREATE_FOLDER:
         return {
           ...state,
+          [FolderKeys.activeFolderName]: payload.name,
           [FolderKeys.allFolders]: { ...state.allFolders, [payload.name]: payload },
         }
 

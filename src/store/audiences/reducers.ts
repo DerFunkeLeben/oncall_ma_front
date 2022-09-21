@@ -1,4 +1,4 @@
-import { AudienceAction } from 'constants/audience'
+import { AudienceAction, INIT_AUDIENCE } from 'constants/audience'
 import { combineReducers } from 'redux'
 import { IReducer, MainReducerKeys } from 'store/data-types'
 
@@ -9,19 +9,18 @@ import ActionType from './action-type'
 import { IStoreAudiences, StoreKeys } from './_data-types'
 
 const initialAudienceState: IStoreAudiences = {
-  allAudiences: {},
   currentAudience: {
-    audience: undefined,
+    audience: INIT_AUDIENCE,
     action: AudienceAction.CREATE_CRM,
   },
 }
-
+const mainFolder = 'Все аудитории'
 const initialFolderState: IStoreFolder = {
-  activeFolderName: 'Все аудитории',
-  mainFolderName: 'Все аудитории',
+  activeFolderName: mainFolder,
+  mainFolderName: mainFolder,
   allFolders: {
-    'Все аудитории': {
-      name: 'Все аудитории',
+    [mainFolder]: {
+      name: mainFolder,
       count: 0,
       isMainFolder: true,
     },
@@ -33,23 +32,22 @@ const audienceReducer = (
   { type, payload }: IReducer
 ): IStoreAudiences => {
   switch (type) {
-    case ActionType.INIT_ALL_AUDIENCES: {
-      const newAudiences = {} as { [key: string]: IAudienceMetaData }
-
-      payload?.map((aud: IAudienceMetaData) => {
-        newAudiences[aud.id] = aud
-      })
-
-      return {
-        ...state,
-        [StoreKeys.allAudiences]: newAudiences,
-      }
-    }
-
     case ActionType.SET_CURRENT_AUDIENCE:
       return {
         ...state,
         [StoreKeys.currentAudience]: payload,
+      }
+
+    case ActionType.UPDATE_AUDIENCE_INFO:
+      return {
+        ...state,
+        [StoreKeys.currentAudience]: {
+          ...state.currentAudience,
+          audience: {
+            ...state.currentAudience.audience,
+            ...payload,
+          },
+        },
       }
 
     default:

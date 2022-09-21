@@ -1,0 +1,73 @@
+import {
+  CONTENT_URL_ONE,
+  CONTENT_URL_UPDATE,
+  CONTENT_URL_UPLOAD,
+  SEND_EMAIL_URL,
+} from 'constants/url'
+import { Dispatch, SetStateAction } from 'react'
+import { ContentTypes, IContent } from 'types/content'
+import { decodeFileName } from 'utils'
+import { getAxiosSingle, postAxiosFormData, postAxiosSingle, putAxiosSingle } from 'utils/axios'
+
+const getContentHTML = async (
+  contentId: string | undefined,
+  setSettings: Dispatch<SetStateAction<IContent>>
+) => {
+  if (!contentId) return
+  const content = await getAxiosSingle(`${CONTENT_URL_ONE}/${contentId}`)
+  const { id, title, preheader, originalName, group } = content.file
+  setSettings({
+    id,
+    type: ContentTypes.HTML,
+    title: decodeFileName(originalName),
+    folderName: group,
+    theme: title,
+    preheader: preheader,
+    HTML: content.data,
+  })
+}
+
+const uploadContentHTML = async (settings: IContent, activeFolderName: string) => {
+  const formData = new FormData()
+  const { HTML, theme, title, preheader } = settings
+  const text = HTML || ''
+  const fileName = `${encodeURIComponent(title)}.html`
+  const blob = new Blob([text], { type: 'text/plain' })
+  const file = new File([blob], fileName, { type: 'text/plain' })
+
+  formData.append('file', file)
+  formData.append('type', 'email')
+  formData.append('title', theme || '')
+  formData.append('preheader', preheader || '')
+  formData.append('group', activeFolderName)
+
+  const result = await postAxiosFormData(CONTENT_URL_UPLOAD, {}, formData)
+  console.log(result)
+}
+
+const updateContentHTML = async (settings: IContent, activeFolderName: string) => {
+  // TODO: не обновляется имя файла, нужно добавить поле
+  const { id, HTML, preheader, theme } = settings
+  const data = {
+    id,
+    html: HTML || '',
+    title: theme,
+    preheader,
+    group: activeFolderName,
+  }
+  console.log(data)
+  const result = await putAxiosSingle(CONTENT_URL_UPDATE, {}, data)
+  console.log(result)
+}
+
+const sendContentHTML = async (settings: IContent, inputs: string[]) => {
+  const sendData = {
+    html: settings.HTML,
+    header: settings.preheader,
+    title: settings.theme,
+    emails: inputs,
+  }
+  await postAxiosSingle(SEND_EMAIL_URL, {}, sendData)
+}
+
+export { getContentHTML, uploadContentHTML, updateContentHTML, sendContentHTML }

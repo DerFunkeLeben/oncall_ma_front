@@ -26,12 +26,10 @@ const ThirdLevel: FC<IThirdLevel> = ({
   updateElement,
   headers,
 }) => {
-  console.log('ThirdLevel', thirdLevel, secondLevelElements, firstLevelElements)
   const { id, logicalOperator } = thirdLevel
   const handleCreate = (e: any) => {
     // eslint-disable-next-line @typescript-eslint/no-shadow
     const thirdLevelId = e.currentTarget.dataset.thirdLevelId
-    console.log(e.currentTarget.dataset, thirdLevelId)
     handleCreateSecondLevel(thirdLevelId)
   }
 
@@ -81,7 +79,6 @@ const ThirdLevel: FC<IThirdLevel> = ({
         </div>
         {secondLevelElements.map((secondLevel, secondLevelIndex) => {
           const childIds = thirdLevel.childIds
-          console.log(thirdLevel, thirdLevel.childIds)
           if (!childIds.includes(secondLevel.id)) return
           const itsFirstChild = childIds.indexOf(secondLevel.id) === 0
           return (

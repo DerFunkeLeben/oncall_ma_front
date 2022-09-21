@@ -1,3 +1,5 @@
+import { IAudienceMetaData } from 'types/audience'
+
 enum DoctorKeys {
   specialty = 'specialty',
   secondSpecialty = 'secondSpecialty',
@@ -39,4 +41,13 @@ enum AudienceAction {
   CREATE_NEW = 'create_new',
 }
 
-export { DoctorsAction, DoctorKeys, DoctorKeyLabels, AudienceAction }
+const INIT_AUDIENCE: IAudienceMetaData = {
+  id: '0',
+  name: 'Аудитория',
+  peoplecount: '0',
+  createdat: '',
+  updatedat: '',
+  query: {},
+}
+
+export { DoctorsAction, DoctorKeys, DoctorKeyLabels, AudienceAction, INIT_AUDIENCE }

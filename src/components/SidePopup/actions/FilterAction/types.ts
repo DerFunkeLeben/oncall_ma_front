@@ -69,3 +69,9 @@ export interface IThirdLevel extends ILevel {
   updateElement: (id: string, level: string, update: { [key: string]: string }) => void
   headers: string[]
 }
+
+export interface IFilterState {
+  firstLevel: IFirstLevelObj[]
+  secondLevel: ISecondLevelObj[]
+  thirdLevel: IThirdLevelObj[]
+}

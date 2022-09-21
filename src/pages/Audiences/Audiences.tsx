@@ -7,7 +7,6 @@ import { IPageData } from 'types'
 
 import AllAudiences from './AllAudiences/AllAudiences'
 import OneAudience from './OneAudience/OneAudience'
-import CreateAudience from './CreateAudience/CreateAudience'
 import { PagesData } from 'constants/url'
 
 import styles from './Audiences.module.scss'
@@ -18,7 +17,7 @@ const AUDIENCE_PAGES = [
     ...PagesData.AUDIENCES,
   },
   {
-    Component: CreateAudience,
+    Component: OneAudience,
     ...PagesData.CREATE_AUDIENCE,
   },
   {
@@ -40,7 +39,7 @@ const Audiences: FC<IPageData> = () => {
             </Route>
           )
         })}
-        <Route render={() => <Redirect to="/" />} />
+        <Route render={() => <Redirect to="/404" />} />
       </Switch>
     </div>
   )

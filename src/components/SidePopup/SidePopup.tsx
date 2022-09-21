@@ -61,9 +61,8 @@ const SidePopup: FC<ISidePopup> = ({ isOpen, close, config, handleSave, title, s
 
   useEffect(() => {
     setTempSettings(savedSettings)
-
     // setConfigArray(createConfig(config))
-  }, [isOpen])
+  }, [isOpen, savedSettings])
 
   const step = configArray[stepNumber - 1]
 
