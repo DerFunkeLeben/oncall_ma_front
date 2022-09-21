@@ -32,22 +32,22 @@ const buttons = [
     name: PagesData.SCENARIOS.name,
     path: PagesData.SCENARIOS.link,
   },
-  {
-    Icon: IconAnalytics,
-    name: PagesData.ANALYTICS.name,
-    path: PagesData.ANALYTICS.link,
-  },
+  // {
+  //   Icon: IconAnalytics,
+  //   name: PagesData.ANALYTICS.name,
+  //   path: PagesData.ANALYTICS.link,
+  // },
 ]
 
 const Sidebar: FC = () => {
   const [profileOpened, toggleProfile] = useToggle()
 
   const buttonsBottomMenu = [
-    {
-      Icon: IconBell,
-      name: 'Уведомления',
-      handleClick: () => console.log('a'),
-    },
+    // {
+    //   Icon: IconBell,
+    //   name: 'Уведомления',
+    //   handleClick: () => console.log('a'),
+    // },
     {
       Icon: IconProfile,
       name: 'Профиль',

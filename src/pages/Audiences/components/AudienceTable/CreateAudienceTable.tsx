@@ -146,15 +146,15 @@ export const CreateAudienceTable = () => {
 
         // TODO срочно исправить
         const fieldsKeys = [
-          'firstName',
           'lastName',
+          'firstName',
           'middleName',
           'email',
           'phone',
           'city',
           'specialty',
         ]
-        const fields = [firstName, lastName, middleName, email, phone, city, specialty]
+        const fields = [lastName, firstName, middleName, email, phone, city, specialty]
 
         const checked = isItChecked(id)
         return (

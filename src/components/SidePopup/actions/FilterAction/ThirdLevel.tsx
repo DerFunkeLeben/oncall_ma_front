@@ -46,7 +46,7 @@ const ThirdLevel: FC<IThirdLevel> = ({
           <DropDown
             triggerNode={
               <Button modificator={cx(buttonThemes.theme_filter_accent)}>
-                {LogicLabels[logicalOperator].toUpperCase()}
+                {LogicLabels[logicalOperator]?.toUpperCase()}
               </Button>
             }
           >
@@ -59,7 +59,7 @@ const ThirdLevel: FC<IThirdLevel> = ({
                     onClick={handleChangeOperator}
                     data-operator={operator}
                   >
-                    {LogicLabels[operator].toUpperCase()}
+                    {LogicLabels[operator]?.toUpperCase()}
                   </button>
                 )
               })}

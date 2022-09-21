@@ -111,46 +111,9 @@ const q = {
     and: {
       and: [
         {
-          field: 'specialty',
-          type: 'not contain',
-          value: 'ssqw',
-        },
-        {
-          field: 'specialty',
+          field: 'city',
           type: 'contain',
-          value: 'f',
-        },
-        {
-          field: 'specialty',
-          type: 'contain',
-          value: 'dds',
-        },
-      ],
-      or: [
-        {
-          field: 'specialty',
-          type: 'not equal',
-          value: 'sd',
-        },
-      ],
-    },
-    or: {
-      and: [
-        {
-          field: 'organization',
-          type: 'contain',
-          value: 'dd',
-        },
-      ],
-    },
-  },
-  notAnd: {
-    and: {
-      and: [
-        {
-          field: 'specialty',
-          type: 'contain',
-          value: 'sdsd',
+          value: 'Москва',
         },
       ],
     },
