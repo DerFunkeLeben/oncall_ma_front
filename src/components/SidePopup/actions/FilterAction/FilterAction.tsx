@@ -24,7 +24,7 @@ interface IRadioGroupAction extends IAction {
   attributes: any
 }
 
-const FilterAction: FC<IRadioGroupAction> = ({ applySettings, attributes }) => {
+const FilterAction: FC<IRadioGroupAction> = ({ settingName, applySettings, attributes }) => {
   const { step, tempSettings } = usePopupContext()
   const { updateTempSettings } = useSidePopup()
 

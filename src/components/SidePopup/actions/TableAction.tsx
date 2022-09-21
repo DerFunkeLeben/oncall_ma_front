@@ -16,7 +16,7 @@ import { ddmmyyyy } from 'utils/transformDate'
 
 import { EVENT_URL_ADD, EVENT_URL_ALL, EVENT_URL_VALIDATE } from 'constants/url'
 import { getAxiosSingle } from 'utils/axios'
-import { IContentHTML } from 'types/content'
+import { IContent } from 'types/content'
 
 const header = ['', 'Название', 'Дата редактирования']
 
@@ -24,7 +24,7 @@ const TableAction: FC<IAction> = ({ settingName, applySettings, url }) => {
   const [radioSelected, setRadioSelected] = useState<string | undefined | null>(null)
 
   const { allContent } = useAllContent()
-  const [tableData, setTableData] = useState<IContentHTML[]>([])
+  const [tableData, setTableData] = useState<IContent[]>([])
   const { step, setTempSettings, tempSettings, savedSettings } = usePopupContext()
   const { updateTempSettings } = useSidePopup()
 
@@ -44,7 +44,7 @@ const TableAction: FC<IAction> = ({ settingName, applySettings, url }) => {
   }
 
   useEffect(() => {
-    const emails = allContent.filter((e) => e.type === 'HTML') as IContentHTML[]
+    const emails = allContent.filter((e) => e.type === 'email') as IContent[]
     setTableData(emails)
   }, [])
 
@@ -58,7 +58,7 @@ const TableAction: FC<IAction> = ({ settingName, applySettings, url }) => {
         totalCountOfData={10}
       >
         {tableData.map((row, index) => {
-          const { id, title, createDate } = tableData[index]
+          const { id, title, createdAt } = tableData[index]
           return (
             <div className={cx(tableStyles.row)} key={index} onClick={handleChange} data-id={id}>
               <div className={cx(tableStyles.cell, tableStyles.cellCheck)}>
@@ -71,7 +71,7 @@ const TableAction: FC<IAction> = ({ settingName, applySettings, url }) => {
                 <label htmlFor={id}></label>
               </div>
               <div className={cx(tableStyles.cell)}>{title}</div>
-              <div className={cx(tableStyles.cell)}>{ddmmyyyy(createDate)}</div>
+              <div className={cx(tableStyles.cell)}>{ddmmyyyy(createdAt)}</div>
             </div>
           )
         })}
