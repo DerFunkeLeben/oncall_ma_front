@@ -15,17 +15,18 @@ const useSidePopup = () => {
     dispatch(ActionCreator.setTempSettings({ ...value }))
   }
 
-  const updateTempSettings = (actionName: any, update: any) => {
+  const updateTempSettings = (isReset: any, update: any) => {
     const result = update.reduce((acc: any, el: any) => {
       return { ...acc, ...el }
     }, {})
-    const newTempSettings = {
-      ...tempSettings,
-      [actionName]: {
-        ...tempSettings[actionName],
-        ...result,
-      },
-    }
+    const newTempSettings = isReset
+      ? {
+          ...result,
+        }
+      : {
+          ...tempSettings,
+          ...result,
+        }
     console.log({ newTempSettings }, ...update)
     dispatch(ActionCreator.setTempSettings({ ...newTempSettings }))
   }

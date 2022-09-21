@@ -30,12 +30,9 @@ const DropDownAction: FC<IDropDownAction> = ({
   const { step, tempSettings, setTempSettings } = usePopupContext()
   const { updateTempSettings } = useSidePopup()
   const actionName = step.name
-  // const options = step.options as IOption[]
 
   const currentValue =
-    tempSettings && tempSettings[actionName] && tempSettings[actionName][settingName]
-      ? tempSettings[actionName][settingName]
-      : options[0].name
+    tempSettings && tempSettings[settingName] ? tempSettings[settingName] : options[0].name
 
   useEffect(() => {
     changeSettings(currentValue)

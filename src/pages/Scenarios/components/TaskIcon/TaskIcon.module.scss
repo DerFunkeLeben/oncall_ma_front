@@ -62,6 +62,29 @@
   }
 }
 
+.not_available {
+  opacity: 0.2;
+  &[data-status='validated'] {
+    *[data-name='back'] {
+      fill: var(--gray_3);
+      stroke: var(--gray_3);
+    }
+    *[data-name='logo'] {
+      fill: var(--white);
+      stroke: var(--white);
+    }
+  }
+  &[data-status='default'] {
+    *[data-name='back'] {
+      fill: var(--white);
+    }
+    *[data-name='logo'] {
+      fill: var(--gray_3);
+      stroke: var(--gray_3);
+    }
+  }
+}
+
 .iconRomb {
   transform: translate(-10px, -12px);
 }

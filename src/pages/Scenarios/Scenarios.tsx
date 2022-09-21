@@ -1,24 +1,42 @@
 import { FC, useEffect, useState } from 'react'
 import cx from 'classnames'
+import { Switch, Route, Redirect } from 'react-router-dom'
 
+import CreateScenario from './Scenario/CreateScenario'
+import AllContent from './AllScenarios/AllScenarios'
+import { PagesData } from 'constants/url'
 import Sidebar from 'components/Sidebar/Sidebar'
-import PageHead from 'components/PageHead/PageHead'
-import ScenarioBuilder from 'pages/Scenarios/components/ScenarioBuilder/ScenarioBuilder'
-import { IStep, ISidePopupStep } from 'types/sidePopup'
+import { IPageData } from 'types'
 
 import styles from './Scenarios.module.scss'
-import Field from './components/Field/Field'
-import TasksStorage from './components/TasksStorage/TasksStorage'
 
-const Scenarios: FC = () => {
+const SCENARIO_PAGES = [
+  {
+    Component: AllContent,
+    ...PagesData.SCENARIOS,
+  },
+  {
+    Component: CreateScenario,
+    ...PagesData.CREATE_SCENARIOS,
+  },
+]
+
+const Scenarios: FC<IPageData> = () => {
   return (
     <div className={cx(styles.page)}>
-      <Sidebar />
-      <div className={cx(styles.pageContent)}>
-        <PageHead title="Сценарии" />
-        <TasksStorage />
-        <ScenarioBuilder />
-      </div>
+      <Switch>
+        {SCENARIO_PAGES.map((page) => {
+          const { link, Component, ...rest } = page
+          console.log({ page })
+          return (
+            <Route exact path={link} key={link}>
+              <Sidebar />
+              <Component {...rest} link={link} />
+            </Route>
+          )
+        })}
+        <Route render={() => <Redirect to="/" />} />
+      </Switch>
     </div>
   )
 }

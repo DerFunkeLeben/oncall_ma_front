@@ -7,19 +7,38 @@ import styles from './TasksStorage.module.scss'
 
 import { TasksTypes, TaskStorageFolders, TasksDefaultNames } from 'types'
 
-const { email, sms, telegram, condition, wait, ab_test, crm_message } = TasksTypes
+const {
+  email,
+  sms,
+  telegram,
+  condition,
+  wait,
+  ab_test,
+  crm_message,
+  push,
+  assignment,
+  join,
+  finish,
+  start,
+} = TasksTypes
 
 const { scenario_creation, communication, scenarios } = TaskStorageFolders
 
 const taskStorage = [
   // { title: scenario_creation, tasks: [list, event], color: 'orange' },
-  { title: communication, tasks: [email, sms, telegram], color: 'cyan' },
+  { title: communication, tasks: [email, sms, telegram, push, assignment], color: 'cyan' },
   {
     title: scenarios,
-    tasks: [condition, wait, ab_test, crm_message],
+    tasks: [condition, wait, ab_test, crm_message, join],
     color: 'pink',
   },
 ]
+
+const avaliableTasks = [condition, wait, email, finish, start]
+
+const isAvaliable = (task: TasksTypes) => {
+  return avaliableTasks.includes(task)
+}
 
 const TasksStorage: FC = () => {
   return (
@@ -36,10 +55,13 @@ const TasksStorage: FC = () => {
                   color,
                   status: 'validated',
                   name: TasksDefaultNames[task],
+                  available: isAvaliable(task),
+                  placed: false,
+                  properties: {},
                 }
                 return (
                   <div key={indexA} className={styles.taskContainer}>
-                    <Task properties={properties}></Task>
+                    <Task settings={properties}></Task>
                   </div>
                 )
               })}

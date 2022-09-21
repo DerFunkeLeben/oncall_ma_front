@@ -26,11 +26,28 @@ export interface ITask {
   name: string
   input?: string[]
   output?: string[]
-  settings?: { [key: string]: any }
+  properties: { [key: string]: any }
+  available?: boolean
+  placed: boolean
 }
 
 export interface ITasksHeap {
   [key: string]: ITask
+}
+
+export interface IScenario {
+  name: string
+  startDate: number
+  scenarioType: 'single' | 'reccuring' | 'schedule'
+  scenarioId?: string
+}
+
+export type IAllScenaries = TScenarioObj[]
+
+export type TScenarioObj = {
+  start: 'string'
+  id: 'string'
+  events: any
 }
 
 export type TObject = {
@@ -88,7 +105,7 @@ export enum TasksTypes {
   ab_test = 'ab_test',
   assignment = 'assignment',
   crm_message = 'crm_message',
-  exit = 'exit',
+  finish = 'finish',
   start = 'start',
 }
 
@@ -106,7 +123,7 @@ export enum TasksDefaultNames {
   ab_test = 'А/Б тест',
   assignment = 'Присвоение атрибута',
   crm_message = 'CRM сообщение',
-  exit = 'Выход',
+  finish = 'Выход',
 }
 
 export enum TaskStorageFolders {

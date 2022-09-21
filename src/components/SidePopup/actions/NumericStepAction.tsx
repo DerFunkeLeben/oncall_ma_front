@@ -11,10 +11,7 @@ const NumericStepAction: FC<IAction> = ({ settingName, applySettings }) => {
   const actionName = step.name
   const { title } = step
 
-  const currentValue =
-    tempSettings && tempSettings[actionName] && tempSettings[actionName][settingName]
-      ? tempSettings[actionName][settingName]
-      : 0
+  const currentValue = tempSettings && tempSettings[settingName] ? tempSettings[settingName] : 0
 
   const handleChange = (value: number | null) => {
     applySettings(value, tempSettings, updateTempSettings)

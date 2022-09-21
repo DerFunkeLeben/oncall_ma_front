@@ -13,8 +13,9 @@ import useFilterState from 'components/SidePopup/actions/FilterAction/useFilterS
 import { AudienceAction, DoctorKeys } from 'constants/audience'
 import { AUDIENCE_URL_CREATE, PagesData } from 'constants/url'
 import { IPageData } from 'types'
-import { ISidePopupStep } from 'types/sidePopup'
+import { ISidePopupStep, IStep } from 'types/sidePopup'
 import { IAudienceMetaData } from 'types/audience'
+import { SidePopupActions } from 'constants/sidePopup'
 
 import styles from './OneAudience.module.scss'
 import useCurrentAudience from 'store/audiences/useCurrentAudience'
@@ -33,13 +34,25 @@ const initData = {
   },
 }
 
-const configFilter: any = {
+const configTest: IStep = {
   name: 'filter',
   actions: [
     {
-      type: 'filter',
+      label: 'ATTRIBUTE_CONDITION',
+      type: SidePopupActions.FILTER,
       settingName: 'filter',
-      attributes: Object.keys(DoctorKeys),
+      attributes: ['a', 'b'],
+      applySettings: (newState, properties, updateTempSettings) => {
+        const settedFilters = properties?.['filter']
+        const update = settedFilters
+          ? {
+              ...settedFilters,
+              ...newState,
+            }
+          : newState
+        console.log({ update })
+        updateTempSettings(false, [{ filter: update }])
+      },
     },
   ],
 }
@@ -113,7 +126,7 @@ const OneAudience: FC<IPageData> = () => {
       <SidePopup
         isOpen={filterisOpen}
         close={toggleFilterPopup}
-        config={configFilter}
+        config={configTest}
         handleSave={handleFiltersSave}
         title={'Фильтры'}
       />

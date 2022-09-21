@@ -18,7 +18,7 @@ const configs: IConfigs = {
         label: 'Количество',
         type: SidePopupActions.NUMERIC_STEP,
         applySettings: (newState: any, tempSettings: any, updateTempSettings: any) => {
-          updateTempSettings('duration', [{ amount: newState }])
+          updateTempSettings(false, [{ amount: newState }])
         },
       },
       {
@@ -27,7 +27,7 @@ const configs: IConfigs = {
         options: TIME_OPTIONS,
         type: SidePopupActions.DROP_DOWN,
         applySettings: (newState: any, tempSettings: any, updateTempSettings: any) => {
-          updateTempSettings('duration', [{ unit: newState }])
+          updateTempSettings(false, [{ unit: newState }])
         },
       },
     ],
@@ -37,12 +37,12 @@ const configs: IConfigs = {
     title: 'Email',
     actions: [
       {
-        settingName: 'emailId',
+        settingName: 'id',
         label: 'Временной отрезок',
         type: SidePopupActions.TABLE,
         url: 'urlToEmails',
-        applySettings: (newState: any, tempSettings: any, updateTempSettings: any) => {
-          updateTempSettings('email', [{ emailId: newState }])
+        applySettings: (allLineData: any, tempSettings: any, updateTempSettings: any) => {
+          updateTempSettings(false, [allLineData])
         },
       },
     ],
@@ -52,98 +52,98 @@ const configs: IConfigs = {
         actions: [
           {
             type: SidePopupActions.INPUT,
-            settingName: 'emailTitle',
+            settingName: 'theme',
             label: 'emailTitle',
             applySettings: (newState: any, tempSettings: any, updateTempSettings: any) => {
-              updateTempSettings('email', [{ emailTitle: newState }])
+              updateTempSettings(false, [{ theme: newState }])
             },
           },
           {
             type: SidePopupActions.INPUT,
-            settingName: 'emailSubTitle',
+            settingName: 'preheader',
             label: 'emailSubTitle',
             applySettings: (newState: any, tempSettings: any, updateTempSettings: any) => {
-              updateTempSettings('email', [{ emailSubTitle: newState }])
+              updateTempSettings(false, [{ preheader: newState }])
             },
           },
         ],
       }
     },
   },
-  sms: {
-    name: 'sms',
-    title: 'SMS',
-    actions: [
-      {
-        type: SidePopupActions.TABLE,
-        url: 'urlToSMSes',
-        settingName: 'smsId',
-        applySettings: (newState, tempSettings, updateTempSettings) => {
-          const gettedSMSText = 'text'
-          updateTempSettings('sms', [{ smsId: newState }, { smsText: gettedSMSText }])
-        },
-      },
-    ],
-    getNextStep: () => {
-      return {
-        name: 'sms',
-        actions: [
-          {
-            label: 'Текст',
-            type: SidePopupActions.TEXTAREA,
-            settingName: 'smsText',
-            applySettings: (newState, tempSettings, updateTempSettings) => {
-              updateTempSettings('sms', [{ smsText: newState }])
-            },
-          },
-        ],
-      }
-    },
-  },
-  telegram: {
-    name: 'telegram',
-    title: 'Telegram',
-    actions: [
-      {
-        type: SidePopupActions.TABLE,
-        url: 'urlToTelegrames',
-        settingName: 'tgId',
-        applySettings: (newState, tempSettings, updateTempSettings) => {
-          const gettedTelegramText = 'text'
-          updateTempSettings('telegram', [{ tgId: newState }, { tgText: gettedTelegramText }])
-        },
-      },
-    ],
-    getNextStep: () => {
-      return {
-        name: 'telegram',
-        actions: [
-          {
-            label: 'Текст',
-            type: SidePopupActions.TEXTAREA,
-            settingName: 'tgText',
-            applySettings: (newState, tempSettings, updateTempSettings) => {
-              updateTempSettings('telegram', [{ tgText: newState }])
-            },
-          },
-        ],
-      }
-    },
-  },
-  crm_message: {
-    name: 'crm_message',
-    title: 'CRM сообщение',
-    actions: [
-      {
-        label: 'Сообщение',
-        type: SidePopupActions.TEXTAREA,
-        settingName: 'crm_messageText',
-        applySettings: (newState, tempSettings, updateTempSettings) => {
-          updateTempSettings('crm_message', [{ crm_messageText: newState }])
-        },
-      },
-    ],
-  },
+  // sms: {
+  //   name: 'sms',
+  //   title: 'SMS',
+  //   actions: [
+  //     {
+  //       type: SidePopupActions.TABLE,
+  //       url: 'urlToSMSes',
+  //       settingName: 'smsId',
+  //       applySettings: (newState, tempSettings, updateTempSettings) => {
+  //         const gettedSMSText = 'text'
+  //         updateTempSettings('sms', [{ smsId: newState }, { smsText: gettedSMSText }])
+  //       },
+  //     },
+  //   ],
+  //   getNextStep: () => {
+  //     return {
+  //       name: 'sms',
+  //       actions: [
+  //         {
+  //           label: 'Текст',
+  //           type: SidePopupActions.TEXTAREA,
+  //           settingName: 'smsText',
+  //           applySettings: (newState, tempSettings, updateTempSettings) => {
+  //             updateTempSettings('sms', [{ smsText: newState }])
+  //           },
+  //         },
+  //       ],
+  //     }
+  //   },
+  // },
+  // telegram: {
+  //   name: 'telegram',
+  //   title: 'Telegram',
+  //   actions: [
+  //     {
+  //       type: SidePopupActions.TABLE,
+  //       url: 'urlToTelegrames',
+  //       settingName: 'tgId',
+  //       applySettings: (newState, tempSettings, updateTempSettings) => {
+  //         const gettedTelegramText = 'text'
+  //         updateTempSettings('telegram', [{ tgId: newState }, { tgText: gettedTelegramText }])
+  //       },
+  //     },
+  //   ],
+  //   getNextStep: () => {
+  //     return {
+  //       name: 'telegram',
+  //       actions: [
+  //         {
+  //           label: 'Текст',
+  //           type: SidePopupActions.TEXTAREA,
+  //           settingName: 'tgText',
+  //           applySettings: (newState, tempSettings, updateTempSettings) => {
+  //             updateTempSettings('telegram', [{ tgText: newState }])
+  //           },
+  //         },
+  //       ],
+  //     }
+  //   },
+  // },
+  // crm_message: {
+  //   name: 'crm_message',
+  //   title: 'CRM сообщение',
+  //   actions: [
+  //     {
+  //       label: 'Сообщение',
+  //       type: SidePopupActions.TEXTAREA,
+  //       settingName: 'crm_messageText',
+  //       applySettings: (newState, tempSettings, updateTempSettings) => {
+  //         updateTempSettings('crm_message', [{ crm_messageText: newState }])
+  //       },
+  //     },
+  //   ],
+  // },
   condition: {
     name: 'condition',
     title: 'CRM сообщение',
@@ -154,12 +154,13 @@ const configs: IConfigs = {
         settingName: 'conditionType',
         options: CONDIIOTNS_OPTIONS,
         applySettings: (newState, tempSettings, updateTempSettings) => {
-          updateTempSettings('condition', [{ conditionType: newState }])
+          const reset = tempSettings.conditionType !== newState
+          updateTempSettings(reset, [{ conditionType: newState }])
         },
       },
     ],
     getNextStep: (tempSettings) => {
-      const type = tempSettings?.condition?.conditionType
+      const type = tempSettings?.conditionType
       if (!type) return null
       if (type === ConditionTypes.BY_ATTRIBUTES) {
         return {
@@ -169,40 +170,21 @@ const configs: IConfigs = {
               label: 'ATTRIBUTE_CONDITION',
               type: SidePopupActions.ATTRIBUTE_CONDITION,
               settingName: 'filter',
-              applySettings: (newState, settings, updateTempSettings) => {
-                const settedFilters = settings?.['condition']?.['filter']
-                console.log({ newState })
+              applySettings: (newState, properties, updateTempSettings) => {
+                const settedFilters = properties?.['filter']
                 const update = settedFilters
                   ? {
                       ...settedFilters,
                       ...newState,
                     }
                   : newState
-                console.log({ update })
-                updateTempSettings('condition', [{ filter: update }])
+                updateTempSettings(false, [{ filter: update }])
               },
             },
           ],
         }
       }
-      if (type === ConditionTypes.BY_COMMUNICATION_TYPE) {
-        return {
-          name: 'condition',
-          title: 'CRM сообщение',
-          actions: [
-            {
-              label: 'Сообщение',
-              type: SidePopupActions.RADIO,
-              settingName: 'conditionType',
-              options: CONDIIOTNS_OPTIONS,
-              applySettings: (newState, tempSettings1, updateTempSettings) => {
-                updateTempSettings('condition', [{ conditionType: newState }])
-              },
-            },
-          ],
-        }
-      }
-      if (type === ConditionTypes.RANDOMLY) {
+      if (type === ConditionTypes.random) {
         return {
           name: 'condition',
           actions: [
@@ -210,12 +192,12 @@ const configs: IConfigs = {
               label: 'Текст111',
               type: SidePopupActions.SLIDER_RELATION,
               settingName: 'slider',
-              applySettings: (valuePair, settings, updateTempSettings) => {
+              applySettings: (valuePair, properties, updateTempSettings) => {
                 const { index, value } = valuePair
                 const anotherIndex = index === 0 ? 1 : 0
                 const anotherValue = 100 - value
 
-                updateTempSettings('condition', [
+                updateTempSettings(false, [
                   { [`slider_${index}`]: value.toString() },
                   { [`slider_${anotherIndex}`]: anotherValue.toString() },
                 ])

@@ -36,7 +36,7 @@ const TaskIcon: FC<ITaskIcon> = ({ type, status, color }) => {
     ab_test: <IconTaskAbTest className={cx(styles[color])} data-status={status} />,
     assignment: <IconTaskAssigment className={cx(styles[color])} data-status={status} />,
     crm_message: <IconTaskCrmMessage className={cx(styles[color])} data-status={status} />,
-    exit: <IconTaskExit className={cx(styles[color], styles.iconRomb)} data-status={status} />,
+    finish: <IconTaskExit className={cx(styles[color], styles.iconRomb)} data-status={status} />,
     start: <IconTaskExit className={cx(styles[color], styles.iconRomb)} data-status={status} />,
   }
   return <>{taskIcons[type]}</>

@@ -12,10 +12,7 @@ const InputAction: FC<IAction> = ({ settingName, label, applySettings }) => {
 
   const actionName = step.name
 
-  const currentValue =
-    tempSettings && tempSettings[actionName] && tempSettings[actionName][settingName]
-      ? tempSettings[actionName][settingName]
-      : ''
+  const currentValue = tempSettings && tempSettings[settingName] ? tempSettings[settingName] : ''
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target

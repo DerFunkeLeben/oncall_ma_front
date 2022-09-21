@@ -1,4 +1,5 @@
 export const TIME_OPTIONS = [
+  { name: 'null', label: 'Выберите' },
   { name: 'months', label: 'Месяцы' },
   { name: 'weeks', label: 'Недели' },
   { name: 'days', label: 'Дни' },
@@ -7,15 +8,15 @@ export const TIME_OPTIONS = [
 ]
 
 export enum ConditionTypes {
-  BY_ATTRIBUTES = 'byAttributes',
+  BY_ATTRIBUTES = 'atribute',
   BY_COMMUNICATION_TYPE = 'byCommunicationType',
-  RANDOMLY = 'randomly',
+  random = 'random',
 }
 
 export const CONDIIOTNS_OPTIONS = [
   { name: ConditionTypes.BY_ATTRIBUTES, label: 'По атрибутам' },
   // { name: ConditionTypes.BY_COMMUNICATION_TYPE, label: 'По типу коммуникации' },
-  { name: ConditionTypes.RANDOMLY, label: 'Рандомно' },
+  { name: ConditionTypes.random, label: 'Рандомно' },
 ]
 
 export const ATTRIBUTES_OPTIONS = [

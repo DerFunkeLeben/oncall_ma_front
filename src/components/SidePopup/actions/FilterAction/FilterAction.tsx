@@ -28,7 +28,6 @@ interface IRadioGroupAction extends IAction {
 const FilterAction: FC<IRadioGroupAction> = ({ settingName, applySettings, attributes }) => {
   const { step, tempSettings } = usePopupContext()
   const { updateTempSettings } = useSidePopup()
-  const actionName = step.name
 
   const initFirstLevelRow = (id: string) => {
     return {
@@ -68,19 +67,17 @@ const FilterAction: FC<IRadioGroupAction> = ({ settingName, applySettings, attri
       secondLevel: newSecondLevelElements,
       thirdLevel: newThirdLevelElements,
     }
+    console.log('initState', newlevel, tempSettings)
     applySettings(newlevel, tempSettings, updateTempSettings)
   }
 
   useEffect(() => {
-    if (!tempSettings?.[actionName]?.[settingName]) {
+    if (!tempSettings?.[settingName]) {
       initState()
     }
-  }, [])
+  }, [tempSettings])
 
-  const filterState =
-    tempSettings && tempSettings[actionName] && tempSettings[actionName][settingName]
-      ? tempSettings[actionName][settingName]
-      : ''
+  const filterState = tempSettings && tempSettings[settingName] ? tempSettings[settingName] : ''
 
   const { firstLevel, secondLevel, thirdLevel } = filterState
 
@@ -226,6 +223,8 @@ const FilterAction: FC<IRadioGroupAction> = ({ settingName, applySettings, attri
       updateState({ firstLevel: updatedThird })
     }
   }
+
+  console.log({ thirdLevel })
 
   return (
     <div className={styles.wrapper}>

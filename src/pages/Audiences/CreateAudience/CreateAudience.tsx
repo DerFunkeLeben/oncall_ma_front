@@ -4,10 +4,11 @@ import cx from 'classnames'
 import SidePopup from 'components/SidePopup/SidePopup'
 import AudienceHead from '../components/AudienceHead/AudienceHead'
 import { CreateAudienceTable } from './parts/CreateAudienceTable'
+import { SidePopupActions } from 'constants/sidePopup'
 
 import useToggle from 'hooks/useToggle'
 import { IPageData } from 'types'
-import { ISidePopupStep } from 'types/sidePopup'
+import { ISidePopupStep, IStep } from 'types/sidePopup'
 import { IAudienceMetaData } from 'types/audience'
 import { getToday } from 'utils/transformDate'
 
@@ -27,17 +28,26 @@ const initData = {
 
 const title = 'Фильтры'
 
-const configTest: any = {
+const configTest: IStep = {
   name: 'filter',
-  attributes: [
-    'Фамилия',
-    'Имя',
-    'Отчество',
-    'Email',
-    'Телефон',
-    'Город',
-    'Специальность',
-    'Сегмент',
+  actions: [
+    {
+      label: 'ATTRIBUTE_CONDITION',
+      type: SidePopupActions.FILTER,
+      settingName: 'filter',
+      attributes: ['a', 'b'],
+      applySettings: (newState, properties, updateTempSettings) => {
+        const settedFilters = properties?.['filter']
+        const update = settedFilters
+          ? {
+              ...settedFilters,
+              ...newState,
+            }
+          : newState
+        console.log({ update })
+        updateTempSettings(false, [{ filter: update }])
+      },
+    },
   ],
 }
 

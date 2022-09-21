@@ -20,6 +20,12 @@ export const AUDIENCE_URL_ALL = `${AUDIENCE_URL}/groups`
 export const AUDIENCE_URL_ONE = `${AUDIENCE_URL}/get`
 export const AUDIENCE_URL_ONE_GROUP = `${AUDIENCE_URL}/group`
 
+export const EVENT_URL = `/events/event`
+export const EVENT_URL_ADD = `${EVENT_URL}/add`
+export const EVENT_URL_ALL = `${EVENT_URL}/all`
+export const EVENT_URL_VALIDATE = `${EVENT_URL}/validate`
+export const EVENT_URL_START = `${EVENT_URL}/start/`
+
 export const audiencesRoutes = [
   '/audiences',
   '/audiences/:audienceid',
@@ -43,7 +49,8 @@ export const contentRoutes = [
 ]
 
 export const analyticsRoutes = ['/analytics']
-export const scenariosRoutes = ['/scenarios']
+export const CREATE_SCENARIO = '/create_scenario'
+export const scenariosRoutes = ['/scenarios', CREATE_SCENARIO, `${CREATE_SCENARIO}/:eventId`]
 
 export const PagesData: IPagesData = {
   LOGIN: {
@@ -110,6 +117,11 @@ export const PagesData: IPagesData = {
     link: analyticsRoutes[0],
     route: analyticsRoutes,
     name: 'Аналитика',
+  },
+  CREATE_SCENARIOS: {
+    link: scenariosRoutes[1],
+    route: scenariosRoutes,
+    name: 'Создание сценария',
   },
   SCENARIOS: {
     link: scenariosRoutes[0],
