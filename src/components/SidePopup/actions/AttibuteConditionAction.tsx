@@ -14,7 +14,12 @@ import SidePopupFooter from '../SidePopupFooter'
 import { IconFilters } from 'assets/icons'
 import { LogicalOperators, Conditions } from 'constants/sidePopup'
 
-const AttibuteConditionAction: FC<IAction> = ({ settingName, label, applySettings }) => {
+const AttibuteConditionAction: FC<IAction> = ({
+  settingName,
+  label,
+  applySettings,
+  attributes,
+}) => {
   const { step, currentState, tempSettings, setSettings } = usePopupContext()
   const { updateTempSettings } = useSidePopup()
   const [filterPopupIsOpen, setFilterPopupIsOpen] = useState(false)
@@ -32,12 +37,12 @@ const AttibuteConditionAction: FC<IAction> = ({ settingName, label, applySetting
     setFilterPopupIsOpen(false)
   }
 
-  const attributes = ['a']
+  // const attributes = ['a']
 
   const initState = () => {
     const initFirstLevelRow = (id: string) => {
       return {
-        defined: attributes[0].toLocaleLowerCase(),
+        defined: attributes?.[0].toLocaleLowerCase(),
         logicalOperator: LogicalOperators.AND,
         condition: Conditions.EQUAL,
         determinant: '',

@@ -3,6 +3,7 @@ import { ISidePopupStep } from 'types/sidePopup'
 import { TasksTypes } from 'types'
 
 import { TIME_OPTIONS, CONDIIOTNS_OPTIONS, ConditionTypes } from 'constants/sidePopup'
+import { DoctorKeyLabels } from 'constants/audience'
 
 type IConfigs = {
   [key in TasksTypes]?: ISidePopupStep
@@ -170,6 +171,7 @@ const configs: IConfigs = {
               label: 'ATTRIBUTE_CONDITION',
               type: SidePopupActions.ATTRIBUTE_CONDITION,
               settingName: 'filter',
+              attributes: Object.keys(DoctorKeyLabels),
               applySettings: (newState, properties, updateTempSettings) => {
                 const settedFilters = properties?.['filter']
                 const update = settedFilters

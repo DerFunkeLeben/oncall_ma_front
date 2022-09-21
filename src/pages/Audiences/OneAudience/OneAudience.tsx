@@ -38,6 +38,8 @@ import ValidationError from 'constants/ValidationError'
 import useMessageBoxContext from 'context/MessageBoxContext'
 import { timeDelay } from 'utils'
 
+import { DoctorKeyLabels } from 'constants/audience'
+
 const initData = {
   id: '0',
   name: 'Аудитория',
@@ -57,7 +59,7 @@ const configFilter: IStep = {
       label: 'ATTRIBUTE_CONDITION',
       type: SidePopupActions.FILTER,
       settingName: 'filter',
-      attributes: ['a', 'b'],
+      attributes: Object.keys(DoctorKeyLabels),
       applySettings: (newState, properties, updateTempSettings) => {
         const settedFilters = properties?.['filter']
         const update = settedFilters
