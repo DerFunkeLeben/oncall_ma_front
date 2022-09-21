@@ -105,8 +105,8 @@ export const OneAudienceTable = ({ allDoctors }: { allDoctors: IDoctor[] }) => {
         } = dataRow
 
         // TODO срочно исправить
-        const fieldsKeys = ['firstName', 'lastName', 'middleName', 'email', 'phone', 'city']
-        const fields = [firstName, lastName, middleName, email, phone, city]
+        const fieldsKeys = ['lastName', 'firstName', 'middleName', 'email', 'phone', 'city']
+        const fields = [lastName, firstName, middleName, email, phone, city]
 
         const checked = isItChecked(id)
         return (

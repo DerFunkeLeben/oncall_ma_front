@@ -20,7 +20,7 @@ import {
   DOCTORS_URL_ADD,
   PagesData,
 } from 'constants/url'
-import { AudienceAction, DoctorKeys, INIT_AUDIENCE } from 'constants/audience'
+import { AudienceAction, DoctorKeyLabels, DoctorKeys, INIT_AUDIENCE } from 'constants/audience'
 import { SidePopupActions } from 'constants/sidePopup'
 import { IFilterState } from 'components/SidePopup/actions/FilterAction/types'
 import { IPageData } from 'types'
@@ -123,14 +123,14 @@ const OneAudience: FC<IPageData> = () => {
       })
     }
 
-    const filterQueryIsEmpty = Object.keys(currentAudience.audience.query).length === 0
-    if (filterQueryIsEmpty) {
-      return setMessageBox({
-        isOpen: true,
-        title: ValidationError.FILTERS_NOT_SET,
-        buttons: ['Ок'],
-      })
-    }
+    // const filterQueryIsEmpty = Object.keys(currentAudience.audience.query).length === 0
+    // if (filterQueryIsEmpty) {
+    //   return setMessageBox({
+    //     isOpen: true,
+    //     title: ValidationError.FILTERS_NOT_SET,
+    //     buttons: ['Ок'],
+    //   })
+    // }
 
     const promiseArr = []
 

@@ -173,7 +173,8 @@ const FilterAction: FC<IRadioGroupAction> = ({ settingName, applySettings, attri
                 } else return thirdElement
               })
               .filter((element: any) => element) as IThirdLevelObj[]
-            updateState({ firstLevel: newThirdLevelElements })
+            console.log('newThirdLevelElements', newThirdLevelElements)
+            updateState({ thirdLevel: newThirdLevelElements })
             return null
           } else {
             return {
