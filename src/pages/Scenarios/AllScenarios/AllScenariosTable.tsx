@@ -101,7 +101,6 @@ const AllScenariosTable: FC<{ allContent: IAllScenaries }> = ({ allContent }) =>
         const { id, start } = contentItem
         if (!contentItem?.events?.[start]?.properties) return
         const { startDate, scenarioType } = contentItem.events[start].properties
-        console.log(startDate, scenarioType)
         const checked = isItChecked(id)
         return (
           <div

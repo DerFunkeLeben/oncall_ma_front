@@ -4,6 +4,7 @@ import { TasksTypes } from 'types'
 
 import { TIME_OPTIONS, CONDIIOTNS_OPTIONS, ConditionTypes } from 'constants/sidePopup'
 import { DoctorKeyLabels } from 'constants/audience'
+import { CONTENT_URL_ALL } from 'constants/url'
 
 type IConfigs = {
   [key in TasksTypes]?: ISidePopupStep
@@ -41,7 +42,7 @@ const configs: IConfigs = {
         settingName: 'id',
         label: 'Временной отрезок',
         type: SidePopupActions.TABLE,
-        url: 'urlToEmails',
+        url: CONTENT_URL_ALL,
         applySettings: (allLineData: any, tempSettings: any, updateTempSettings: any) => {
           updateTempSettings(false, [allLineData])
         },

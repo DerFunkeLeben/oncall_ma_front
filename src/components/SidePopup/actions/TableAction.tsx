@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react'
+import { FC, useEffect, useState, useCallback } from 'react'
 import cx from 'classnames'
 
 import usePopupContext from 'context/SidePopupContext'
@@ -11,22 +11,30 @@ import tableStyles from 'components/Table/TableBase.module.scss'
 import useTable from 'components/Table/useTable'
 import radioStyles from 'components/parts/RadioGroup/RadioGroup.module.scss'
 import { useSidePopup } from 'store/sidePopupStore/useSidePopup'
-import useAllContent from 'store/content/useAllContent'
 import { ddmmyyyy } from 'utils/transformDate'
 
-import { EVENT_URL_ADD, EVENT_URL_ALL, EVENT_URL_VALIDATE } from 'constants/url'
-import { getAxiosSingle } from 'utils/axios'
+import { getAxiosArr } from 'utils/axios'
 import { IContent } from 'types/content'
 
 const header = ['', 'Название', 'Дата редактирования']
 
 const TableAction: FC<IAction> = ({ settingName, applySettings, url }) => {
   const [radioSelected, setRadioSelected] = useState<string | undefined | null>(null)
-
-  const { allContent } = useAllContent()
   const [tableData, setTableData] = useState<IContent[]>([])
   const { step, setTempSettings, tempSettings, savedSettings } = usePopupContext()
+  const [allContent, setAllContent] = useState<any[]>([])
   const { updateTempSettings } = useSidePopup()
+
+  const getAllContent = useCallback(async () => {
+    const content = await getAxiosArr(url as string)
+
+    // TODO поменять получаемый объект на бэке
+    setAllContent(() => content)
+  }, [])
+
+  useEffect(() => {
+    getAllContent()
+  }, [])
 
   const defaultValue = null
   const currentValue =
@@ -36,17 +44,12 @@ const TableAction: FC<IAction> = ({ settingName, applySettings, url }) => {
     const { id } = e.currentTarget.dataset
     const newId = id === radioSelected ? null : (id || 0).toString()
 
-    const allLineData = tableData.filter((tableLine) => tableLine.id === newId)[0]
+    const allLineData = allContent.filter((tableLine) => tableLine.id === newId)[0]
 
     applySettings(allLineData, tempSettings, updateTempSettings)
 
     setRadioSelected(newId)
   }
-
-  useEffect(() => {
-    const emails = allContent.filter((e) => e.type === 'email') as IContent[]
-    setTableData(emails)
-  }, [])
 
   const isRadioSelected = (id: string | undefined | null) => currentValue === id
 
@@ -57,8 +60,8 @@ const TableAction: FC<IAction> = ({ settingName, applySettings, url }) => {
         handleScrollLimit={() => console.log('handleScrollLimit')}
         totalCountOfData={10}
       >
-        {tableData.map((row, index) => {
-          const { id, title, createdAt } = tableData[index]
+        {allContent.map((row, index) => {
+          const { id, title, createdAt } = allContent[index]
           return (
             <div className={cx(tableStyles.row)} key={index} onClick={handleChange} data-id={id}>
               <div className={cx(tableStyles.cell, tableStyles.cellCheck)}>
