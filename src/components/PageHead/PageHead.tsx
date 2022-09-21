@@ -19,7 +19,7 @@ interface IPageHead {
   createDate?: string
   lastUpdateDate?: string
   separateBlock?: React.ReactElement
-  mod?: boolean
+  mod?: string
   buttonBackName?: string
   buttonBackUrl?: string
   titleEditable?: boolean
@@ -57,7 +57,7 @@ const PageHead: FC<IPageHead> = ({
     })
 
   return (
-    <div className={cx(styles.head, mod && styles.bigHeadMode)}>
+    <div className={cx(styles.head, mod)}>
       <div className={styles.titleContainer}>
         {buttonBackName && (
           <Button

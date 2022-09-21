@@ -7,6 +7,10 @@
   grid-template-rows: 1fr;
 }
 
+.headScenario {
+  grid-template-columns: 430px 1fr;
+}
+
 .container {
   display: flex;
   flex-direction: row;
@@ -25,7 +29,7 @@
   flex-direction: row;
   align-items: flex-start;
   & > *:not(:last-child) {
-    margin-right: 30px;
+    margin-right: 24px;
   }
 }
 .rightBlock {
@@ -33,7 +37,7 @@
   flex-direction: row;
   align-items: flex-end;
   & > *:not(:last-child) {
-    margin-right: 30px;
+    margin-right: 24px;
   }
 }
 .bigHeadMode {

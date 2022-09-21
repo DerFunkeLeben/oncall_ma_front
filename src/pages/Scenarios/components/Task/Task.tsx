@@ -14,17 +14,18 @@ import SidePopup from 'components/SidePopup/SidePopup'
 import { ISidePopupStep } from 'types/sidePopup'
 import configs from './configs'
 
-const { exit } = TasksTypes
+const { finish, start } = TasksTypes
 
-const Task: FC<ITaskNode> = ({ properties, id }) => {
-  const { type, color, status, name, settings } = properties
+const Task: FC<ITaskNode> = ({ settings, id }) => {
+  const { type, color, status, name, properties, available, placed } = settings
   const { setTaskIsMoving, addTask, deleteTask, updateSettings } = useScenario()
   // const [popupTempSettings, setPopupTempSettings] = useState<{ [key: string]: string } | null>(null)
   const [wasMoved, setWasMoved] = useState(false)
   const [popupIsOpen, setPopupIsOpen] = useState(false)
+  const [startPopupIsOpen, setStartPopupIsOpen] = useState(false)
   const config = configs[type]
 
-  // const currentPopupSettings = popupTempSettings ? popupTempSettings : settings
+  // const currentPopupSettings = popupTempSettings ? popupTempSettings : properties
 
   const position = { x: 0, y: 0 }
 
@@ -32,14 +33,15 @@ const Task: FC<ITaskNode> = ({ properties, id }) => {
   const myId = isTaskPlacedInScenario ? (id as string) : uuid()
 
   const isDeleteAvailable = () => {
-    const typeAllowsToBeDeleted = ![exit].includes(type)
+    const typeAllowsToBeDeleted = ![finish].includes(type)
     return isTaskPlacedInScenario && typeAllowsToBeDeleted
   }
 
-  const isDraggable = ![exit].includes(type)
+  const isDraggable = ![finish].includes(type)
 
   const handleStart = (e: Event, data: DraggableData) => {
     e.preventDefault()
+    if (!available) return false
     setTaskIsMoving(true)
     if (!isDraggable) return false
   }
@@ -61,10 +63,10 @@ const Task: FC<ITaskNode> = ({ properties, id }) => {
       const rightNodeId = nodeUnderMouse.dataset.taskId
       if (rightNodeId) {
         const newTaskId = uuid()
-        addTask(properties, newTaskId, rightNodeId)
+        addTask(settings, newTaskId, rightNodeId)
       }
     }
-    if (!wasMoved) setPopupIsOpen(true)
+    if (!wasMoved && placed) setPopupIsOpen(true)
     draggableNode.style.pointerEvents = 'all'
     draggableNode.style.zIndex = '10'
     e.preventDefault()
@@ -99,7 +101,7 @@ const Task: FC<ITaskNode> = ({ properties, id }) => {
           data-type={type}
         >
           <div className={styles.taskIconContainer}>
-            <TaskIcon type={type} status={status} color={color} />
+            <TaskIcon type={type} status={status} color={available ? color : 'not_available'} />
           </div>
           <p className={cx(styles.name, 'text_05')}>{name}</p>
           <div className={styles.hoverBlock}>
@@ -118,7 +120,7 @@ const Task: FC<ITaskNode> = ({ properties, id }) => {
           config={config}
           handleSave={save}
           title={config.title ? config.title : config.name}
-          savedSettings={settings}
+          savedSettings={properties}
           type={type}
         />
       )}

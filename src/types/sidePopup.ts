@@ -36,7 +36,7 @@ export interface IState {
 }
 
 export interface IStatePopup {
-  [key: string]: { [key: string]: string | undefined } | undefined
+  [key: string]: any
 }
 
 export interface IAction {

@@ -26,27 +26,48 @@ import { IFilterState } from 'components/SidePopup/actions/FilterAction/types'
 import { IPageData } from 'types'
 import { IStep } from 'types/sidePopup'
 import { getAxiosArr, getAxiosSingle, postAxiosSingle } from 'utils/axios'
+import { Conditions } from 'constants/sidePopup'
 import {
   parseStateToQuery,
   parseQueryToState,
 } from '../../../components/SidePopup/actions/FilterAction/utils'
+import { IAudienceMetaData } from 'types/audience'
 
 import styles from './OneAudience.module.scss'
 import ValidationError from 'constants/ValidationError'
 import useMessageBoxContext from 'context/MessageBoxContext'
 import { timeDelay } from 'utils'
 
+const initData = {
+  id: '0',
+  name: 'Аудитория',
+  peoplecount: '0',
+  createdat: '',
+  updatedat: '',
+  query: {
+    and: [{ field: DoctorKeys.specialty, type: Conditions.CONTAINS, value: ' ' }],
+  },
+}
+
 const configFilter: IStep = {
   name: 'filter',
   title: 'Фильтры',
   actions: [
     {
+      label: 'ATTRIBUTE_CONDITION',
       type: SidePopupActions.FILTER,
       settingName: 'filter',
-      attributes: Object.keys(DoctorKeys),
-
-      applySettings: (newState: any, settings: any, updateTempSettings: any) => {
-        updateTempSettings('filter', [{ ...settings.filter, ...newState }])
+      attributes: ['a', 'b'],
+      applySettings: (newState, properties, updateTempSettings) => {
+        const settedFilters = properties?.['filter']
+        const update = settedFilters
+          ? {
+              ...settedFilters,
+              ...newState,
+            }
+          : newState
+        console.log({ update })
+        updateTempSettings(false, [{ filter: update }])
       },
     },
   ],
@@ -56,6 +77,7 @@ const OneAudience: FC<IPageData> = () => {
   const { audienceid } = useParams<{ audienceid?: string }>()
   const history = useHistory()
   const location = useLocation()
+  const [audienceInfo, setAudienceInfo] = useState<IAudienceMetaData>(initData)
 
   const { currentAudience, setCurrentAudience, updateAudienceInfo } = useCurrentAudience()
   const { allDoctors, clearDoctors, addManyDoctors, setAllDoctors } = useDoctors()

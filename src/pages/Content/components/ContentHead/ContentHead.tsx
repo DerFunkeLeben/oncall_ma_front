@@ -18,6 +18,7 @@ import { SURE_WANT_DELETE_ONE } from 'constants/helpMessages'
 
 import { IconTrash, IconSend } from 'assets/icons'
 import buttonStyles from 'components/parts/Button/ButtonThemes.module.scss'
+import pageHeadStyle from 'components/PageHead/PageHead.module.scss'
 
 const { EDIT, CREATE } = ContentAction
 
@@ -63,7 +64,7 @@ const ContentHead: FC<IContentHead> = ({ settings, handleChange, openPopUp, hand
 
   return (
     <PageHead
-      mod={true}
+      mod={pageHeadStyle.bigHeadMode}
       titleEditable={true}
       title={settings.title}
       handleTitleChange={handleChange}

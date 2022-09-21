@@ -11,39 +11,42 @@ import tableStyles from 'components/Table/TableBase.module.scss'
 import useTable from 'components/Table/useTable'
 import radioStyles from 'components/parts/RadioGroup/RadioGroup.module.scss'
 import { useSidePopup } from 'store/sidePopupStore/useSidePopup'
+import useAllContent from 'store/content/useAllContent'
+import { ddmmyyyy } from 'utils/transformDate'
+
+import { EVENT_URL_ADD, EVENT_URL_ALL, EVENT_URL_VALIDATE } from 'constants/url'
+import { getAxiosSingle } from 'utils/axios'
+import { IContentHTML } from 'types/content'
 
 const header = ['', 'Название', 'Дата редактирования']
 
-const TableAction: FC<IAction> = ({ settingName, applySettings }) => {
-  const { step, setTempSettings, tempSettings, savedSettings } = usePopupContext()
-  const { updateTempSettings } = useSidePopup()
-  const actionName = step.name
-  const defaultValue = null
-
+const TableAction: FC<IAction> = ({ settingName, applySettings, url }) => {
   const [radioSelected, setRadioSelected] = useState<string | undefined | null>(null)
 
+  const { allContent } = useAllContent()
+  const [tableData, setTableData] = useState<IContentHTML[]>([])
+  const { step, setTempSettings, tempSettings, savedSettings } = usePopupContext()
+  const { updateTempSettings } = useSidePopup()
+
+  const defaultValue = null
   const currentValue =
-    tempSettings && tempSettings[actionName] && tempSettings[actionName][settingName]
-      ? tempSettings[actionName][settingName]
-      : defaultValue
+    tempSettings && tempSettings[settingName] ? tempSettings[settingName] : defaultValue
 
   const handleChange = (e: React.MouseEvent<HTMLElement>) => {
     const { id } = e.currentTarget.dataset
-    const newValue = id === radioSelected ? null : (id || 0).toString()
+    const newId = id === radioSelected ? null : (id || 0).toString()
 
-    applySettings(newValue, tempSettings, updateTempSettings)
-    setRadioSelected(newValue)
+    const allLineData = tableData.filter((tableLine) => tableLine.id === newId)[0]
+
+    applySettings(allLineData, tempSettings, updateTempSettings)
+
+    setRadioSelected(newId)
   }
 
-  const tableData = [
-    //get from url
-    { id: '1', name: 'email-name', date: '2022.14.08' },
-    { id: '2', name: 'email-name', date: '2022.14.08' },
-    { id: '3', name: 'email-name', date: '2022.14.08' },
-    { id: '4', name: 'email-name', date: '2022.14.08' },
-    { id: '5', name: 'email-name', date: '2022.14.08' },
-    { id: '6', name: 'email-name', date: '2022.14.08' },
-  ]
+  useEffect(() => {
+    const emails = allContent.filter((e) => e.type === 'HTML') as IContentHTML[]
+    setTableData(emails)
+  }, [])
 
   const isRadioSelected = (id: string | undefined | null) => currentValue === id
 
@@ -55,7 +58,7 @@ const TableAction: FC<IAction> = ({ settingName, applySettings }) => {
         totalCountOfData={10}
       >
         {tableData.map((row, index) => {
-          const { id, name, date } = tableData[index]
+          const { id, title, createDate } = tableData[index]
           return (
             <div className={cx(tableStyles.row)} key={index} onClick={handleChange} data-id={id}>
               <div className={cx(tableStyles.cell, tableStyles.cellCheck)}>
@@ -67,8 +70,8 @@ const TableAction: FC<IAction> = ({ settingName, applySettings }) => {
                 ></input>
                 <label htmlFor={id}></label>
               </div>
-              <div className={cx(tableStyles.cell)}>{name}</div>
-              <div className={cx(tableStyles.cell)}>{date}</div>
+              <div className={cx(tableStyles.cell)}>{title}</div>
+              <div className={cx(tableStyles.cell)}>{ddmmyyyy(createDate)}</div>
             </div>
           )
         })}

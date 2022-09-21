@@ -1,5 +1,6 @@
 import { FC, useEffect, useState } from 'react'
 import { v4 as uuid } from 'uuid'
+import { useParams } from 'react-router-dom'
 
 import Sidebar from 'components/Sidebar/Sidebar'
 import PageHead from 'components/PageHead/PageHead'
@@ -24,11 +25,28 @@ const SIZE = {
   startBlockHeight: 222,
 }
 
-const { exit, list, event, start } = TasksTypes
+const { finish, list, event, start } = TasksTypes
 
 const ScenarioBuilder: FC = () => {
-  const { tasksHeap, taskIsMoving } = useScenario()
+  const { eventId } = useParams<{ eventId?: string }>()
+  const { tasksHeap, initAllScenaries, setTasksHeap, setScenario } = useScenario()
   const [stateTasksHeap, setStateTasksHeap] = useState<ITasksHeap>({})
+
+  useEffect(() => {
+    initAllScenaries().then((allScen) => {
+      const { events } = allScen.filter((scen) => scen.id === eventId)[0]
+      const { audience, startDate, scenarioType } = events[1].properties
+      const initTaskHeap = {
+        ...events,
+        '1': {
+          ...events[1],
+          properties: { ...audience, startDate, scenarioType },
+        },
+      }
+      setTasksHeap(initTaskHeap)
+      setScenario({ scenarioId: eventId, startDate, scenarioType })
+    })
+  }, [])
 
   useEffect(() => {
     if (!tasksHeap) return
@@ -40,31 +58,36 @@ const ScenarioBuilder: FC = () => {
     matrix: TObject[][] = [],
     row: TObject[] = [],
     itsNewRow = true,
-    columnNumber = 0,
-    rowNumber = 0
+    columnNumber = 0
   ): any => {
     const task = stateTasksHeap[id]
     const outIds = task?.output
+    if (!outIds) return
+
     const type = task?.type
     const newCell = { id, columnNumber, type }
     const newRow = itsNewRow ? [newCell] : [...row, newCell]
-
-    if (!outIds) return
     const itsEndOfBranch = outIds.length === 0
     const newColumnNumber = columnNumber + 1
 
     if (itsEndOfBranch) {
       matrix.push(newRow)
       return
+    } else {
+      outIds.forEach((outId, index) => {
+        const createNewRow = index != 0
+        createMatrix(outId, matrix, newRow, createNewRow, newColumnNumber)
+      })
+
+      return matrix
     }
+  }
 
-    outIds.forEach((outId, index) => {
-      const createNewRow = index != 0
-      const newRowNumber = createNewRow ? rowNumber + 1 : rowNumber
-      createMatrix(outId, matrix, newRow, createNewRow, newColumnNumber, newRowNumber)
-    })
-
-    return matrix
+  const getColumnNumbers = (matrix: any) => {
+    return matrix.reduce((acc: { [key: string]: number }, row: any, index: any) => {
+      row.forEach((el: any) => (acc[el.id] = index))
+      return acc
+    }, {})
   }
 
   const calcTaskPosition = (type: string, columnNumber: number, rowNumber: number) => {
@@ -77,7 +100,7 @@ const ScenarioBuilder: FC = () => {
   }
 
   const drawLine = (type: string) => {
-    const length = type === exit ? 150 : 160
+    const length = type === finish ? 150 : 160
 
     return (
       <svg
@@ -101,20 +124,31 @@ const ScenarioBuilder: FC = () => {
     )
   }
 
-  const drawSplitLines = (outputIds: number | undefined) => {
-    if (!outputIds) return
-    return [...Array(outputIds - 1).keys()].map((element, index) => {
-      const firstPath = 'M 10 24 L 10 36 M 10 50 L 10 167 L 50 167'
-      const secondPath = 'M 10 0 L 10 167 L 50 167'
-      const path = index === 0 ? firstPath : secondPath
+  const drawSplitLines = (outputIds: any | undefined, matrix: any) => {
+    if (!outputIds?.length) return
+    const columnNumbers = getColumnNumbers(matrix)
+
+    return outputIds.map((element: any, index: any) => {
+      if (index === 0) return
+      const countOfRows = columnNumbers[element] - columnNumbers[outputIds[0]]
+      const length = 168
+      const gap = 1
+      const firstPath = `M 10 24 L 10 36 M 10 50 L 10 ${length * countOfRows - gap} L 50 ${
+        length * countOfRows - gap
+      }`
+      const secondPath = `M 10 0 L 10 ${length * countOfRows - gap} L 50 ${
+        length * countOfRows - gap
+      }`
+      const path = index === 1 ? firstPath : secondPath
       return (
         <svg
           key={element + index}
           xmlns="http://www.w3.org/2000/svg"
           width="50"
-          height="168"
-          viewBox={`0 0 50 168`}
+          height={length * countOfRows}
+          viewBox={`0 0 50 ${length * countOfRows}`}
           className={styles.splitLine}
+          style={{ height: length * countOfRows }}
         >
           <g id="icon">
             <path
@@ -152,20 +186,22 @@ const ScenarioBuilder: FC = () => {
 
         const isStart = type === start
 
-        const taskWithoutPlaceholder = ![exit, list, event].includes(type)
+        const taskWithoutPlaceholder = ![finish, list, event].includes(type)
 
         if (isStart) {
-          return <SourceTask style={style} />
+          return <SourceTask style={style} properties={properties} id={id} />
         } else {
           return (
             <div key={id + type} style={style} className={styles.taskContainer}>
               {drawLine(type)}
-              <div className={styles.splitContainer}>{drawSplitLines(outIds?.length)}</div>
+              {type === 'condition' && (
+                <div className={styles.splitContainer}>{drawSplitLines(outIds, renderMatrix)}</div>
+              )}
               <div className={styles.leftArea} data-task-id={id}>
                 <div className={styles.taskCreateArea} />
               </div>
               {taskWithoutPlaceholder && <div className={styles.placeUnderTask} />}
-              <Task properties={properties} id={id} />
+              <Task settings={properties} id={id} />
             </div>
           )
         }

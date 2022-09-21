@@ -13,32 +13,28 @@ const initialState: IStoreScenario = {
       name: 'Старт',
       input: [],
       output: ['2'],
+      available: true,
+      placed: true,
+      properties: {},
     },
     '2': {
-      type: TasksTypes.condition,
-      color: 'pink',
+      type: TasksTypes.finish,
+      color: 'green',
       status: 'default',
       name: 'Выход',
       input: ['1'],
-      output: ['3', '4'],
-    },
-    '3': {
-      type: TasksTypes.exit,
-      color: 'green',
-      status: 'default',
-      name: 'Выход',
-      input: ['2'],
       output: [],
-    },
-    '4': {
-      type: TasksTypes.exit,
-      color: 'green',
-      status: 'default',
-      name: 'Выход',
-      input: ['2'],
-      output: [],
+      available: true,
+      placed: true,
+      properties: {},
     },
   },
+  scenario: {
+    name: 'Сценарий',
+    startDate: Date.now(),
+    scenarioType: 'single',
+  },
+  allScenaries: [],
 }
 
 const reducer = (state = initialState, { type, payload }: IReducer): IStoreScenario => {
@@ -52,6 +48,11 @@ const reducer = (state = initialState, { type, payload }: IReducer): IStoreScena
       return {
         ...state,
         tasksHeap: payload.tasksHeap,
+      }
+    case ActionType.SET_SCENARIO:
+      return {
+        ...state,
+        scenario: payload.scenario,
       }
     default:
       return state

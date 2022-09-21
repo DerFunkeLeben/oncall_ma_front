@@ -9,7 +9,7 @@ const SliderAction: FC = () => {
   const { action, currentState, setState } = usePopupContext()
   const actionName = action.name
   const title = action.title
-  const sliderValue = +(currentState[actionName]?.value || 0)
+  const sliderValue = +(currentState?.value || 0)
 
   const handleChange = (value: number) => {
     const newState = {

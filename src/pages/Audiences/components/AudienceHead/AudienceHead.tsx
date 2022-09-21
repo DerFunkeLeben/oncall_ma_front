@@ -8,6 +8,7 @@ import { IconExport, IconFilters } from 'assets/icons'
 import { IAudienceMetaData } from 'types/audience'
 
 import buttonStyles from 'components/parts/Button/ButtonThemes.module.scss'
+import pageHeadStyle from 'components/PageHead/PageHead.module.scss'
 import { PagesData } from 'constants/url'
 import useDidUpdateEffect from 'hooks/useDidUpdateEffect'
 
@@ -32,7 +33,7 @@ const AudienceHead: FC<IAudienceHead> = ({
 
   return (
     <PageHead
-      mod={true}
+      mod={pageHeadStyle.bigHeadMode}
       title={audienceInfo.name}
       handleTitleChange={handleChange}
       contactCount={audienceInfo.peoplecount}
