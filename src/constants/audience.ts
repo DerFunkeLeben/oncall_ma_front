@@ -47,19 +47,7 @@ const INIT_AUDIENCE: IAudienceMetaData = {
   peoplecount: '0',
   createdat: '',
   updatedat: '',
-  query: {
-    and: {
-      and: {
-        and: [
-          {
-            field: 'city',
-            type: 'contain',
-            value: 'Москва',
-          },
-        ],
-      },
-    },
-  },
+  query: {},
 }
 
 export { DoctorsAction, DoctorKeys, DoctorKeyLabels, AudienceAction, INIT_AUDIENCE }

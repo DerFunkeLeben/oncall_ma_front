@@ -185,7 +185,6 @@ const FilterAction: FC<IRadioGroupAction> = ({ settingName, applySettings, attri
         } else return secondLevelElement
       })
       .filter((element: any) => element) as ISecondLevelObj[]
-    console.log({ firstLevel: newFirstLevelElements, secondLevel: newSecondLevelElements })
     updateState({ firstLevel: newFirstLevelElements, secondLevel: newSecondLevelElements })
   }
 

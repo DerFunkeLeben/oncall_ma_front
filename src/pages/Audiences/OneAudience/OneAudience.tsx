@@ -20,7 +20,7 @@ import {
   DOCTORS_URL_ADD,
   PagesData,
 } from 'constants/url'
-import { AudienceAction, DoctorKeys, INIT_AUDIENCE } from 'constants/audience'
+import { AudienceAction, DoctorKeyLabels, DoctorKeys, INIT_AUDIENCE } from 'constants/audience'
 import { SidePopupActions } from 'constants/sidePopup'
 import { IFilterState } from 'components/SidePopup/actions/FilterAction/types'
 import { IPageData } from 'types'
@@ -57,7 +57,7 @@ const configFilter: IStep = {
       label: 'ATTRIBUTE_CONDITION',
       type: SidePopupActions.FILTER,
       settingName: 'filter',
-      attributes: ['a', 'b'],
+      attributes: Object.values(DoctorKeys),
       applySettings: (newState, properties, updateTempSettings) => {
         const settedFilters = properties?.['filter']
         const update = settedFilters
