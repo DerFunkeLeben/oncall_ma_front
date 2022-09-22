@@ -1,4 +1,4 @@
-import { FC, useState, useRef, useContext } from 'react'
+import { FC, useState, useRef, useContext, useEffect } from 'react'
 import { createPortal } from 'react-dom'
 import cx from 'classnames'
 
@@ -10,17 +10,20 @@ import styles from './DropDown.module.scss'
 interface DropDown {
   triggerNode: React.ReactNode
   align?: Align
+  mouseLeave?: boolean
   customStyles?: { [key: string]: string }
 }
 
 const DropDown: FC<DropDown> = ({
   children,
   triggerNode,
+  mouseLeave,
   customStyles = {},
   align = Align.LEFT,
 }) => {
   const [isMenuOpened, setMenuOpened] = useState(false)
   const triggerRef = useRef<HTMLElement>(null)
+  const containerRef = useRef<HTMLDivElement>(null)
   const windowSize: string = useContext(screenSizeContext)
 
   const togglePopup = (event: any) => {
@@ -62,6 +65,11 @@ const DropDown: FC<DropDown> = ({
   }
 
   const ddStyle = calcDDPosition()
+
+  useEffect(() => {
+    if (isMenuOpened) containerRef.current?.focus()
+  }, [isMenuOpened])
+
   return (
     <>
       <div
@@ -76,10 +84,14 @@ const DropDown: FC<DropDown> = ({
       {isMenuOpened &&
         createPortal(
           <div
-            onMouseLeave={closePopup}
-            onClick={closePopup}
             className={styles.taskHoverBlock}
+            onMouseDown={(e) => e.preventDefault()}
+            onBlur={() => setMenuOpened(false)}
+            onMouseLeave={() => mouseLeave && setMenuOpened(false)}
+            onClick={closePopup}
             style={ddStyle}
+            tabIndex={0}
+            ref={containerRef}
           >
             {children}
           </div>,

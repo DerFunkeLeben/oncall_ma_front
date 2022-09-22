@@ -80,6 +80,7 @@ export const ConditionsLabels = {
   [Conditions.NOT_EQUAL]: 'не равно',
 }
 
+export const defaultQueryValue = '!@#$%^&*&&^@&#*$**@#()'
 export const defaultQueryToSend = {
   and: {
     and: {
@@ -87,7 +88,7 @@ export const defaultQueryToSend = {
         {
           field: 'name',
           type: 'notContain',
-          value: '!@#$%^&*&&^@&#*$**@#()',
+          value: defaultQueryValue,
         },
       ],
     },

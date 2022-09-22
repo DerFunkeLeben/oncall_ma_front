@@ -233,7 +233,7 @@ const FilterAction: FC<IRadioGroupAction> = ({ settingName, applySettings, attri
     <div className={styles.wrapper}>
       <div className={styles.filterContainerWrapper}>
         <div className={styles.verticalLine} />
-        <ScrollArea>
+        <ScrollArea onlyVertical>
           <div className={styles.filterContainer}>
             {thirdLevel &&
               thirdLevel.map((thirdLevelElement: any, thirdLevelIndex: any) => {

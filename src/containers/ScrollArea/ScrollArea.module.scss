@@ -78,3 +78,9 @@
     }
   }
 }
+
+.scrollArea.onlyVertical :global {
+  .simplebar-horizontal {
+    display: none;
+  }
+}

@@ -20,7 +20,7 @@ import {
   DOCTORS_URL_ADD,
   PagesData,
 } from 'constants/url'
-import { AudienceAction, DoctorKeyLabels, DoctorKeys, INIT_AUDIENCE } from 'constants/audience'
+import { AudienceAction, DoctorKeys, INIT_AUDIENCE } from 'constants/audience'
 import { defaultQueryToSend, SidePopupActions } from 'constants/sidePopup'
 import { IFilterState } from 'components/SidePopup/actions/FilterAction/types'
 import { IPageData } from 'types'
@@ -36,17 +36,19 @@ import ValidationError from 'constants/ValidationError'
 import useMessageBoxContext from 'context/MessageBoxContext'
 import { timeDelay } from 'utils'
 
+const { FILTER } = SidePopupActions
+
 const configFilter: IStep = {
-  name: 'filter',
+  name: FILTER,
   title: 'Фильтры',
   actions: [
     {
       label: 'ATTRIBUTE_CONDITION',
-      type: SidePopupActions.FILTER,
-      settingName: 'filter',
-      attributes: Object.keys(DoctorKeyLabels),
+      type: FILTER,
+      settingName: FILTER,
+      attributes: Object.keys(DoctorKeys),
       applySettings: (newState, properties, updateTempSettings) => {
-        const settedFilters = properties?.['filter']
+        const settedFilters = properties?.[FILTER]
         const update = settedFilters
           ? {
               ...settedFilters,

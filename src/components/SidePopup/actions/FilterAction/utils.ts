@@ -1,6 +1,7 @@
 import { DoctorKeys } from 'constants/audience'
 import { IFilterState, IFirstLevelObj, ISecondLevelObj } from './types'
 import { v4 as uuid } from 'uuid'
+import { defaultQueryValue } from 'constants/sidePopup'
 
 export const parseStateToQuery = (filterState: IFilterState) => {
   const { thirdLevel, secondLevel, firstLevel } = filterState
@@ -52,8 +53,6 @@ export const parseStateToQuery = (filterState: IFilterState) => {
           ...query[thirdLevelKey][secondLevelKey][lastKey],
           ...firstLevelElements,
         ]
-
-      console.log(query[thirdLevelKey][secondLevelKey][lastKey])
     })
   })
   console.log(query)
@@ -83,13 +82,14 @@ export const parseQueryToState = (query: Query) => {
 
         firstLevelChildren.map((firstLevelChild) => {
           const firstLevelId = uuid()
+          const determinant =
+            firstLevelChild.value === defaultQueryValue ? '' : firstLevelChild.value
+
           firstLevel.push({
             defined: firstLevelChild.field,
             logicalOperator: firstLevelKey,
             condition: firstLevelChild.type,
-            determinant:
-              // TODO временно
-              firstLevelChild.value === '!@#$%^&*&&^@&#*$**@#()' ? '' : firstLevelChild.value,
+            determinant: determinant,
             id: firstLevelId,
           })
           secondLevelChildIds.push(firstLevelId)

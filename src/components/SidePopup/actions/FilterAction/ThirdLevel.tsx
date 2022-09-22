@@ -44,6 +44,7 @@ const ThirdLevel: FC<IThirdLevel> = ({
           <p>Врачи</p>
         ) : (
           <DropDown
+            mouseLeave
             triggerNode={
               <Button modificator={cx(buttonThemes.theme_filter_accent)}>
                 {LogicLabels[logicalOperator]?.toUpperCase()}

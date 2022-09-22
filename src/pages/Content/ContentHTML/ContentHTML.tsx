@@ -9,6 +9,7 @@ import ContentHead from '../components/ContentHead/ContentHead'
 import HTMLTextArea from './parts/HTMLTextArea'
 import HTMLPreview from './parts/HTMLPreview'
 
+import useAuth from 'store/auth/useAuth'
 import useDebounce from 'hooks/useDebounce'
 import useToggle from 'hooks/useToggle'
 import useAlertContext from 'context/AlertContext'
@@ -35,11 +36,12 @@ const ContentHTML: FC<IPageData> = () => {
 
   const { activeFolderName } = useContentFolders()
   const { setAlertBox } = useAlertContext()
+  const { user } = useAuth()
   // const { setMessageBox } = useMessageBoxContext()
 
   const [settings, setSettings] = useState<IContent>(INIT_HTML_CONTENT)
   const [popUpIsOpen, togglePopUp] = useToggle()
-  const [emails, setEmails] = useState<string[]>([''])
+  const [emails, setEmails] = useState<string[]>([user.email])
 
   const isNew = location.pathname === PagesData.CONTENT_HTML.link
   const showTextArea = settings.HTML != undefined
