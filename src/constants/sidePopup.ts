@@ -85,7 +85,7 @@ export const defaultQueryToSend = {
     and: {
       and: [
         {
-          field: 'meta',
+          field: 'name',
           type: 'notContain',
           value: '!@#$%^&*&&^@&#*$**@#()',
         },

@@ -229,8 +229,6 @@ const FilterAction: FC<IRadioGroupAction> = ({ settingName, applySettings, attri
     }
   }
 
-  console.log({ thirdLevel })
-
   return (
     <div className={styles.wrapper}>
       <div className={styles.filterContainerWrapper}>

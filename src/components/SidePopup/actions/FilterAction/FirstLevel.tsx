@@ -23,6 +23,7 @@ import { IconPlus } from '../../../../assets/icons'
 import InputBase from 'components/parts/InputBase/InputBase'
 import { Align } from 'constants/dictionary'
 import { DoctorKeyLabels } from 'constants/audience'
+import ScrollArea from 'containers/ScrollArea/ScrollArea'
 
 const FirstLevel: FC<IFirstLevel> = ({
   row,
@@ -81,7 +82,11 @@ const FirstLevel: FC<IFirstLevel> = ({
               </Button>
             }
           >
-            <div className={dropDownStyles.container}>
+            <div className={cx(dropDownStyles.container)}>
+              {/* <ScrollArea
+                modificator={cx(styles.dropDownScroll, styles.container)}
+                maxHeight={'250px'}
+              > */}
               {headers.map((headerElement) => {
                 const headerEl = headerElement as keyof typeof DoctorKeyLabels
                 return (
@@ -95,6 +100,7 @@ const FirstLevel: FC<IFirstLevel> = ({
                   </button>
                 )
               })}
+              {/* </ScrollArea> */}
             </div>
           </DropDown>
         ) : (
