@@ -79,3 +79,17 @@ export const ConditionsLabels = {
   [Conditions.EQUAL]: 'равно',
   [Conditions.NOT_EQUAL]: 'не равно',
 }
+
+export const defaultQueryToSend = {
+  and: {
+    and: {
+      and: [
+        {
+          field: 'meta',
+          type: 'notContain',
+          value: '!@#$%^&*&&^@&#*$**@#()',
+        },
+      ],
+    },
+  },
+}

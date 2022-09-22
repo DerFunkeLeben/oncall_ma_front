@@ -105,17 +105,3 @@ export const parseQueryToState = (query: Query) => {
 }
 
 type Query = { [key: string]: { [key: string]: any } }
-
-const q = {
-  and: {
-    and: {
-      and: [
-        {
-          field: 'city',
-          type: 'contain',
-          value: 'Москва',
-        },
-      ],
-    },
-  },
-}
