@@ -79,6 +79,7 @@ const FilterAction: FC<IRadioGroupAction> = ({ settingName, applySettings, attri
   const filterState = tempSettings && tempSettings[settingName] ? tempSettings[settingName] : ''
 
   const { firstLevel, secondLevel, thirdLevel } = filterState
+
   const updateState = (newlevel: any) => {
     applySettings(newlevel, tempSettings, updateTempSettings)
   }
