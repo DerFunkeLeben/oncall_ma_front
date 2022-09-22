@@ -64,11 +64,14 @@ const SourceTask: FC<ISourceTask> = ({ style, id, properties }) => {
     updateSettings(id, newSettings)
   }
 
-  const getSettings = () => {
+  const getSettings = (data = allAudiences) => {
     if (!properties.properties) return
-    if (!allAudiences) return
+    if (!data) return
     const { audience } = properties.properties
-    const choosenAudience = allAudiences.filter((aud) => aud.id === audience)[0]
+    const choosenAudience = data.filter((aud) => {
+      console.log('ccc', aud.id, audience)
+      return aud.id === audience
+    })[0]
     if (!choosenAudience) return
     const { name, peoplecount } = choosenAudience
     return { name, peoplecount }
@@ -80,6 +83,8 @@ const SourceTask: FC<ISourceTask> = ({ style, id, properties }) => {
     }
     getAllAudiences().then((res) => {
       setAllAudiences(res)
+      const newSettings = getSettings(res)
+      setSettings(newSettings)
     })
   }, [])
 

@@ -13,6 +13,7 @@ import { IStoreScenario, StoreKeys } from './_data-types'
 import { ITask, TasksTypes } from 'types'
 
 import { IAllScenaries } from 'types'
+import initHeap from './const'
 
 const useScenario = () => {
   const dispatch = useDispatch()
@@ -173,6 +174,10 @@ const useScenario = () => {
     dispatch(ActionCreator.setTasksHeap(newTaskHeap))
   }
 
+  const eraseTasksHeap = () => {
+    dispatch(ActionCreator.setTasksHeap(initHeap))
+  }
+
   const initAllScenaries = async () => {
     const result = (await getAxiosArr(EVENT_URL_ALL)) as IAllScenaries
     dispatch(ActionCreator.setAllScenaries(result))
@@ -184,6 +189,7 @@ const useScenario = () => {
     setScenario,
     taskIsMoving,
     setTaskIsMoving,
+    eraseTasksHeap,
     tasksHeap,
     setTasksHeap,
     addTask,

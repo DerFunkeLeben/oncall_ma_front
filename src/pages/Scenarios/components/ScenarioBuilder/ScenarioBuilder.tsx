@@ -27,23 +27,62 @@ const SIZE = {
 
 const { finish, list, event, start } = TasksTypes
 
+const names = {
+  start: 'Начало',
+  list: 'Список',
+  event: 'Событие',
+  email: 'Email',
+  sms: 'SMS',
+  telegram: 'Telegram',
+  push: 'Push-уведомление',
+  condition: 'Условие',
+  wait: 'Ожидание',
+  join: 'Объединение',
+  ab_test: 'А/Б тест',
+  assignment: 'Присвоение атрибута',
+  crm_message: 'CRM сообщение',
+  finish: 'Выход',
+}
+
 const ScenarioBuilder: FC = () => {
   const { eventId } = useParams<{ eventId?: string }>()
-  const { tasksHeap, initAllScenaries, setTasksHeap, setScenario } = useScenario()
+  const { tasksHeap, initAllScenaries, setTasksHeap, setScenario, eraseTasksHeap } = useScenario()
   const [stateTasksHeap, setStateTasksHeap] = useState<ITasksHeap>({})
 
   useEffect(() => {
+    if (!eventId) {
+      eraseTasksHeap()
+    }
     initAllScenaries().then((allScen) => {
       const { events } = allScen.filter((scen) => scen.id === eventId)[0]
       const { audience, startDate, scenarioType } = events[1].properties
-      const initTaskHeap = {
-        ...events,
-        '1': {
-          ...events[1],
-          properties: { ...audience, startDate, scenarioType },
-        },
-      }
-      setTasksHeap(initTaskHeap)
+      console.log({ allScen })
+      const preparedInitTaskHeap = Object.keys(events).reduce((acc: any, key: any) => {
+        const value = events[key]
+        const { input, output, properties } = value
+        const type = value.type as string
+        const newProps =
+          type === 'start' ? { ...properties, startDate, scenarioType, ...audience } : properties
+        const newColor = type === 'finish' ? 'green' : type === 'email' ? 'cyan' : 'pink'
+        const newType = type === 'split' ? 'condition' : type
+        const newName = names[newType as keyof typeof names]
+        acc = {
+          ...acc,
+          [key]: {
+            type: newType,
+            input,
+            output,
+            name: newName,
+            status: 'validated',
+            properties: newProps,
+            color: newColor,
+            available: true,
+            placed: true,
+          },
+        }
+        return acc
+      }, {})
+      setTasksHeap(preparedInitTaskHeap)
       setScenario({ scenarioId: eventId, startDate, scenarioType })
     })
   }, [])

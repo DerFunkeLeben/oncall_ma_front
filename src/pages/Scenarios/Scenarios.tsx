@@ -19,6 +19,10 @@ const SCENARIO_PAGES = [
     Component: CreateScenario,
     ...PagesData.CREATE_SCENARIOS,
   },
+  {
+    Component: CreateScenario,
+    ...PagesData.OPEN_SCENARIOS,
+  },
 ]
 
 const Scenarios: FC<IPageData> = () => {

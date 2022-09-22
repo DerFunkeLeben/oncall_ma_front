@@ -125,6 +125,11 @@ export const PagesData: IPagesData = {
     route: analyticsRoutes,
     name: 'Аналитика',
   },
+  OPEN_SCENARIOS: {
+    link: scenariosRoutes[2],
+    route: scenariosRoutes,
+    name: 'Создание сценария',
+  },
   CREATE_SCENARIOS: {
     link: scenariosRoutes[1],
     route: scenariosRoutes,
