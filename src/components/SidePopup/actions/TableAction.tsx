@@ -61,7 +61,8 @@ const TableAction: FC<IAction> = ({ settingName, applySettings, url }) => {
         totalCountOfData={10}
       >
         {allContent.map((row, index) => {
-          const { id, title, createdAt } = allContent[index]
+          const { id, title, createdAt, originalName } = allContent[index]
+          console.log(allContent[index])
           return (
             <div className={cx(tableStyles.row)} key={index} onClick={handleChange} data-id={id}>
               <div className={cx(tableStyles.cell, tableStyles.cellCheck)}>
@@ -73,7 +74,7 @@ const TableAction: FC<IAction> = ({ settingName, applySettings, url }) => {
                 ></input>
                 <label htmlFor={id}></label>
               </div>
-              <div className={cx(tableStyles.cell)}>{title}</div>
+              <div className={cx(tableStyles.cell)}>{originalName}</div>
               <div className={cx(tableStyles.cell)}>{ddmmyyyy(createdAt)}</div>
             </div>
           )

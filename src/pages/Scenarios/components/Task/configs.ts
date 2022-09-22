@@ -13,11 +13,11 @@ type IConfigs = {
 const configs: IConfigs = {
   wait: {
     name: 'duration',
-    title: 'Выбор даты',
+    title: 'Настройка ожидания',
     actions: [
       {
         settingName: 'amount',
-        label: 'Количество',
+        label: 'Значение',
         type: SidePopupActions.NUMERIC_STEP,
         applySettings: (newState: any, tempSettings: any, updateTempSettings: any) => {
           updateTempSettings(false, [{ amount: newState }])
@@ -25,7 +25,7 @@ const configs: IConfigs = {
       },
       {
         settingName: 'unit',
-        label: 'Временной отрезок',
+        label: 'Параметр',
         options: TIME_OPTIONS,
         type: SidePopupActions.DROP_DOWN,
         applySettings: (newState: any, tempSettings: any, updateTempSettings: any) => {
@@ -40,7 +40,7 @@ const configs: IConfigs = {
     actions: [
       {
         settingName: 'id',
-        label: 'Временной отрезок',
+        label: 'Письмо',
         type: SidePopupActions.TABLE,
         url: CONTENT_URL_ALL,
         applySettings: (allLineData: any, tempSettings: any, updateTempSettings: any) => {
@@ -55,7 +55,7 @@ const configs: IConfigs = {
           {
             type: SidePopupActions.INPUT,
             settingName: 'theme',
-            label: 'emailTitle',
+            label: 'Тема',
             applySettings: (newState: any, tempSettings: any, updateTempSettings: any) => {
               updateTempSettings(false, [{ theme: newState }])
             },
@@ -63,7 +63,7 @@ const configs: IConfigs = {
           {
             type: SidePopupActions.INPUT,
             settingName: 'preheader',
-            label: 'emailSubTitle',
+            label: 'Подтема',
             applySettings: (newState: any, tempSettings: any, updateTempSettings: any) => {
               updateTempSettings(false, [{ preheader: newState }])
             },
@@ -148,10 +148,10 @@ const configs: IConfigs = {
   // },
   condition: {
     name: 'condition',
-    title: 'CRM сообщение',
+    title: 'Условие',
     actions: [
       {
-        label: 'Сообщение',
+        label: 'Тип условия',
         type: SidePopupActions.RADIO,
         settingName: 'conditionType',
         options: CONDIIOTNS_OPTIONS,
@@ -169,7 +169,7 @@ const configs: IConfigs = {
           name: 'condition',
           actions: [
             {
-              label: 'ATTRIBUTE_CONDITION',
+              label: 'Условие по аттрибуту',
               type: SidePopupActions.ATTRIBUTE_CONDITION,
               settingName: 'filter',
               attributes: Object.keys(DoctorKeyLabels),
@@ -192,7 +192,7 @@ const configs: IConfigs = {
           name: 'condition',
           actions: [
             {
-              label: 'Текст111',
+              label: 'Случайное распределение',
               type: SidePopupActions.SLIDER_RELATION,
               settingName: 'slider',
               applySettings: (valuePair, properties, updateTempSettings) => {
