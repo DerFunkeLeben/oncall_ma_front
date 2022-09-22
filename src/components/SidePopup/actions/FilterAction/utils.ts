@@ -23,7 +23,8 @@ export const parseStateToQuery = (filterState: IFilterState) => {
       query[thirdLevelKey][secondLevelKey] = query[thirdLevelKey][secondLevelKey] || {}
 
       let defined: DoctorKeys | undefined = undefined
-
+      let lastKey = 'and'
+      const firstLevelElements = [] as any[]
       secondLevelChildIds.map((secondLevelChildId) => {
         const firstLevelItem = firstLevel.find(
           (item) => item.id === secondLevelChildId
@@ -32,17 +33,27 @@ export const parseStateToQuery = (filterState: IFilterState) => {
         if (!defined) defined = firstLevelItem.defined
 
         const firstLevelKey = firstLevelItem.logicalOperator
-
-        if (!query[thirdLevelKey][secondLevelKey][firstLevelKey])
-          query[thirdLevelKey][secondLevelKey][firstLevelKey] = []
+        if (lastKey !== firstLevelKey) lastKey = firstLevelKey
 
         const { condition, determinant } = firstLevelItem
-        query[thirdLevelKey][secondLevelKey][firstLevelKey].push({
+
+        firstLevelElements.push({
           field: defined,
           type: condition,
           value: determinant,
         })
       })
+
+      //TODO нужно что-то менять...
+      if (!query[thirdLevelKey][secondLevelKey][lastKey])
+        query[thirdLevelKey][secondLevelKey][lastKey] = firstLevelElements
+      else
+        query[thirdLevelKey][secondLevelKey][lastKey] = [
+          ...query[thirdLevelKey][secondLevelKey][lastKey],
+          ...firstLevelElements,
+        ]
+
+      console.log(query[thirdLevelKey][secondLevelKey][lastKey])
     })
   })
   console.log(query)
