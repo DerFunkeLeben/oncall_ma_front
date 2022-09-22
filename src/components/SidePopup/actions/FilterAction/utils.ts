@@ -87,7 +87,9 @@ export const parseQueryToState = (query: Query) => {
             defined: firstLevelChild.field,
             logicalOperator: firstLevelKey,
             condition: firstLevelChild.type,
-            determinant: firstLevelChild.value,
+            determinant:
+              // TODO временно
+              firstLevelChild.value === '!@#$%^&*&&^@&#*$**@#()' ? '' : firstLevelChild.value,
             id: firstLevelId,
           })
           secondLevelChildIds.push(firstLevelId)
