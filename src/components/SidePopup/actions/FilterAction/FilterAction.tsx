@@ -151,6 +151,7 @@ const FilterAction: FC<IRadioGroupAction> = ({ settingName, applySettings, attri
     const newFirstLevelElements = firstLevel.filter((firstLevelElement: any) => {
       return firstLevelElement.id !== id
     })
+    let tempThirdLevel = thirdLevel as any[]
     const newSecondLevelElements = secondLevel
       .map((secondLevelElement: any) => {
         if (secondLevelElement.id === parentId) {
@@ -158,7 +159,7 @@ const FilterAction: FC<IRadioGroupAction> = ({ settingName, applySettings, attri
             (childId: any) => childId !== id
           )
           if (childsArrayWithoutTarget.length === 0) {
-            const newThirdLevelElements = thirdLevel
+            const newThirdLevelElements = tempThirdLevel
               .map((thirdElement: any) => {
                 if (thirdElement.childIds.includes(parentId)) {
                   const childsArrayWithoutSecond = thirdElement.childIds.filter(
@@ -174,8 +175,8 @@ const FilterAction: FC<IRadioGroupAction> = ({ settingName, applySettings, attri
                 } else return thirdElement
               })
               .filter((element: any) => element) as IThirdLevelObj[]
-            console.log('newThirdLevelElements', newThirdLevelElements)
-            updateState({ thirdLevel: newThirdLevelElements })
+
+            tempThirdLevel = newThirdLevelElements
             return null
           } else {
             return {
@@ -186,7 +187,12 @@ const FilterAction: FC<IRadioGroupAction> = ({ settingName, applySettings, attri
         } else return secondLevelElement
       })
       .filter((element: any) => element) as ISecondLevelObj[]
-    updateState({ firstLevel: newFirstLevelElements, secondLevel: newSecondLevelElements })
+
+    updateState({
+      firstLevel: newFirstLevelElements,
+      secondLevel: newSecondLevelElements,
+      thirdLevel: tempThirdLevel,
+    })
   }
 
   const updateElement = (id: string, level: string, update: { [key: string]: string }) => {

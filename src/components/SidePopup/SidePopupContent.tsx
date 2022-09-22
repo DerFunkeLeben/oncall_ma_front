@@ -28,8 +28,6 @@ const SidePopupContent: FC = () => {
   const nodes = actions.map((action: any, index: number) => {
     const { type } = action
 
-    console.log({ action })
-
     switch (type) {
       case SidePopupActions.ATTRIBUTES:
         return <AttributeAction key={index} {...action} />

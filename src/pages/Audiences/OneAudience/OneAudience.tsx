@@ -21,33 +21,20 @@ import {
   PagesData,
 } from 'constants/url'
 import { AudienceAction, DoctorKeyLabels, DoctorKeys, INIT_AUDIENCE } from 'constants/audience'
-import { SidePopupActions } from 'constants/sidePopup'
+import { defaultQueryToSend, SidePopupActions } from 'constants/sidePopup'
 import { IFilterState } from 'components/SidePopup/actions/FilterAction/types'
 import { IPageData } from 'types'
 import { IStep } from 'types/sidePopup'
 import { getAxiosArr, getAxiosSingle, postAxiosSingle } from 'utils/axios'
-import { Conditions } from 'constants/sidePopup'
 import {
   parseStateToQuery,
   parseQueryToState,
 } from '../../../components/SidePopup/actions/FilterAction/utils'
-import { IAudienceMetaData } from 'types/audience'
 
 import styles from './OneAudience.module.scss'
 import ValidationError from 'constants/ValidationError'
 import useMessageBoxContext from 'context/MessageBoxContext'
 import { timeDelay } from 'utils'
-
-const initData = {
-  id: '0',
-  name: 'Аудитория',
-  peoplecount: '0',
-  createdat: '',
-  updatedat: '',
-  query: {
-    and: [{ field: DoctorKeys.specialty, type: Conditions.CONTAINS, value: ' ' }],
-  },
-}
 
 const configFilter: IStep = {
   name: 'filter',
@@ -66,7 +53,6 @@ const configFilter: IStep = {
               ...newState,
             }
           : newState
-        console.log({ update })
         updateTempSettings(false, [{ filter: update }])
       },
     },
@@ -77,7 +63,6 @@ const OneAudience: FC<IPageData> = () => {
   const { audienceid } = useParams<{ audienceid?: string }>()
   const history = useHistory()
   const location = useLocation()
-  const [audienceInfo, setAudienceInfo] = useState<IAudienceMetaData>(initData)
 
   const { currentAudience, setCurrentAudience, updateAudienceInfo } = useCurrentAudience()
   const { allDoctors, clearDoctors, addManyDoctors, setAllDoctors } = useDoctors()
@@ -113,7 +98,7 @@ const OneAudience: FC<IPageData> = () => {
     const nameIsTaken = await getAxiosSingle(
       `${AUDIENCE_URL_VALID_NAME}/${currentAudience.audience.name}`
     )
-    if (nameIsTaken) {
+    if (nameIsTaken && !isNew) {
       return setMessageBox({
         isOpen: true,
         title: ValidationError.AUDIENCE_ALREADY_EXISTS,
@@ -121,19 +106,16 @@ const OneAudience: FC<IPageData> = () => {
       })
     }
 
-    // const filterQueryIsEmpty = Object.keys(currentAudience.audience.query).length === 0
-    // if (filterQueryIsEmpty) {
-    //   return setMessageBox({
-    //     isOpen: true,
-    //     title: ValidationError.FILTERS_NOT_SET,
-    //     buttons: ['Ок'],
-    //   })
-    // }
+    let queryToSend = currentAudience.audience.query
+    const filterQueryIsEmpty = Object.keys(currentAudience.audience.query).length === 0
+    if (filterQueryIsEmpty) {
+      queryToSend = defaultQueryToSend
+    }
 
     const promiseArr = []
 
     const audienceCreateDto = {
-      query: currentAudience.audience.query,
+      query: queryToSend,
       name: currentAudience.audience.name,
       group: activeFolderName,
     }
@@ -148,7 +130,7 @@ const OneAudience: FC<IPageData> = () => {
     }
 
     await Promise.all(promiseArr)
-    await timeDelay(350) // TODO ???
+    await timeDelay(350) // TODO не подгружается новая аудитория в список всех, если без задержки
     history.push(PagesData.AUDIENCES.link)
   }
 
