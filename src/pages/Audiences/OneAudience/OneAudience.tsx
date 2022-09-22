@@ -66,7 +66,7 @@ const configFilter: IStep = {
               ...newState,
             }
           : newState
-        console.log({ update })
+        //console.log({ update })
         updateTempSettings(false, [{ filter: update }])
       },
     },
@@ -77,7 +77,6 @@ const OneAudience: FC<IPageData> = () => {
   const { audienceid } = useParams<{ audienceid?: string }>()
   const history = useHistory()
   const location = useLocation()
-  const [audienceInfo, setAudienceInfo] = useState<IAudienceMetaData>(initData)
 
   const { currentAudience, setCurrentAudience, updateAudienceInfo } = useCurrentAudience()
   const { allDoctors, clearDoctors, addManyDoctors, setAllDoctors } = useDoctors()
@@ -113,7 +112,7 @@ const OneAudience: FC<IPageData> = () => {
     const nameIsTaken = await getAxiosSingle(
       `${AUDIENCE_URL_VALID_NAME}/${currentAudience.audience.name}`
     )
-    if (nameIsTaken) {
+    if (nameIsTaken && !isNew) {
       return setMessageBox({
         isOpen: true,
         title: ValidationError.AUDIENCE_ALREADY_EXISTS,

@@ -173,6 +173,7 @@ const FilterAction: FC<IRadioGroupAction> = ({ settingName, applySettings, attri
                 } else return thirdElement
               })
               .filter((element: any) => element) as IThirdLevelObj[]
+
             console.log('newThirdLevelElements', newThirdLevelElements)
             updateState({ thirdLevel: newThirdLevelElements })
             return null
@@ -185,6 +186,7 @@ const FilterAction: FC<IRadioGroupAction> = ({ settingName, applySettings, attri
         } else return secondLevelElement
       })
       .filter((element: any) => element) as ISecondLevelObj[]
+
     updateState({ firstLevel: newFirstLevelElements, secondLevel: newSecondLevelElements })
   }
 
