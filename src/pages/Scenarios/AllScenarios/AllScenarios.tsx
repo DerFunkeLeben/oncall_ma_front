@@ -41,7 +41,6 @@ const AllScenarios: FC<IPageData> = () => {
     history.push(`${CREATE_SCENARIO}`)
   }
 
-  console.log({ allContent })
   const { search, filtered, onChange } = useSearch<TScenarioObj>('start', allContent)
 
   const totalCountOfData = allContent.length

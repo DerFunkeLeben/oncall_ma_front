@@ -1,5 +1,5 @@
-import { TasksTypes } from 'types'
-export default {
+import { TasksTypes, TScenarioType } from 'types'
+const initHeap = {
   '1': {
     type: TasksTypes.start,
     color: 'orange',
@@ -23,3 +23,10 @@ export default {
     properties: {},
   },
 }
+
+const initScenario = {
+  name: `Сценарий ${Date()}`,
+  startDate: Date.now(),
+  scenarioType: 'single' as TScenarioType,
+}
+export { initHeap, initScenario }

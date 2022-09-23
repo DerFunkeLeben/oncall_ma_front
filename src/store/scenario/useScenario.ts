@@ -1,5 +1,6 @@
-import { useCallback } from 'react'
+import { useCallback, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
+import { useParams } from 'react-router-dom'
 import { v4 as uuid } from 'uuid'
 
 import ActionCreator from './actions'
@@ -13,7 +14,7 @@ import { IStoreScenario, StoreKeys } from './_data-types'
 import { ITask, TasksTypes } from 'types'
 
 import { IAllScenaries } from 'types'
-import initHeap from './const'
+import { initHeap, initScenario } from './init'
 
 const useScenario = () => {
   const dispatch = useDispatch()
@@ -178,11 +179,24 @@ const useScenario = () => {
     dispatch(ActionCreator.setTasksHeap(initHeap))
   }
 
+  const eraseScenario = () => {
+    dispatch(ActionCreator.setScenario(initScenario))
+  }
+
   const initAllScenaries = async () => {
     const result = (await getAxiosArr(EVENT_URL_ALL)) as IAllScenaries
     dispatch(ActionCreator.setAllScenaries(result))
     return result
   }
+
+  const { eventId } = useParams<{ eventId?: string }>()
+
+  useEffect(() => {
+    if (!eventId) {
+      eraseTasksHeap()
+      eraseScenario()
+    }
+  }, [eventId])
 
   return {
     scenario,
@@ -190,6 +204,7 @@ const useScenario = () => {
     taskIsMoving,
     setTaskIsMoving,
     eraseTasksHeap,
+    eraseScenario,
     tasksHeap,
     setTasksHeap,
     addTask,

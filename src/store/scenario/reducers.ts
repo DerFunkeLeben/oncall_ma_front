@@ -2,16 +2,12 @@ import ActionType from './action-type'
 import { IStoreScenario } from './_data-types'
 import { IReducer } from '../data-types'
 import { TasksTypes } from 'types'
-import initHeap from './const'
+import { initHeap, initScenario } from './init'
 
 const initialState: IStoreScenario = {
   taskIsMoving: false,
   tasksHeap: initHeap,
-  scenario: {
-    name: 'Сценарий',
-    startDate: Date.now(),
-    scenarioType: 'single',
-  },
+  scenario: initScenario,
   allScenaries: [],
 }
 

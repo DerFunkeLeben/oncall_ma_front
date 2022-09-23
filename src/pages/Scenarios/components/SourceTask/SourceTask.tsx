@@ -47,12 +47,10 @@ const SourceTask: FC<ISourceTask> = ({ style, id, properties }) => {
   const [allAudiences, setAllAudiences] = useState<any[]>([])
 
   const closePopup = () => {
-    console.log('closePopup')
     setPopupIsOpen(false)
   }
 
   const openPopup = () => {
-    console.log('openPopup')
     setPopupIsOpen(true)
   }
 
@@ -69,7 +67,6 @@ const SourceTask: FC<ISourceTask> = ({ style, id, properties }) => {
     if (!data) return
     const { audience } = properties.properties
     const choosenAudience = data.filter((aud) => {
-      console.log('ccc', aud.id, audience)
       return aud.id === audience
     })[0]
     if (!choosenAudience) return

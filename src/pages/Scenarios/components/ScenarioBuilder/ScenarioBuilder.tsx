@@ -46,13 +46,11 @@ const names = {
 
 const ScenarioBuilder: FC = () => {
   const { eventId } = useParams<{ eventId?: string }>()
-  const { tasksHeap, initAllScenaries, setTasksHeap, setScenario, eraseTasksHeap } = useScenario()
+  const { tasksHeap, initAllScenaries, setTasksHeap, setScenario, eraseTasksHeap, eraseScenario } =
+    useScenario()
   const [stateTasksHeap, setStateTasksHeap] = useState<ITasksHeap>({})
 
   useEffect(() => {
-    if (!eventId) {
-      eraseTasksHeap()
-    }
     initAllScenaries().then((allScen) => {
       const { events } = allScen.filter((scen) => scen.id === eventId)[0]
       const { audience, startDate, scenarioType } = events[1].properties
