@@ -11,6 +11,7 @@ import tableStyles from 'components/Table/TableBase.module.scss'
 import buttonStyles from 'components/parts/Button/ButtonThemes.module.scss'
 import { IAudienceMetaData } from 'types/audience'
 import { ddmmyyyy } from 'utils/transformDate'
+import { PagesData } from 'constants/url'
 
 interface IPopupOfCreationFromExist {
   isOpen: boolean
@@ -30,7 +31,7 @@ const PopupOfCreationFromExist: FC<IPopupOfCreationFromExist> = ({
   const openAudience = (e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation()
     const { id } = e.currentTarget.dataset
-    history.push(`${url}/${id}`)
+    history.push(`${url}/create_exist/${id}`)
   }
   return (
     <Popup isOpen={isOpen} close={close}>

@@ -77,6 +77,7 @@ const OneAudience: FC<IPageData> = () => {
 
   const isCrm = location.pathname === PagesData.CREATE_AUDIENCE_CRM.link
   const isNew = location.pathname === PagesData.CREATE_AUDIENCE.link
+  const isExist = location.pathname.includes('create_exist')
 
   const handleTitleChange = (event: ChangeEvent<HTMLInputElement>) => {
     updateAudienceInfo({
@@ -123,7 +124,7 @@ const OneAudience: FC<IPageData> = () => {
       group: activeFolderName,
     }
 
-    if (isCrm || isNew) {
+    if (isCrm || isNew || isExist) {
       const audienceCreatePromise = postAxiosSingle(AUDIENCE_URL_CREATE, {}, audienceCreateDto)
       promiseArr.push(audienceCreatePromise)
     }
@@ -145,7 +146,7 @@ const OneAudience: FC<IPageData> = () => {
   }, [filterisOpen])
 
   useEffect(() => {
-    const getAudienceDoctors = async () => {
+    const getAudienceDoctors = async (nameSuffix = '') => {
       const audience = await getAxiosSingle(`${AUDIENCE_URL_ONE}/${audienceid}`)
       if (!audience) return history.push('/404')
 
@@ -153,7 +154,7 @@ const OneAudience: FC<IPageData> = () => {
       addManyDoctors(doctors)
       setCurrentAudience(
         {
-          name,
+          name: `${name} ${nameSuffix}`,
           id,
           query: JSON.parse(query || '{}'),
           createdat: createdAt,
@@ -175,15 +176,19 @@ const OneAudience: FC<IPageData> = () => {
       )
     }
 
+    // TODO какая то ерунда, надо переписать
     let loadPromise
     if (isNew) {
       setCurrentAudience(INIT_AUDIENCE, AudienceAction.CREATE_NEW)
       setIsLoaded(true)
     } else if (isCrm) {
       loadPromise = getAllDoctors()
+    } else if (isExist) {
+      loadPromise = getAudienceDoctors('copy')
     } else {
       loadPromise = getAudienceDoctors()
     }
+
     loadPromise?.then(() => setIsLoaded(true))
 
     return clearDoctors

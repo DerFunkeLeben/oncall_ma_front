@@ -24,6 +24,10 @@ const AUDIENCE_PAGES = [
     Component: OneAudience,
     ...PagesData.AUDIENCE,
   },
+  {
+    Component: OneAudience,
+    ...PagesData.CREATE_AUDIENCE_EXIST,
+  },
 ]
 
 const Audiences: FC<IPageData> = () => {

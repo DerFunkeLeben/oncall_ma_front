@@ -43,6 +43,7 @@ export const audiencesRoutes = [
   '/audiences/:audienceid',
   '/audiences/create_new',
   '/audiences/create_crm',
+  '/audiences/create_exist/:audienceid',
 ]
 
 export const contentRoutes = [
@@ -82,6 +83,11 @@ export const PagesData: IPagesData = {
   },
   CREATE_AUDIENCE_CRM: {
     link: audiencesRoutes[3],
+    route: audiencesRoutes,
+    name: 'Аудитория',
+  },
+  CREATE_AUDIENCE_EXIST: {
+    link: audiencesRoutes[4],
     route: audiencesRoutes,
     name: 'Аудитория',
   },
