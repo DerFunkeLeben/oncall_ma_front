@@ -19,6 +19,7 @@ import { SURE_WANT_DELETE_ONE } from 'constants/helpMessages'
 import { IconTrash, IconSend } from 'assets/icons'
 import buttonStyles from 'components/parts/Button/ButtonThemes.module.scss'
 import pageHeadStyle from 'components/PageHead/PageHead.module.scss'
+import { useDeepCompareEffect } from 'hooks/useDeepCompareEffect'
 
 const { EDIT, CREATE } = ContentAction
 
@@ -27,16 +28,23 @@ interface IContentHead {
   handleChange: (event: ChangeEvent<HTMLInputElement>) => void
   openPopUp: () => void
   handleSave: () => void
+  isLoaded?: boolean
 }
 
-const ContentHead: FC<IContentHead> = ({ settings, handleChange, openPopUp, handleSave }) => {
+const ContentHead: FC<IContentHead> = ({
+  settings,
+  handleChange,
+  openPopUp,
+  handleSave,
+  isLoaded,
+}) => {
   const history = useHistory()
   const { currentContent } = useCurrentContent()
   const { deleteContent } = useSetContent()
   const { setAlertBox } = useAlertContext()
   const { setMessageBox } = useMessageBoxContext()
 
-  const [contentChanged, setContentChanged] = useState(false)
+  const [contentChanged, setContentChanged] = useState<boolean>(false)
 
   const { contentAction } = currentContent
 
@@ -52,6 +60,11 @@ const ContentHead: FC<IContentHead> = ({ settings, handleChange, openPopUp, hand
     history.push(PagesData.ALL_CONTENT.link)
   }
 
+  const save = () => {
+    handleSave()
+    setContentChanged(false)
+  }
+
   const showMessageBoxDelete = () =>
     setMessageBox({
       isOpen: true,
@@ -60,7 +73,9 @@ const ContentHead: FC<IContentHead> = ({ settings, handleChange, openPopUp, hand
       buttons: ['Отмена', 'Удалить'],
     })
 
-  useDidUpdateEffect(() => setContentChanged(true), [settings])
+  useDeepCompareEffect(() => {
+    if (!contentChanged && isLoaded) setContentChanged(true)
+  }, [settings])
 
   return (
     <PageHead
@@ -81,7 +96,7 @@ const ContentHead: FC<IContentHead> = ({ settings, handleChange, openPopUp, hand
         <span>Удалить</span>
       </Button>
 
-      <Button onClick={handleSave}>
+      <Button onClick={save}>
         <span>Сохранить</span>
       </Button>
     </PageHead>

@@ -11,12 +11,14 @@ import buttonStyles from 'components/parts/Button/ButtonThemes.module.scss'
 import pageHeadStyle from 'components/PageHead/PageHead.module.scss'
 import { PagesData } from 'constants/url'
 import useDidUpdateEffect from 'hooks/useDidUpdateEffect'
+import { useDeepCompareEffect } from 'hooks/useDeepCompareEffect'
 
 interface IAudienceHead {
   audienceInfo: IAudienceMetaData
   openFilter: () => void
   handleChange: (event: ChangeEvent<HTMLInputElement>) => void
   handleSave: () => void
+  isLoaded: boolean
 }
 
 const AudienceHead: FC<IAudienceHead> = ({
@@ -24,12 +26,13 @@ const AudienceHead: FC<IAudienceHead> = ({
   handleChange,
   openFilter,
   handleSave,
+  isLoaded,
 }) => {
   const [contentChanged, setContentChanged] = useState(false)
 
-  useDidUpdateEffect(() => {
-    setContentChanged(true)
-  }, [audienceInfo.name, audienceInfo.query])
+  useDeepCompareEffect(() => {
+    if (!contentChanged && isLoaded) setContentChanged(true)
+  }, [audienceInfo])
 
   return (
     <PageHead

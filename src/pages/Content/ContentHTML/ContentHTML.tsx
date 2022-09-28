@@ -26,7 +26,6 @@ import {
   updateContentHTML,
   uploadContentHTML,
 } from 'utils/axiosQueries/content'
-import { timeDelay } from 'utils'
 import styles from './ContentHTML.module.scss'
 
 const ContentHTML: FC<IPageData> = () => {
@@ -42,6 +41,7 @@ const ContentHTML: FC<IPageData> = () => {
   const [settings, setSettings] = useState<IContent>(INIT_HTML_CONTENT)
   const [popUpIsOpen, togglePopUp] = useToggle()
   const [emails, setEmails] = useState<string[]>([user.email])
+  const [isLoaded, setIsLoaded] = useState<boolean>(false)
 
   const isNew = location.pathname === PagesData.CONTENT_HTML.link
   const showTextArea = settings.HTML != undefined
@@ -93,31 +93,21 @@ const ContentHTML: FC<IPageData> = () => {
     //   })
 
     if (isNew) {
-      await uploadContentHTML(settings, activeFolderName)
-
-      setAlertBox({
-        message: `Контент успешно загружен!`,
-        icon: AlertBoxIcons.SUCCESS,
-        isOpen: true,
-      })
+      await uploadContentHTML(settings, activeFolderName, setAlertBox)
+      // TODO получать айди созданного контента из функции, и переходить по нему
+      history.push(PagesData.ALL_CONTENT.link)
     } else {
-      await updateContentHTML(settings, activeFolderName)
-
-      setAlertBox({
-        message: `Контент успешно обновлен!`,
-        icon: AlertBoxIcons.SUCCESS,
-        isOpen: true,
-      })
+      await updateContentHTML(settings, activeFolderName, setAlertBox)
     }
-
-    await timeDelay(350)
-    history.push(PagesData.ALL_CONTENT.link)
   }
 
   const debouncedHTML = useDebounce(settings.HTML, 1000)
 
   useEffect(() => {
-    if (!isNew) getContentHTML(contentId, setSettings)
+    if (!isNew) {
+      const loadPromise = getContentHTML(contentId, setSettings)
+      loadPromise.then(() => setIsLoaded(true))
+    } else setIsLoaded(true)
   }, [])
 
   return (
@@ -127,6 +117,7 @@ const ContentHTML: FC<IPageData> = () => {
         handleChange={handleChange}
         openPopUp={togglePopUp}
         handleSave={handleSave}
+        isLoaded={isLoaded}
       />
 
       {showTextArea ? (

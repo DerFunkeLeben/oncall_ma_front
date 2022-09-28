@@ -1,3 +1,4 @@
+import { AlertBoxIcons } from 'constants/dictionary'
 import {
   CONTENT_URL_ONE,
   CONTENT_URL_UPDATE,
@@ -5,6 +6,7 @@ import {
   SEND_EMAIL_URL,
 } from 'constants/url'
 import { Dispatch, SetStateAction } from 'react'
+import { IAlertBox } from 'types'
 import { ContentTypes, IContent } from 'types/content'
 import { decodeFileName } from 'utils'
 import { getAxiosSingle, postAxiosFormData, postAxiosSingle, putAxiosSingle } from 'utils/axios'
@@ -27,7 +29,11 @@ const getContentHTML = async (
   })
 }
 
-const uploadContentHTML = async (settings: IContent, activeFolderName: string) => {
+const uploadContentHTML = async (
+  settings: IContent,
+  activeFolderName: string,
+  setAlertBox: Dispatch<SetStateAction<IAlertBox>>
+) => {
   const formData = new FormData()
   const { HTML, theme, title, preheader } = settings
   const text = HTML || ''
@@ -42,10 +48,20 @@ const uploadContentHTML = async (settings: IContent, activeFolderName: string) =
   formData.append('group', activeFolderName)
 
   const result = await postAxiosFormData(CONTENT_URL_UPLOAD, {}, formData)
+
+  setAlertBox({
+    message: `Контент успешно загружен!`,
+    icon: AlertBoxIcons.SUCCESS,
+    isOpen: true,
+  })
   console.log(result)
 }
 
-const updateContentHTML = async (settings: IContent, activeFolderName: string) => {
+const updateContentHTML = async (
+  settings: IContent,
+  activeFolderName: string,
+  setAlertBox: Dispatch<SetStateAction<IAlertBox>>
+) => {
   // TODO: не обновляется имя файла, нужно добавить поле
   const { id, HTML, preheader, theme } = settings
   const data = {
@@ -55,9 +71,14 @@ const updateContentHTML = async (settings: IContent, activeFolderName: string) =
     preheader,
     group: activeFolderName,
   }
-  console.log(data)
   const result = await putAxiosSingle(CONTENT_URL_UPDATE, {}, data)
   console.log(result)
+
+  setAlertBox({
+    message: `Контент успешно обновлен!`,
+    icon: AlertBoxIcons.SUCCESS,
+    isOpen: true,
+  })
 }
 
 const sendContentHTML = async (settings: IContent, inputs: string[]) => {

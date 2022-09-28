@@ -73,6 +73,7 @@ const OneAudience: FC<IPageData> = () => {
 
   const [filterisOpen, toggleFilterPopup] = useToggle()
   const [filterState, setFilterState] = useState({})
+  const [isLoaded, setIsLoaded] = useState(false)
 
   const isCrm = location.pathname === PagesData.CREATE_AUDIENCE_CRM.link
   const isNew = location.pathname === PagesData.CREATE_AUDIENCE.link
@@ -174,9 +175,16 @@ const OneAudience: FC<IPageData> = () => {
       )
     }
 
-    if (isNew) setCurrentAudience(INIT_AUDIENCE, AudienceAction.CREATE_NEW)
-    else if (isCrm) getAllDoctors()
-    else getAudienceDoctors()
+    let loadPromise
+    if (isNew) {
+      setCurrentAudience(INIT_AUDIENCE, AudienceAction.CREATE_NEW)
+      setIsLoaded(true)
+    } else if (isCrm) {
+      loadPromise = getAllDoctors()
+    } else {
+      loadPromise = getAudienceDoctors()
+    }
+    loadPromise?.then(() => setIsLoaded(true))
 
     return clearDoctors
   }, [])
@@ -189,6 +197,7 @@ const OneAudience: FC<IPageData> = () => {
           openFilter={toggleFilterPopup}
           handleChange={handleTitleChange}
           handleSave={handleSave}
+          isLoaded={isLoaded}
         />
         {isNew ? <CreateAudienceTable /> : <OneAudienceTable allDoctors={allDoctors} />}
       </div>
