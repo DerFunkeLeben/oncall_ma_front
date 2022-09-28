@@ -8,24 +8,23 @@ import useAllContent from 'store/content/useAllContent'
 import useAlertContext from 'context/AlertContext'
 import useMessageBoxContext from 'context/MessageBoxContext'
 
+import { CREATE_SCENARIO } from 'constants/url'
 import { SURE_WANT_DELETE_MANY } from 'constants/helpMessages'
 import { AlertBoxIcons } from 'constants/dictionary'
 import { ddmmyyyy } from 'utils/transformDate'
-import { ContentTypeLabels, ContentTypes, IContent } from 'types/content'
-import { CheckMenuAction } from 'types'
+import { ContentTypes, IContent } from 'types/content'
+import { CheckMenuAction, IAllScenaries } from 'types'
 import { IconCheck } from 'assets/icons'
-import { MainReducerKeys } from 'store/data-types'
-import { PagesData } from 'constants/url'
-import { decodeFileName } from 'utils'
 import tableStyles from 'components/Table/TableBase.module.scss'
+import { MainReducerKeys } from 'store/data-types'
 
-const header = ['', 'Название', 'Тип', 'Дата создания', 'Дата изменения']
+const header = ['', 'Название', 'Тип', 'Дата создания']
 
-const getAllContentIds = (allContent: IContent[]) => allContent.map(({ id }) => id) as string[]
+const getAllContentIds = (allContent: IAllScenaries) => allContent.map(({ id }) => id) as string[]
 
-const AllContentTable: FC<{ allContent: IContent[] }> = ({ allContent }) => {
+const AllScenariosTable: FC<{ allContent: IAllScenaries }> = ({ allContent }) => {
   const history = useHistory()
-  // const { deleteMultipleById } = useAllContent()
+  const { deleteMultipleById } = useAllContent()
   const { setAlertBox } = useAlertContext()
   const { setMessageBox } = useMessageBoxContext()
 
@@ -43,16 +42,11 @@ const AllContentTable: FC<{ allContent: IContent[] }> = ({ allContent }) => {
 
   const totalCountOfData = allContent.length
 
-  const openContent = (e: React.MouseEvent<HTMLElement>) => {
-    e.stopPropagation()
-    const { id, type } = e.currentTarget.dataset
-
-    let url
-    if (type === ContentTypes.HTML) url = PagesData.CONTENT_HTML.link
-    else if (type === ContentTypes.SMS) url = PagesData.CONTENT_SMS.link
-    // else url = PagesData.CONTENT_FILE.link
-
-    history.push(`${url}/${id}`)
+  const openScenario = (e: React.MouseEvent<HTMLElement>) => {
+    // e.stopPropagation()
+    // const { id, type } = e.currentTarget.dataset
+    // const url = CREATE_SCENARIO
+    // history.push(`${url}/${id}`)
   }
 
   const sendTestEmail = () => console.log('sendTestEmail')
@@ -66,7 +60,7 @@ const AllContentTable: FC<{ allContent: IContent[] }> = ({ allContent }) => {
     })
 
     function handleConfirm() {
-      // deleteMultipleById(checkedList)
+      deleteMultipleById(checkedList)
       setAlertBox({
         message: `Удалено элементов: ${checkedCount}`,
         icon: AlertBoxIcons.DELETE,
@@ -104,38 +98,38 @@ const AllContentTable: FC<{ allContent: IContent[] }> = ({ allContent }) => {
       }}
     >
       {allContent.map((contentItem, index) => {
-        const { id, type, createdAt, updatedAt, originalName } = contentItem
+        const { id, start } = contentItem
+        if (!contentItem?.events?.[start]?.properties) return
+        const { startDate, scenarioType } = contentItem.events[start].properties
         const checked = isItChecked(id)
-
-        const title = decodeFileName(originalName)
-        const typeToShow = ContentTypeLabels[type]
-        const createdDate = ddmmyyyy(createdAt)
-        const updatedDate = ddmmyyyy(updatedAt)
-
         return (
           <div
             className={tableStyles.row}
             key={index}
-            onClick={openContent}
+            onClick={openScenario}
             data-id={id}
-            data-type={type}
+            data-type={scenarioType}
           >
             <div
               className={cx(tableStyles.cell, tableStyles.cellCheck)}
               onClick={toggleCheck}
               data-id={id}
             >
-              <div className={cx(tableStyles.check, { [tableStyles.checked]: checked })}>
+              <div
+                className={cx(tableStyles.check, {
+                  [tableStyles.checked]: checked,
+                })}
+              >
                 {checked && <IconCheck />}
               </div>
             </div>
 
             <div className={cx(tableStyles.cell, tableStyles.accentCell, 'text_1_hl_1')}>
-              <span>{title}</span>
+              <span>{'title'}</span>
             </div>
-            <div className={cx(tableStyles.cell, 'text_1')}>{typeToShow}</div>
-            <div className={cx(tableStyles.cell, 'text_1')}>{createdDate}</div>
-            <div className={cx(tableStyles.cell, 'text_1')}>{updatedDate}</div>
+            <div className={cx(tableStyles.cell, 'text_1')}>{scenarioType}</div>
+            <div className={cx(tableStyles.cell, 'text_1')}>{ddmmyyyy(new Date(startDate))}</div>
+            {/* <div className={cx(tableStyles.cell, 'text_1')}>{ddmmyyyy(lastUpdateDate)}</div> */}
           </div>
         )
       })}
@@ -143,4 +137,4 @@ const AllContentTable: FC<{ allContent: IContent[] }> = ({ allContent }) => {
   )
 }
 
-export default AllContentTable
+export default AllScenariosTable

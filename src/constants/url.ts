@@ -2,15 +2,15 @@ import { IPagesData } from 'types'
 
 const { REACT_APP_DEBUG } = process.env
 
-export let SERVER = 'http://localhost:3000'
-if (REACT_APP_DEBUG === 'true') SERVER = 'http://217.25.89.6'
+export const SERVER = 'http://217.25.89.6'
+// if (REACT_APP_DEBUG === 'true') SERVER = 'http://217.25.89.6'
 
 export const AUTH_URL = `/auth`
 export const AUTH_URL_LOGIN = `${AUTH_URL}/local/login`
 export const AUTH_URL_RELOGIN = `${AUTH_URL}/local/me`
 
 const DOCTORS_BASE_URL = '/doctors'
-export const DOCTORS_URL = `${DOCTORS_BASE_URL}?limit=50&offset=0` // TODO
+export const DOCTORS_URL = `${DOCTORS_BASE_URL}/?limit=50&offset=0` // TODO
 export const DOCTORS_URL_ADD = `${DOCTORS_BASE_URL}/add`
 export const DOCTORS_URL_UPDATE = `${DOCTORS_BASE_URL}/update`
 
@@ -24,7 +24,19 @@ export const AUDIENCE_URL_ALL = `${AUDIENCE_BASE_URL}/groups`
 export const AUDIENCE_URL_FOLDERS = `${AUDIENCE_BASE_URL}/groups/count`
 export const AUDIENCE_URL_ONE_GROUP = `${AUDIENCE_BASE_URL}/group` // {name}
 
+export const CONTENT_URL_UPLOAD = `/comm/file`
+export const CONTENT_URL_UPDATE = `${CONTENT_URL_UPLOAD}/update`
+export const CONTENT_URL_ONE = `${CONTENT_URL_UPLOAD}/get` // {id}
+export const CONTENT_URL_ALL = `${CONTENT_URL_UPLOAD}/files`
+export const CONTENT_URL_FOLDERS = `${CONTENT_URL_UPLOAD}/groups`
+
 export const SEND_EMAIL_URL = `/comm/mail/test`
+
+export const EVENT_URL = `/events/event`
+export const EVENT_URL_ADD = `${EVENT_URL}/add`
+export const EVENT_URL_ALL = `${EVENT_URL}/all`
+export const EVENT_URL_VALIDATE = `${EVENT_URL}/validate`
+export const EVENT_URL_START = `${EVENT_URL}/start/`
 
 export const audiencesRoutes = [
   '/audiences',
@@ -44,7 +56,8 @@ export const contentRoutes = [
 ]
 
 export const analyticsRoutes = ['/analytics']
-export const scenariosRoutes = ['/scenarios']
+export const CREATE_SCENARIO = '/create_scenario'
+export const scenariosRoutes = ['/scenarios', CREATE_SCENARIO, `${CREATE_SCENARIO}/:eventId`]
 
 export const PagesData: IPagesData = {
   LOGIN: {
@@ -111,6 +124,11 @@ export const PagesData: IPagesData = {
     link: analyticsRoutes[0],
     route: analyticsRoutes,
     name: 'Аналитика',
+  },
+  CREATE_SCENARIOS: {
+    link: scenariosRoutes[1],
+    route: scenariosRoutes,
+    name: 'Создание сценария',
   },
   SCENARIOS: {
     link: scenariosRoutes[0],

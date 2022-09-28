@@ -1,32 +1,49 @@
+// тип, который приходит с бэка
 export enum ContentTypes {
-  HTML = 'HTML',
+  HTML = 'email',
+  // TODO:
   SMS = 'SMS',
   FILE = 'File',
   IMAGE = 'Image',
   PDF = 'PDF',
 }
 
-export interface IContentDefault {
-  id?: string
-  type: `${ContentTypes}`
-  createDate?: Date | string
-  lastUpdateDate?: Date | string
-  title: string
-  folderName?: string
+// тип, который показываем на фронте
+export const ContentTypeLabels = {
+  [ContentTypes.HTML]: 'HTML',
+  // TODO:
+  [ContentTypes.SMS]: 'SMS',
+  [ContentTypes.FILE]: 'FILE',
+  [ContentTypes.IMAGE]: 'IMAGE',
+  [ContentTypes.PDF]: 'PDF',
 }
 
-export interface IContentHTML extends IContentDefault {
+export interface IContent {
+  title: string
+  type: `${ContentTypes}`
+  createdAt?: string
+  updatedAt?: string
+  id?: string
+  originalName?: string
+  folderName?: string
+  theme?: string
+  preheader?: string
+  HTML?: string
+  SMStext?: string
+}
+
+export interface IContentHTML extends IContent {
   theme: string
   preheader: string
   HTML?: string
 }
 
-export interface IContentSMS extends IContentDefault {
-  text: string
+export interface IContentSMS extends IContent {
+  SMStext: string
 }
 
-export interface IContentFile extends IContentDefault {
+export interface IContentFile extends IContent {
   filePath: string // TODO:
 }
 
-export type IContent = IContentHTML | IContentSMS | IContentFile
+// export type IContent = IContentHTML | IContentSMS | IContentFile

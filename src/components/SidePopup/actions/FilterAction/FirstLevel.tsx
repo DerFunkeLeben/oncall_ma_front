@@ -1,4 +1,4 @@
-import { FC, useRef } from 'react'
+import { FC, useCallback } from 'react'
 import cx from 'classnames'
 
 import Button from 'components/parts/Button/Button'
@@ -16,13 +16,13 @@ import {
   Conditions,
   LogicLabels,
   ConditionsLabels,
-  LogicalOperators,
 } from 'constants/sidePopup'
 
 import { IconPlus } from '../../../../assets/icons'
 import InputBase from 'components/parts/InputBase/InputBase'
 import { Align } from 'constants/dictionary'
 import { DoctorKeyLabels } from 'constants/audience'
+import ScrollArea from 'containers/ScrollArea/ScrollArea'
 
 const FirstLevel: FC<IFirstLevel> = ({
   row,
@@ -66,6 +66,13 @@ const FirstLevel: FC<IFirstLevel> = ({
     if (determinant.length > 20) return determinant.slice(-20)
     return determinant
   }
+
+  const calcWidth = useCallback(() => {
+    const maxSizedLabel = Object.values(DoctorKeyLabels).sort((a, b) => b.length - a.length)[0]
+    const maxSize = maxSizedLabel.length
+    return `calc(${maxSize}ch - 15px)`
+  }, [])
+
   return (
     <div className={cx(styles.firstLevelOperand)}>
       <div className={styles.firstLevelOperandContent}>
@@ -75,31 +82,40 @@ const FirstLevel: FC<IFirstLevel> = ({
         {itsFirstChild ? (
           <DropDown
             align={Align.LEFT}
+            mouseLeave
             triggerNode={
               <Button modificator={buttonThemes.theme_filter_accent}>
                 {DoctorKeyLabels[defined].toLowerCase()}
               </Button>
             }
           >
-            <div className={dropDownStyles.container}>
-              {headers.map((headerElement) => {
-                const headerEl = headerElement as keyof typeof DoctorKeyLabels
-                return (
-                  <button
-                    key={headerElement}
-                    className={cx(dropDownStyles.element, 'text_1')}
-                    onClick={handleChangeDefined}
-                    data-defined={headerEl}
-                  >
-                    {DoctorKeyLabels[headerEl]}
-                  </button>
-                )
-              })}
-            </div>
+            <ScrollArea
+              modificator={cx(styles.dropDownScroll, dropDownStyles.container)}
+              maxHeight={'205px'}
+              styles={{ width: calcWidth() }}
+              onlyVertical
+            >
+              <div className={cx(styles.container)}>
+                {headers.map((headerElement) => {
+                  const headerEl = headerElement as keyof typeof DoctorKeyLabels
+                  return (
+                    <button
+                      key={headerElement}
+                      className={cx(dropDownStyles.element, 'text_1')}
+                      onClick={handleChangeDefined}
+                      data-defined={headerEl}
+                    >
+                      {DoctorKeyLabels[headerEl]}
+                    </button>
+                  )
+                })}
+              </div>
+            </ScrollArea>
           </DropDown>
         ) : (
           <DropDown
             align={Align.LEFT}
+            mouseLeave
             triggerNode={
               <Button modificator={buttonThemes.theme_filter_accent}>
                 {LogicLabels[logicalOperator]}
@@ -124,6 +140,7 @@ const FirstLevel: FC<IFirstLevel> = ({
         )}
         <DropDown
           align={Align.LEFT}
+          mouseLeave
           triggerNode={
             <Button modificator={buttonThemes.theme_filter}>{ConditionsLabels[condition]}</Button>
           }

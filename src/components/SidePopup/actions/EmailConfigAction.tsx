@@ -9,11 +9,11 @@ import { TIME_OPTIONS } from 'constants/sidePopup'
 import actionsStyles from './styles.module.scss'
 
 const EmailConfigAction: FC = () => {
-  const { action, settings } = usePopupContext()
+  const { action, properties } = usePopupContext()
   const { name } = action
   action.options = TIME_OPTIONS
-  const preset = settings?.name
-  // const emailId = settings?.email?.emailId
+  const preset = properties?.name
+  // const emailId = properties?.email?.emailId
   const emailName = 'emailName'
   const emailTitle = 'emailTitle'
   const emailSubTitle = 'emailSubTitle'

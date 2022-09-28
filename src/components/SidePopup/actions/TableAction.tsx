@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react'
+import { FC, useEffect, useState, useCallback } from 'react'
 import cx from 'classnames'
 
 import usePopupContext from 'context/SidePopupContext'
@@ -11,39 +11,45 @@ import tableStyles from 'components/Table/TableBase.module.scss'
 import useTable from 'components/Table/useTable'
 import radioStyles from 'components/parts/RadioGroup/RadioGroup.module.scss'
 import { useSidePopup } from 'store/sidePopupStore/useSidePopup'
+import { ddmmyyyy } from 'utils/transformDate'
+
+import { getAxiosArr } from 'utils/axios'
+import { IContent } from 'types/content'
 
 const header = ['', 'Название', 'Дата редактирования']
 
-const TableAction: FC<IAction> = ({ settingName, applySettings }) => {
-  const { step, setTempSettings, tempSettings, savedSettings } = usePopupContext()
-  const { updateTempSettings } = useSidePopup()
-  const actionName = step.name
-  const defaultValue = null
-
+const TableAction: FC<IAction> = ({ settingName, applySettings, url }) => {
   const [radioSelected, setRadioSelected] = useState<string | undefined | null>(null)
+  const [tableData, setTableData] = useState<IContent[]>([])
+  const { step, setTempSettings, tempSettings, savedSettings } = usePopupContext()
+  const [allContent, setAllContent] = useState<any[]>([])
+  const { updateTempSettings } = useSidePopup()
 
+  const getAllContent = useCallback(async () => {
+    const content = await getAxiosArr(url as string)
+
+    // TODO поменять получаемый объект на бэке
+    setAllContent(() => content)
+  }, [])
+
+  useEffect(() => {
+    getAllContent()
+  }, [])
+
+  const defaultValue = null
   const currentValue =
-    tempSettings && tempSettings[actionName] && tempSettings[actionName][settingName]
-      ? tempSettings[actionName][settingName]
-      : defaultValue
+    tempSettings && tempSettings[settingName] ? tempSettings[settingName] : defaultValue
 
   const handleChange = (e: React.MouseEvent<HTMLElement>) => {
     const { id } = e.currentTarget.dataset
-    const newValue = id === radioSelected ? null : (id || 0).toString()
+    const newId = id === radioSelected ? null : (id || 0).toString()
 
-    applySettings(newValue, tempSettings, updateTempSettings)
-    setRadioSelected(newValue)
+    const allLineData = allContent.filter((tableLine) => tableLine.id === newId)[0]
+
+    applySettings(allLineData, tempSettings, updateTempSettings)
+
+    setRadioSelected(newId)
   }
-
-  const tableData = [
-    //get from url
-    { id: '1', name: 'email-name', date: '2022.14.08' },
-    { id: '2', name: 'email-name', date: '2022.14.08' },
-    { id: '3', name: 'email-name', date: '2022.14.08' },
-    { id: '4', name: 'email-name', date: '2022.14.08' },
-    { id: '5', name: 'email-name', date: '2022.14.08' },
-    { id: '6', name: 'email-name', date: '2022.14.08' },
-  ]
 
   const isRadioSelected = (id: string | undefined | null) => currentValue === id
 
@@ -54,8 +60,9 @@ const TableAction: FC<IAction> = ({ settingName, applySettings }) => {
         handleScrollLimit={() => console.log('handleScrollLimit')}
         totalCountOfData={10}
       >
-        {tableData.map((row, index) => {
-          const { id, name, date } = tableData[index]
+        {allContent.map((row, index) => {
+          const { id, title, createdAt, originalName } = allContent[index]
+          console.log(allContent[index])
           return (
             <div className={cx(tableStyles.row)} key={index} onClick={handleChange} data-id={id}>
               <div className={cx(tableStyles.cell, tableStyles.cellCheck)}>
@@ -67,8 +74,8 @@ const TableAction: FC<IAction> = ({ settingName, applySettings }) => {
                 ></input>
                 <label htmlFor={id}></label>
               </div>
-              <div className={cx(tableStyles.cell)}>{name}</div>
-              <div className={cx(tableStyles.cell)}>{date}</div>
+              <div className={cx(tableStyles.cell)}>{originalName}</div>
+              <div className={cx(tableStyles.cell)}>{ddmmyyyy(createdAt)}</div>
             </div>
           )
         })}

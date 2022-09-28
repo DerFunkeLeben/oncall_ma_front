@@ -12,11 +12,8 @@ interface IRadioGroupAction extends IAction {
 const RadioGroupAction: FC<IRadioGroupAction> = ({ settingName, applySettings, options }) => {
   const { step, tempSettings } = usePopupContext()
   const { updateTempSettings } = useSidePopup()
-  const actionName = step.name
-  const pickedOptionName = tempSettings?.[actionName]?.[settingName]
-    ? tempSettings[actionName][settingName]
-    : ''
-  console.log(tempSettings, pickedOptionName)
+  const pickedOptionName = tempSettings?.[settingName] ? tempSettings[settingName] : ''
+
   const handleChange = (value: string) => {
     applySettings(value, tempSettings, updateTempSettings)
   }

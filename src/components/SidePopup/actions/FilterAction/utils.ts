@@ -1,6 +1,7 @@
 import { DoctorKeys } from 'constants/audience'
 import { IFilterState, IFirstLevelObj, ISecondLevelObj } from './types'
 import { v4 as uuid } from 'uuid'
+import { defaultQueryValue } from 'constants/sidePopup'
 
 export const parseStateToQuery = (filterState: IFilterState) => {
   const { thirdLevel, secondLevel, firstLevel } = filterState
@@ -23,7 +24,8 @@ export const parseStateToQuery = (filterState: IFilterState) => {
       query[thirdLevelKey][secondLevelKey] = query[thirdLevelKey][secondLevelKey] || {}
 
       let defined: DoctorKeys | undefined = undefined
-
+      let lastKey = 'and'
+      const firstLevelElements = [] as any[]
       secondLevelChildIds.map((secondLevelChildId) => {
         const firstLevelItem = firstLevel.find(
           (item) => item.id === secondLevelChildId
@@ -32,17 +34,25 @@ export const parseStateToQuery = (filterState: IFilterState) => {
         if (!defined) defined = firstLevelItem.defined
 
         const firstLevelKey = firstLevelItem.logicalOperator
-
-        if (!query[thirdLevelKey][secondLevelKey][firstLevelKey])
-          query[thirdLevelKey][secondLevelKey][firstLevelKey] = []
+        if (lastKey !== firstLevelKey) lastKey = firstLevelKey
 
         const { condition, determinant } = firstLevelItem
-        query[thirdLevelKey][secondLevelKey][firstLevelKey].push({
+
+        firstLevelElements.push({
           field: defined,
           type: condition,
           value: determinant,
         })
       })
+
+      //TODO нужно что-то менять...
+      if (!query[thirdLevelKey][secondLevelKey][lastKey])
+        query[thirdLevelKey][secondLevelKey][lastKey] = firstLevelElements
+      else
+        query[thirdLevelKey][secondLevelKey][lastKey] = [
+          ...query[thirdLevelKey][secondLevelKey][lastKey],
+          ...firstLevelElements,
+        ]
     })
   })
   console.log(query)
@@ -72,11 +82,14 @@ export const parseQueryToState = (query: Query) => {
 
         firstLevelChildren.map((firstLevelChild) => {
           const firstLevelId = uuid()
+          const determinant =
+            firstLevelChild.value === defaultQueryValue ? '' : firstLevelChild.value
+
           firstLevel.push({
             defined: firstLevelChild.field,
             logicalOperator: firstLevelKey,
             condition: firstLevelChild.type,
-            determinant: firstLevelChild.value,
+            determinant: determinant,
             id: firstLevelId,
           })
           secondLevelChildIds.push(firstLevelId)
@@ -105,54 +118,3 @@ export const parseQueryToState = (query: Query) => {
 }
 
 type Query = { [key: string]: { [key: string]: any } }
-
-const q = {
-  and: {
-    and: {
-      and: [
-        {
-          field: 'specialty',
-          type: 'not contain',
-          value: 'ssqw',
-        },
-        {
-          field: 'specialty',
-          type: 'contain',
-          value: 'f',
-        },
-        {
-          field: 'specialty',
-          type: 'contain',
-          value: 'dds',
-        },
-      ],
-      or: [
-        {
-          field: 'specialty',
-          type: 'not equal',
-          value: 'sd',
-        },
-      ],
-    },
-    or: {
-      and: [
-        {
-          field: 'organization',
-          type: 'contain',
-          value: 'dd',
-        },
-      ],
-    },
-  },
-  notAnd: {
-    and: {
-      and: [
-        {
-          field: 'specialty',
-          type: 'contain',
-          value: 'sdsd',
-        },
-      ],
-    },
-  },
-}

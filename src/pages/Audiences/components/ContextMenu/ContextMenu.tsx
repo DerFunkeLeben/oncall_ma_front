@@ -14,6 +14,7 @@ interface IContextMenu {
 
 const ContextMenu: FC<IContextMenu> = ({ handleEdit, handleRemove }) => (
   <DropDown
+    mouseLeave
     triggerNode={
       <button className={cx(styles.iconDots)}>
         <IconDots />

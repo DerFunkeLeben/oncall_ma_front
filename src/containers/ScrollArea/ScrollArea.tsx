@@ -11,6 +11,8 @@ interface IScrollArea {
   modificator?: string
   autoHide?: boolean
   maxHeight?: string
+  onlyVertical?: boolean
+  styles?: object
 }
 
 const ScrollArea: FC<IScrollArea> = ({
@@ -20,13 +22,21 @@ const ScrollArea: FC<IScrollArea> = ({
   autoHide = true,
   modificator = '',
   maxHeight,
+  onlyVertical,
+  styles,
 }) => (
   <SimpleBar
     scrollableNodeProps={{ ref: customRef }}
-    style={{ maxHeight: maxHeight || '100%' }}
+    style={{
+      maxHeight: maxHeight || '100%',
+      ...styles,
+    }}
     autoHide={autoHide}
     ref={simplebarRef}
-    className={cx(style.scrollArea, { [modificator]: modificator })}
+    className={cx(style.scrollArea, {
+      [modificator]: modificator,
+      [style.onlyVertical]: onlyVertical,
+    })}
   >
     {children}
   </SimpleBar>

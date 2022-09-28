@@ -4,10 +4,3 @@
   height: 100%;
   grid-template-columns: 70px auto;
 }
-.pageContent {
-  display: grid;
-  height: calc(100vh - 30px);
-  padding: 30px 30px 0px 30px;
-  grid-template-columns: 430px auto;
-  grid-template-rows: 68px auto;
-}

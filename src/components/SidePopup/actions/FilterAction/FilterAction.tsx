@@ -24,10 +24,9 @@ interface IRadioGroupAction extends IAction {
   attributes: any
 }
 
-const FilterAction: FC<IRadioGroupAction> = ({ applySettings, attributes }) => {
+const FilterAction: FC<IRadioGroupAction> = ({ settingName, applySettings, attributes }) => {
   const { step, tempSettings } = usePopupContext()
   const { updateTempSettings } = useSidePopup()
-  const actionName = step.name
 
   const initFirstLevelRow = (id: string) => {
     return {
@@ -67,21 +66,20 @@ const FilterAction: FC<IRadioGroupAction> = ({ applySettings, attributes }) => {
       secondLevel: newSecondLevelElements,
       thirdLevel: newThirdLevelElements,
     }
+    console.log('initState', newlevel, tempSettings)
     applySettings(newlevel, tempSettings, updateTempSettings)
   }
 
   useEffect(() => {
-    if (!tempSettings?.[actionName]) {
+    if (!tempSettings?.[settingName]) {
       initState()
     }
   }, [tempSettings])
 
-  const filterState =
-    tempSettings && tempSettings[actionName] && tempSettings[actionName]
-      ? tempSettings[actionName]
-      : ''
+  const filterState = tempSettings && tempSettings[settingName] ? tempSettings[settingName] : ''
 
   const { firstLevel, secondLevel, thirdLevel } = filterState
+
   const updateState = (newlevel: any) => {
     applySettings(newlevel, tempSettings, updateTempSettings)
   }
@@ -153,6 +151,7 @@ const FilterAction: FC<IRadioGroupAction> = ({ applySettings, attributes }) => {
     const newFirstLevelElements = firstLevel.filter((firstLevelElement: any) => {
       return firstLevelElement.id !== id
     })
+    let tempThirdLevel = thirdLevel as any[]
     const newSecondLevelElements = secondLevel
       .map((secondLevelElement: any) => {
         if (secondLevelElement.id === parentId) {
@@ -160,7 +159,7 @@ const FilterAction: FC<IRadioGroupAction> = ({ applySettings, attributes }) => {
             (childId: any) => childId !== id
           )
           if (childsArrayWithoutTarget.length === 0) {
-            const newThirdLevelElements = thirdLevel
+            const newThirdLevelElements = tempThirdLevel
               .map((thirdElement: any) => {
                 if (thirdElement.childIds.includes(parentId)) {
                   const childsArrayWithoutSecond = thirdElement.childIds.filter(
@@ -176,7 +175,8 @@ const FilterAction: FC<IRadioGroupAction> = ({ applySettings, attributes }) => {
                 } else return thirdElement
               })
               .filter((element: any) => element) as IThirdLevelObj[]
-            updateState({ firstLevel: newThirdLevelElements })
+
+            tempThirdLevel = newThirdLevelElements
             return null
           } else {
             return {
@@ -187,7 +187,12 @@ const FilterAction: FC<IRadioGroupAction> = ({ applySettings, attributes }) => {
         } else return secondLevelElement
       })
       .filter((element: any) => element) as ISecondLevelObj[]
-    updateState({ firstLevel: newFirstLevelElements, secondLevel: newSecondLevelElements })
+
+    updateState({
+      firstLevel: newFirstLevelElements,
+      secondLevel: newSecondLevelElements,
+      thirdLevel: tempThirdLevel,
+    })
   }
 
   const updateElement = (id: string, level: string, update: { [key: string]: string }) => {
@@ -228,7 +233,7 @@ const FilterAction: FC<IRadioGroupAction> = ({ applySettings, attributes }) => {
     <div className={styles.wrapper}>
       <div className={styles.filterContainerWrapper}>
         <div className={styles.verticalLine} />
-        <ScrollArea>
+        <ScrollArea onlyVertical>
           <div className={styles.filterContainer}>
             {thirdLevel &&
               thirdLevel.map((thirdLevelElement: any, thirdLevelIndex: any) => {

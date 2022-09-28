@@ -11,13 +11,12 @@ import styles from './FilterAction.module.scss'
 
 import { ISecondLevel } from './types'
 
-import { ConditionsLabels, LogicalOperators, LogicLabels } from 'constants/sidePopup'
+import { LogicalOperators, LogicLabels } from 'constants/sidePopup'
 
 const SecondLevel: FC<ISecondLevel> = ({
   secondLevel,
   itsFirstChild,
   handleCreateFirstLevel,
-  index,
   handleDeleteFirstLevelRow,
   firstLevelElements,
   updateElement,
@@ -38,6 +37,7 @@ const SecondLevel: FC<ISecondLevel> = ({
       >
         {!itsFirstChild && (
           <DropDown
+            mouseLeave
             triggerNode={
               <Button modificator={cx(buttonThemes.theme_filter_accent)}>
                 {LogicLabels[logicalOperator]}

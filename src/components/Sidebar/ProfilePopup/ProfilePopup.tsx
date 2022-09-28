@@ -20,10 +20,10 @@ const ProfilePopup: FC<ISidePopup> = ({ close }) => {
   const { logout } = useAuth()
   const [editableBlock, setEditableBlock] = useState<number>(-1)
   const [inputsState, setInputsState] = useState<{ [key: string]: string }>({
-    fio: 'Администратор',
-    job: 'Терапевт',
+    fio: 'Джейсон Стетхэм',
+    job: 'Администратор',
     email: 'admin@example.com',
-    phone: '+78998998999',
+    phone: '+7(999)999-99-99',
   })
 
   const save = () => {

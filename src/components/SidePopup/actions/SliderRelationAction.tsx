@@ -29,7 +29,7 @@ const SliderRelation: FC<IAction> = ({ settingName, label, applySettings }) => {
         <Slider
           title={`Ветка ${number + 1}`}
           handleChange={handleChange}
-          value={Number(tempSettings[actionName][`slider_${number}`])}
+          value={Number(tempSettings[`slider_${number}`])}
           key={number}
           number={number}
           data-id={number}

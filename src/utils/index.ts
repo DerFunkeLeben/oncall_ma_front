@@ -4,6 +4,13 @@ export function reduceBigNumbers(num: number) {
   return Math.round(num / 100) / 10 + 'K'
 }
 
+export function decodeFileName(fileName: string | undefined) {
+  return decodeURIComponent(fileName || '')
+    .split('.')
+    .slice(0, -1)
+    .join('.')
+}
+
 export const timeDelay = (delayInms: number) => {
   return new Promise((resolve) => setTimeout(resolve, delayInms))
 }

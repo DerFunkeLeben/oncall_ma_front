@@ -3,26 +3,49 @@ import { useSelector, useDispatch } from 'react-redux'
 import { v4 as uuid } from 'uuid'
 
 import ActionCreator from './actions'
-import { getTaskIsMoving, getTasksHeap } from './selectors'
+import { getScenario, getTaskIsMoving, getTasksHeap, getAllScenaries } from './selectors'
+
+import { getAxiosArr } from 'utils/axios'
+
+import { EVENT_URL_ALL } from 'constants/url'
 
 import { IStoreScenario, StoreKeys } from './_data-types'
+import { ITask, TasksTypes } from 'types'
 
-import { ITask } from 'types'
+import { IAllScenaries } from 'types'
 
 const useScenario = () => {
   const dispatch = useDispatch()
 
   const taskIsMoving = useSelector(getTaskIsMoving)
   const tasksHeap = useSelector(getTasksHeap)
+  const scenario = useSelector(getScenario)
+  const allScenaries = useSelector(getAllScenaries)
 
   // console.log({ tasksHeap })
+
+  const createExit = (leftId: string) => {
+    return {
+      type: TasksTypes.finish,
+      color: 'green',
+      status: 'default',
+      name: 'Выход',
+      input: [leftId],
+      output: [],
+      available: true,
+      placed: true,
+      properties: {},
+    }
+  }
 
   const addTask = (currentTaskProperties: ITask, newTaskId: string, rightTaskId: string) => {
     //TODO некрасиво написано
     if (!tasksHeap) return
+    const isNeededToCreateNewLine = currentTaskProperties.type === TasksTypes.condition
+    const extiId = uuid()
 
     //Обновление input для соседа справа
-    //Join еще не изобрели поэтому родитель может быть только один
+    //Join еще не изобрели поэтому у таски справа родитель может быть только один
     const rightTask = tasksHeap[rightTaskId]
     const rightInUpd = [newTaskId]
     const rightTaskUpd = { ...rightTask, input: rightInUpd }
@@ -38,43 +61,60 @@ const useScenario = () => {
       console.log('у левой таски нет потомка')
       return
     }
+
     //Изза ветвления потомков может быть много
     const leftOutUpd = leftTask.output.map((outId) => {
       const result = outId === rightTaskId ? newTaskId : outId
       return result
     })
     const leftTaskUpd = { ...leftTask, output: leftOutUpd }
+    const outputIds = [rightTaskId]
+
+    if (isNeededToCreateNewLine) {
+      outputIds.push(extiId)
+    }
 
     //Создание нового элемента
     const newTask = {
       ...currentTaskProperties,
+      placed: true,
       status: 'default',
       input: [leftTaskId],
-      output: [rightTaskId],
+      output: outputIds,
     }
 
-    dispatch(
-      ActionCreator.setTasksHeap({
-        ...tasksHeap,
-        [leftTaskId]: leftTaskUpd,
-        [rightTaskId]: rightTaskUpd,
-        [newTaskId]: newTask,
-      })
-    )
+    const newHeap = isNeededToCreateNewLine
+      ? {
+          ...tasksHeap,
+          [leftTaskId]: leftTaskUpd,
+          [rightTaskId]: rightTaskUpd,
+          [newTaskId]: newTask,
+          [extiId]: createExit(newTaskId),
+        }
+      : {
+          ...tasksHeap,
+          [leftTaskId]: leftTaskUpd,
+          [rightTaskId]: rightTaskUpd,
+          [newTaskId]: newTask,
+        }
+
+    console.log({ [extiId]: createExit(newTaskId) }, isNeededToCreateNewLine)
+
+    dispatch(ActionCreator.setTasksHeap(newHeap))
   }
 
-  const updateSettings = (taskId: string, settings: { [key: string]: string }) => {
+  const updateSettings = (taskId: string, properties: { [key: string]: string }) => {
     if (!tasksHeap) return
     const tasksHeapUpd = { ...tasksHeap }
     const currentTask = tasksHeapUpd[taskId]
-    const status = Object.keys(settings).length === 0 ? 'default' : 'validated'
+    const status = Object.keys(properties).length === 0 ? 'default' : 'validated'
 
-    console.log('updateSettings', taskId, settings)
+    console.log('updateSettings', taskId, properties)
 
     dispatch(
       ActionCreator.setTasksHeap({
         ...tasksHeap,
-        [taskId]: { ...currentTask, settings, status },
+        [taskId]: { ...currentTask, properties, status },
       })
     )
   }
@@ -120,13 +160,37 @@ const useScenario = () => {
     [dispatch]
   )
 
+  const setScenario = (newSettings: any) => {
+    dispatch(
+      ActionCreator.setScenario({
+        ...scenario,
+        ...newSettings,
+      })
+    )
+  }
+
+  const setTasksHeap = (newTaskHeap: any) => {
+    dispatch(ActionCreator.setTasksHeap(newTaskHeap))
+  }
+
+  const initAllScenaries = async () => {
+    const result = (await getAxiosArr(EVENT_URL_ALL)) as IAllScenaries
+    dispatch(ActionCreator.setAllScenaries(result))
+    return result
+  }
+
   return {
+    scenario,
+    setScenario,
     taskIsMoving,
     setTaskIsMoving,
     tasksHeap,
+    setTasksHeap,
     addTask,
     deleteTask,
     updateSettings,
+    allScenaries,
+    initAllScenaries,
   }
 }
 
