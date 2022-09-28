@@ -12,6 +12,7 @@ import useTable from 'components/Table/useTable'
 import radioStyles from 'components/parts/RadioGroup/RadioGroup.module.scss'
 import { useSidePopup } from 'store/sidePopupStore/useSidePopup'
 import { ddmmyyyy } from 'utils/transformDate'
+import { decodeFileName } from 'utils'
 
 import { getAxiosArr } from 'utils/axios'
 import { IContent } from 'types/content'
@@ -74,7 +75,7 @@ const TableAction: FC<IAction> = ({ settingName, applySettings, url }) => {
                 ></input>
                 <label htmlFor={id}></label>
               </div>
-              <div className={cx(tableStyles.cell)}>{originalName}</div>
+              <div className={cx(tableStyles.cell)}>{decodeFileName(originalName)}</div>
               <div className={cx(tableStyles.cell)}>{ddmmyyyy(createdAt)}</div>
             </div>
           )

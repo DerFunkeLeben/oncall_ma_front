@@ -35,10 +35,11 @@ export interface ITasksHeap {
   [key: string]: ITask
 }
 
+export type TScenarioType = 'single' | 'reccuring' | 'schedule'
 export interface IScenario {
   name: string
   startDate: number
-  scenarioType: 'single' | 'reccuring' | 'schedule'
+  scenarioType: TScenarioType
   scenarioId?: string
 }
 

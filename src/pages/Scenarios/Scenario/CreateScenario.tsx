@@ -17,6 +17,7 @@ import pageHeadStyle from 'components/PageHead/PageHead.module.scss'
 import { EVENT_URL_ADD, EVENT_URL_ALL, EVENT_URL_VALIDATE, EVENT_URL_START } from 'constants/url'
 import { postAxiosSingle, getAxiosSingle, postRequest } from 'utils/axios'
 import { IPageData } from 'types'
+import useMessageBoxContext from 'context/MessageBoxContext'
 
 import { IconUpload } from 'assets/icons'
 
@@ -30,6 +31,7 @@ const units: { [key: string]: number } = {
 
 const CreateScenario: FC<IPageData> = () => {
   const { tasksHeap, scenario, setScenario } = useScenario()
+  const { setMessageBox } = useMessageBoxContext()
 
   const calcDelay = (data: any) => {
     const { amount, unit } = data
@@ -104,11 +106,6 @@ const CreateScenario: FC<IPageData> = () => {
     return { start: '1', events: preparedHeap }
   }
 
-  const getAllScenarios = async () => {
-    const eventAll = await getAxiosSingle(EVENT_URL_ALL)
-    console.log({ eventAll })
-  }
-
   const validateScenario = async () => {
     const preparedHeap = prepareHeap()
     const response = await postAxiosSingle(EVENT_URL_VALIDATE, null, preparedHeap)
@@ -125,6 +122,11 @@ const CreateScenario: FC<IPageData> = () => {
   const activateScenario = async () => {
     const response = await getAxiosSingle(`${EVENT_URL_START}${scenario?.scenarioId}`)
     console.log('activateScenario', response)
+    return setMessageBox({
+      isOpen: true,
+      title: 'Сценарий запущен',
+      buttons: ['Ок'],
+    })
   }
 
   return (

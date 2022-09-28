@@ -43,10 +43,10 @@ const AllScenariosTable: FC<{ allContent: IAllScenaries }> = ({ allContent }) =>
   const totalCountOfData = allContent.length
 
   const openScenario = (e: React.MouseEvent<HTMLElement>) => {
-    // e.stopPropagation()
-    // const { id, type } = e.currentTarget.dataset
-    // const url = CREATE_SCENARIO
-    // history.push(`${url}/${id}`)
+    e.stopPropagation()
+    const { id, type } = e.currentTarget.dataset
+    const url = CREATE_SCENARIO
+    history.push(`${url}/${id}`)
   }
 
   const sendTestEmail = () => console.log('sendTestEmail')
@@ -125,7 +125,7 @@ const AllScenariosTable: FC<{ allContent: IAllScenaries }> = ({ allContent }) =>
             </div>
 
             <div className={cx(tableStyles.cell, tableStyles.accentCell, 'text_1_hl_1')}>
-              <span>{'title'}</span>
+              <span>{`Сценарий ${index + 1}`}</span>
             </div>
             <div className={cx(tableStyles.cell, 'text_1')}>{scenarioType}</div>
             <div className={cx(tableStyles.cell, 'text_1')}>{ddmmyyyy(new Date(startDate))}</div>
