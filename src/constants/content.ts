@@ -1,10 +1,10 @@
 import { ICreateOption } from 'types'
 import { ContentTypes, IContent } from 'types/content'
-import { getToday } from 'utils/transformDate'
+import { now } from 'utils/transformDate'
 import { PagesData } from './url'
 
 const INIT_HTML_CONTENT: IContent = {
-  title: `Письмо ${getToday()}`,
+  title: `Письмо ${now()}`,
   type: ContentTypes.HTML,
   theme: '',
   preheader: '',
@@ -12,7 +12,7 @@ const INIT_HTML_CONTENT: IContent = {
 }
 
 const INIT_SMS_CONTENT: IContent = {
-  title: `SMS ${getToday()}`,
+  title: `SMS ${now()}`,
   type: ContentTypes.SMS,
   SMStext: '',
 }

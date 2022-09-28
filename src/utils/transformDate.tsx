@@ -17,3 +17,10 @@ export function getToday() {
 
   return `${dd}.${mm}.${yyyy}`
 }
+
+export function now() {
+  const today = new Date()
+  const hours = String(today.getHours()).padStart(2, '0')
+  const mins = String(today.getMinutes()).padStart(2, '0')
+  return `${getToday()} ${hours}:${mins}`
+}
