@@ -18,6 +18,8 @@ import { MainReducerKeys } from 'store/data-types'
 import { PagesData } from 'constants/url'
 import { decodeFileName } from 'utils'
 import tableStyles from 'components/Table/TableBase.module.scss'
+import { useSendHTMLPopup } from '../ContentHTML/useSendHTMLPopup'
+import ContentPopup from '../components/ContentPopup/ContentPopup'
 
 const header = ['', 'Название', 'Тип', 'Дата создания', 'Дата изменения']
 
@@ -28,6 +30,7 @@ const AllContentTable: FC<{ allContent: IContent[] }> = ({ allContent }) => {
   // const { deleteMultipleById } = useAllContent()
   const { setAlertBox } = useAlertContext()
   const { setMessageBox } = useMessageBoxContext()
+  const { popUpIsOpen, emails, setEmails, togglePopUp, sendEmailsMany } = useSendHTMLPopup()
 
   const allContentIds = getAllContentIds(allContent)
 
@@ -55,7 +58,10 @@ const AllContentTable: FC<{ allContent: IContent[] }> = ({ allContent }) => {
     history.push(`${url}/${id}`)
   }
 
-  const sendTestEmail = () => console.log('sendTestEmail')
+  const sendTestEmail = async () => {
+    await sendEmailsMany(checkedList)
+    clearChecks()
+  }
 
   const deleteContent = () => {
     setMessageBox({
@@ -79,7 +85,7 @@ const AllContentTable: FC<{ allContent: IContent[] }> = ({ allContent }) => {
   const checkMenuConfig = [
     {
       option: CheckMenuAction.SEND_TEST,
-      handleClick: sendTestEmail,
+      handleClick: togglePopUp,
     },
     {
       option: CheckMenuAction.MOVE_TO_FOLDER,
@@ -92,54 +98,68 @@ const AllContentTable: FC<{ allContent: IContent[] }> = ({ allContent }) => {
   ]
 
   return (
-    <ScrollTable
-      headers={header}
-      handleScrollLimit={() => console.log('handleScrollLimit')}
-      {...{
-        checkedCount,
-        checkedAll,
-        totalCountOfData,
-        checkMenuConfig,
-        toggleAllChecks,
-      }}
-    >
-      {allContent.map((contentItem, index) => {
-        const { id, type, createdAt, updatedAt, originalName } = contentItem
-        const checked = isItChecked(id)
+    <>
+      <ScrollTable
+        headers={header}
+        handleScrollLimit={() => console.log('handleScrollLimit')}
+        {...{
+          checkedCount,
+          checkedAll,
+          totalCountOfData,
+          checkMenuConfig,
+          toggleAllChecks,
+        }}
+      >
+        {allContent.map((contentItem, index) => {
+          const { id, type, createdAt, updatedAt, originalName } = contentItem
+          const checked = isItChecked(id)
 
-        const title = decodeFileName(originalName)
-        const typeToShow = ContentTypeLabels[type]
-        const createdDate = ddmmyyyy(createdAt)
-        const updatedDate = ddmmyyyy(updatedAt)
+          const title = decodeFileName(originalName)
+          const typeToShow = ContentTypeLabels[type]
+          const createdDate = ddmmyyyy(createdAt)
+          const updatedDate = ddmmyyyy(updatedAt)
 
-        return (
-          <div
-            className={tableStyles.row}
-            key={index}
-            onClick={openContent}
-            data-id={id}
-            data-type={type}
-          >
+          return (
             <div
-              className={cx(tableStyles.cell, tableStyles.cellCheck)}
-              onClick={toggleCheck}
+              className={tableStyles.row}
+              key={index}
+              onClick={openContent}
               data-id={id}
+              data-type={type}
             >
-              <div className={cx(tableStyles.check, { [tableStyles.checked]: checked })}>
-                {checked && <IconCheck />}
+              <div
+                className={cx(tableStyles.cell, tableStyles.cellCheck)}
+                onClick={toggleCheck}
+                data-id={id}
+              >
+                <div className={cx(tableStyles.check, { [tableStyles.checked]: checked })}>
+                  {checked && <IconCheck />}
+                </div>
               </div>
-            </div>
 
-            <div className={cx(tableStyles.cell, tableStyles.accentCell, 'text_1_hl_1')}>
-              <span>{title}</span>
+              <div className={cx(tableStyles.cell, tableStyles.accentCell, 'text_1_hl_1')}>
+                <span>{title}</span>
+              </div>
+              <div className={cx(tableStyles.cell, 'text_1')}>{typeToShow}</div>
+              <div className={cx(tableStyles.cell, 'text_1')}>{createdDate}</div>
+              <div className={cx(tableStyles.cell, 'text_1')}>{updatedDate}</div>
             </div>
-            <div className={cx(tableStyles.cell, 'text_1')}>{typeToShow}</div>
-            <div className={cx(tableStyles.cell, 'text_1')}>{createdDate}</div>
-            <div className={cx(tableStyles.cell, 'text_1')}>{updatedDate}</div>
-          </div>
-        )
-      })}
-    </ScrollTable>
+          )
+        })}
+      </ScrollTable>
+
+      {popUpIsOpen && (
+        <ContentPopup
+          close={togglePopUp}
+          subtitle="Email"
+          placeholder="Введите email"
+          btnAddText="Добавить email"
+          inputsState={emails}
+          setInputsState={setEmails}
+          handleSend={sendTestEmail}
+        />
+      )}
+    </>
   )
 }
 

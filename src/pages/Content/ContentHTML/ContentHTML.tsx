@@ -27,20 +27,19 @@ import {
   uploadContentHTML,
 } from 'utils/axiosQueries/content'
 import styles from './ContentHTML.module.scss'
+import { useSendHTMLPopup } from './useSendHTMLPopup'
 
 const ContentHTML: FC<IPageData> = () => {
   const { contentId } = useParams<{ contentId?: string }>()
   const history = useHistory()
   const location = useLocation()
 
+  const { popUpIsOpen, emails, setEmails, togglePopUp, sendEmails } = useSendHTMLPopup()
   const { activeFolderName } = useContentFolders()
   const { setAlertBox } = useAlertContext()
-  const { user } = useAuth()
   // const { setMessageBox } = useMessageBoxContext()
 
   const [settings, setSettings] = useState<IContent>(INIT_HTML_CONTENT)
-  const [popUpIsOpen, togglePopUp] = useToggle()
-  const [emails, setEmails] = useState<string[]>([user.email])
   const [isLoaded, setIsLoaded] = useState<boolean>(false)
 
   const isNew = location.pathname === PagesData.CONTENT_HTML.link
@@ -70,16 +69,6 @@ const ContentHTML: FC<IPageData> = () => {
       })
     }
     reader.readAsText(file)
-  }
-
-  const sendEmails = async (inputs: string[]) => {
-    await sendContentHTML(settings, inputs)
-    setAlertBox({
-      message: `Письмо успешно отправлено!`,
-      icon: AlertBoxIcons.SUCCESS,
-      isOpen: true,
-    })
-    togglePopUp()
   }
 
   const handleSave = async () => {
@@ -156,7 +145,7 @@ const ContentHTML: FC<IPageData> = () => {
           btnAddText="Добавить email"
           inputsState={emails}
           setInputsState={setEmails}
-          handleSend={sendEmails}
+          handleSend={() => sendEmails(settings)}
         />
       )}
     </div>

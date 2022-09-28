@@ -13,12 +13,12 @@ import { getAxiosSingle, postAxiosFormData, postAxiosSingle, putAxiosSingle } fr
 
 const getContentHTML = async (
   contentId: string | undefined,
-  setSettings: Dispatch<SetStateAction<IContent>>
+  setSettings?: Dispatch<SetStateAction<IContent>>
 ) => {
   if (!contentId) return
   const content = await getAxiosSingle(`${CONTENT_URL_ONE}/${contentId}`)
   const { id, title, preheader, originalName, group } = content.file
-  setSettings({
+  const settings = {
     id,
     type: ContentTypes.HTML,
     title: decodeFileName(originalName),
@@ -26,7 +26,9 @@ const getContentHTML = async (
     theme: title,
     preheader: preheader,
     HTML: content.data,
-  })
+  }
+  setSettings?.(settings)
+  return settings
 }
 
 const uploadContentHTML = async (
