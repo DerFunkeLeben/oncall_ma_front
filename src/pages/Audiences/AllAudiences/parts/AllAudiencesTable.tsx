@@ -22,7 +22,8 @@ const header = ['', 'Название', 'Количество контактов
 export const AllAudiencesTable: FC<{
   allAudiencesData: IAudienceMetaData[]
   deleteAudiences: (ids: string[]) => void
-}> = ({ allAudiencesData, deleteAudiences }) => {
+  copyAudiences: (ids: string[]) => void
+}> = ({ allAudiencesData, deleteAudiences, copyAudiences }) => {
   const history = useHistory()
   const { url } = useRouteMatch()
   const { setMessageBox } = useMessageBoxContext()
@@ -55,7 +56,6 @@ export const AllAudiencesTable: FC<{
     })
   }
 
-  const copyAudience = () => console.log('handleCopyAudience')
   const confirmDelete = () => {
     deleteAudiences(checkedList)
     clearChecks()
@@ -66,10 +66,20 @@ export const AllAudiencesTable: FC<{
     })
   }
 
+  const handleCopyAudience = () => {
+    copyAudiences(checkedList)
+    clearChecks()
+    setAlertBox({
+      isOpen: true,
+      message: `Выбранные аудитории скопированы`,
+      icon: AlertBoxIcons.SUCCESS,
+    })
+  }
+
   const checkMenuConfig = [
     {
       option: CheckMenuAction.COPY,
-      handleClick: copyAudience,
+      handleClick: handleCopyAudience,
     },
     {
       option: CheckMenuAction.MOVE_TO_FOLDER,

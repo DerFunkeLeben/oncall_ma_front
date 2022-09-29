@@ -13,19 +13,16 @@ import useCurrentAudience from 'store/audiences/useCurrentAudience'
 import { useAudienceFolders } from 'store/folders/useAllFolders'
 import {
   AUDIENCE_URL_CREATE,
-  AUDIENCE_URL_ONE,
   AUDIENCE_URL_TEST,
   AUDIENCE_URL_VALID_NAME,
-  DOCTORS_URL,
   DOCTORS_URL_ADD,
   PagesData,
 } from 'constants/url'
-import { AudienceAction, DoctorKeys, INIT_AUDIENCE } from 'constants/audience'
-import { defaultQueryToSend, SidePopupActions } from 'constants/sidePopup'
+import { AudienceAction, INIT_AUDIENCE } from 'constants/audience'
+import { defaultQueryToSend } from 'constants/sidePopup'
 import { IFilterState } from 'components/SidePopup/actions/FilterAction/types'
 import { IPageData } from 'types'
-import { IStep } from 'types/sidePopup'
-import { getAxiosArr, getAxiosSingle, postAxiosSingle } from 'utils/axios'
+import { getAxiosSingle, postAxiosSingle } from 'utils/axios'
 import {
   parseStateToQuery,
   parseQueryToState,
@@ -35,31 +32,8 @@ import styles from './OneAudience.module.scss'
 import ValidationError from 'constants/ValidationError'
 import useMessageBoxContext from 'context/MessageBoxContext'
 import { timeDelay } from 'utils'
-
-const { FILTER } = SidePopupActions
-
-const configFilter: IStep = {
-  name: FILTER,
-  title: 'Фильтры',
-  actions: [
-    {
-      label: 'ATTRIBUTE_CONDITION',
-      type: FILTER,
-      settingName: FILTER,
-      attributes: Object.keys(DoctorKeys),
-      applySettings: (newState, properties, updateTempSettings) => {
-        const settedFilters = properties?.[FILTER]
-        const update = settedFilters
-          ? {
-              ...settedFilters,
-              ...newState,
-            }
-          : newState
-        updateTempSettings(false, [{ filter: update }])
-      },
-    },
-  ],
-}
+import { getAllDoctors, getAudienceDoctors } from 'utils/axiosQueries/audiences'
+import { configFilter } from './filterConfig'
 
 const OneAudience: FC<IPageData> = () => {
   const { audienceid } = useParams<{ audienceid?: string }>()
@@ -146,47 +120,17 @@ const OneAudience: FC<IPageData> = () => {
   }, [filterisOpen])
 
   useEffect(() => {
-    const getAudienceDoctors = async (nameSuffix = '') => {
-      const audience = await getAxiosSingle(`${AUDIENCE_URL_ONE}/${audienceid}`)
-      if (!audience) return history.push('/404')
-
-      const { doctors, name, id, query, createdAt, updatedAt, peopleCount } = audience
-      addManyDoctors(doctors)
-      setCurrentAudience(
-        {
-          name: `${name} ${nameSuffix}`,
-          id,
-          query: JSON.parse(query || '{}'),
-          createdat: createdAt,
-          updatedat: updatedAt,
-          peoplecount: peopleCount,
-        },
-        AudienceAction.EDIT
-      )
-    }
-
-    const getAllDoctors = async () => {
-      const doctors = await getAxiosArr(DOCTORS_URL)
-      if (!doctors) return history.push('/404')
-
-      addManyDoctors(doctors)
-      setCurrentAudience(
-        { ...INIT_AUDIENCE, peoplecount: `${doctors?.length || 0}` },
-        AudienceAction.CREATE_CRM
-      )
-    }
-
     // TODO какая то ерунда, надо переписать
     let loadPromise
     if (isNew) {
       setCurrentAudience(INIT_AUDIENCE, AudienceAction.CREATE_NEW)
       setIsLoaded(true)
     } else if (isCrm) {
-      loadPromise = getAllDoctors()
+      loadPromise = getAllDoctors(setCurrentAudience, addManyDoctors)
     } else if (isExist) {
-      loadPromise = getAudienceDoctors('copy')
+      loadPromise = getAudienceDoctors(audienceid, setCurrentAudience, addManyDoctors, 'copy')
     } else {
-      loadPromise = getAudienceDoctors()
+      loadPromise = getAudienceDoctors(audienceid, setCurrentAudience, addManyDoctors)
     }
 
     loadPromise?.then(() => setIsLoaded(true))

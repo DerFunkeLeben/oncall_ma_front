@@ -1,4 +1,4 @@
-import { FC, useCallback, useEffect, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import cx from 'classnames'
 
 import PageHead from 'components/PageHead/PageHead'
@@ -10,20 +10,14 @@ import { AllAudiencesTable } from './parts/AllAudiencesTable'
 import { EmptyFilter } from './parts/EmptyTable/EmptyFilter'
 import { EmptyTable } from './parts/EmptyTable/EmptyTable'
 import PopupOfCreationFromExist from './parts/PopupOfCreationFromExist/PopupOfCreationFromExist'
-import {
-  audiencesRoutes,
-  AUDIENCE_URL_ALL,
-  AUDIENCE_URL_DELETE,
-  AUDIENCE_URL_FOLDERS,
-  PagesData,
-} from 'constants/url'
+import { PagesData } from 'constants/url'
 import { Align } from 'constants/dictionary'
 import { useAudienceFolders } from 'store/folders/useAllFolders'
 import useToggle from 'hooks/useToggle'
 import useSearch from 'hooks/useSearch'
 import { ICreateOption, IPageData } from 'types'
 import { MainReducerKeys } from 'store/data-types'
-import { getAxiosArr, postAxiosSingle } from 'utils/axios'
+import { copyAudiences, deleteAudiences, getAxiosAudiences } from 'utils/axiosQueries/audiences'
 
 import { IconUpload } from 'assets/icons'
 import styles from './AllAudiences.module.scss'
@@ -48,22 +42,15 @@ const AllAudiences: FC<IPageData> = () => {
   const totalCountOfFilteredData = filtered.length
   const emptyFilterResult = totalCountOfData && !totalCountOfFilteredData
 
-  const getAllAudiences = useCallback(async () => {
-    const audiences = await getAxiosArr(AUDIENCE_URL_ALL)
-    const folders = await getAxiosArr(AUDIENCE_URL_FOLDERS)
+  const handleDeleteAudiences = async (ids: string[]) => {
+    await deleteAudiences(ids)
+    await getAxiosAudiences(setAllAudiences, initFolders)
+  }
 
-    console.log(audiences)
-    setAllAudiences(() => audiences)
-    initFolders(folders)
-  }, [initFolders])
-
-  const deleteAudiences = useCallback(
-    async (ids: string[]) => {
-      await postAxiosSingle(AUDIENCE_URL_DELETE, {}, { ids })
-      await getAllAudiences()
-    },
-    [getAllAudiences]
-  )
+  const handleCopyAudiences = async (ids: string[]) => {
+    await copyAudiences(ids)
+    await getAxiosAudiences(setAllAudiences, initFolders)
+  }
 
   useEffect(() => {
     if (activeFolderName === mainFolderName) return setOneFolderAudiences(allAudiences)
@@ -75,7 +62,7 @@ const AllAudiences: FC<IPageData> = () => {
   }, [activeFolderName, allAudiences])
 
   useEffect(() => {
-    getAllAudiences()
+    getAxiosAudiences(setAllAudiences, initFolders)
   }, [])
 
   return (
@@ -105,7 +92,11 @@ const AllAudiences: FC<IPageData> = () => {
         <Folders reducerName={MainReducerKeys.audiences} />
         <div className={styles.tableWrapper}>
           {totalCountOfFilteredData ? (
-            <AllAudiencesTable allAudiencesData={filtered} deleteAudiences={deleteAudiences} />
+            <AllAudiencesTable
+              allAudiencesData={filtered}
+              copyAudiences={handleCopyAudiences}
+              deleteAudiences={handleDeleteAudiences}
+            />
           ) : null}
           {!totalCountOfData ? <EmptyTable createOptions={createAudienceOptions} /> : null}
           {emptyFilterResult ? <EmptyFilter /> : null}
