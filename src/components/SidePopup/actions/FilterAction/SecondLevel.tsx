@@ -19,6 +19,7 @@ const SecondLevel: FC<ISecondLevel> = ({
   handleCreateFirstLevel,
   handleDeleteFirstLevelRow,
   firstLevelElements,
+  firstLevelCount,
   updateElement,
   headers,
 }) => {
@@ -74,6 +75,7 @@ const SecondLevel: FC<ISecondLevel> = ({
             row={row}
             itsLastChild={itsLastChild}
             itsFirstChild={itsFirstFirstLevelChild}
+            firstLevelCount={firstLevelCount}
             handleCreateFirstLevel={handleCreateFirstLevel}
             handleDeleteFirstLevelRow={handleDeleteFirstLevelRow}
             updateElement={updateElement}

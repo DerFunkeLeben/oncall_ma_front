@@ -42,10 +42,10 @@ const AttibuteConditionAction: FC<IAction> = ({
   const initState = () => {
     const initFirstLevelRow = (id: string) => {
       return {
-        defined: attributes?.[0].toLocaleLowerCase(),
+        fieldName: attributes?.[0].toLocaleLowerCase(),
         logicalOperator: LogicalOperators.AND,
         condition: Conditions.EQUAL,
-        determinant: '',
+        value: '',
         id: id,
       }
     }

@@ -22,6 +22,7 @@ const ThirdLevel: FC<IThirdLevel> = ({
   handleDeleteFirstLevelRow,
   secondLevelElements,
   firstLevelElements,
+  firstLevelCount,
   index,
   updateElement,
   headers,
@@ -88,6 +89,7 @@ const ThirdLevel: FC<IThirdLevel> = ({
               index={secondLevelIndex}
               secondLevel={secondLevel}
               key={secondLevel.id}
+              firstLevelCount={firstLevelCount}
               handleCreateFirstLevel={handleCreateFirstLevel}
               handleDeleteFirstLevelRow={handleDeleteFirstLevelRow}
               firstLevelElements={firstLevelElements}

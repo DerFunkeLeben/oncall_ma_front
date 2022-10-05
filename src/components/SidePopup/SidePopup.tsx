@@ -1,4 +1,4 @@
-import { FC, useEffect, useState, Dispatch } from 'react'
+import { FC, useEffect, useState, Dispatch, SetStateAction } from 'react'
 import { createPortal } from 'react-dom'
 import cx from 'classnames'
 
@@ -24,9 +24,18 @@ interface ISidePopup {
   title: string
   savedSettings?: any
   type?: any
+  validationState?: [boolean, Dispatch<SetStateAction<boolean>>]
 }
 
-const SidePopup: FC<ISidePopup> = ({ isOpen, close, config, handleSave, title, savedSettings }) => {
+const SidePopup: FC<ISidePopup> = ({
+  isOpen,
+  close,
+  config,
+  handleSave,
+  title,
+  savedSettings,
+  validationState,
+}) => {
   const {
     incrementStep,
     decrementStep,
@@ -83,9 +92,10 @@ const SidePopup: FC<ISidePopup> = ({ isOpen, close, config, handleSave, title, s
     decrementStep()
   }
 
-  const save = () => {
+  const save = async () => {
     console.log('save')
-    handleSave(tempSettings)
+    const isNotValid = await handleSave(tempSettings)
+    if (isNotValid) return
     resetStep()
     closePopup()
   }
@@ -105,7 +115,9 @@ const SidePopup: FC<ISidePopup> = ({ isOpen, close, config, handleSave, title, s
           </div>
         </div>
         <div className={styles.popupContent}>
-          <PopupContext.Provider value={{ step, tempSettings, setTempSettings, savedSettings }}>
+          <PopupContext.Provider
+            value={{ step, tempSettings, setTempSettings, savedSettings, validationState }}
+          >
             <SidePopupContent />
           </PopupContext.Provider>
         </div>

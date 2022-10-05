@@ -1,6 +1,5 @@
-import { FC, Dispatch, SetStateAction, useState, useRef, useEffect } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { v4 as uuid } from 'uuid'
-import cx from 'classnames'
 
 import usePopupContext from 'context/SidePopupContext'
 
@@ -9,9 +8,8 @@ import ThirdLevel from './ThirdLevel'
 
 import styles from './FilterAction.module.scss'
 import buttonThemes from 'components/parts/Button/ButtonThemes.module.scss'
-import { IconPlus } from '../../../../assets/icons'
 
-import { ISecondLevelObj, IThirdLevelObj } from './types'
+import { IFirstLevelObj, ISecondLevelObj, IThirdLevelObj } from './types'
 
 import { LogicalOperators, Conditions, LogicLabels } from 'constants/sidePopup'
 import ScrollArea from 'containers/ScrollArea/ScrollArea'
@@ -25,15 +23,15 @@ interface IRadioGroupAction extends IAction {
 }
 
 const FilterAction: FC<IRadioGroupAction> = ({ settingName, applySettings, attributes }) => {
-  const { step, tempSettings } = usePopupContext()
+  const { tempSettings } = usePopupContext()
   const { updateTempSettings } = useSidePopup()
 
   const initFirstLevelRow = (id: string) => {
     return {
-      defined: DoctorKeys.specialty,
+      fieldName: DoctorKeys.specialty,
       logicalOperator: LogicalOperators.AND,
       condition: Conditions.CONTAINS,
-      determinant: '',
+      value: '',
       id: id,
     }
   }
@@ -51,7 +49,6 @@ const FilterAction: FC<IRadioGroupAction> = ({ settingName, applySettings, attri
       childIds: [childId],
     }
   }
-
   const initState = () => {
     const newThirdLevelId = uuid()
     const newFirstLevelId = uuid()
@@ -66,7 +63,6 @@ const FilterAction: FC<IRadioGroupAction> = ({ settingName, applySettings, attri
       secondLevel: newSecondLevelElements,
       thirdLevel: newThirdLevelElements,
     }
-    console.log('initState', newlevel, tempSettings)
     applySettings(newlevel, tempSettings, updateTempSettings)
   }
 
@@ -244,6 +240,7 @@ const FilterAction: FC<IRadioGroupAction> = ({ settingName, applySettings, attri
                     thirdLevel={thirdLevelElement}
                     secondLevelElements={secondLevel}
                     firstLevelElements={firstLevel}
+                    firstLevelCount={firstLevel.length}
                     handleCreateFirstLevel={handleCreateFirstLevel}
                     handleCreateSecondLevel={handleCreateSecondLevel}
                     handleDeleteFirstLevelRow={handleDeleteFirstLevelRow}

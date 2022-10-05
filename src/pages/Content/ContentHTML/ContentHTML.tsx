@@ -118,9 +118,9 @@ const ContentHTML: FC<IPageData> = () => {
       <div className={cx(styles.rightContent)}>
         <InputBase
           label={'Тема'}
-          name={'theme'}
+          name={'subject'}
           placeholder={'Введите текст'}
-          value={settings.theme}
+          value={settings.subject}
           handleInputChange={handleChange}
           modificator={styles.input}
           type={'text'}

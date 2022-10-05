@@ -1,5 +1,5 @@
 import { DoctorKeys } from 'constants/audience'
-import { Conditions, NegativeLogicalOperators, PositiveLogicalOperators } from 'constants/sidePopup'
+import { Conditions, PositiveLogicalOperators } from 'constants/sidePopup'
 import { Dispatch, SetStateAction } from 'react'
 import { ILogicalOperator } from 'types/audience'
 import { IStepFilter, IState } from 'types/sidePopup'
@@ -11,9 +11,9 @@ export interface IFilterAction {
 
 export interface IFirstLevelObj {
   id: string
-  defined: DoctorKeys
+  fieldName: DoctorKeys
   condition: Conditions
-  determinant: string
+  value: string
   type?: string
   logicalOperator: PositiveLogicalOperators
 }
@@ -47,6 +47,7 @@ export interface IFirstLevel extends ILevel {
   handleDeleteFirstLevelRow: (id: string, parentId: string, itsFirstChildren: boolean) => void
   updateElement: (id: string, level: string, update: { [key: string]: string }) => void
   headers: string[]
+  firstLevelCount: number
 }
 
 export interface ISecondLevel extends ILevel {
@@ -57,6 +58,7 @@ export interface ISecondLevel extends ILevel {
   firstLevelElements: any[]
   updateElement: (id: string, level: string, update: { [key: string]: string }) => void
   headers: string[]
+  firstLevelCount: number
 }
 
 export interface IThirdLevel extends ILevel {
@@ -66,6 +68,7 @@ export interface IThirdLevel extends ILevel {
   handleDeleteFirstLevelRow: (id: string, parentId: string, itsFirstChildren: boolean) => void
   secondLevelElements: any[]
   firstLevelElements: any[]
+  firstLevelCount: number
   updateElement: (id: string, level: string, update: { [key: string]: string }) => void
   headers: string[]
 }

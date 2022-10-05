@@ -26,6 +26,8 @@ import { getAxiosSingle, postAxiosSingle } from 'utils/axios'
 import {
   parseStateToQuery,
   parseQueryToState,
+  validateFields,
+  prepareFilterState,
 } from '../../../components/SidePopup/actions/FilterAction/utils'
 
 import styles from './OneAudience.module.scss'
@@ -34,6 +36,8 @@ import useMessageBoxContext from 'context/MessageBoxContext'
 import { timeDelay } from 'utils'
 import { getAllDoctors, getAudienceDoctors } from 'utils/axiosQueries/audiences'
 import { configFilter } from './filterConfig'
+import useAlertContext from 'context/AlertContext'
+import { AlertBoxIcons } from 'constants/dictionary'
 
 const OneAudience: FC<IPageData> = () => {
   const { audienceid } = useParams<{ audienceid?: string }>()
@@ -44,9 +48,11 @@ const OneAudience: FC<IPageData> = () => {
   const { allDoctors, clearDoctors, addManyDoctors, setAllDoctors } = useDoctors()
   const { activeFolderName } = useAudienceFolders()
   const { setMessageBox } = useMessageBoxContext()
+  const { setAlertBox } = useAlertContext()
 
   const [filterisOpen, toggleFilterPopup] = useToggle()
   const [filterState, setFilterState] = useState({})
+  const [filterError, setFilterError] = useState(false)
   const [isLoaded, setIsLoaded] = useState(false)
 
   const isCrm = location.pathname === PagesData.CREATE_AUDIENCE_CRM.link
@@ -61,9 +67,24 @@ const OneAudience: FC<IPageData> = () => {
   }
 
   const handleFiltersSave = async (tempSettings: { filter: IFilterState }) => {
-    const query = parseStateToQuery(tempSettings.filter)
-    const response = await postAxiosSingle(AUDIENCE_URL_TEST, {}, { query })
+    const isValid = validateFields(tempSettings.filter)
+    if (!isValid) {
+      setFilterError(true)
+      setAlertBox({
+        message: ValidationError.FILTERS_EMPTY_FIELDS,
+        icon: AlertBoxIcons.WARNING,
+        isOpen: true,
+      })
+      return true
+    }
 
+    const query = parseStateToQuery(tempSettings.filter)
+    const preparedState = prepareFilterState(tempSettings.filter)
+    console.log(preparedState)
+    const response = await postAxiosSingle(AUDIENCE_URL_TEST, {}, preparedState)
+    if (!response) return
+
+    console.log(response.data)
     setAllDoctors(response.data)
     updateAudienceInfo({
       ...currentAudience.audience,
@@ -157,6 +178,7 @@ const OneAudience: FC<IPageData> = () => {
         handleSave={handleFiltersSave}
         title={configFilter.title || ''}
         savedSettings={filterState}
+        validationState={[filterError, setFilterError]}
       />
     </>
   )

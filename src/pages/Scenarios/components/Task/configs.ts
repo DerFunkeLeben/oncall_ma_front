@@ -54,10 +54,10 @@ const configs: IConfigs = {
         actions: [
           {
             type: SidePopupActions.INPUT,
-            settingName: 'theme',
+            settingName: 'subject',
             label: 'Тема',
             applySettings: (newState: any, tempSettings: any, updateTempSettings: any) => {
-              updateTempSettings(false, [{ theme: newState }])
+              updateTempSettings(false, [{ subject: newState }])
             },
           },
           {

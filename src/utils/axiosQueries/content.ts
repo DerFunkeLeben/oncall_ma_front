@@ -23,7 +23,7 @@ const getContentHTML = async (
     type: ContentTypes.HTML,
     title: decodeFileName(originalName),
     folderName: group,
-    theme: title,
+    subject: title,
     preheader: preheader,
     HTML: content.data,
   }
@@ -37,7 +37,7 @@ const uploadContentHTML = async (
   setAlertBox: Dispatch<SetStateAction<IAlertBox>>
 ) => {
   const formData = new FormData()
-  const { HTML, theme, title, preheader } = settings
+  const { HTML, subject, title, preheader } = settings
   const text = HTML || ''
   const fileName = `${encodeURIComponent(title)}.html`
   const blob = new Blob([text], { type: 'text/plain' })
@@ -45,7 +45,7 @@ const uploadContentHTML = async (
 
   formData.append('file', file)
   formData.append('type', 'email')
-  formData.append('title', theme || '')
+  formData.append('title', subject || '')
   formData.append('preheader', preheader || '')
   formData.append('group', activeFolderName)
 
@@ -65,11 +65,11 @@ const updateContentHTML = async (
   setAlertBox: Dispatch<SetStateAction<IAlertBox>>
 ) => {
   // TODO: не обновляется имя файла, нужно добавить поле
-  const { id, HTML, preheader, theme } = settings
+  const { id, HTML, preheader, subject } = settings
   const data = {
     id,
     html: HTML || '',
-    title: theme,
+    title: subject,
     preheader,
     group: activeFolderName,
   }
@@ -87,7 +87,7 @@ const sendContentHTML = async (settings: IContent, inputs: string[]) => {
   const sendData = {
     html: settings.HTML,
     header: settings.preheader,
-    title: settings.theme,
+    title: settings.subject,
     emails: inputs,
   }
   await postAxiosSingle(SEND_EMAIL_URL, {}, sendData)

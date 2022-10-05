@@ -6,7 +6,7 @@ import { PagesData } from './url'
 const INIT_HTML_CONTENT: IContent = {
   title: `Письмо ${now()}`,
   type: ContentTypes.HTML,
-  theme: '',
+  subject: '',
   preheader: '',
   HTML: undefined,
 }

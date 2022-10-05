@@ -26,14 +26,14 @@ export interface IContent {
   id?: string
   originalName?: string
   folderName?: string
-  theme?: string
+  subject?: string
   preheader?: string
   HTML?: string
   SMStext?: string
 }
 
 export interface IContentHTML extends IContent {
-  theme: string
+  subject: string
   preheader: string
   HTML?: string
 }

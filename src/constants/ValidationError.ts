@@ -5,6 +5,7 @@ enum ValidationError {
   // Audiences
   AUDIENCE_ALREADY_EXISTS = `Аудитория с таким именем уже <br> существует`,
   FILTERS_NOT_SET = `Для создания аудитории необходимо настроить фильтры`,
+  FILTERS_EMPTY_FIELDS = `Введите значение!`,
   // Content
   FILE_ALREADY_EXISTS = `Файл с таким именем уже <br> существует`,
   // common

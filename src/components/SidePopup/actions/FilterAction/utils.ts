@@ -3,6 +3,38 @@ import { IFilterState, IFirstLevelObj, ISecondLevelObj } from './types'
 import { v4 as uuid } from 'uuid'
 import { defaultQueryValue } from 'constants/sidePopup'
 
+export const validateFields = (filterState: IFilterState) => {
+  const emptyFields = filterState.firstLevel.filter((element: IFirstLevelObj) => !element.value)
+  return !emptyFields.length
+}
+
+export const prepareFilterState = (filterState: IFilterState) => {
+  const { thirdLevel, secondLevel, firstLevel } = filterState
+
+  thirdLevel.map((thirdLevelItem) => {
+    const childIds = thirdLevelItem.childIds
+
+    childIds.map((thirdLevelChildId) => {
+      const secondLevelItem = secondLevel.find(
+        (item) => item.id === thirdLevelChildId
+      ) as ISecondLevelObj
+
+      const secondLevelChildIds = secondLevelItem.childIds
+
+      let fieldName: DoctorKeys | undefined = undefined
+
+      secondLevelChildIds.map((secondLevelChildId) => {
+        const firstLevelItemIndex = firstLevel.findIndex((item) => item.id === secondLevelChildId)
+
+        if (!fieldName) fieldName = firstLevel[firstLevelItemIndex].fieldName
+        firstLevel[firstLevelItemIndex].fieldName = fieldName
+      })
+    })
+  })
+
+  return { thirdLevel, secondLevel, firstLevel }
+}
+
 export const parseStateToQuery = (filterState: IFilterState) => {
   const { thirdLevel, secondLevel, firstLevel } = filterState
   const query = {} as Query
@@ -23,7 +55,7 @@ export const parseStateToQuery = (filterState: IFilterState) => {
 
       query[thirdLevelKey][secondLevelKey] = query[thirdLevelKey][secondLevelKey] || {}
 
-      let defined: DoctorKeys | undefined = undefined
+      let fieldName: DoctorKeys | undefined = undefined
       let lastKey = 'and'
       const firstLevelElements = [] as any[]
       secondLevelChildIds.map((secondLevelChildId) => {
@@ -31,17 +63,17 @@ export const parseStateToQuery = (filterState: IFilterState) => {
           (item) => item.id === secondLevelChildId
         ) as IFirstLevelObj
 
-        if (!defined) defined = firstLevelItem.defined
+        if (!fieldName) fieldName = firstLevelItem.fieldName
 
         const firstLevelKey = firstLevelItem.logicalOperator
         if (lastKey !== firstLevelKey) lastKey = firstLevelKey
 
-        const { condition, determinant } = firstLevelItem
+        const { condition, value } = firstLevelItem
 
         firstLevelElements.push({
-          field: defined,
+          field: fieldName,
           type: condition,
-          value: determinant,
+          value: value,
         })
       })
 
@@ -82,14 +114,13 @@ export const parseQueryToState = (query: Query) => {
 
         firstLevelChildren.map((firstLevelChild) => {
           const firstLevelId = uuid()
-          const determinant =
-            firstLevelChild.value === defaultQueryValue ? '' : firstLevelChild.value
+          const value = firstLevelChild.value === defaultQueryValue ? '' : firstLevelChild.value
 
           firstLevel.push({
-            defined: firstLevelChild.field,
+            fieldName: firstLevelChild.field,
             logicalOperator: firstLevelKey,
             condition: firstLevelChild.type,
-            determinant: determinant,
+            value: value,
             id: firstLevelId,
           })
           secondLevelChildIds.push(firstLevelId)
@@ -113,7 +144,7 @@ export const parseQueryToState = (query: Query) => {
     })
   })
   return {
-    filter: { firstLevel, secondLevel, thirdLevel },
+    filter: { firstLevel, secondLevel, thirdLevel, validationError: false },
   }
 }
 

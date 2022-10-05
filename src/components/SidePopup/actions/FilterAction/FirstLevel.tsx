@@ -1,4 +1,4 @@
-import { FC, useCallback } from 'react'
+import { FC, useCallback, useState } from 'react'
 import cx from 'classnames'
 
 import Button from 'components/parts/Button/Button'
@@ -23,6 +23,7 @@ import InputBase from 'components/parts/InputBase/InputBase'
 import { Align } from 'constants/dictionary'
 import { DoctorKeyLabels } from 'constants/audience'
 import ScrollArea from 'containers/ScrollArea/ScrollArea'
+import usePopupContext from 'context/SidePopupContext'
 
 const FirstLevel: FC<IFirstLevel> = ({
   row,
@@ -30,11 +31,18 @@ const FirstLevel: FC<IFirstLevel> = ({
   itsFirstChild,
   handleCreateFirstLevel,
   handleDeleteFirstLevelRow,
+  firstLevelCount,
   parentSecondLevelId,
   updateElement,
   headers,
 }) => {
-  const { defined, condition, determinant, id, logicalOperator } = row
+  const { validationState } = usePopupContext()
+  const [filterError, setFilterError] = validationState
+
+  const { fieldName, condition, value, id, logicalOperator } = row
+
+  const deleteDisabled = firstLevelCount === 1
+
   //*TODO переписать все функции */
   const handleCreate = (e: any) => {
     const secondLevelId = e.currentTarget.dataset.parentSecondLevelId
@@ -54,17 +62,18 @@ const FirstLevel: FC<IFirstLevel> = ({
     const targetCondition = e.currentTarget.dataset.condition
     updateElement(id, 'first', { condition: targetCondition })
   }
-  const handleChangeDefined = (e: any) => {
-    const headerElement = e.currentTarget.dataset.defined
-    updateElement(id, 'first', { defined: headerElement })
+  const handleChangeFieldName = (e: any) => {
+    const headerElement = e.currentTarget.dataset.fieldname
+    updateElement(id, 'first', { fieldName: headerElement })
   }
-  const handleDeterminantInput = (e: any) => {
-    updateElement(id, 'first', { determinant: e.target.value })
+  const handleValueInput = (e: any) => {
+    if (filterError) setFilterError(false)
+    updateElement(id, 'first', { value: e.target.value })
   }
   const calibrationText = () => {
-    if (!determinant) return 'Введите значение'
-    if (determinant.length > 20) return determinant.slice(-20)
-    return determinant
+    if (!value) return 'Введите значение'
+    if (value.length > 20) return value.slice(-20)
+    return value
   }
 
   const calcWidth = useCallback(() => {
@@ -85,7 +94,7 @@ const FirstLevel: FC<IFirstLevel> = ({
             mouseLeave
             triggerNode={
               <Button modificator={buttonThemes.theme_filter_accent}>
-                {DoctorKeyLabels[defined].toLowerCase()}
+                {DoctorKeyLabels[fieldName].toLowerCase()}
               </Button>
             }
           >
@@ -102,8 +111,8 @@ const FirstLevel: FC<IFirstLevel> = ({
                     <button
                       key={headerElement}
                       className={cx(dropDownStyles.element, 'text_1')}
-                      onClick={handleChangeDefined}
-                      data-defined={headerEl}
+                      onClick={handleChangeFieldName}
+                      data-fieldname={headerEl}
                     >
                       {DoctorKeyLabels[headerEl]}
                     </button>
@@ -163,11 +172,13 @@ const FirstLevel: FC<IFirstLevel> = ({
         <div className={styles.inputContainer}>
           <span className={cx(styles.sizeCalibrator, 'text_1')}>{calibrationText()}</span>
           <InputBase
-            name={'determinantInput'}
+            name={'valueInput'}
             placeholder={'Введите значение'}
-            value={determinant}
-            handleInputChange={handleDeterminantInput}
-            modificator={cx(inputThemes.theme_simple, styles.input)}
+            value={value}
+            handleInputChange={handleValueInput}
+            modificator={cx(inputThemes.theme_simple, styles.input, {
+              [inputThemes['theme_simple--error']]: filterError && value == '',
+            })}
             wrapperModificator={inputThemes.theme_simple_wrapper}
           />
         </div>
@@ -182,17 +193,19 @@ const FirstLevel: FC<IFirstLevel> = ({
           </Button>
         )}
       </div>
-      <div className={styles.firstLevelDeleteButton}>
-        <Button
-          modificator={buttonThemes.theme_additional}
-          onClick={handleDelete}
-          data-id={id}
-          data-its-first-child={itsFirstChild}
-          data-parent-second-level-id={parentSecondLevelId}
-        >
-          <IconPlus className={styles.iconDelete} />
-        </Button>
-      </div>
+      {!deleteDisabled && (
+        <div className={styles.firstLevelDeleteButton}>
+          <Button
+            modificator={buttonThemes.theme_additional}
+            onClick={handleDelete}
+            data-id={id}
+            data-its-first-child={itsFirstChild}
+            data-parent-second-level-id={parentSecondLevelId}
+          >
+            <IconPlus className={styles.iconDelete} />
+          </Button>
+        </div>
+      )}
     </div>
   )
 }
